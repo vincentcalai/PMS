@@ -1,0 +1,11 @@
+body {
+  background-color: rgb(114, 189, 207);
+}
+
+.card-header {
+  background-color: #94b9e4 !important;
+}
+
+.table-header{
+  background-color: #FA8072 !important;	
+}

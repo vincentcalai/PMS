@@ -1,0 +1,69 @@
+<div class="container-fluid">
+  <br>
+  <div class="card ">
+      <div class="text-left">
+        <h1 class="card-header">Portfolio Transaction Management</h1>
+      </div>
+    <div *ngIf="this.sysMsg" class="alert alert-success">
+      <b>Success: </b> {{this.sysMsg}}
+    </div>
+    <div *ngIf="this.errMsg" class="alert alert-danger">
+      <b>Error: </b> {{this.errMsg}}
+    </div>
+    <div class="card-body">
+      <div class="container-fluid">
+        <h1 class="d-inline"><b>Portfolio Name: {{portfolio.portfolioName}}</b></h1>
+        <button type="button" class="d-inline float-right btn btn-warning" (click) = "genTransReport(portId)">Generate Transaction Report</button>
+        <table class="table table-striped" style="width: 100%">
+            <thead class= "table-header">
+                <tr>
+                    <th>Stock Name</th>
+                    <th>Stock Symbol</th>
+                    <th>Stock Exchange</th>
+                    <th>No. Of Shares</th>
+                    <th>Buy/Sell Price</th>
+                    <th>Total Amount</th>
+                    <th>Buy/Sell</th>
+                    <th>Transacted By</th>
+                    <th>Transacted Date</th>
+                    <th>Remarks</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor = "let transaction of transactions">
+                    <td *ngIf = "transaction.currentStockHold > 0">
+                      <a [routerLink]="" (click)="sellPortfolioTrans(transaction)">{{transaction.stockName}}</a></td>
+                    <td *ngIf = "transaction.currentStockHold <= 0">
+                     {{transaction.stockName}}</td>
+                    <td>{{transaction.stockSymbol}}</td>
+                    <td>{{transaction.stockExchg}}</td>
+                    <td>{{transaction.noOfShare }}</td>
+                    <td>{{checkCurr(transaction.stockExchg) + (transaction.transPrice | number : '1.2-2')}}</td>
+                    <td>{{checkCurr(transaction.stockExchg) + (transaction.totalAmt | number : '1.2-2')}}</td>
+                    <td>{{transaction.action}}</td>
+                    <td>{{transaction.createdBy}}</td>
+                    <td>{{transaction.createdDt | date:'dd-MM-yyyy'}}</td>
+                    <td>{{transaction.remarks}}</td>
+                    <td *ngIf = "transaction.currentStockHold > 0"><button class="btn btn-danger" style = "width: 220px"
+                      (click)="sellPortfolioTrans(transaction)">Create SELL Transaction</button></td>
+                    <td *ngIf = "transaction.currentStockHold <= 0"></td>
+                </tr>
+                <tr *ngIf = '!transactions || transactions.length == 0'>
+                  <td class='text-center' colspan=12>
+                    No Transaction(s) Found.
+                  </td>
+                </tr>
+            </tbody>
+        </table>
+      </div>
+
+      <div style = "text-align: center">
+        <button class="btn btn-success col-2 text-center" style = "width: 200px" (click)="addPortfolioTransaction()">Create BUY Transaction</button>
+        <button class="btn btn-danger col-1 text-center"  style = "width: 100px" (click)="back()">Back</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+

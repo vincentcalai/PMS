@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+    
+<hibernate-mapping>
+<class name="com.pms.pmsapp.profitloss.data.UnrealTotalPL" table="PMS_UNREAL_TOTAL_PL">
+	
+	<id name="portId" type="java.lang.Long" column="PORT_ID" length="10">
+    </id>
+    <property
+        name="convertCurr"
+        type="java.lang.String"
+        column="CONVERT_CURR"
+        length="8"
+    />
+    <property
+        name="totalAmt"
+        type="java.math.BigDecimal"
+        column="TOTAL_AMT"
+    >
+    </property>
+    <property
+        name="mktValue"
+        type="java.math.BigDecimal"
+        column="MKT_VALUE"
+    >
+    </property>
+    <property
+        name="convProfitLoss"
+        type="java.math.BigDecimal"
+        column="CONV_PROFIT_LOSS"
+    >
+    </property>
+    <property
+        name="profitLossPct"
+        type="java.math.BigDecimal"
+        column="PROFIT_LOSS_PCT"
+    >
+    </property>
+</class>
+</hibernate-mapping>

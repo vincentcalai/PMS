@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+    
+<hibernate-mapping>
+<class name="com.pms.pmsapp.home.data.Forex" table="PMS_FOREX">
+    
+    <id name="id" type="java.lang.Long" column="ID">
+    </id>
+
+    <property
+        name="forexName"
+        type="java.lang.String"
+        column="FOREX_NAME"
+        length="10"
+    />
+    <property
+        name="forexSymbol"
+        type="java.lang.String"
+        column="FOREX_SYM"
+        length="50"
+    />
+    <property
+        name="forexDesc"
+        type="java.lang.String"
+        column="FOREX_DESC"
+        length="50"
+    />
+    <property
+        name="last"
+        type="java.math.BigDecimal"
+        column="LAST"
+    />
+    <property
+        name="change"
+        type="java.math.BigDecimal"
+        column="CHANGE"
+    />
+    <property
+        name="changePct"
+        type="java.math.BigDecimal"
+        column="CHANGE_PCT"
+    />
+    <property
+        name="suffix"
+        type="java.lang.String"
+        column="SUFFIX"
+        length="5"
+    />
+    <property
+        name="lastUpdatedDt"
+        type="java.util.Date"
+        column="LAST_UPDATED_DT"
+    />
+</class>
+</hibernate-mapping>

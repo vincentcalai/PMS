@@ -1,0 +1,143 @@
+<div class="container">
+  <br>
+  <div class="card ">
+      <h1 class="card-header">Create New Transaction</h1>
+
+    <div class="card-body">
+      <div class="container">
+
+        <div *ngIf="this.transaction.errMsg" class="alert alert-danger">
+          <b>Error: </b> {{this.transaction.errMsg}}
+        </div>
+
+          <form (ngSubmit)="!transForm.invalid && onSubmit(transForm.value)" #transForm="ngForm">
+            <div *ngIf="transForm.submitted && transForm.invalid"
+                class="alert alert-danger">
+                <div *ngIf="noOfShare.errors?.required">
+                  Number of Share is required.
+                </div>
+                <div *ngIf="stockSymbol.errors?.required">
+                  Stock Symbol is required.
+                </div>
+                <div *ngIf="transPrice.errors?.required">
+                  Buy/Sell Price is required.
+                </div>
+                <div *ngIf="stockExchg.errors?.required">
+                  Stock Exchange is required.
+                </div>
+                <!-- <div *ngIf="action.errors?.required">
+                  Buy/Sell Action is required.
+                </div> -->
+            </div>
+
+            <div class="row" *ngIf = "!isActionBuy && currentStockHold > 0">
+              <div class="col">
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label for="currentStockHold" style="font-size: 16px">
+                    <b>Amount of shares in this portfolio:
+                    <br>
+                    {{currentStockHold}} </b></label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="stockName">Stock Name: </label>
+                  <input type="text" class="form-control" id="stockName"
+                  [(ngModel)]="transaction.stockName"  #stockName="ngModel" name="stockName"
+                  minlength="4" maxlength="50" readonly="readonly">
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label for="noOfShare">No. of Share: </label>
+                  <input type="text" class="form-control" id="noOfShare"
+                  (change)="calTotalAmt(transForm)" (keypress) = "onlyNumAllowed($event)"
+                  [(ngModel)]="transaction.noOfShare" #noOfShare="ngModel" name="noOfShare" required>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="stockSymbol">Stock Symbol (HKEX: .HK, SGX: .SI): </label>
+                  <input type="text" class="form-control" id="stockSymbol"
+                  [ngModel]="transaction.stockSymbol | uppercase" (ngModelChange)="transaction.stockSymbol=$event"
+                  (change)="retrieveStockInfo(transForm.value)" #stockSymbol="ngModel" name="stockSymbol" maxlength="8" required>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label for="transPrice">Buy/Sell Price: </label>
+                  <input type="text" class="form-control" id="transPrice" (keypress) = "onlyNumAllowed($event)"
+                  (change)="calTotalAmt(transForm)"
+                  [(ngModel)]="transaction.transPrice" #transPrice="ngModel" name="transPrice" required>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="stockExchg">Stock Exchange: </label>
+                  <input type="text" class="form-control" id="stockExchg"
+                  [ngModel]="transaction.stockExchg" #stockExchg="ngModel" name="stockExchg" readonly="readonly">
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label for="totalAmt">Total Amount: </label>
+                  <input type="text" class="form-control" id="totalAmt" [value]="totalAmtValue"
+                  [(ngModel)]="transaction.totalAmt" #totalAmt="ngModel" name="totalAmt" disabled>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="action">Buy/Sell: </label>
+                  <!-- <mat-form-field appearance="fill">
+                    <mat-select [ngModel]="transaction.action" #action="ngModel" name="action" required>
+                      <mat-option [value]="action" *ngFor="let action of actions">
+                        {{action}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field> -->
+                    <select  class="form-control" *ngIf = "!isActionBuy"
+                    [ngModel]="transaction.action" #action="ngModel" name="action" required>
+                      <option [value]="action" *ngFor="let action of actions">
+                        {{action}}
+                      </option>
+                    </select>
+                    <select  class="form-control" *ngIf = "isActionBuy"
+                    [ngModel]="transaction.action" #action="ngModel" name="action" required>
+                      <option [value]=ACTION_BUY>
+                        {{ACTION_BUY}}
+                      </option>
+                    </select>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label for="remarks">Remarks: </label>
+                  <input type="text" class="form-control" id="remarks"
+                  [ngModel]="transaction.remarks" #remarks="ngModel" name="remarks" maxlength="100">
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <button type="submit" class="btn btn-success custom">Save</button>
+              <button type="button" class="btn btn-danger custom" (click)="cancel()">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+  </div>
+</div>

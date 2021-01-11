@@ -1,0 +1,8 @@
+.custom {
+  width: 100px !important;
+}
+
+input.ng-submitted.ng-invalid{
+  border: 1px solid red;
+}
+

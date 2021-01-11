@@ -1,0 +1,26 @@
+package com.pms.pmsapp.util;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import org.apache.commons.dbcp.BasicDataSource;
+
+public class DBCPDataSource {
+    
+    private static BasicDataSource ds = new BasicDataSource();
+    
+    static {
+        ds.setUrl("jdbc:oracle:thin:@localhost:1521:xe");
+        ds.setUsername("pms_app");
+        ds.setPassword("pms_app");
+        ds.setMinIdle(5);
+        ds.setMaxIdle(10);
+        ds.setMaxOpenPreparedStatements(100);
+    }
+    
+    public static Connection getConnection() throws SQLException {
+        return ds.getConnection();
+    }
+    
+    private DBCPDataSource(){ }
+}

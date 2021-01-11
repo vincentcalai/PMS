@@ -1,0 +1,52 @@
+<div class="container">
+  <br>  
+  <div class="card ">  
+      <h1 class="d-inline card-header">{{isModeCreate() ? 'Create New' : 'Update'}} Portfolio</h1>
+    <div class ="card-body">
+      <div class="container">
+        <form (ngSubmit)="!portfolioForm.invalid && onSubmit(portfolioForm.value,isModeCreate())" #portfolioForm="ngForm">
+          <div *ngIf="(portfolioForm.submitted && portfolioName.invalid) || errorMsg"
+              class="alert alert-danger">
+              <div *ngIf="portfolioName.errors?.required">
+                Portfolio Name is required.
+              </div>
+              <div *ngIf="portfolioName.errors?.minlength">
+                Name must be at least 4 characters long.
+              </div>
+              <div *ngIf="errorMsg">
+                <b>Error: </b> {{errorMsg}}
+              </div>
+          </div>
+          <div class="form-group">
+            <label for="name">Portfolio Name: </label>
+            <input type="text" class="form-control" id="portfolioName"
+            [ngModel]="portfolio.portfolioName" #portfolioName="ngModel" name="portfolioName"
+            minlength="4" maxlength="25" required>
+          </div>
+          <div class="form-group">
+            <label for="remarks">Remarks: </label>
+            <input type="text" class="form-control" id="remarks"
+            [ngModel]="portfolio.remarks" #remarks="ngModel" name="remarks" maxlength="100">
+          </div>
+          <div class="form-group" *ngIf = "!isModeCreate()">
+            <label for="createdBy">Created By: </label>
+            <input type="text" class="form-control" id="createdBy"
+            [ngModel]="portfolio.createdBy" #createdBy="ngModel" name="createdBy" disabled>
+          </div>
+          <div class="form-group" *ngIf = "!isModeCreate()">
+            <label for="createdDate">Created Date: </label>
+            <input type="text" class="form-control" id="createdDate"
+            [ngModel]="portfolio.createdDate | date" #createdDate="ngModel" name="createdDate" disabled>
+          </div>
+          <div class="form-group">
+              <button type="button" class="d-inline float-right btn btn-warning"
+              *ngIf = "!isModeCreate()" (click) = "viewPort(portfolio.id)">View Portfolio Holdings</button>
+              <button type="button" class="btn btn-warning" *ngIf = "!isModeCreate()" (click) = "updatePortTrans(portfolio.id)">View/Add Transactions</button>
+              <button type="submit" class="btn btn-success custom">{{isModeCreate() ? 'Add' : 'Save'}}</button>
+              <button type="button" class="btn btn-danger custom" routerLink = "/portfoliolist">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

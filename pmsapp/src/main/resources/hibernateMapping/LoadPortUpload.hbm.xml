@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+    
+<hibernate-mapping>
+    <class name="com.pms.pmsapp.loadportfolio.data.LoadPortUpload" table="PMS_LOAD_PORT_UPLOAD" >
+		<id name="uploadId" type="long">
+           <column name="UPLOAD_ID" precision="12" scale="0" />
+           <generator class="sequence" >
+           	<param name="sequence_name">SQ_PMS_LOAD_PORT_UPLOAD</param>
+           </generator>
+	    </id>       
+        <property name="portfolioName" type="string">
+            <column name="PORT_NAME" length="25" />
+        </property>
+        <property name="fileData">
+            <column name="FILE_DATA" />
+        </property>
+        <property name="fileName" type="string">
+            <column name="FILE_NAME" length="87" />
+        </property>
+        <property name="logData" type="clob">
+            <column name="LOG_DATA" />
+        </property>
+        <property name="logName" type="string">
+            <column name="LOG_NAME" length="87" />
+        </property>
+        <property name="createdBy" type="string">
+            <column name="CREATED_BY" length="20" />
+        </property>
+        <property name="createdDt" type="timestamp">
+            <column name="CREATED_DT" />
+        </property>
+        <property name="status" type="string">
+            <column name="STATUS" length="1" />
+        </property>
+        <property name="delInd" type="string">
+            <column name="DEL_IND" length="1" />
+        </property>
+    </class>
+</hibernate-mapping>
+

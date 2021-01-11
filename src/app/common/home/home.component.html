@@ -1,0 +1,108 @@
+<div class="container-fluid">
+  <br/>
+
+  <div class="card ">
+    <h1 class="card-header">
+      Welcome to Portfolio Management System
+    </h1>
+    <div class="card-body">
+        <div class="container">
+          <h1>Welcome {{username}},</h1>
+        </div>
+
+        <div class="container" >
+            <h2>You can manage your portfolio <a routerLink = "/portfoliolist">here</a></h2>
+        </div>
+
+        <div class="row" >
+          <div class="col-6">
+            <div class="card ">
+                <h1 class="card-header">
+                  Market Index
+                </h1>
+                <div class="card-body">
+                  <table class="table table-striped" style="width: 100%">
+                    <thead class="table-header">
+                        <tr>
+                            <th style="width:5%">Index Symbol</th>
+                            <th style="width:30%">Index Name</th>
+                            <th style="width:5%">Last</th>
+                            <th style="width:10%">Change</th>
+                            <th style="width:10%">Change(%)</th>
+                            <th style="width:40%"> Last Updated Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor = "let index of indexes">
+                            <td>{{index.idxSym}}</td>
+                            <td>{{index.idxName}}</td>
+                            <td><b>{{index.last}}</b></td>
+                            <td *ngIf = "index.change <= 0" style="color:red;">
+                                <b>{{index.change}}</b> </td>
+                            <td *ngIf = "index.change > 0" style="color:green;">
+                                <b>+{{index.change}}</b> </td>
+                            <td *ngIf = "index.change <= 0" style="color:red;">
+                                <b>{{index.changePct}}%</b> </td>
+                            <td *ngIf = "index.change > 0" style="color:green;">
+                                <b>+{{index.changePct}}%</b> </td>
+                            <td>{{index.lastUpdatedDt | date:'dd-MM-yyyy HH:mm a':'+0800'}}</td>
+                        </tr>
+                        <tr>
+                          <td *ngIf = "!indexes || indexes.length == 0" class='text-center' colspan=12>
+                            No Record(s) Found.
+                          </td>
+                        </tr>
+                    </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="col-6" >
+            <div class="card">
+              <h1 class="card-header">
+                Foreign Exchange Rate
+              </h1>
+              <div class="card-body">
+                <table class="table table-striped" style="width: 100%">
+                  <thead class="table-header">
+                      <tr>
+                          <th style="width:10%">Forex Name</th>
+                          <th style="width:10%">Forex Symbol</th>
+                          <!-- <th>Forex Desc</th> -->
+                          <th style="width:10%">Last</th>
+                          <th style="width:10%">Change</th>
+                          <th style="width:10%">Change(%)</th>
+                          <th style="width:50%">Last Updated Date</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr *ngFor = "let forex of forexes">
+                          <td>{{forex.forexName}}</td>
+                          <td>{{forex.forexSymbol}}</td>
+                          <!-- <td>{{forex.forexDesc}}</td> -->
+                          <td><b>{{forex.last}}</b></td>
+                          <td *ngIf = "forex.change <= 0" style="color:red;">
+                            <b>{{forex.change}}</b> </td>
+                          <td *ngIf = "forex.change > 0" style="color:green;">
+                              <b>+{{forex.change}}</b> </td>
+                          <td *ngIf = "forex.change <= 0" style="color:red;">
+                              <b>{{forex.changePct + '%'}}</b> </td>
+                          <td *ngIf = "forex.change > 0" style="color:green;">
+                              <b>+{{forex.changePct + '%'}}</b> </td>
+                          <td>{{forex.lastUpdatedDt | date:'dd-MM-yyyy HH:mm a':'+0800'}}</td>
+                      </tr>
+                      <tr>
+                        <td *ngIf = "!forexes || forexes.length == 0" class='text-center' colspan=12>
+                          No Record(s) Found.
+                        </td>
+                      </tr>
+                  </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+  </div>
+</div>
+

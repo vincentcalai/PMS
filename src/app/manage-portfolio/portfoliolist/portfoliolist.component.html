@@ -1,0 +1,54 @@
+<div class="container-fluid">
+  <br/>
+
+  <div class="card ">
+    <h1 class="card-header">
+      Manage Portfolio
+    </h1>
+    <div *ngIf="this.message" class="alert alert-success">
+      <b>Success: </b> {{message}}
+    </div>
+    <div class="card-body">
+      <div class="container">
+        <table class="table table-striped" style="width: 100%">
+            <thead class= "table-header">
+                <tr>
+                    <th>ID</th>
+                    <th>Portfolio Name</th>
+                    <th>Created By</th>
+                    <th>Created Date</th>
+                    <th>Remarks</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor = "let portfolio of portfolios">
+                    <td>{{portfolio.id}}</td>
+                    <td>
+                    <label>
+                    <a href='javascript:void(0)' (click)="updatePortfolio(portfolio)" >
+                    {{portfolio.portfolioName}}</a>
+                    </label></td>
+                    <td>{{portfolio.createdBy}}</td>
+                    <td>{{portfolio.createdDate | date}}</td>
+                    <td>{{portfolio.remarks}}</td>
+                    <td><button class="btn btn-success" (click)="updatePortfolio(portfolio)">Update/View Portfolio</button></td>
+                    <td><button class="btn btn-danger" (click)="deletePortfolio(portfolio.id)">Delete Portfolio</button></td>
+                </tr>
+                <tr *ngIf = '!portfolios || portfolios.length == 0'>
+                  <td class='text-center' colspan=12>
+                    No Record(s) Found.
+                  </td>
+                </tr>
+            </tbody>
+        </table>
+      
+        <div class="row">
+          <button class="btn btn-success" (click)="addPortfolio()">Add Portfolio</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

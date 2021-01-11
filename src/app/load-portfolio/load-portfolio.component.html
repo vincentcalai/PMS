@@ -1,0 +1,147 @@
+
+<div class="container-fluid">
+  <br/>
+
+  <div class="card ">
+    <h1 class="card-header">
+      Load Portfolio Transaction Data
+    </h1>
+
+  <div *ngIf="this.errMsg && !this.sysMsg" class="alert alert-danger">
+    <b>Error: </b> {{this.errMsg}}
+  </div>
+  <div *ngIf="this.sysMsg && !this.errMsg" class="alert alert-success">
+    <b>Success: </b> {{this.sysMsg}}
+  </div>
+
+  <div class="card-body">
+    <div class="row">
+
+      <div class='col-1'>
+        <label style='display:inline-block'>Upload File: </label>
+      </div>
+      <div class='col-2'>
+        <input #inputFile type='file'  style='display:inline-block !important;width:auto !important; ' (change)="selectFile($event.target.files)">
+      </div>
+      <div class='col-1'>
+      </div>
+      <div class='col-1'>
+        <button type="button" mat-raised-button color='primary' style='float: left; position:absolute; bottom:15%'
+       (click)="submit(selectedPort)" >Submit</button>
+      </div>
+      <div class='col-1'>
+        <button type="button" mat-raised-button color='primary' style='float: left; position:absolute; bottom:15%'
+        (click)='initPage()'>Refresh</button>
+      </div>
+      <div class='col-2'>
+        <button type="button" mat-raised-button color='primary' style='float: left; position:absolute; bottom:15%'
+        (click)="downloadTemplate()"> Download Template</button>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-1">
+        <label style='position:absolute; top:25%'>Select Portfolio: </label>
+      </div>
+      <div class="col-2">
+        <select class="form-control"  [(ngModel)]="selectedPort">
+          <option *ngFor="let portfolio of this.form.portfolioList" [value]="portfolio" >{{portfolio}}</option>
+        </select>
+      </div>
+    </div>
+    <br>
+      <div class="row">
+        <div class="col-12">
+          <table class="table table-striped">
+            <thead class= "table-header">
+              <tr>
+                <th style="text-align:center; vertical-align:middle;">
+                  <mat-checkbox class="example-margin" labelPosition = "before" (change) = "checkAll($event, 'selectInd', this.form.fileUploadList)">
+                    Select
+                  </mat-checkbox>
+                </th>
+                <th>
+                  <label>
+                    Upload ID
+                  </label>
+                </th>
+                <th>
+                  <label>
+                    Uploaded Date/Time
+                  </label>
+                </th>
+                <th>
+                  <label>
+                    Portfolio Name
+                  </label>
+                </th>
+                <th>
+                  <label>
+                    File Name
+                  </label>
+                </th>
+                <th>
+                  <label>
+                    Status
+                  </label>
+                </th>
+                <th>
+                  <label>
+                    Log File
+                  </label>
+                </th>
+                <th>
+                  <label>
+                    Upload By
+                  </label>
+                </th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let file of this.form.fileUploadList">
+                <td style="text-align:center; vertical-align:middle;">
+                  <mat-checkbox class='checkbox-inline'  [(ngModel)] = "file.selectInd"></mat-checkbox>
+                </td>
+                <td>
+                  {{file.uploadId}}
+                </td>
+                <td>
+                  <label>{{file.createdDt | date:'dd-MM-yyyy HH:mm a':'+0800'}}</label>
+                </td>
+                <td>
+                  {{file.portfolioName}}
+                </td>
+                <td>
+                  <label>
+                    <a href='javascript:void(0)' (click)="downloadUploadedFile(file.uploadId)" >{{file.fileName}}</a>
+                  </label>
+                </td>
+                <td>
+                  <label>{{file.status}}</label>
+                </td>
+                <td>
+                  <label>
+                    <a href='javascript:void(0)' (click)="downloadLogFile(file.uploadId)">{{file.logName}}</a>
+                  </label>
+                </td>
+                <td>
+                  <label>{{file.createdBy}}</label>
+                </td>
+              </tr>
+              <tr *ngIf = '!this.form.fileUploadList || this.form.fileUploadList.length == 0'>
+                <td class='text-center' colspan=12>
+                  No Record(s) Found.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-12 text-center" >
+          <div class="btn-group" >
+            <button type="button" mat-raised-button color='primary' (click)='delete()'>Delete</button>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>

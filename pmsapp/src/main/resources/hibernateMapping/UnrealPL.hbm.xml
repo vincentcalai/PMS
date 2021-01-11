@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+    
+<hibernate-mapping>
+<class name="com.pms.pmsapp.profitloss.data.UnrealPL" table="PMS_UNREAL_PL">
+    
+    <composite-id>
+		<key-property name="portId" length="10" type="java.lang.Long" column="PORT_ID" />
+		<key-property name="stockName" length="100" type="java.lang.String" column="STOCK_NAM" />
+	</composite-id>
+
+    <property
+        name="stockSymbol"
+        type="java.lang.String"
+        column="STOCK_SYM"
+        length="10"
+    />
+    <property
+        name="stockExchg"
+        type="java.lang.String"
+        column="STOCK_EXCHG"
+        length="6"
+    />
+    <property
+        name="domCurr"
+        type="java.lang.String"
+        column="DOM_CURR"
+        length="6"
+    />
+    <property
+        name="totalShare"
+        type="int"
+        column="TOTAL_SHARE"
+    />
+    <property
+        name="avgPrice"
+        type="java.math.BigDecimal"
+        column="AVG_PRICE"
+    >
+    </property>
+    <property
+        name="totalAmt"
+        type="java.math.BigDecimal"
+        column="TOTAL_AMT"
+    >
+    </property>
+    <property
+        name="lastTransPrice"
+        type="java.math.BigDecimal"
+        column="LAST_TRANS_PRICE"
+    >
+    </property>
+    <property
+        name="mktValue"
+        type="java.math.BigDecimal"
+        column="MKT_VALUE"
+    >
+    </property>
+    <property
+        name="profitLoss"
+        type="java.math.BigDecimal"
+        column="PROFIT_LOSS"
+    >
+    </property>
+    <property
+        name="convProfitLoss"
+        type="java.math.BigDecimal"
+        column="CONV_PROFIT_LOSS"
+    >
+    </property>
+    <property
+        name="profitLossPct"
+        type="java.math.BigDecimal"
+        column="PROFIT_LOSS_PCT"
+    >
+    </property>
+</class>
+</hibernate-mapping>

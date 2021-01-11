@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping>
+<class name="com.pms.pmsapp.portfolio.data.PortfolioTrans" table="PMS_PORT_TRANS">
+
+    <id name="id" type="java.lang.Long" column="ID">
+      <generator class="sequence">
+          <param name="sequence_name">SQ_PMS_PORT_TRANS</param>
+      </generator>
+    </id>
+
+    <property
+        name="portId"
+        type="java.lang.Long"
+        column="PORT_ID"
+    />
+    <property
+        name="stockName"
+        type="java.lang.String"
+        column="STOCK_NAM"
+        length="100"
+    />
+    <property
+        name="stockSymbol"
+        type="java.lang.String"
+        column="STOCK_SYM"
+        length="6"
+    />
+    <property
+        name="stockExchg"
+        type="java.lang.String"
+        column="STOCK_EXCHG"
+        length="6"
+    />
+    <property
+        name="noOfShare"
+        type="int"
+        column="NO_OF_SHARE"
+    />
+    <property
+        name="transPrice"
+        type="java.math.BigDecimal"
+        column="TRANS_PRICE"
+    >
+    </property>
+    <property
+        name="totalAmt"
+        type="java.math.BigDecimal"
+        column="TOTAL_AMT"
+        length="100"
+    >
+    </property>
+    <property
+        name="action"
+        type="java.lang.String"
+        column="ACTION"
+        length="4"
+    >
+    </property>
+    <property
+        name="createdBy"
+        type="java.lang.String"
+        column="CREATED_BY"
+        length="20"
+    >
+    </property>
+    <property
+        name="createdDt"
+        type="java.util.Date"
+        column="CREATED_DT"
+    >
+    </property>
+    <property
+        name="remarks"
+        type="java.lang.String"
+        column="REMARKS"
+        length="100"
+    >
+    </property>
+</class>
+</hibernate-mapping>

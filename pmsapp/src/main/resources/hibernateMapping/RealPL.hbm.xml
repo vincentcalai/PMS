@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+    
+<hibernate-mapping>
+<class name="com.pms.pmsapp.profitloss.data.RealPL" table="PMS_REAL_PL">
+	
+	<id name="transId" type="java.lang.Long" column="TRANS_ID" length="10">
+    </id>
+    <property
+        name="portId"
+        type="java.lang.Long"
+        column="PORT_ID"
+        length="10"
+    />
+    <property
+        name="stockName"
+        type="java.lang.String"
+        column="STOCK_NAM"
+        length="100"
+    />
+    <property
+        name="stockSymbol"
+        type="java.lang.String"
+        column="STOCK_SYM"
+        length="10"
+    />
+    <property
+        name="stockExchg"
+        type="java.lang.String"
+        column="STOCK_EXCHG"
+        length="6"
+    />
+    <property
+        name="domCurr"
+        type="java.lang.String"
+        column="DOM_CURR"
+        length="6"
+    />
+    <property
+        name="totalShare"
+        type="int"
+        column="TOTAL_SHARE"
+    />
+    <property
+        name="sellDt"
+        type="java.util.Date"
+        column="SELL_DT"
+    >
+    </property>
+    <property
+        name="avgCost"
+        type="java.math.BigDecimal"
+        column="AVG_COST"
+    >
+    </property>
+    <property
+        name="sellPrice"
+        type="java.math.BigDecimal"
+        column="SELL_PRICE"
+    >
+    </property>
+    <property
+        name="profitLoss"
+        type="java.math.BigDecimal"
+        column="PROFIT_LOSS"
+    >
+    </property>
+    <property
+        name="convProfitLoss"
+        type="java.math.BigDecimal"
+        column="CONV_PROFIT_LOSS"
+    >
+    </property>
+    <property
+        name="profitLossPct"
+        type="java.math.BigDecimal"
+        column="PROFIT_LOSS_PCT"
+    >
+    </property>
+</class>
+</hibernate-mapping>

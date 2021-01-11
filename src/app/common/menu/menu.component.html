@@ -1,0 +1,16 @@
+<header>
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+      <div><a class ="navbar-brand">
+          PMS</a></div>
+      <ul class="navbar-nav" *ngIf = "authenticateService.isUserLoggedIn()">
+          <li><a routerLink="/home" class="nav-link">Home</a></li>
+          <li><a routerLink="/portfoliolist" class="nav-link"> Manage Portfolio</a></li>
+          <li><a routerLink="/loadportfolio" class="nav-link">Data Loading</a></li>
+          <li><a routerLink="/profitloss" class="nav-link">P&L Dashboard</a></li>
+      </ul>
+      <ul class="navbar-nav navbar-collapse justify-content-end" *ngIf = "authenticateService.isUserLoggedIn()">
+          <li><a routerLink="" class="nav-link"
+            (click) = "authenticateService.logout()">Logout</a></li>
+      </ul>
+  </nav>
+</header>

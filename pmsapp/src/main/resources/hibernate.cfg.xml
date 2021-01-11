@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+   "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+   "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>     
+  <session-factory>
+    <property name="connection.driver_class">oracle.jdbc.OracleDriver</property>
+    <property name="connection.url">jdbc:oracle:thin:@localhost:1521:xe</property>
+    <property name="connection.username">pms_app</property>
+    <property name="connection.password">pms_app</property>
+    <property name="dialect">org.hibernate.dialect.Oracle12cDialect</property>
+    <property name="temp.use_jdbc_metadata_defaults">false</property>
+     
+    <property name="hibernate.c3p0.min_size">5</property>
+    <property name="hibernate.c3p0.max_size">20</property>
+    <property name="hibernate.c3p0.timeout">300</property>
+    <property name="hibernate.c3p0.max_statements">50</property>
+    <property name="hibernate.c3p0.idle_test_period">3000</property> 
+     
+    <property name="show_sql">true</property>
+    
+    <property name="hibernate.id.new_generator_mappings">true</property>
+    
+    <mapping resource="hibernateMapping/RealTotalPL.hbm.xml"></mapping> 
+    <mapping resource="hibernateMapping/UnrealTotalPL.hbm.xml"></mapping> 
+    <mapping resource="hibernateMapping/RealPL.hbm.xml"></mapping> 
+    <mapping resource="hibernateMapping/UnrealPL.hbm.xml"></mapping> 
+    <mapping resource="hibernateMapping/Forex.hbm.xml"></mapping> 
+    <mapping resource="hibernateMapping/Index.hbm.xml"></mapping> 
+    <mapping resource="hibernateMapping/LoadPortfolioTrans.hbm.xml"></mapping> 
+    <mapping resource="hibernateMapping/LoadPortUpload.hbm.xml"></mapping> 
+    <mapping resource="hibernateMapping/portfolio.hbm.xml"></mapping>
+    <mapping resource="hibernateMapping/portfolioTrans.hbm.xml"></mapping>
+    <mapping resource="hibernateMapping/mktExchg.hbm.xml"></mapping>
+    <mapping resource="hibernateMapping/portfolioHold.hbm.xml"></mapping>
+      
+  </session-factory>
+</hibernate-configuration>
