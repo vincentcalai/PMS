@@ -73,8 +73,6 @@ export class RequestService {
     let formdata: FormData = new FormData();
     let headers = new HttpHeaders();
 
-    //url = 'http://localhost:8888' + url;
-
     formdata.append('file', file);
 
     if (param) {

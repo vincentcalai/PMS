@@ -18,6 +18,10 @@ export class LoadPortfolioComponent implements OnInit {
     portfolioName : ''
   };
 
+  totalItems = 0;
+  itemsPerPage = 10;
+  p = 1;
+
   selectedPort:string = '';
 
   errMsg:string = '';
@@ -37,12 +41,15 @@ export class LoadPortfolioComponent implements OnInit {
     this.initPage();
   }
 
-  getUploadList(){
+  getUploadList(page){
     console.log("portfolioName: " + this.form.portfolioName);
-    this.requestService.post('/loadportfolio/getUploadList',this.form).subscribe(
+    this.requestService.post('/loadportfolio/getUploadList?page=' + page + '&size=' + this.itemsPerPage, this.form).subscribe(
       data => {
-        this.form.fileUploadList = data as any;
         console.log(this.form.fileUploadList);
+        this.p = page;
+        this.form.fileUploadList = (data as any).content;
+        this.totalItems = (data as any).totalElements;
+        return this.form.fileUploadList;
       }
     )
   }
@@ -57,7 +64,7 @@ export class LoadPortfolioComponent implements OnInit {
         console.log(this.form.portfolioList);
       }
     )
-    this.getUploadList();
+    this.getUploadList(1);
   }
 
   downloadTemplate(){
@@ -94,7 +101,7 @@ export class LoadPortfolioComponent implements OnInit {
 
     if (confirm("Are you sure to delete the selected records?")){
       this.requestService.post('/loadportfolio/delete', obj).subscribe(data => {
-        this.getUploadList();
+        this.getUploadList(1);
       })
     }
   }

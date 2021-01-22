@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+    
+<hibernate-mapping>
+<class name="com.pms.pmsapp.sysadmin.data.User" table="PMS_USR">
+    <id name="id" type="java.lang.Long" column="ID" length="10">
+    </id>
+    <property
+        name="username"
+        type="java.lang.String"
+        column="USR_NAM"
+        length="20"
+    />
+    <property
+        name="password"
+        type="java.lang.String"
+        column="PWD"
+        length="100"
+    />
+    <property
+        name="roles"
+        type="java.lang.String"
+        column="ROLES"
+        length="100"
+    />
+    <property
+        name="email"
+        type="java.lang.String"
+        column="EMAIL"
+        length="100"
+    />
+    <property
+        name="contactNo"
+        type="java.lang.String"
+        column="CONTACT_NO"
+        length="30"
+    />
+    <property
+        name="createdBy"
+        type="java.lang.String"
+        column="CREATED_BY"
+        length="20"
+    />
+    <property
+        name="createdDt"
+        type="java.util.Date"
+        column="CREATED_DT"
+    />
+    <property
+        name="delInd"
+        type="java.lang.String"
+        column="DEL_IND"
+        length="1"
+    />
+</class>
+</hibernate-mapping>

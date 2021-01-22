@@ -4,12 +4,16 @@
           PMS</a></div>
       <ul class="navbar-nav" *ngIf = "authenticateService.isUserLoggedIn()">
           <li><a routerLink="/home" class="nav-link">Home</a></li>
+          <li><a routerLink="/userlist" class="nav-link">System Admin</a></li>
           <li><a routerLink="/portfoliolist" class="nav-link"> Manage Portfolio</a></li>
           <li><a routerLink="/loadportfolio" class="nav-link">Data Loading</a></li>
           <li><a routerLink="/profitloss" class="nav-link">P&L Dashboard</a></li>
       </ul>
       <ul class="navbar-nav navbar-collapse justify-content-end" *ngIf = "authenticateService.isUserLoggedIn()">
-          <li><a routerLink="" class="nav-link"
+
+        <li>
+          <span class="nav-link disabled">Login User: {{authenticateService.getAuthenticationUser()}}</span>
+          <a routerLink="" class="nav-link float-right"
             (click) = "authenticateService.logout()">Logout</a></li>
       </ul>
   </nav>

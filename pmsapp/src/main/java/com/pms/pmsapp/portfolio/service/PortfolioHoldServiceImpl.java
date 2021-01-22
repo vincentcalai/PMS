@@ -6,6 +6,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.pms.pmsapp.portfolio.dao.PortfolioHoldDao;
@@ -29,9 +30,9 @@ public class PortfolioHoldServiceImpl implements PortfolioHoldService {
 		this.portfolioHoldDao = portfolioHoldDao;
 	}
 
-	public List<PortfolioHold> findAllHold(long id){
+	public List<PortfolioHold> findAllHold(long id, Pageable pageable){
 		log.info("findAll holdings in ServiceImpl");
-		return portfolioHoldDao.findAllHold(id);
+		return portfolioHoldDao.findAllHold(id, pageable);
 	}
 
 	@Override
@@ -53,6 +54,11 @@ public class PortfolioHoldServiceImpl implements PortfolioHoldService {
 	@Override
 	public List<MktExchg> findAllMktExchg() {
 		return portfolioHoldDao.findAllMktExchg(); 
+	}
+
+	@Override
+	public long findAllCount(long id) {
+		return portfolioHoldDao.findAllCount(id);
 	}
 
 }

@@ -12,6 +12,7 @@ import org.hibernate.Transaction;
 import org.hibernate.internal.SessionImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Pageable;
 import org.springframework.orm.hibernate5.SessionFactoryUtils;
 import org.springframework.stereotype.Repository;
 
@@ -24,19 +25,21 @@ public class PortfolioTransDaoImpl implements PortfolioTransDao {
 
 	private static final Logger log = LoggerFactory.getLogger(PortfolioTransDaoImpl.class);
 
-	public List<PortfolioTrans> findAll(long portId){
+	public List<PortfolioTrans> findAll(long portId, Pageable pageable){
 		log.info("findAll Trans in DaoImpl..");
 		try {
 			Session session = HibernateUtil.getSessionFactory().openSession();
 	
-			String sql = "SELECT * FROM PMS_PORT_TRANS where port_id = :portId order by created_dt,ID asc";
-	
+			String sql = "SELECT * FROM PMS_PORT_TRANS where port_id = :portId order by created_dt desc,ID desc";
+			
 			SQLQuery sqlQuery = session.createSQLQuery(sql);
-	
-			sqlQuery.addEntity(PortfolioTrans.class).setParameter("portId", portId);
-	
+			sqlQuery.addEntity(PortfolioTrans.class);
+			sqlQuery.setParameter("portId", portId);
+			sqlQuery.setFirstResult(pageable.getPageNumber() * pageable.getPageSize());
+			sqlQuery.setMaxResults(pageable.getPageSize());
+			
 			List<PortfolioTrans> portfolioTrans = sqlQuery.list();
-
+	
 			session.close();
 		
 			return portfolioTrans;
@@ -218,6 +221,80 @@ public class PortfolioTransDaoImpl implements PortfolioTransDao {
 			Query query = session.createSQLQuery(sql);
 			query.setParameter("stockExchg",stockExchg);
 			return (String) query.uniqueResult();
+		} catch (Exception e) {
+			// convert to HibernateException then to DataAccessException
+			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
+		}
+	}
+
+	@Override
+	public long findAllCount(long portId){
+		log.info("findAllCount Trans in DaoImpl..");
+		try {
+			Session session = HibernateUtil.getSessionFactory().openSession();
+	
+			String sql = "SELECT count(*) FROM PMS_PORT_TRANS where port_id = :portId";
+			
+			SQLQuery sqlQuery = session.createSQLQuery(sql);
+			sqlQuery.setParameter("portId", portId);
+			
+			long result = ((BigDecimal) sqlQuery.uniqueResult()).longValue();
+	
+			session.close();
+		
+			return result;
+		} catch (Exception e) {
+			// convert to HibernateException then to DataAccessException
+			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
+		}
+	}
+
+	@Override
+	public List<PortfolioTrans> searchTrans(long portId, String searchText, Pageable pageable) {
+		log.info("searchTrans Trans in DaoImpl..");
+		try {
+			Session session = HibernateUtil.getSessionFactory().openSession();
+	
+			String sql = "SELECT * FROM PMS_PORT_TRANS where port_id = :portId and "
+					+ "(UPPER(stock_nam) like :searchText "
+					+ "or stock_sym like :searchText) order by created_dt desc,ID desc";
+			
+			SQLQuery sqlQuery = session.createSQLQuery(sql);
+			sqlQuery.addEntity(PortfolioTrans.class);
+			sqlQuery.setParameter("portId", portId);
+			sqlQuery.setParameter("searchText", searchText);
+			sqlQuery.setFirstResult(pageable.getPageNumber() * pageable.getPageSize());
+			sqlQuery.setMaxResults(pageable.getPageSize());
+			
+			List<PortfolioTrans> portfolioTrans = sqlQuery.list();
+	
+			session.close();
+		
+			return portfolioTrans;
+		} catch (Exception e) {
+			// convert to HibernateException then to DataAccessException
+			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
+		}
+	}
+	
+	@Override
+	public long searchTransCount(long portId, String searchText){
+		log.info("searchTransCount in DaoImpl..");
+		try {
+			Session session = HibernateUtil.getSessionFactory().openSession();
+	
+			String sql = "SELECT count(*) FROM PMS_PORT_TRANS where port_id = :portId "
+					+ "and (UPPER(stock_nam) like :searchText or stock_sym like :searchText)";
+			
+			SQLQuery sqlQuery = session.createSQLQuery(sql);
+			sqlQuery.setParameter("portId", portId);
+			sqlQuery.setParameter("searchText", searchText);
+			
+			long result = ((BigDecimal) sqlQuery.uniqueResult()).longValue();
+	
+			session.close();
+		
+			return result;
 		} catch (Exception e) {
 			// convert to HibernateException then to DataAccessException
 			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));

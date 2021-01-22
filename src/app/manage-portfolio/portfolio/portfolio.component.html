@@ -1,6 +1,6 @@
 <div class="container">
-  <br>  
-  <div class="card ">  
+  <br>
+  <div class="card ">
       <h1 class="d-inline card-header">{{isModeCreate() ? 'Create New' : 'Update'}} Portfolio</h1>
     <div class ="card-body">
       <div class="container">
@@ -33,11 +33,11 @@
             <input type="text" class="form-control" id="createdBy"
             [ngModel]="portfolio.createdBy" #createdBy="ngModel" name="createdBy" disabled>
           </div>
-          <div class="form-group" *ngIf = "!isModeCreate()">
+          <!-- <div class="form-group" *ngIf = "!isModeCreate()">
             <label for="createdDate">Created Date: </label>
             <input type="text" class="form-control" id="createdDate"
             [ngModel]="portfolio.createdDate | date" #createdDate="ngModel" name="createdDate" disabled>
-          </div>
+          </div> -->
           <div class="form-group">
               <button type="button" class="d-inline float-right btn btn-warning"
               *ngIf = "!isModeCreate()" (click) = "viewPort(portfolio.id)">View Portfolio Holdings</button>

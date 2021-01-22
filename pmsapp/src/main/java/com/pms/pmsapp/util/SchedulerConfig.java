@@ -18,9 +18,10 @@ import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
 import org.springframework.scheduling.quartz.JobDetailFactoryBean;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
-import com.pms.pmsapp.common.quartz.ComputeHoldingsJob;
-import com.pms.pmsapp.common.quartz.ForexValueJob;
-import com.pms.pmsapp.common.quartz.IndexValueJob;
+import com.pms.pmsapp.util.quartz.ComputeHoldingsJob;
+import com.pms.pmsapp.util.quartz.ForexValueJob;
+import com.pms.pmsapp.util.quartz.IndexValueJob;
+
 
 @Configuration
 public class SchedulerConfig {
@@ -62,7 +63,7 @@ public class SchedulerConfig {
         CronTriggerFactoryBean factoryBean = new CronTriggerFactoryBean();
         factoryBean.setJobDetail(jobDetail);
         factoryBean.setStartDelay(0L);
-        factoryBean.setCronExpression("0 */4 * ? * *");
+        factoryBean.setCronExpression("0 */10 * ? * *");
         return factoryBean;
     }
  

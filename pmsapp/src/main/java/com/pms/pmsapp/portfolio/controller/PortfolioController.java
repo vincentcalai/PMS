@@ -5,15 +5,21 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pms.pmsapp.portfolio.data.Portfolio;
+import com.pms.pmsapp.portfolio.data.PortfolioTrans;
 import com.pms.pmsapp.portfolio.service.PortfolioService;
 import com.pms.pmsapp.util.jwt.JwtUserDetails;
 
@@ -27,10 +33,15 @@ public class PortfolioController {
 	private PortfolioService portfolioService;
 	
 	@RequestMapping(value="/portfolio", method=RequestMethod.GET)
-	public List<Portfolio> findAll() {
+	public Page<Portfolio> findAll(@RequestParam("page") int page, @RequestParam("size") int size) {
 		log.info("findAll in Controller");
-		List<Portfolio> portfolio= portfolioService.findAll();
-		return portfolio;
+		Pageable pageable = PageRequest.of(page-1, size);
+		
+		List<Portfolio> portfolioList= portfolioService.findAll(pageable);
+		long totalRec = portfolioService.findAllCount();
+		
+		PageImpl<Portfolio> portfolioPage = new PageImpl((List<Portfolio>) portfolioList, pageable, totalRec);
+		return portfolioPage;
 	}
 	
 	@RequestMapping(value="portfolio/add", method=RequestMethod.POST)

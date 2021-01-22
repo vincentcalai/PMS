@@ -1,0 +1,64 @@
+<div class="container-fluid">
+  <br/>
+
+  <div class="card ">
+    <h1 class="card-header">
+      Manage User Account
+    </h1>
+    <div *ngIf="this.message" class="alert alert-success">
+      <b>Success: </b> {{message}}
+    </div>
+    <div class="card-body">
+      <div class="container">
+        <table class="table table-striped" style="width: 100%">
+            <thead class= "table-header">
+                <tr>
+                    <th>ID</th>
+                    <th>User Name</th>
+                    <th>Email</th>
+                    <th>Roles</th>
+                    <th>Created Date</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor = "let user of users | paginate : { itemsPerPage: itemsPerPage, currentPage: p, totalItems: totalItems }">
+                    <td>{{user.id}}</td>
+                    <td>
+                      <label>
+                        <a href='javascript:void(0)' *ngIf = "userIsAdmin || user.username == username" (click)="updateUser(user)">{{user.username}}</a>
+                      </label>
+                      <label
+                        *ngIf = "!userIsAdmin && user.username != username">{{user.username}}
+                      </label>
+                    </td>
+                    <td>{{user.email}}</td>
+                    <td>{{user.roles}}</td>
+                    <td>{{user.createdDt | date}}</td>
+                    <td><button class="btn btn-danger" *ngIf = "userIsAdmin" (click)="deleteUser(user.id)">Delete User</button></td>
+                </tr>
+                <tr *ngIf = '!users || users.length == 0'>
+                  <td class='text-center' colspan=12>
+                    No Record(s) Found.
+                  </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="row" *ngIf='users && users.length > 0'>
+          <div class="col-3 text-left">
+            <label>No. of Records: {{totalItems}}</label>
+          </div>
+          <div class="col-6 text-center">
+            <pagination-controls (pageChange)="retrieveAllUsers($event)"></pagination-controls>
+          </div>
+        </div>
+
+        <div class="row">
+          <button class="btn btn-success" *ngIf = "userIsAdmin" (click)="createUser()">Create New Account</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

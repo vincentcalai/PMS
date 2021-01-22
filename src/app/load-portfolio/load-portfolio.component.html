@@ -10,8 +10,8 @@
   <div *ngIf="this.errMsg && !this.sysMsg" class="alert alert-danger">
     <b>Error: </b> {{this.errMsg}}
   </div>
-  <div *ngIf="this.sysMsg && !this.errMsg" class="alert alert-success">
-    <b>Success: </b> {{this.sysMsg}}
+  <div *ngIf="this.sysMsg && !this.errMsg" class="alert alert-primary">
+    <b>Message: </b> {{this.sysMsg}}
   </div>
 
   <div class="card-body">
@@ -99,18 +99,18 @@
             </thead>
 
             <tbody>
-              <tr *ngFor="let file of this.form.fileUploadList">
+              <tr *ngFor="let file of this.form.fileUploadList | paginate: { itemsPerPage: itemsPerPage, currentPage: p, totalItems: totalItems }">
                 <td style="text-align:center; vertical-align:middle;">
                   <mat-checkbox class='checkbox-inline'  [(ngModel)] = "file.selectInd"></mat-checkbox>
                 </td>
                 <td>
-                  {{file.uploadId}}
+                  <label>{{file.uploadId}}</label>
                 </td>
                 <td>
                   <label>{{file.createdDt | date:'dd-MM-yyyy HH:mm a':'+0800'}}</label>
                 </td>
                 <td>
-                  {{file.portfolioName}}
+                  <label>{{file.portfolioName}}</label>
                 </td>
                 <td>
                   <label>
@@ -136,7 +136,18 @@
               </tr>
             </tbody>
           </table>
+          <div class="row" *ngIf='this.form.portfolioList && this.form.portfolioList.length > 0'>
+            <div class="col-3 text-left">
+              <label>No. of Records: {{totalItems}}</label>
+            </div>
+            <div class="col-12 text-center">
+              <pagination-controls (pageChange)="getUploadList($event)"></pagination-controls>
+            </div>
+          </div>
         </div>
+
+
+
         <div class="col-12 text-center" >
           <div class="btn-group" >
             <button type="button" mat-raised-button color='primary' (click)='delete()'>Delete</button>

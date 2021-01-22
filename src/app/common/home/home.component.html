@@ -37,12 +37,16 @@
                             <td>{{index.idxSym}}</td>
                             <td>{{index.idxName}}</td>
                             <td><b>{{index.last}}</b></td>
-                            <td *ngIf = "index.change <= 0" style="color:red;">
+                            <td *ngIf = "index.change < 0" style="color:red;">
                                 <b>{{index.change}}</b> </td>
+                            <td *ngIf = "index.change == 0">
+                                  {{index.change}} </td>
                             <td *ngIf = "index.change > 0" style="color:green;">
                                 <b>+{{index.change}}</b> </td>
-                            <td *ngIf = "index.change <= 0" style="color:red;">
+                            <td *ngIf = "index.change < 0" style="color:red;">
                                 <b>{{index.changePct}}%</b> </td>
+                            <td *ngIf = "index.change == 0">
+                              {{index.changePct}}% </td>
                             <td *ngIf = "index.change > 0" style="color:green;">
                                 <b>+{{index.changePct}}%</b> </td>
                             <td>{{index.lastUpdatedDt | date:'dd-MM-yyyy HH:mm a':'+0800'}}</td>
@@ -81,12 +85,16 @@
                           <td>{{forex.forexSymbol}}</td>
                           <!-- <td>{{forex.forexDesc}}</td> -->
                           <td><b>{{forex.last}}</b></td>
-                          <td *ngIf = "forex.change <= 0" style="color:red;">
+                          <td *ngIf = "forex.change < 0" style="color:red;">
                             <b>{{forex.change}}</b> </td>
+                          <td *ngIf = "forex.change == 0">
+                            {{forex.change}}</td>
                           <td *ngIf = "forex.change > 0" style="color:green;">
                               <b>+{{forex.change}}</b> </td>
-                          <td *ngIf = "forex.change <= 0" style="color:red;">
+                          <td *ngIf = "forex.change < 0" style="color:red;">
                               <b>{{forex.changePct + '%'}}</b> </td>
+                          <td *ngIf = "forex.change == 0">
+                              {{forex.changePct + '%'}}</td>
                           <td *ngIf = "forex.change > 0" style="color:green;">
                               <b>+{{forex.changePct + '%'}}</b> </td>
                           <td>{{forex.lastUpdatedDt | date:'dd-MM-yyyy HH:mm a':'+0800'}}</td>

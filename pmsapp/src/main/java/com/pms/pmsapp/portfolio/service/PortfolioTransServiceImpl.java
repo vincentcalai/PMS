@@ -5,6 +5,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.pms.pmsapp.portfolio.dao.PortfolioDao;
@@ -24,14 +25,10 @@ public class PortfolioTransServiceImpl implements PortfolioTransService {
 	public PortfolioTransDao getPortfolioTransDao() {
 		return portfolioTransDao;
 	}
-//
-//	public void setPortfolioDao(PortfolioDao portfolioDao) {
-//		this.portfolioDao = portfolioDao;
-//	}
 
-	public List<PortfolioTrans> findAll(long portId){
+	public List<PortfolioTrans> findAll(long portId, Pageable pageable){
 		log.info("findAll Trans in ServiceImpl");
-		return portfolioTransDao.findAll(portId);
+		return portfolioTransDao.findAll(portId, pageable);
 	}
 	
 	public List<MktExchg> findAllMktExchg(){
@@ -67,6 +64,21 @@ public class PortfolioTransServiceImpl implements PortfolioTransService {
 	@Override
 	public int findCurrentStockHold(PortfolioTrans portfolioTrans) {
 		return portfolioTransDao.findCurrentStockHold(portfolioTrans);
+	}
+
+	@Override
+	public long findAllCount(long portId) {
+		return portfolioTransDao.findAllCount(portId);
+	}
+
+	@Override
+	public List<PortfolioTrans> searchTrans(long portId, String searchText, Pageable pageable) {
+		return portfolioTransDao.searchTrans(portId, searchText, pageable);
+	}
+
+	@Override
+	public long searchTransCount(long portId, String searchText) {
+		return portfolioTransDao.searchTransCount(portId, searchText);
 	}
 	
 }

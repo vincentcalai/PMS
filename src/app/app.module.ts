@@ -1,4 +1,4 @@
-import { RouteGuard } from './guard/route.guard';
+import { RouteGuard } from './common/guard/route.guard';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -26,6 +26,9 @@ import {MatIconModule} from '@angular/material/icon';
 import { HttpInterceptorBasicAuthService } from './service/http-interceptor-basic-auth.service';
 import { ProfitLossDashboardComponent } from './profit-loss-dashboard/profit-loss-dashboard.component';
 import { DecimalPipe } from '@angular/common';
+import {NgxPaginationModule} from 'ngx-pagination';
+import { UserlistComponent } from './sysadmin/userlist/userlist.component';
+import { UserComponent } from './sysadmin/user/user.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +43,9 @@ import { DecimalPipe } from '@angular/common';
     TransactionComponent,
     PortfolioHoldComponent,
     LoadPortfolioComponent,
-    ProfitLossDashboardComponent
+    ProfitLossDashboardComponent,
+    UserlistComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,
@@ -53,7 +58,8 @@ import { DecimalPipe } from '@angular/common';
     MatButtonModule,
     MatCheckboxModule,
     MatInputModule,
-    MatIconModule
+    MatIconModule,
+    NgxPaginationModule
   ],
   providers: [
     RouteGuard,

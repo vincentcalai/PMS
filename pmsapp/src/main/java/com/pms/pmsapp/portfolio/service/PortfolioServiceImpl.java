@@ -5,6 +5,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.pms.pmsapp.portfolio.dao.PortfolioDao;
@@ -26,9 +27,9 @@ public class PortfolioServiceImpl implements PortfolioService {
 		this.portfolioDao = portfolioDao;
 	}
 
-	public List<Portfolio> findAll(){
+	public List<Portfolio> findAll(Pageable pageable){
 		log.info("findAll in ServiceImpl");
-		return portfolioDao.findAll();
+		return portfolioDao.findAll(pageable);
 	}
 	
 	public void addPortfolio(Portfolio portfolioForm) {
@@ -49,6 +50,11 @@ public class PortfolioServiceImpl implements PortfolioService {
 	
 	public boolean checkPortfolioExist(Long portfolioId, String portfolioName) {
 		return portfolioDao.checkPortfolioExist(portfolioId, portfolioName);
+	}
+
+	@Override
+	public long findAllCount() {
+		return portfolioDao.findAllCount();
 	}
 	
 }

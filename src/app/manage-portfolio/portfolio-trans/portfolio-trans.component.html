@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <div class="container-fluid">
   <br>
   <div class="card ">
@@ -14,6 +16,15 @@
       <div class="container-fluid">
         <h1 class="d-inline"><b>Portfolio Name: {{portfolio.portfolioName}}</b></h1>
         <button type="button" class="d-inline float-right btn btn-warning" (click) = "genTransReport(portId)">Generate Transaction Report</button>
+      </div>
+      <br>
+      <div class="container-fluid">
+        <mat-form-field class="col-4">
+          <mat-label>Search Stock Name or Stock Symbol </mat-label>
+          <input matInput placeholder="Eg. &quot;Apple Inc.&quot; or &quot;AAPL&quot; " [(ngModel)]="searchInput" (ngModelChange)="searchInput = $event.toUpperCase()">
+        </mat-form-field>
+        <button type="submit" class="searchBtn" (click)="search(portId, 1, searchInput)"><i class="fa fa-search"></i></button>
+        <br>
         <table class="table table-striped" style="width: 100%">
             <thead class= "table-header">
                 <tr>
@@ -31,7 +42,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor = "let transaction of transactions">
+                <tr *ngFor="let transaction of transactions | paginate: { itemsPerPage: itemsPerPage, currentPage: p, totalItems: totalItems }">
                     <td *ngIf = "transaction.currentStockHold > 0">
                       <a [routerLink]="" (click)="sellPortfolioTrans(transaction)">{{transaction.stockName}}</a></td>
                     <td *ngIf = "transaction.currentStockHold <= 0">
@@ -56,6 +67,15 @@
                 </tr>
             </tbody>
         </table>
+      </div>
+
+      <div class="row" *ngIf='transactions && transactions.length > 0'>
+        <div class="col-3 text-left">
+          <label>No. of Records: {{totalItems}}</label>
+        </div>
+        <div class="col-6 text-center">
+          <pagination-controls (pageChange)="retrieveAllTrans(portId, $event)"></pagination-controls>
+        </div>
       </div>
 
       <div style = "text-align: center">

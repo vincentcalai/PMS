@@ -27,12 +27,15 @@ import org.hibernate.query.NativeQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.orm.hibernate5.SessionFactoryUtils;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.pms.pmsapp.loadportfolio.data.LoadPortUpload;
 import com.pms.pmsapp.loadportfolio.data.LoadPortfolioTrans;
+import com.pms.pmsapp.portfolio.data.PortfolioHold;
 import com.pms.pmsapp.portfolio.data.StockWrapper;
 import com.pms.pmsapp.portfolio.service.PortfolioHoldService;
 import com.pms.pmsapp.portfolio.service.PortfolioTransService;
@@ -75,14 +78,11 @@ public class LoadPortfolioDaoImpl implements LoadPortfolioDao {
 	private final String isNumberRegex = "\\d+";
 	private final String priceRegex = "^\\d{0,8}(\\.\\d{1,2})?$";
 	private final String dateRegex = "^([0-2][0-9]||3[0-1])/(0[0-9]||1[0-2])/([0-9][0-9])?[0-9][0-9]$";
-
-	@Autowired
-	private PortfolioTransService portfolioTransService;
 	
 	@Autowired
 	private PortfolioHoldService portfolioHoldService;
 
-	public List<LoadPortUpload> getUploadList(String portfolioName) {
+	public List<LoadPortUpload> getUploadList(String portfolioName, Pageable pageable) {
 		log.info("getUploadList in DaoImpl..");
 		try {
 			Session session = HibernateUtil.getSessionFactory().openSession();
@@ -92,6 +92,9 @@ public class LoadPortfolioDaoImpl implements LoadPortfolioDao {
 			SQLQuery sqlQuery = session.createSQLQuery(sql);
 	
 			sqlQuery.addEntity(LoadPortUpload.class);
+			
+			sqlQuery.setFirstResult(pageable.getPageNumber() * pageable.getPageSize());
+			sqlQuery.setMaxResults(pageable.getPageSize());
 	
 			List<LoadPortUpload> loadPortfolioList = sqlQuery.list();
 			
@@ -198,7 +201,9 @@ public class LoadPortfolioDaoImpl implements LoadPortfolioDao {
 
 	@SuppressWarnings("unused")
 	@Override
+	@Async
 	public void processLoadData(MultipartFile file, Long id, String portfolioName) {
+		log.info("start Async processLoadData...");
 		LoadPortUpload dto = getUploadId(id);
 		String fileName = dto.getFileName();
 		byte[] fileData = dto.getFileData();
@@ -584,6 +589,25 @@ public class LoadPortfolioDaoImpl implements LoadPortfolioDao {
 			log.error(e.getMessage());
 			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
 		} 
+	}
+
+	@Override
+	public long getUploadListCount() {
+		log.info("getUploadListCount in DaoImpl..");
+		try {
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			
+			String sql = "SELECT count(*) FROM PMS_LOAD_PORT_UPLOAD order by UPLOAD_ID desc";				
+					
+			SQLQuery sqlQuery = session.createSQLQuery(sql);
+	
+			long result = ((BigDecimal) sqlQuery.uniqueResult()).longValue();
+			
+			return result;
+		} catch (Exception e) {
+			// convert to HibernateException then to DataAccessException
+			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
+		}
 	}
 		
 }

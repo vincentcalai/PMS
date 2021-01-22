@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './common/home/home.component';
 import { LoginComponent } from './common/login/login.component';
-import { RouteGuard } from './guard/route.guard';
+import { RouteGuard } from './common/guard/route.guard';
 import { PortfoliolistComponent } from './manage-portfolio/portfoliolist/portfoliolist.component';
 import { PortfolioComponent } from './manage-portfolio/portfolio/portfolio.component';
 import { ErrorComponent } from './common/error/error.component';
@@ -11,11 +11,15 @@ import { PortfolioTransComponent } from './manage-portfolio/portfolio-trans/port
 import { TransactionComponent } from './manage-portfolio/transaction/transaction.component';
 import { PortfolioHoldComponent } from './manage-portfolio/portfolio-hold/portfolio-hold.component';
 import { LoadPortfolioComponent } from './load-portfolio/load-portfolio.component';
+import { UserlistComponent } from './sysadmin/userlist/userlist.component';
+import { UserComponent } from './sysadmin/user/user.component';
 
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'home', component: HomeComponent, canActivate:[RouteGuard] },
+  { path: 'user', component: UserComponent, canActivate:[RouteGuard] },
+  { path: 'userlist', component: UserlistComponent, canActivate:[RouteGuard] },
   { path: 'portfolio', component: PortfolioComponent, canActivate:[RouteGuard] },
   { path: 'portfolio/:id', component: PortfolioComponent, canActivate:[RouteGuard] },
   { path: 'portfoliolist', component: PortfoliolistComponent, canActivate:[RouteGuard] },

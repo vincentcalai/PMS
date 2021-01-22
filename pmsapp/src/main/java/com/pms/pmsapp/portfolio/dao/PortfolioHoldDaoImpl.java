@@ -12,6 +12,7 @@ import org.hibernate.Session;
 import org.hibernate.internal.SessionImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Pageable;
 import org.springframework.orm.hibernate5.SessionFactoryUtils;
 import org.springframework.stereotype.Repository;
 
@@ -29,8 +30,8 @@ public class PortfolioHoldDaoImpl implements PortfolioHoldDao {
 	
 	private static final Logger log = LoggerFactory.getLogger(PortfolioHoldDaoImpl.class);
 	
-	public List<PortfolioHold> findAllHold(long id){
-		log.info("findAll Holding in DaoImpl..");
+	public List<PortfolioHold> findAllHold(long id, Pageable pageable){
+		log.info("findAllHold Holding in DaoImpl..");
 		try {
 			Session session = HibernateUtil.getSessionFactory().openSession();
 			
@@ -39,6 +40,8 @@ public class PortfolioHoldDaoImpl implements PortfolioHoldDao {
 			SQLQuery sqlQuery = session.createSQLQuery(sql);
 	
 			sqlQuery.addEntity(PortfolioHold.class).setParameter("id", id);
+			sqlQuery.setFirstResult(pageable.getPageNumber() * pageable.getPageSize());
+			sqlQuery.setMaxResults(pageable.getPageSize());
 	
 			List<PortfolioHold> portfolioHold = sqlQuery.list();
 			
@@ -121,6 +124,28 @@ public class PortfolioHoldDaoImpl implements PortfolioHoldDao {
 			List<String> stockSymList = sqlQuery.list();
 			
 			return stockSymList;
+		
+		} catch (Exception e) {
+			// convert to HibernateException then to DataAccessException
+			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
+		}
+	}
+
+	@Override
+	public long findAllCount(long id) {
+		try {
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			
+			String sql = "SELECT count(*) FROM PMS_PORT_HOLD where port_id = :id";				
+					
+			SQLQuery sqlQuery = session.createSQLQuery(sql);
+	
+			sqlQuery.setParameter("id", id);
+	
+			long result = ((BigDecimal) sqlQuery.uniqueResult()).longValue();
+			
+			
+			return result;
 		
 		} catch (Exception e) {
 			// convert to HibernateException then to DataAccessException
