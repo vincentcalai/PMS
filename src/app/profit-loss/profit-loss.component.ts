@@ -1,13 +1,13 @@
-import { RequestService } from './../service/request.service';
+import { RequestService } from '../service/request.service';
 import { Component, OnInit } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 
 @Component({
-  selector: 'app-profit-loss-dashboard',
-  templateUrl: './profit-loss-dashboard.component.html',
-  styleUrls: ['./profit-loss-dashboard.component.css']
+  selector: 'app-profit-loss',
+  templateUrl: './profit-loss.component.html',
+  styleUrls: ['./profit-loss.component.css']
 })
-export class ProfitLossDashboardComponent implements OnInit {
+export class ProfitLossComponent implements OnInit {
 
   form = {
     portfolioList: [],

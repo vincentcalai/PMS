@@ -32,15 +32,25 @@ export class UserComponent implements OnInit {
 
   rolesList = ['ADMIN', 'USER'];
 
+  userIsAdmin: boolean = false;
+  username = '';
+
   message: string = '';
   errorMsg: string = '';
 
   constructor(private http:HttpClient,
     private requestService: RequestService,
+    private authenticateService: AuthenticateService,
     private dataService: DataService,
     private router:Router) { }
 
   ngOnInit(): void {
+    this.username = this.authenticateService.getAuthenticationUser();
+    console.log("username: " + this.username);
+    console.log("roles: " + this.authenticateService.roles);
+    this.userIsAdmin = this.authenticateService.roles.indexOf('ADMIN') > -1;
+    console.log("userIsAdmin: " + this.userIsAdmin);
+
     if (this.dataService.dataObj && this.dataService.dataObj.isCreate === true){
       this.mode = this.MODE_CREATE_USER;
     }else{

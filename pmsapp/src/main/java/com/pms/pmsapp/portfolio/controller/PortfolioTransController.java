@@ -53,12 +53,6 @@ public class PortfolioTransController {
 	private final String RENAM_EXCHG_NYSE = "NYSE";
 	private final String RENAM_EXCHG_NASDAQ = "NASDAQ";
 	
-	private final String SUFFIX_HKEX = ".HK";
-	private final String SUFFIX_SGX = ".SI";
-	private final String SUFFIX_NYSE = new String("");
-	private final String SUFFIX_NASDAQ = new String("");
-	
-	
 	@RequestMapping(value="/portfolio/transaction/{portId}", method=RequestMethod.GET)
 	public Page<PortfolioTrans> findAll(@RequestParam("page") int page, @RequestParam("size") int size, 
 			@PathVariable long portId) {
@@ -155,13 +149,13 @@ public class PortfolioTransController {
 		 log.info("portId:  " + portId);
 		 long id = 0;
 		 int sellActionCheck = 0;
-		 String stockSymSuff = "";
-		 
-		 Map<String, String> exchgSuffmap = new HashMap<String, String>();
-		 exchgSuffmap.put(EXCHG_HKEX, SUFFIX_HKEX);
-		 exchgSuffmap.put(EXCHG_SGX, SUFFIX_SGX);
-		 exchgSuffmap.put(EXCHG_NYSE, SUFFIX_NYSE);
-		 exchgSuffmap.put(EXCHG_NASDAQ, SUFFIX_NASDAQ);
+//		 String stockSymSuff = "";
+//		 
+//		 Map<String, String> exchgSuffmap = new HashMap<String, String>();
+//		 exchgSuffmap.put(EXCHG_HKEX, SUFFIX_HKEX);
+//		 exchgSuffmap.put(EXCHG_SGX, SUFFIX_SGX);
+//		 exchgSuffmap.put(EXCHG_NYSE, SUFFIX_NYSE);
+//		 exchgSuffmap.put(EXCHG_NASDAQ, SUFFIX_NASDAQ);
 		 
 		 String username = authentication.getName();
 		 

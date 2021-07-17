@@ -126,5 +126,8 @@
       }
     }
   },
-  "defaultProject": "pms"
+  "defaultProject": "pms",
+  "cli": {
+    "analytics": false
+  }
 }

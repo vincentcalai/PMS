@@ -67,7 +67,7 @@
             <label for="roles">Roles: </label>
             <mat-select class="form-control" multiple [(ngModel)]="user.selectedRoles"
               #selectedRoles="ngModel" name="selectedRoles" required>
-              <mat-option *ngFor="let roles of rolesList"  [value]="roles">{{roles}}</mat-option>
+              <mat-option *ngFor="let roles of rolesList"  [value]="roles" [disabled]="!userIsAdmin">{{roles}}</mat-option>
             </mat-select>
           </div>
           <div class="form-group" *ngIf = "mode == MODE_UPDATE_USER">

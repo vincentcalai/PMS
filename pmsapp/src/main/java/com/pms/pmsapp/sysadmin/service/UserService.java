@@ -27,4 +27,6 @@ public interface UserService {
 
 	List<String> findUserRoles(String username);
 
+	void clearUserRole(Long id);
+
 }

@@ -30,4 +30,6 @@ public interface UserDao {
 	public void deleteUser(long id);
 	
 	public List<String> findUserRoles(String username);
+
+	public void clearUserRole(Long id);
 }

@@ -24,11 +24,18 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
 import {MatIconModule} from '@angular/material/icon';
 import { HttpInterceptorBasicAuthService } from './service/http-interceptor-basic-auth.service';
-import { ProfitLossDashboardComponent } from './profit-loss-dashboard/profit-loss-dashboard.component';
+import { ProfitLossComponent } from './profit-loss/profit-loss.component';
 import { DecimalPipe } from '@angular/common';
 import {NgxPaginationModule} from 'ngx-pagination';
 import { UserlistComponent } from './sysadmin/userlist/userlist.component';
 import { UserComponent } from './sysadmin/user/user.component';
+import { WatchlistListComponent } from './user-watchlist/watchlist-main/watchlist-list.component';
+import { WatchlistComponent } from './user-watchlist/watchlist/watchlist.component';
+import {MatDialogModule, MatDialogRef} from '@angular/material/dialog';
+import { CreateWatchlistComponent } from './user-watchlist/create-watchlist/create-watchlist.component';
+import { CreateWatchlistEntryComponent } from './user-watchlist/create-watchlist-entry/create-watchlist-entry.component';
+import { NotiWatchlistComponent } from './user-watchlist/noti-watchlist/noti-watchlist.component';
+import {MatRadioModule} from '@angular/material/radio';
 
 @NgModule({
   declarations: [
@@ -43,9 +50,14 @@ import { UserComponent } from './sysadmin/user/user.component';
     TransactionComponent,
     PortfolioHoldComponent,
     LoadPortfolioComponent,
-    ProfitLossDashboardComponent,
+    ProfitLossComponent,
     UserlistComponent,
-    UserComponent
+    UserComponent,
+    WatchlistListComponent,
+    WatchlistComponent,
+    CreateWatchlistComponent,
+    CreateWatchlistEntryComponent,
+    NotiWatchlistComponent
   ],
   imports: [
     BrowserModule,
@@ -59,12 +71,19 @@ import { UserComponent } from './sysadmin/user/user.component';
     MatCheckboxModule,
     MatInputModule,
     MatIconModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    MatDialogModule,
+    MatRadioModule
   ],
   providers: [
     RouteGuard,
     DecimalPipe,
+    {
+      provide: MatDialogRef,
+      useValue: {}
+    },
     {provide: HTTP_INTERCEPTORS, useClass:HttpInterceptorBasicAuthService, multi: true}],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents:[WatchlistComponent]
 })
 export class AppModule { }

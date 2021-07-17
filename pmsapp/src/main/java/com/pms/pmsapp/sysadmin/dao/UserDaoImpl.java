@@ -201,18 +201,13 @@ public class UserDaoImpl implements UserDao {
 			Session session = HibernateUtil.getSessionFactory().openSession();
 			Transaction transaction = session.beginTransaction();
 			
-			String sql1 = "delete from PMS_USR_ROLE r where id = :id " ; 
-			String sql2 = "Insert into PMS_USR_ROLE (ID,ROLE) values "
+			String sql = "Insert into PMS_USR_ROLE (ID,ROLE) values "
 					+ "(:id, :newUserRole) " ;
 			
-			NativeQuery query1 = session.createSQLQuery(sql1);
-			query1.setParameter("id", id);
-			query1.executeUpdate();
-			
-			NativeQuery query2 = session.createSQLQuery(sql2);
-			query2.setParameter("id", id);
-			query2.setParameter("newUserRole", newUserRole);
-			query2.executeUpdate();
+			NativeQuery query = session.createSQLQuery(sql);
+			query.setParameter("id", id);
+			query.setParameter("newUserRole", newUserRole);
+			query.executeUpdate();
 			
 			transaction.commit();
 			session.close();
@@ -275,6 +270,30 @@ public class UserDaoImpl implements UserDao {
 			// convert to HibernateException then to DataAccessException
 			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
 		}
+	}
+
+	@Override
+	public void clearUserRole(Long id) {
+		log.info("clearUserRole in DaoImpl..");
+		
+		try {
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			Transaction transaction = session.beginTransaction();
+			
+			String sql = "delete from PMS_USR_ROLE where id = :id " ; 
+			
+			NativeQuery query = session.createSQLQuery(sql);
+			query.setParameter("id", id);
+			query.executeUpdate();
+			
+			transaction.commit();
+			session.close();
+			
+		} catch (Exception e) {
+			// convert to HibernateException then to DataAccessException
+			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
+		}
+		
 	}
 	
 	

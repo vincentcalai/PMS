@@ -61,9 +61,9 @@ export class PortfolioTransComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private location: Location
-    ) {
-      this.portId = route.snapshot.params['id'];
-    }
+  ) {
+    this.portId = route.snapshot.params['id'];
+  }
 
   ngOnInit(): void {
     this.portfolio = this.dataService.dataObj.portfolioForm;

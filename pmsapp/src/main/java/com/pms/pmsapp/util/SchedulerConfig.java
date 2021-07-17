@@ -19,8 +19,11 @@ import org.springframework.scheduling.quartz.JobDetailFactoryBean;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
 import com.pms.pmsapp.util.quartz.ComputeHoldingsJob;
+import com.pms.pmsapp.util.quartz.DailyBatchJob;
 import com.pms.pmsapp.util.quartz.ForexValueJob;
 import com.pms.pmsapp.util.quartz.IndexValueJob;
+import com.pms.pmsapp.util.quartz.NotificationMessageJob;
+import com.pms.pmsapp.util.quartz.UpdateWatchlistEntryJob;
 
 
 @Configuration
@@ -117,5 +120,64 @@ public class SchedulerConfig {
         return factoryBean;
     }
     
+    //setup UpdateWatchlistEntryJob
+    @Bean
+    public CronTriggerFactoryBean updateWatchlistEntryJobTrigger(@Qualifier("updateWatchlistEntryJobDetail") JobDetail jobDetail) {
+    	log.info("updateWatchlistEntryJobTrigger");
+ 
+    	CronTriggerFactoryBean factoryBean = new CronTriggerFactoryBean();
+        factoryBean.setJobDetail(jobDetail);
+        factoryBean.setStartDelay(0L);
+    	factoryBean.setCronExpression("0 */2 * ? * *");
+        return factoryBean;
+    }
+    
+    @Bean
+    public JobDetailFactoryBean updateWatchlistEntryJobDetail() {
+        JobDetailFactoryBean factoryBean = new JobDetailFactoryBean();
+        factoryBean.setJobClass(UpdateWatchlistEntryJob.class);
+        factoryBean.setDurability(true);
+        return factoryBean;
+    }
+    
+    //setup NotificationMessageJob
+    @Bean
+    public CronTriggerFactoryBean notificationMessageJobTrigger(@Qualifier("notificationMessageJobDetail") JobDetail jobDetail) {
+    	log.info("notificationMessageJobTrigger");
+ 
+    	CronTriggerFactoryBean factoryBean = new CronTriggerFactoryBean();
+        factoryBean.setJobDetail(jobDetail);
+        factoryBean.setStartDelay(0L);
+    	factoryBean.setCronExpression("0 */2 * ? * *");
+        return factoryBean;
+    }
+    
+    @Bean
+    public JobDetailFactoryBean notificationMessageJobDetail() {
+        JobDetailFactoryBean factoryBean = new JobDetailFactoryBean();
+        factoryBean.setJobClass(NotificationMessageJob.class);
+        factoryBean.setDurability(true);
+        return factoryBean;
+    }
+    
+    //setup DailyBatchJob
+    @Bean
+    public CronTriggerFactoryBean dailyBatchJobTrigger(@Qualifier("dailyBatchJobDetail") JobDetail jobDetail) {
+    	log.info("dailyBatchJobTrigger");
+ 
+    	CronTriggerFactoryBean factoryBean = new CronTriggerFactoryBean();
+        factoryBean.setJobDetail(jobDetail);
+        factoryBean.setStartDelay(0L);
+    	factoryBean.setCronExpression("0 0 9 ? * * *");
+        return factoryBean;
+    }
+    
+    @Bean
+    public JobDetailFactoryBean dailyBatchJobDetail() {
+        JobDetailFactoryBean factoryBean = new JobDetailFactoryBean();
+        factoryBean.setJobClass(DailyBatchJob.class);
+        factoryBean.setDurability(true);
+        return factoryBean;
+    }
     
 }

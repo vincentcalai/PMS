@@ -1,4 +1,5 @@
-import { ProfitLossDashboardComponent } from './profit-loss-dashboard/profit-loss-dashboard.component';
+
+import { ProfitLossComponent } from './profit-loss/profit-loss.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './common/home/home.component';
@@ -13,6 +14,8 @@ import { PortfolioHoldComponent } from './manage-portfolio/portfolio-hold/portfo
 import { LoadPortfolioComponent } from './load-portfolio/load-portfolio.component';
 import { UserlistComponent } from './sysadmin/userlist/userlist.component';
 import { UserComponent } from './sysadmin/user/user.component';
+import { WatchlistListComponent } from './user-watchlist/watchlist-main/watchlist-list.component';
+import { WatchlistComponent } from './user-watchlist/watchlist/watchlist.component';
 
 
 const routes: Routes = [
@@ -27,7 +30,9 @@ const routes: Routes = [
   { path: 'portfolio/:id/portfolioTrans', component: PortfolioTransComponent, canActivate:[RouteGuard] },
   { path: 'portfolio/:id/transaction', component: TransactionComponent, canActivate:[RouteGuard] },
   { path: 'loadportfolio', component: LoadPortfolioComponent, canActivate:[RouteGuard] },
-  { path: 'profitloss', component: ProfitLossDashboardComponent, canActivate:[RouteGuard] },
+  { path: 'profitloss', component: ProfitLossComponent, canActivate:[RouteGuard] },
+  { path: 'watchlistmain', component: WatchlistListComponent, canActivate:[RouteGuard] },
+  { path: 'watchlist', component: WatchlistComponent, canActivate:[RouteGuard] },
   { path: '**', component: ErrorComponent}
 ];
 

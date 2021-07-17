@@ -1,0 +1,99 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<div class="container-fluid">
+  <br>
+  <div class="card ">
+      <div class="text-left">
+        <h1 class="card-header">Watchlist</h1>
+      </div>
+    <div *ngIf="this.sysMsg" class="alert alert-success">
+      <b>Success: </b> {{this.sysMsg}}
+    </div>
+    <div *ngIf="this.errMsg" class="alert alert-danger">
+      <b>Error: </b> {{this.errMsg}}
+    </div>
+    <div class="card-body">
+      <div class="container-fluid">
+        <h1 class="d-inline"><b>Watchlist Name: {{watchlist.name}}</b></h1>
+      </div>
+      <br>
+      <div class="container-fluid">
+        <mat-form-field class="col-4">
+          <mat-label>Search Stock Name or Stock Symbol </mat-label>
+          <input matInput placeholder="Eg. &quot;Apple Inc.&quot; or &quot;AAPL&quot; " [(ngModel)]="searchInput" (ngModelChange)="searchInput = $event.toUpperCase()">
+        </mat-form-field>
+        <button type="submit" class="searchBtn" (click)="search(1, searchInput)"><i class="fa fa-search"></i></button>
+        <!-- <button class="btn btn-danger" style="width: 200px; float: right" (click)="deleteWatchlist(watchlist.id)">Delete Watchlist</button> -->
+        <br>
+        <table class="table table-striped" style="width: 100%">
+            <thead class= "table-header">
+                <tr>
+                    <th>Stock Name</th>
+                    <th>Stock Symbol</th>
+                    <th>Stock Exchange</th>
+                    <th>Last Price</th>
+                    <th>Change</th>
+                    <th>Change(%) </th>
+                    <th>Target Price</th>
+                    <th>Premium/Discount</th>
+                    <th>Remarks</th>
+                    <th>Notification</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let entry of entrys | paginate: { itemsPerPage: itemsPerPage, currentPage: p, totalItems: totalItems }">
+                    <td>{{entry.stockName}}</td>
+                    <td>{{entry.stockSym}}</td>
+                    <td>{{entry.stockExchg}}</td>
+                    <td>{{entry.lastPrice | number : '1.2-2' }}</td>
+
+                    <td *ngIf="entry.change > 0 && entry.change" style="color:green;">
+                      <b>+{{entry.change | number : '1.2-2' }}</b></td>
+                    <td *ngIf="entry.change < 0 && entry.change" style="color:red;">
+                      <b>{{entry.change | number : '1.2-2' }}</b></td>
+                    <td *ngIf="!entry.change">{{entry.change | number : '1.2-2' }}</td>
+
+                    <td *ngIf="entry.changePct > 0 && entry.changePct" style="color:green;">
+                      <b>+{{entry.changePct | number : '1.2-2' }}%</b></td>
+                    <td *ngIf="entry.changePct < 0 && entry.changePct" style="color:red;">
+                      <b>{{entry.changePct | number : '1.2-2' }}%</b></td>
+                    <td *ngIf="!entry.changePct">{{entry.changePct | number : '1.2-2' }}%</td>
+
+                    <td>{{entry.targetPrice | number : '1.2-2'}}</td>
+
+                    <td *ngIf="entry.premiumDisc > 0 && entry.premiumDisc" style="color:green;">
+                      <b>+{{entry.premiumDisc | number : '1.2-2' }}%</b></td>
+                    <td *ngIf="entry.premiumDisc < 0 && entry.premiumDisc" style="color:red;">
+                      <b>{{entry.premiumDisc | number : '1.2-2' }}%</b></td>
+                    <td *ngIf="!entry.premiumDisc">{{entry.premiumDisc | number : '1.2-2' }}%</td>
+
+                    <td>{{entry.remarks}}</td>
+                    <td><a href='javascript:void(0)' (click)="setNotification(entry, watchlist)">Notification Setting</a></td>
+                </tr>
+                <tr *ngIf = '!entrys || entrys.length == 0'>
+                  <td class='text-center' colspan=12>
+                    No Transaction(s) Found.
+                  </td>
+                </tr>
+            </tbody>
+        </table>
+      </div>
+
+      <div class="row" *ngIf='entrys && entrys.length > 0'>
+        <div class="col-3 text-left">
+          <label>No. of Records: {{totalItems}}</label>
+        </div>
+        <div class="col-6 text-center">
+          <pagination-controls (pageChange)="retrieveAllEntry(watchlist, $event)"></pagination-controls>
+        </div>
+      </div>
+
+      <div style = "text-align: center">
+        <button class="btn btn-success col-2 text-center" style = "width: 200px" (click)="insertEntry()">Insert New Entry</button>
+        <button class="btn btn-danger col-1 text-center"  style = "width: 100px" (click)="back()">Back</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+

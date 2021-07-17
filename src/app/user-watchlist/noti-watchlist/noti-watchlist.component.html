@@ -1,0 +1,207 @@
+<div class="card ">
+  <h1 class="d-inline card-header">Notifcation Setting</h1>
+<div class ="card-body">
+  <div class="container">
+    <form class="form-horitzontal"(ngSubmit)="!notiForm.invalid && onSubmit(notiForm.value)" #notiForm="ngForm">
+      <div *ngIf="errorMsg"
+          class="alert alert-danger">
+          <div *ngIf="errorMsg">
+            <b>Error: </b> {{errorMsg}}
+          </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <h2>Stock Name: {{form.entry.stockName}}</h2>
+          </div>
+        </div>
+        <div class="col">
+          <button type="button" class="btn btn-danger" (click)="deleteEntry(form.entry)">Delete Entry</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <h2>Stock Symbol: {{form.entry.stockSym}}</h2>
+          </div>
+        </div>
+        <div class="col">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6">
+            <div class="card-header">Target Price</div>
+        </div>
+        <div class="col-6">
+          <div class="card-header">Other Notification</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <table class="table table-borderless">
+            <thead>
+              <tr>
+                <th style="text-align:center; vertical-align:middle;">
+                  <mat-checkbox class="example-margin" labelPosition = "before"
+                  (change) = "checkAll($event, 'cbTrigger')">
+                  </mat-checkbox>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="text-align:center; vertical-align:middle;">
+                  <mat-checkbox class='checkbox-inline' name="trigger1Ind"
+                  labelPosition = "before"
+                  [(ngModel)]="cbTrigger1">
+                  </mat-checkbox>
+                </td>
+                <td>
+                  <label>1st Trigger Price (Target Price): </label>
+                </td>
+                <td>
+                  <input type="number" id="trigger1Price" name="trigger1Price"
+                  [(ngModel)]="this.form.watchlistNotification.trigger1Price" #trigger1Price="ngModel">
+                </td>
+              </tr>
+              <tr>
+                <td style="text-align:center; vertical-align:middle;">
+                  <mat-checkbox class='checkbox-inline' name="trigger2Ind"
+                  labelPosition = "before"
+                  [(ngModel)]="cbTrigger2">
+                  </mat-checkbox>
+                </td>
+                <td>
+                  <label>2nd Trigger Price: </label>
+                </td>
+                <td>
+                  <input type="number" id="trigger2Price" name="trigger2Price"
+                  [(ngModel)]="this.form.watchlistNotification.trigger2Price" #trigger2Price="ngModel">
+                </td>
+              </tr>
+              <tr>
+                <td style="text-align:center; vertical-align:middle;">
+                  <mat-checkbox class='checkbox-inline' name="trigger3Ind"
+                  labelPosition = "before"
+                  [(ngModel)]="cbTrigger3">
+                  </mat-checkbox>
+                </td>
+                <td>
+                  <label>3rd Trigger Price: </label>
+                </td>
+                <td>
+                  <input type="number" id="trigger3Price" name="trigger3Price"
+                  [(ngModel)]="this.form.watchlistNotification.trigger3Price" #trigger3Price="ngModel">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <br>
+          <div class="card-header">Discount/Premium</div>
+          <table class="table table-borderless">
+            <tbody>
+              <tr>
+                <td>
+                  <mat-radio-group name="discPremType" [(ngModel)] = "this.form.watchlistNotification.discPremType">
+                    <mat-radio-button value="N">None</mat-radio-button>
+                    <br>
+                    <mat-radio-button value="D">Discount %</mat-radio-button>
+                    <br>
+                    <mat-radio-button value="P">Premium %</mat-radio-button>
+                  </mat-radio-group>
+                </td>
+                <td *ngIf="this.form.watchlistNotification.discPremType != 'N' ">
+                  <input type="number" id="discPremPct" name="discPremPct"
+                  [(ngModel)]="this.form.watchlistNotification.discPremPct" #discPremPct="ngModel">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-6">
+          <table class="table table-borderless">
+            <thead>
+              <tr>
+                <th style="text-align:center; vertical-align:middle;">
+                  <mat-checkbox class="example-margin" labelPosition = "before"
+                  (change) = "checkAll($event, 'otherNoti')">
+                  </mat-checkbox>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="text-align:center; vertical-align:middle;">
+                  <mat-checkbox class='checkbox-inline' labelPosition = "before" name="up5PctInd"
+                  [(ngModel)]="cbUp5Pct"></mat-checkbox>
+                </td>
+                <td>
+                  <label>Up 5%</label>
+                </td>
+              </tr>
+              <tr>
+                <td style="text-align:center; vertical-align:middle;">
+                  <mat-checkbox class='checkbox-inline' labelPosition = "before" name="down5PctInd"
+                  [(ngModel)]="cbDown5Pct"></mat-checkbox>
+                </td>
+                <td>
+                  <label>Down 5%</label>
+                </td>
+              </tr>
+              <tr>
+                <td style="text-align:center; vertical-align:middle;">
+                  <mat-checkbox class='checkbox-inline' labelPosition = "before" name="up10PctInd"
+                  [(ngModel)]="cbUp10Pct"></mat-checkbox>
+                </td>
+                <td>
+                  <label>Up 10%</label>
+                </td>
+              </tr>
+              <tr>
+                <td style="text-align:center; vertical-align:middle;">
+                  <mat-checkbox class='checkbox-inline' labelPosition = "before" name="down10PctInd"
+                  [(ngModel)]="cbDown10Pct"></mat-checkbox>
+                </td>
+                <td>
+                  <label>Down 10%</label>
+                </td>
+              </tr>
+              <tr>
+                <td style="text-align:center; vertical-align:middle;">
+                  <mat-checkbox class='checkbox-inline' labelPosition = "before" name="customUpInd"
+                  [(ngModel)]="cbCustomUpPct"></mat-checkbox>
+                </td>
+                <td>
+                  <label>Custom (Up %)</label>
+                </td>
+                <td style="width: 300px">
+                  <input type="number" id="customUpPct" name="customUpPct"
+                  [(ngModel)]="this.form.watchlistNotification.customUpPct" #customUpPct="ngModel">
+                </td>
+              </tr>
+              <tr>
+                <td style="text-align:center; vertical-align:middle;">
+                  <mat-checkbox class='checkbox-inline' labelPosition = "before" name="customDownInd"
+                  [(ngModel)]="cbCustomDownPct"></mat-checkbox>
+                </td>
+                <td>
+                  <label>Custom (Down %)</label>
+                </td>
+                <td style="width: 300px">
+                  <input type="number" id="customDownPct" name="customDownPct"
+                  [(ngModel)]="this.form.watchlistNotification.customDownPct" #customDownPct="ngModel">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="form-group text-center">
+          <button type="submit" class="btn btn-success custom">Save</button>
+          <button type="button" class="btn btn-danger custom" (click)="onClose()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+</div>

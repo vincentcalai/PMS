@@ -97,6 +97,7 @@ public class UserController {
 		 userForm.setRoles(String.join(", ", userForm.getSelectedRoles()));
 			 
 		 userService.updateUser(userForm);
+		 userService.clearUserRole(userForm.getId());
 		 for( int i=0; i<userForm.getSelectedRoles().length; i++) {
 			 String newUserRole = userForm.getSelectedRoles()[i];
 			 userService.updateUserRole(userForm.getId(), newUserRole);

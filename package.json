@@ -21,6 +21,7 @@
     "@angular/platform-browser": "~9.1.1",
     "@angular/platform-browser-dynamic": "~9.1.1",
     "@angular/router": "~9.1.1",
+    "@material/dialog": "^9.0.0",
     "@types/file-saver": "^2.0.1",
     "bootstrap": "^4.5.3",
     "file-saver": "^2.0.5",

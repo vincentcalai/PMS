@@ -62,4 +62,9 @@ public class UserServiceImpl implements UserService {
 	public List<String> findUserRoles(String username) {
 		return userDao.findUserRoles(username);
 	}
+
+	@Override
+	public void clearUserRole(Long id) {
+		userDao.clearUserRole(id);
+	}
 }

@@ -28,6 +28,7 @@ export class UserlistComponent implements OnInit {
   ngOnInit(): void {
     this.username = this.authenticateService.getAuthenticationUser();
     console.log("username: " + this.username);
+    console.log("roles: " + this.authenticateService.roles);
     this.userIsAdmin = this.authenticateService.roles.indexOf('ADMIN') > -1;
     console.log("userIsAdmin: " + this.userIsAdmin);
 

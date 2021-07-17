@@ -95,7 +95,7 @@ export class PortfolioComponent implements OnInit {
 
   viewPort(id){
     console.log("view port id: " + id);
-    this.dataService.setDataObj({ portfolioForm: this.portfolio })
+    this.dataService.setDataObj({ portfolioForm: this.portfolio });
     this.router.navigate(['portfolio', id, 'portfolioHold']);
   }
 

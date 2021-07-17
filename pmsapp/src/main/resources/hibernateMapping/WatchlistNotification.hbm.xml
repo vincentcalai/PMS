@@ -1,0 +1,119 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+    
+<hibernate-mapping>
+<class name="com.pms.pmsapp.watchlist.data.WatchlistNotification" table="PMS_WATCHLIST_NOTI">
+    
+    <composite-id>
+		<key-property name="Id" length="10" type="java.lang.Long" column="ID" />
+		<key-property name="watchId" length="10" type="java.lang.Long" column="WATCH_ID" />
+	</composite-id>
+	<property
+        name="trigger1Ind"
+        type="java.lang.String"
+        column="TRIGGER1_IND"
+        length="1"
+    />
+    <property
+        name="trigger1Price"
+        type="java.math.BigDecimal"
+        column="TRIGGER1_PRICE"
+    />
+    <property
+        name="trigger2Ind"
+        type="java.lang.String"
+        column="TRIGGER2_IND"
+        length="1"
+    />
+    <property
+        name="trigger2Price"
+        type="java.math.BigDecimal"
+        column="TRIGGER2_PRICE"
+    />
+    <property
+        name="trigger3Ind"
+        type="java.lang.String"
+        column="TRIGGER3_IND"
+        length="1"
+    />
+    <property
+        name="trigger3Price"
+        type="java.math.BigDecimal"
+        column="TRIGGER3_PRICE"
+    />
+    <property
+        name="up5PctInd"
+        type="java.lang.String"
+        column="UP_5PCT_IND"
+        length="1"
+    />
+    <property
+        name="down5PctInd"
+        type="java.lang.String"
+        column="DOWN_5PCT_IND"
+        length="1"
+    />
+    <property
+        name="up10PctInd"
+        type="java.lang.String"
+        column="UP_10PCT_IND"
+        length="1"
+    />
+    <property
+        name="down10PctInd"
+        type="java.lang.String"
+        column="DOWN_10PCT_IND"
+        length="1"
+    />
+    <property
+        name="customUpInd"
+        type="java.lang.String"
+        column="CUSTOM_UP_IND"
+        length="1"
+    />
+    <property
+        name="customUpPct"
+        type="java.math.BigDecimal"
+        column="CUSTOM_UP_PCT"
+        length="1"
+    />
+     <property
+        name="customDownInd"
+        type="java.lang.String"
+        column="CUSTOM_DOWN_IND"
+        length="1"
+    />
+    <property
+        name="customDownPct"
+        type="java.math.BigDecimal"
+        column="CUSTOM_DOWN_PCT"
+        length="1"
+    />
+    <property
+        name="discPremType"
+        type="java.lang.String"
+        column="DISC_PREM_TYPE"
+        length="1"
+    />
+    <property
+        name="discPremPct"
+        type="java.math.BigDecimal"
+        column="DISC_PREM_PCT"
+        length="1"
+    />
+    <property
+        name="lastMdfyBy"
+        type="java.lang.String"
+        column="LAST_MDFY_BY"
+    >
+    </property>
+    <property
+        name="lastMdfyDt"
+        type="java.sql.Timestamp"
+        column="LAST_MDFY_DT"
+    >
+    </property>
+</class>
+</hibernate-mapping>
