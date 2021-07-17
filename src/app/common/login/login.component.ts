@@ -22,20 +22,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  // handleLogin(){
-  //   console.log("handleLogin username: " + this.username);
-  //   if (this.authenticateService.authenticate(this.username,this.password) == true){
-  //     console.log("login pass");
-  //     this.dataService.setDataObj({username: this.username});
-  //     this.router.navigate(['home']);
-  //   }else{
-  //     console.log("login fail");
-  //     this.errorMsg = "Please enter a valid credential."
-  //   }
-  // }
-
   handleJWTAuthLogin(){
-    console.log(this.username);
     this.authenticateService.jwtAuthenticate(this.username,this.password)
     .subscribe(
       data => {
@@ -43,6 +30,9 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['home']);
         console.log("login pass");
         this.invalidLogin = false;
+        if(!this.invalidLogin){
+          this.authenticateService.getLoginUserRoles(this.username);
+        }
       },
       error => {
         console.log("login fail");

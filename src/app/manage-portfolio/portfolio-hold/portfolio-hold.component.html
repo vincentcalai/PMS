@@ -29,7 +29,7 @@
               </tr>
           </thead>
           <tbody>
-              <tr *ngFor = "let stock of stocks">
+              <tr *ngFor = "let stock of stocks | paginate: { itemsPerPage: itemsPerPage, currentPage: p, totalItems: totalItems }">
                   <td><a [routerLink]="" (click)="sellPortfolioTrans(stock)">{{stock.stockName}}</a></td>
                   <td>{{stock.stockSymbol}}</td>
                   <td>{{stock.stockExchg}}</td>
@@ -67,6 +67,16 @@
           </tbody>
       </table>
     </div>
+
+      <div class="row" *ngIf='stocks && stocks.length > 0'>
+        <div class="col-3 text-left">
+          <label>No. of Records: {{totalItems}}</label>
+        </div>
+        <div class="col-6 text-center">
+          <pagination-controls (pageChange)="retrieveAllHolds(portId, $event)"></pagination-controls>
+        </div>
+      </div>
+
       <div class="container text-center">
         <button type="button" class="btn btn-success col-1" (click)="ngOnInit()" >Refresh</button>
         <button type="button" class="btn btn-danger col-1" [routerLink] = "['/portfolio', portId]"> Back</button>

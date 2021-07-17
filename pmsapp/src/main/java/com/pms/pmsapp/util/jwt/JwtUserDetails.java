@@ -9,6 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pms.pmsapp.sysadmin.data.User;
 
 public class JwtUserDetails implements UserDetails {
 
@@ -18,14 +19,32 @@ public class JwtUserDetails implements UserDetails {
   private final String username;
   private final String password;
   private final Collection<? extends GrantedAuthority> authorities;
+  
+  public JwtUserDetails(User user) {
+	  	this.id = user.getId();
+	    this.username = user.getUsername();
+	    this.password = user.getPassword();
+	    
+	    String[] roleArray = user.getRoles().split(", ");
+
+	    List<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
+	    for(int i=0; i<roleArray.length; i++) {
+	    	authorities.add(new SimpleGrantedAuthority(roleArray[i]));
+	    }
+	    this.authorities = authorities;
+  }
 
   public JwtUserDetails(Long id, String username, String password, String role) {
     this.id = id;
     this.username = username;
     this.password = password;
 
+    String[] roleArray = role.split(", ");
+    		
     List<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
-    authorities.add(new SimpleGrantedAuthority(role));
+    for(int i=0; i<roleArray.length; i++) {
+    	authorities.add(new SimpleGrantedAuthority(roleArray[i]));
+    }
 
     this.authorities = authorities;
   }

@@ -2,7 +2,6 @@
   width: 100px !important;
 }
 
-input.ng-submitted.ng-invalid{
+input.ng-touched.ng-invalid{
   border: 1px solid red;
 }
-

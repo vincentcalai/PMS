@@ -2,7 +2,7 @@
   <br/>
   <div class="card ">
     <h1 class="card-header">
-      Profit & Loss Dashboard
+      Profit & Loss Overview
     </h1>
     <div *ngIf="this.form.errMsg" class="alert alert-danger">
       <b>Error: </b> {{this.form.errMsg}}
@@ -58,53 +58,53 @@
                   <table class="table table-striped" style="width: 100%">
                     <thead class="table-header">
                         <tr>
-                            <th>Stock Name</th>
-                            <th>Stock Symbol</th>
-                            <th>Stock Exchange</th>
-                            <th>Total Shares</th>
-                            <th>Average Price/Share</th>
-                            <th>Total Amount</th>
-                            <th>Last Trans Price</th>
-                            <th>Market Value</th>
-                            <th>P&L(+/-)</th>
-                            <th>Converted P&L(+/-)</th>
-                            <th>P&L(%)</th>
+                            <th style="width: 25%">Stock Name</th>
+                            <th style="width: 5%">Stock Symbol</th>
+                            <th style="width: 5%">Stock Exchange</th>
+                            <th style="width: 5%">Total Shares</th>
+                            <th style="width: 5%">Average Price/Share</th>
+                            <th style="width: 10%">Total Amount</th>
+                            <th style="width: 10%">Last Trans Price</th>
+                            <th style="width: 10%">Market Value</th>
+                            <th style="width: 10%">P&L(+/-)</th>
+                            <th style="width: 10%">Converted P&L(+/-)</th>
+                            <th style="width: 5%">P&L(%)</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor = "let unrealised of this.form.unrealisedList">
-                            <td>{{unrealised.stockName}}</td>
-                            <td>{{unrealised.stockSymbol}}</td>
-                            <td>{{unrealised.stockExchg}}</td>
-                            <td>{{unrealised.totalShare}}</td>
+                            <td><label>{{unrealised.stockName}}</label></td>
+                            <td><label>{{unrealised.stockSymbol}}</label></td>
+                            <td><label>{{unrealised.stockExchg}}</label></td>
+                            <td><label>{{unrealised.totalShare}}</label></td>
 
-                            <td *ngIf="unrealised.avgPrice">{{unrealised.domCurr + '$' + (unrealised.avgPrice | number : '1.2-2')}}</td>
-                            <td *ngIf="!unrealised.avgPrice">{{unrealised.domCurr + '$' + (unrealised.avgPrice | number : '1.2-2')}}</td>
+                            <td *ngIf="unrealised.avgPrice"><label>{{unrealised.domCurr + '$' + (unrealised.avgPrice | number : '1.2-2')}}</label></td>
+                            <td *ngIf="!unrealised.avgPrice"><label>{{unrealised.domCurr + '$' + (unrealised.avgPrice | number : '1.2-2')}}</label></td>
 
-                            <td *ngIf="unrealised.totalAmt">{{unrealised.domCurr + '$' + (unrealised.totalAmt | number : '1.2-2')}}</td>
-                            <td *ngIf="!unrealised.totalAmt">{{unrealised.domCurr + '$' + (unrealised.totalAmt | number : '1.2-2')}}</td>
+                            <td *ngIf="unrealised.totalAmt"><label>{{unrealised.domCurr + '$' + (unrealised.totalAmt | number : '1.2-2')}}</label></td>
+                            <td *ngIf="!unrealised.totalAmt"><label>{{unrealised.domCurr + '$' + (unrealised.totalAmt | number : '1.2-2')}}</label></td>
 
-                            <td *ngIf="unrealised.lastTransPrice">{{unrealised.domCurr + '$' + (unrealised.lastTransPrice | number : '1.2-2')}}</td>
-                            <td *ngIf="!unrealised.lastTransPrice">{{unrealised.domCurr + '$' + (unrealised.lastTransPrice | number : '1.2-2')}}</td>
+                            <td *ngIf="unrealised.lastTransPrice"><label>{{unrealised.domCurr + '$' + (unrealised.lastTransPrice | number : '1.2-2')}}</label></td>
+                            <td *ngIf="!unrealised.lastTransPrice"><label>{{unrealised.domCurr + '$' + (unrealised.lastTransPrice | number : '1.2-2')}}</label></td>
 
-                            <td *ngIf="unrealised.mktValue">{{unrealised.domCurr + '$' + (unrealised.mktValue | number : '1.2-2')}}</td>
-                            <td *ngIf="!unrealised.mktValue">{{unrealised.domCurr + '$' + (unrealised.mktValue | number : '1.2-2')}}</td>
+                            <td *ngIf="unrealised.mktValue"><label>{{unrealised.domCurr + '$' + (unrealised.mktValue | number : '1.2-2')}}</label></td>
+                            <td *ngIf="!unrealised.mktValue"><label>{{unrealised.domCurr + '$' + (unrealised.mktValue | number : '1.2-2')}}</label></td>
 
                             <td *ngIf="unrealised.profitLoss > 0 && unrealised.profitLoss" style="color:green;">
-                            <b> +{{unrealised.domCurr + '$' + (getAbsolutePL(unrealised.profitLoss) | number : '1.2-2')}}</b></td>
+                              <label><b> +{{unrealised.domCurr + '$' + (getAbsolutePL(unrealised.profitLoss) | number : '1.2-2')}}</b></label></td>
                             <td *ngIf="unrealised.profitLoss <= 0 && unrealised.profitLoss" style="color:red;">
-                            <b> -{{unrealised.domCurr + '$' + (getAbsolutePL(unrealised.profitLoss) | number : '1.2-2')}}</b></td>
-                            <td *ngIf="!unrealised.profitLoss">{{unrealised.domCurr + '$' + (getAbsolutePL(unrealised.profitLoss) | number : '1.2-2')}}</td>
+                              <label><b> -{{unrealised.domCurr + '$' + (getAbsolutePL(unrealised.profitLoss) | number : '1.2-2')}}</b></label></td>
+                            <td *ngIf="!unrealised.profitLoss"><label>{{unrealised.domCurr + '$' + (getAbsolutePL(unrealised.profitLoss) | number : '1.2-2')}}</label></td>
 
                             <td *ngIf="unrealised.convProfitLoss > 0 && unrealised.convProfitLoss" style="color:green;">
-                            <b> +{{selectedCurr + '$' + (getAbsolutePL(unrealised.convProfitLoss) | number : '1.2-2')}}</b></td>
+                              <label><b> +{{selectedCurr + '$' + (getAbsolutePL(unrealised.convProfitLoss) | number : '1.2-2')}}</b></label></td>
                             <td *ngIf="unrealised.convProfitLoss < 0 && unrealised.convProfitLoss" style="color:red;">
-                            <b> -{{selectedCurr + '$' + (getAbsolutePL(unrealised.convProfitLoss) | number : '1.2-2')}}</b></td>
-                            <td *ngIf="!unrealised.convProfitLoss">{{selectedCurr + '$' + (getAbsolutePL(unrealised.convProfitLoss) | number : '1.2-2')}}</td>
+                              <label><b> -{{selectedCurr + '$' + (getAbsolutePL(unrealised.convProfitLoss) | number : '1.2-2')}}</b></label></td>
+                            <td *ngIf="!unrealised.convProfitLoss"><label>{{selectedCurr + '$' + (getAbsolutePL(unrealised.convProfitLoss) | number : '1.2-2')}}</label></td>
 
-                            <td *ngIf="unrealised.profitLossPct > 0 && unrealised.profitLossPct" style="color:green;"><b>{{(unrealised.profitLossPct | number : '1.2-2')+ '%'}}</b></td>
-                            <td *ngIf="unrealised.profitLossPct < 0 && unrealised.profitLossPct" style="color:red;"><b>{{(unrealised.profitLossPct | number : '1.2-2') + '%'}}</b></td>
-                            <td *ngIf="!unrealised.profitLossPct">{{(unrealised.profitLossPct | number : '1.2-2') + '%'}}</td>
+                            <td *ngIf="unrealised.profitLossPct > 0 && unrealised.profitLossPct" style="color:green;"><label><b>{{(unrealised.profitLossPct | number : '1.2-2')+ '%'}}</b></label></td>
+                            <td *ngIf="unrealised.profitLossPct < 0 && unrealised.profitLossPct" style="color:red;"><label><b>{{(unrealised.profitLossPct | number : '1.2-2') + '%'}}</b></label></td>
+                            <td *ngIf="!unrealised.profitLossPct"><label>{{(unrealised.profitLossPct | number : '1.2-2') + '%'}}</label></td>
                         </tr>
                         <tr style="background-color:rgb(209, 180, 202)" *ngIf = "this.form.unrealisedTotalList">
                           <th>   </th>
@@ -112,12 +112,12 @@
                           <th>   </th>
                           <th>   </th>
                           <th>   </th>
-                          <th style="font-size:16px">Total Share Value</th>
+                          <th>Total Share Value</th>
                           <th>   </th>
-                          <th style="font-size:16px">Total Market Value</th>
+                          <th>Total Market Value</th>
                           <th>   </th>
-                          <th style="font-size:16px">Converted Total P&L(+/-)</th>
-                          <th style="font-size:16px">Total P&L(%)</th>
+                          <th>Converted Total P&L(+/-)</th>
+                          <th>Total P&L(%)</th>
                         </tr>
                         <tr *ngIf = "this.form.unrealisedTotalList">
                           <td></td>
@@ -169,45 +169,45 @@
                   <table class="table table-striped" style="width: 100%">
                     <thead class="table-header" >
                         <tr>
-                            <th>Stock Name</th>
-                            <th>Stock Symbol</th>
-                            <th>Stock Exchange</th>
-                            <th>Quantity</th>
-                            <th>Sell Date</th>
-                            <th>Average Cost</th>
-                            <th>Sell Price</th>
-                            <th>P&L(+/-)</th>
-                            <th>Converted P&L(+/-)</th>
-                            <th>P&L(%)</th>
+                            <th style="width: 20%">Stock Name</th>
+                            <th style="width: 5%">Stock Symbol</th>
+                            <th style="width: 5%">Stock Exchange</th>
+                            <th style="width: 5%">Quantity</th>
+                            <th style="width: 15%">Sell Date</th>
+                            <th style="width: 10%">Average Cost</th>
+                            <th style="width: 10%">Sell Price</th>
+                            <th style="width: 10%">P&L(+/-)</th>
+                            <th style="width: 10%">Converted P&L(+/-)</th>
+                            <th style="width: 10%">P&L(%)</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor = "let realised of this.form.realisedList">
-                            <td>{{realised.stockName}}</td>
-                            <td>{{realised.stockSymbol}}</td>
-                            <td>{{realised.stockExchg}}</td>
-                            <td>{{realised.totalShare}}</td>
-                            <td>{{realised.sellDt | date:'dd-MM-yyyy'}}</td>
-                            <td *ngIf="realised.avgCost">{{realised.domCurr + '$' + (realised.avgCost | number : '1.2-2')}}</td>
-                            <td *ngIf="!realised.avgCost">{{realised.domCurr + '$' + (realised.avgCost | number : '1.2-2')}}</td>
-                            <td *ngIf="realised.sellPrice">{{realised.domCurr + '$' + (realised.sellPrice | number : '1.2-2')}}</td>
-                            <td *ngIf="!realised.sellPrice">{{realised.domCurr + '$' + (realised.sellPrice | number : '1.2-2')}}</td>
+                            <td><label>{{realised.stockName}}</label></td>
+                            <td><label>{{realised.stockSymbol}}</label></td>
+                            <td><label>{{realised.stockExchg}}</label></td>
+                            <td><label>{{realised.totalShare}}</label></td>
+                            <td><label>{{realised.sellDt | date:'dd-MM-yyyy'}}</label></td>
+                            <td *ngIf="realised.avgCost"><label>{{realised.domCurr + '$' + (realised.avgCost | number : '1.2-2')}}</label></td>
+                            <td *ngIf="!realised.avgCost"><label>{{realised.domCurr + '$' + (realised.avgCost | number : '1.2-2')}}</label></td>
+                            <td *ngIf="realised.sellPrice"><label>{{realised.domCurr + '$' + (realised.sellPrice | number : '1.2-2')}}</label></td>
+                            <td *ngIf="!realised.sellPrice"><label>{{realised.domCurr + '$' + (realised.sellPrice | number : '1.2-2')}}</label></td>
 
                             <td *ngIf="realised.profitLoss > 0 && realised.profitLoss" style="color:green;">
-                            <b> +{{realised.domCurr + '$' + (getAbsolutePL(realised.profitLoss) | number : '1.2-2')}}</b></td>
+                              <label><b> +{{realised.domCurr + '$' + (getAbsolutePL(realised.profitLoss) | number : '1.2-2')}}</b></label></td>
                             <td *ngIf="realised.profitLoss <= 0 && realised.profitLoss" style="color:red;">
-                            <b> -{{realised.domCurr + '$' + (getAbsolutePL(realised.profitLoss) | number : '1.2-2')}}</b></td>
-                            <td *ngIf="!realised.profitLoss">{{realised.domCurr + '$' + (getAbsolutePL(realised.profitLoss) | number : '1.2-2')}}</td>
+                              <label><b> -{{realised.domCurr + '$' + (getAbsolutePL(realised.profitLoss) | number : '1.2-2')}}</b></label></td>
+                            <td *ngIf="!realised.profitLoss"><label>{{realised.domCurr + '$' + (getAbsolutePL(realised.profitLoss) | number : '1.2-2')}}</label></td>
 
                             <td *ngIf="realised.convProfitLoss > 0 && realised.convProfitLoss" style="color:green;">
-                            <b> +{{selectedCurr + '$' + (getAbsolutePL(realised.convProfitLoss) | number : '1.2-2')}}</b></td>
+                              <label><b> +{{selectedCurr + '$' + (getAbsolutePL(realised.convProfitLoss) | number : '1.2-2')}}</b></label></td>
                             <td *ngIf="realised.convProfitLoss < 0 && realised.convProfitLoss" style="color:red;">
-                            <b> -{{selectedCurr + '$' + (getAbsolutePL(realised.convProfitLoss) | number : '1.2-2')}}</b></td>
-                            <td *ngIf="!realised.convProfitLoss">{{selectedCurr + '$' + (getAbsolutePL(realised.convProfitLoss) | number : '1.2-2')}}</td>
+                              <label><b> -{{selectedCurr + '$' + (getAbsolutePL(realised.convProfitLoss) | number : '1.2-2')}}</b></label></td>
+                            <td *ngIf="!realised.convProfitLoss"><label>{{selectedCurr + '$' + (getAbsolutePL(realised.convProfitLoss) | number : '1.2-2')}}</label></td>
 
-                            <td *ngIf="realised.profitLossPct > 0 && realised.profitLossPct" style="color:green;"><b>{{(realised.profitLossPct | number : '1.2-2')+ '%'}}</b></td>
-                            <td *ngIf="realised.profitLossPct < 0 && realised.profitLossPct" style="color:red;"><b>{{(realised.profitLossPct | number : '1.2-2') + '%'}}</b></td>
-                            <td *ngIf="!realised.profitLossPct">{{(realised.profitLossPct | number : '1.2-2') + '%'}}</td>
+                            <td *ngIf="realised.profitLossPct > 0 && realised.profitLossPct" style="color:green;"><label><b>{{(realised.profitLossPct | number : '1.2-2')+ '%'}}</b></label></td>
+                            <td *ngIf="realised.profitLossPct < 0 && realised.profitLossPct" style="color:red;"><label><b>{{(realised.profitLossPct | number : '1.2-2') + '%'}}</b></label></td>
+                            <td *ngIf="!realised.profitLossPct"><label>{{(realised.profitLossPct | number : '1.2-2') + '%'}}</label></td>
                         </tr>
                         <tr style="background-color:rgb(209, 180, 202)" *ngIf = "this.form.realisedTotalList">
                           <th>   </th>
@@ -215,11 +215,11 @@
                           <th>   </th>
                           <th>   </th>
                           <th>   </th>
-                          <th style="font-size:16px">Total Cost Value</th>
-                          <th style="font-size:16px">Total Sold Value</th>
+                          <th>Total Cost Value</th>
+                          <th>Total Sold Value</th>
                           <th>   </th>
-                          <th style="font-size:16px">Converted Total P&L(+/-)</th>
-                          <th style="font-size:16px">Total P&L(%)</th>
+                          <th>Converted Total P&L(+/-)</th>
+                          <th>Total P&L(%)</th>
                         </tr>
                         <tr *ngIf = "this.form.realisedTotalList">
                           <td></td>
@@ -230,7 +230,6 @@
                           <td><input type="text" [(ngModel)]=realTotalCost disabled></td>
                           <td><input type="text" [(ngModel)]=realTotalSoldValue disabled></td>
                           <td></td>
-                          <!-- <td><input type="text" [(ngModel)]=realConvTotalProfitLoss disabled></td> -->
                           <td *ngIf = "form.realisedTotalList.convProfitLoss > 0 && form.realisedTotalList.convProfitLoss">
                             <b><input type="text" style="color:green; font-weight: bold;"
                               [(ngModel)]=realConvTotalProfitLoss disabled></b></td>
@@ -239,8 +238,6 @@
                               [(ngModel)]=realConvTotalProfitLoss disabled></b></td>
                           <td *ngIf = "!form.realisedTotalList.convProfitLoss">
                             <b><input type="text" [(ngModel)]=realConvTotalProfitLoss disabled></b></td>
-
-                          <!-- <td><input type="text" [(ngModel)]=realProfitLossPct disabled></td> -->
                           <td *ngIf = "form.realisedTotalList.profitLossPct > 0 && form.realisedTotalList.profitLossPct">
                             <b><input type="text" style="color:green; font-weight: bold;"
                               [(ngModel)]=realProfitLossPct disabled></b></td>
@@ -263,7 +260,7 @@
           </div>
         </div>
         <br>
-    </div>
+
   </div>
 </div>
 

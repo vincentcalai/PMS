@@ -1,4 +1,4 @@
-package com.pms.pmsapp.common.quartz;
+package com.pms.pmsapp.util.quartz;
 
 import java.util.List;
 

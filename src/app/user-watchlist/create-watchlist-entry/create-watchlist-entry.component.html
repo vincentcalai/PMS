@@ -1,0 +1,51 @@
+<div class="card ">
+  <h1 class="d-inline card-header">Insert New Entry</h1>
+<div class ="card-body">
+  <div class="container">
+    <form (ngSubmit)="!entryForm.invalid && onSubmit(entryForm.value)" #entryForm="ngForm">
+      <div *ngIf="(entryForm.submitted && entryForm.invalid) || errorMsg"
+          class="alert alert-danger">
+          <div *ngIf="stockSym.errors?.required">
+            Stock Symbol is required.
+          </div>
+          <div *ngIf="targetPrice.errors?.required">
+            Target Price is required.
+          </div>
+          <div *ngIf="errorMsg">
+            <b>Error: </b> {{errorMsg}}
+          </div>
+      </div>
+      <div class="form-group">
+        <label for="stockName">Stock Name: </label>
+        <input type="text" class="form-control" id="stockName"
+        [ngModel]="entry.stockName" #stockName="ngModel" name="stockName" [readonly]="true">
+      </div>
+      <div class="form-group">
+        <label for="stockSym">Stock Symbol: </label>
+        <input type="text" class="form-control" id="stockSym"
+        [ngModel]="entry.stockSym | uppercase" (ngModelChange)="entry.stockSym=$event"
+        (change)="retrieveStockInfo(entryForm.value)" #stockSym="ngModel" name="stockSym" required>
+      </div>
+      <div class="form-group">
+        <label for="stockExchg">Stock Exchange: </label>
+        <input type="text" class="form-control" id="stockExchg"
+        [ngModel]="entry.stockExchg" #stockExchg="ngModel" name="stockExchg" [readonly]="true">
+      </div>
+      <div class="form-group">
+        <label for="targetPrice">Target Price: </label>
+        <input type="text" class="form-control" id="targetPrice"
+        [ngModel]="entry.targetPrice" #targetPrice="ngModel" name="targetPrice" required>
+      </div>
+      <div class="form-group">
+        <label for="remarks">Remarks: </label>
+        <input type="text" class="form-control" id="remarks"
+        [ngModel]="entry.remarks" #remarks="ngModel" name="remarks" maxlength="100">
+      </div>
+      <div class="form-group">
+          <button type="submit" class="btn btn-success custom">Save</button>
+          <button type="button" class="btn btn-danger custom" (click)="onClose()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+</div>

@@ -6,11 +6,16 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.pms.pmsapp.loadportfolio.data.LoadPortUpload;
 import com.pms.pmsapp.loadportfolio.service.LoadPortfolioService;
 import com.pms.pmsapp.loadportfolio.web.LoadPortfolioForm;
+import com.pms.pmsapp.portfolio.data.PortfolioHold;
 
 @CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
 @RestController
@@ -40,11 +46,15 @@ public class LoadPortfolioController {
 	private LoadPortfolioService loadPortfolioService;
 	
 	@RequestMapping(value="/loadportfolio/getUploadList", method=RequestMethod.POST)
-	public List<LoadPortUpload> getUploadList(@RequestBody LoadPortfolioForm loadPortfolioForm) {
+	public Page<LoadPortUpload> getUploadList(@RequestParam("page") int page, @RequestParam("size") int size, 
+			@RequestBody LoadPortfolioForm loadPortfolioForm) {
 		log.info("getUploadList in Controller");
 		String portfolioName = loadPortfolioForm.getPortfolioName();
 		
-		List<LoadPortUpload> dtos = loadPortfolioService.getUploadList(portfolioName);
+		Pageable pageable = PageRequest.of(page-1, size);
+		
+		List<LoadPortUpload> dtos = loadPortfolioService.getUploadList(portfolioName, pageable);
+		long totalRec = loadPortfolioService.getUploadListCount();
 		
 		List<LoadPortUpload> loadPortfolioList = new ArrayList<LoadPortUpload>();
 		for(LoadPortUpload dto: dtos){
@@ -72,7 +82,9 @@ public class LoadPortfolioController {
 			loadPortfolioList.add(record);
 		}
 		
-		return loadPortfolioList;
+		//return loadPortfolioList;
+		PageImpl<LoadPortUpload> loadPortfolioPage = new PageImpl((List<LoadPortUpload>) loadPortfolioList, pageable, totalRec);
+		return loadPortfolioPage;
 	}
 	
 	@RequestMapping(value="/loadportfolio/init", method=RequestMethod.POST)
@@ -119,8 +131,9 @@ public class LoadPortfolioController {
 			}
 			if(tmpltHeaderCheck == 0) {
 				long id = loadPortfolioService.loadData(file, portfolioName, username);
-				sysMsg = "File has been loaded successfully. Refresh to see the latest status change.";
+				sysMsg = "File has been loaded. Refresh to see the latest status change.";
 				loadPortfolioService.processLoadData(file, id, portfolioName);
+				log.info("loading completed.");
 			} else if(tmpltHeaderCheck == -1) {
 				errMsg = "An incorrect file was uploaded. Please upload the correct file (Load Portfolio).";
 			} else {

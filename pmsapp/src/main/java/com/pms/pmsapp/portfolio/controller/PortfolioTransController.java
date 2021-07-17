@@ -8,15 +8,21 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pms.pmsapp.common.quartz.ComputeHoldingsJob;
+import com.fasterxml.jackson.databind.node.TextNode;
 import com.pms.pmsapp.portfolio.data.MktExchg;
 import com.pms.pmsapp.portfolio.data.PortfolioTrans;
 import com.pms.pmsapp.portfolio.data.StockWrapper;
@@ -47,24 +53,51 @@ public class PortfolioTransController {
 	private final String RENAM_EXCHG_NYSE = "NYSE";
 	private final String RENAM_EXCHG_NASDAQ = "NASDAQ";
 	
-	private final String SUFFIX_HKEX = ".HK";
-	private final String SUFFIX_SGX = ".SI";
-	private final String SUFFIX_NYSE = new String("");
-	private final String SUFFIX_NASDAQ = new String("");
-	
-	
 	@RequestMapping(value="/portfolio/transaction/{portId}", method=RequestMethod.GET)
-	public List<PortfolioTrans> findAll(@PathVariable long portId) {
+	public Page<PortfolioTrans> findAll(@RequestParam("page") int page, @RequestParam("size") int size, 
+			@PathVariable long portId) {
 		log.info("findAll Trans in Controller");
+		
+		Pageable pageable = PageRequest.of(page-1, size);
 		int currentStockHold = 0;
 		
-		List<PortfolioTrans> portfolioTrans= portfolioTransService.findAll(portId);
+		List<PortfolioTrans> portfolioTrans= portfolioTransService.findAll(portId, pageable);
+		long totalRec = portfolioTransService.findAllCount(portId);
+		
 		for(int i = 0; i < portfolioTrans.size(); i++) {
 			currentStockHold = portfolioTransService.findCurrentStockHold(portfolioTrans.get(i));
 			portfolioTrans.get(i).setCurrentStockHold(currentStockHold);
 		}
 		
-		return portfolioTrans;
+		PageImpl<PortfolioTrans> transPage = new PageImpl((List<PortfolioTrans>) portfolioTrans, pageable, totalRec);
+		return transPage;
+	}
+	
+	@RequestMapping(value="/portfolio/transaction/search/{portId}", method=RequestMethod.POST)
+	public Page<PortfolioTrans> searchTrans(@RequestParam("page") int page, @RequestParam("size") int size, 
+			@PathVariable long portId, @RequestBody(required = false) String searchText) {
+		log.info("searchText Trans in Controller");
+		log.info("searchText: " + searchText);
+		
+		Pageable pageable = PageRequest.of(page-1, size);
+		int currentStockHold = 0;
+		
+		if (searchText == null || "".equals(searchText)) {
+			searchText = "%";
+		}else{
+			searchText = searchText + "%";
+		}
+		
+		List<PortfolioTrans> portfolioTrans= portfolioTransService.searchTrans(portId, searchText, pageable);
+		long totalRec = portfolioTransService.searchTransCount(portId, searchText);
+		
+		for(int i = 0; i < portfolioTrans.size(); i++) {
+			currentStockHold = portfolioTransService.findCurrentStockHold(portfolioTrans.get(i));
+			portfolioTrans.get(i).setCurrentStockHold(currentStockHold);
+		}
+		
+		PageImpl<PortfolioTrans> transPage = new PageImpl((List<PortfolioTrans>) portfolioTrans, pageable, totalRec);
+		return transPage;
 	}
 	
 	@RequestMapping(value="/portfolio/transaction/mktexchg", method=RequestMethod.GET)
@@ -116,13 +149,13 @@ public class PortfolioTransController {
 		 log.info("portId:  " + portId);
 		 long id = 0;
 		 int sellActionCheck = 0;
-		 String stockSymSuff = "";
-		 
-		 Map<String, String> exchgSuffmap = new HashMap<String, String>();
-		 exchgSuffmap.put(EXCHG_HKEX, SUFFIX_HKEX);
-		 exchgSuffmap.put(EXCHG_SGX, SUFFIX_SGX);
-		 exchgSuffmap.put(EXCHG_NYSE, SUFFIX_NYSE);
-		 exchgSuffmap.put(EXCHG_NASDAQ, SUFFIX_NASDAQ);
+//		 String stockSymSuff = "";
+//		 
+//		 Map<String, String> exchgSuffmap = new HashMap<String, String>();
+//		 exchgSuffmap.put(EXCHG_HKEX, SUFFIX_HKEX);
+//		 exchgSuffmap.put(EXCHG_SGX, SUFFIX_SGX);
+//		 exchgSuffmap.put(EXCHG_NYSE, SUFFIX_NYSE);
+//		 exchgSuffmap.put(EXCHG_NASDAQ, SUFFIX_NASDAQ);
 		 
 		 String username = authentication.getName();
 		 

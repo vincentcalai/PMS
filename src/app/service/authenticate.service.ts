@@ -1,3 +1,4 @@
+import { RequestService } from './request.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {map} from 'rxjs/operators';
@@ -10,24 +11,16 @@ export const TOKEN = 'token';
 })
 export class AuthenticateService {
 
-  isLogin: boolean = false;
+  public roles : string[] = [];
 
-  constructor(private http: HttpClient) { }
+  api_url: String = "http://localhost:8080";
 
-  // authenticate(username, password){
-  //   console.log("authentication service username: " + username);
-  //   if(username === "choonann" && password === "pass1234"){
-  //     sessionStorage.setItem('authenticateUser', username);
-  //     return true
-  //   }else{
-  //     return false;
-  //   }
-  // }
+  constructor(private http: HttpClient, private requestService: RequestService) { }
 
   jwtAuthenticate(username, password){
 
     console.log("calling api..");
-    return this.http.post<any>("http://localhost:8080/authenticate",{
+    return this.http.post<any>( this.api_url + "/authenticate",{
       username,
       password
     })
@@ -36,9 +29,18 @@ export class AuthenticateService {
         data => {
           sessionStorage.setItem(AUTH_USER, username);
           sessionStorage.setItem(TOKEN, `Bearer ${data.token}`);
+          console.log(data);
           return data;
         }
       )
+    );
+  }
+
+  getLoginUserRoles(username){
+    this.requestService.post('/user/roles', username).subscribe(
+      data => {
+        this.roles = data as any;
+      }
     );
   }
 
@@ -60,6 +62,7 @@ export class AuthenticateService {
   logout(){
     if(confirm("Are you sure to logout?")) {
       console.log("logout ok");
+      this.roles = null;
       sessionStorage.removeItem(AUTH_USER);
       sessionStorage.removeItem(TOKEN);
     }

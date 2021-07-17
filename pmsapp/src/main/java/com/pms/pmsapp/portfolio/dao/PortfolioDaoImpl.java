@@ -10,7 +10,7 @@ import org.hibernate.Transaction;
 import org.hibernate.query.NativeQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.jdbc.object.SqlQuery;
+import org.springframework.data.domain.Pageable;
 import org.springframework.orm.hibernate5.SessionFactoryUtils;
 import org.springframework.stereotype.Repository;
 
@@ -23,16 +23,18 @@ public class PortfolioDaoImpl implements PortfolioDao {
 	
 	private static final Logger log = LoggerFactory.getLogger(PortfolioDaoImpl.class);
 	
-	public List<Portfolio> findAll(){
+	public List<Portfolio> findAll(Pageable pageable){
 		log.info("findAll in DaoImpl..");
 		try {
 			Session session = HibernateUtil.getSessionFactory().openSession();
 			
-			String sql = "SELECT * FROM PMS_PORT order by ID asc ";				
+			String sql = "SELECT * FROM PMS_PORT order by ID desc ";				
 					
 			NativeQuery sqlQuery = session.createSQLQuery(sql);
 	
 			sqlQuery.addEntity(Portfolio.class);
+			sqlQuery.setFirstResult(pageable.getPageNumber() * pageable.getPageSize());
+			sqlQuery.setMaxResults(pageable.getPageSize());
 	
 			List<Portfolio> portfolio = sqlQuery.list();
 			
@@ -171,6 +173,27 @@ public class PortfolioDaoImpl implements PortfolioDao {
 			portfolioExist = true;
 		
 		return portfolioExist;
+	}
+
+	@Override
+	public long findAllCount() {
+		log.info("findAllCount Trans in DaoImpl..");
+		try {
+			Session session = HibernateUtil.getSessionFactory().openSession();
+	
+			String sql = "SELECT count(*) FROM PMS_PORT";
+			
+			SQLQuery sqlQuery = session.createSQLQuery(sql);
+			
+			long result = ((BigDecimal) sqlQuery.uniqueResult()).longValue();
+	
+			session.close();
+		
+			return result;
+		} catch (Exception e) {
+			// convert to HibernateException then to DataAccessException
+			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
+		}
 	}
 	
 	

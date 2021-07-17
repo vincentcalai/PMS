@@ -35,6 +35,10 @@ export class PortfolioHoldComponent implements OnInit {
     remarks : ''
   }
 
+  totalItems = 0;
+  itemsPerPage = 10;
+  p = 1;
+
   stocks:[];
   mktExchgs = [];
   currency: Map<string,string>;
@@ -56,10 +60,15 @@ export class PortfolioHoldComponent implements OnInit {
   ngOnInit(): void {
     this.portfolio = this.dataService.dataObj.portfolioForm;
     this.currency = this.getCurr();
-    this.requestService.get(`/portfolio/hold/${this.portId}`).subscribe(
+    this.retrieveAllHolds(this.portId, this.p);
+  }
+
+  retrieveAllHolds(portId, page){
+    this.requestService.get(`/portfolio/hold/${portId}?page=` + page + '&size=' + this.itemsPerPage).subscribe(
       data => {
-        this.stocks = data as any;
-        console.log(this.stocks);
+        this.p = page;
+        this.stocks = (data as any).content;
+        this.totalItems = (data as any).totalElements;
         return this.stocks;
       }
     );
@@ -82,18 +91,6 @@ export class PortfolioHoldComponent implements OnInit {
     this.absolutePL = Math.abs(profitLoss);
      return this.absolutePL;
   }
-
-  // checkCurr(stockExchg){
-  //   if(stockExchg === 'NYSE' || stockExchg === 'NASDAQ'){
-  //     return 'USD$';
-  //   }else if (stockExchg === 'HKEX'){
-  //     return 'HKD$';
-  //   }else if (stockExchg === 'SGX'){
-  //     return 'SGD$';
-  //   }else{
-  //     return '$';
-  //   }
-  // }
 
   checkCurr(stockExchg){
     return this.currency.get(stockExchg) + '$';

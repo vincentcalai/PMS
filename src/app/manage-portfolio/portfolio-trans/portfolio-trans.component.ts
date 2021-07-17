@@ -18,6 +18,12 @@ export class PortfolioTransComponent implements OnInit {
   errMsg: string = '';
   currency: Map<string,string>;
 
+  searchInput = "";
+
+  totalItems = 0;
+  itemsPerPage = 10;
+  p = 1;
+
   portfolio = {
     id : null,
     portfolioName: '',
@@ -55,18 +61,17 @@ export class PortfolioTransComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private location: Location
-    ) {
-      this.portId = route.snapshot.params['id'];
-    }
+  ) {
+    this.portId = route.snapshot.params['id'];
+  }
 
   ngOnInit(): void {
-    console.log(this.dataService.dataObj);
     this.portfolio = this.dataService.dataObj.portfolioForm;
     if (this.dataService.dataObj && this.dataService.dataObj.transaction) {
       this.sysMsg = this.dataService.dataObj.transaction.systemMsg;
       this.errMsg = this.dataService.dataObj.transaction.errMsg;
     }
-    this.retrieveAllTrans(this.portId);
+    this.retrieveAllTrans(this.portId, this.p);
     this.currency = this.getCurr();
     this.dataService.setDataObj({ isCreate: false, portfolioForm: this.portfolio, currency: this.currency, transaction: null });
   }
@@ -88,12 +93,12 @@ export class PortfolioTransComponent implements OnInit {
     return map;
   }
 
-  retrieveAllTrans(portId){
-    console.log("portId: " + portId);
-    this.requestService.get(`/portfolio/transaction/${portId}`).subscribe(
+  retrieveAllTrans(portId, page){
+    this.requestService.get(`/portfolio/transaction/${portId}?page=` + page + '&size=' + this.itemsPerPage).subscribe(
       data => {
-        this.transactions = data as any;
-        return this.transactions;
+        this.p = page;
+        this.transactions = (data as any).content;
+        this.totalItems = (data as any).totalElements;
       }
     );
   }
@@ -115,14 +120,23 @@ export class PortfolioTransComponent implements OnInit {
       data => {
         this.transaction = data as any;
         this.sysMsg = this.transaction.systemMsg;
-        this.retrieveAllTrans(this.portId);
+        this.retrieveAllTrans(this.portId,this.p);
       }
     );
   }
 
   genTransReport(id){
-    console.log(id);
     this.requestService.downloadFile(id, this.GEN_TRANS_REPORT_URL);
+  }
+
+  search(portId, page, searchInput){
+    this.requestService.post(`/portfolio/transaction/search/${portId}?page=` + page + '&size=' + this.itemsPerPage, searchInput).subscribe(
+      data => {
+        this.p = page;
+        this.transactions = (data as any).content;
+        this.totalItems = (data as any).totalElements;
+      }
+    );
   }
 
   back(){

@@ -1,0 +1,61 @@
+<div class="container-fluid">
+  <br/>
+
+  <div class="card ">
+    <h1 class="card-header">
+      Watchlist Management
+    </h1>
+    <div *ngIf="this.message" class="alert alert-success">
+      <b>Success: </b> {{message}}
+    </div>
+    <div class="card-body">
+      <div class="container">
+        <table class="table table-striped" style="width: 100%">
+            <thead class= "table-header">
+                <tr>
+                    <th>ID</th>
+                    <th>Watchlist Name</th>
+                    <th>Remarks</th>
+                    <th>Created By</th>
+                    <th>Created Date</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor = "let watchlist of watchlists | paginate : { itemsPerPage: itemsPerPage, currentPage: p, totalItems: totalItems }">
+                    <td>{{watchlist.id}}</td>
+                    <td>
+                      <label>
+                        <a href='javascript:void(0)' (click)="updateWatchlist(watchlist)">{{watchlist.name}}</a>
+                      </label>
+                    </td>
+                    <td>{{watchlist.remarks}}</td>
+                    <td>{{watchlist.createdBy}}</td>
+                    <td>{{watchlist.createdDt | date}}</td>
+                    <td><button class="btn btn-danger" (click)="deleteWatchlist(watchlist.id)">Delete Watchlist</button></td>
+                </tr>
+                <tr *ngIf = '!watchlists || watchlists.length == 0'>
+                  <td class='text-center' colspan=12>
+                    No Record(s) Found.
+                  </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="row" *ngIf='watchlists && watchlists.length > 0'>
+          <div class="col-3 text-left">
+            <label>No. of Records: {{totalItems}}</label>
+          </div>
+          <div class="col-6 text-center">
+            <pagination-controls (pageChange)="retrieveAllWatchlist($event)"></pagination-controls>
+          </div>
+        </div>
+
+        <div class="row">
+          <button class="btn btn-success" (click)="createWatchlist()">Create New Watchlist</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

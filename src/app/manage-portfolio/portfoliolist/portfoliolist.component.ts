@@ -25,6 +25,10 @@ export class PortfoliolistComponent implements OnInit {
     systemMsg: ''
   }
 
+  totalItems = 0;
+  itemsPerPage = 5;
+  p = 1;
+
   constructor(
     private requestService: RequestService,
     private dataService:DataService,
@@ -34,15 +38,16 @@ export class PortfoliolistComponent implements OnInit {
     if (this.dataService.dataObj && this.dataService.dataObj.portfolioForm) {
       this.message = this.dataService.dataObj.portfolioForm.systemMsg;
     }
-    this.retrieveAllPortfolio();
+    this.retrieveAllPortfolio(1);
     this.dataService.setDataObj(null);
   }
 
-  retrieveAllPortfolio(){
-    this.requestService.get('/portfolio').subscribe(
+  retrieveAllPortfolio(page){
+    this.requestService.get('/portfolio?page=' + page + '&size=' + this.itemsPerPage).subscribe(
       data => {
-        this.portfolios = data as any;
-        return this.portfolios;
+        this.p = page;
+        this.portfolios = (data as any).content;
+        this.totalItems = (data as any).totalElements;
       }
     );
   }
@@ -66,7 +71,7 @@ export class PortfoliolistComponent implements OnInit {
         this.portfolio = data as any;
         console.log(this.portfolio.systemMsg);
         this.message = this.portfolio.systemMsg;
-        this.retrieveAllPortfolio();
+        this.retrieveAllPortfolio(1);
       }
     );
   }

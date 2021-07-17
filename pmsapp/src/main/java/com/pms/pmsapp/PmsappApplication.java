@@ -9,10 +9,12 @@ import org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfig
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 import com.pms.pmsapp.util.HibernateUtil;
 
 @SpringBootApplication
+@EnableAsync
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class, 
 		DataSourceTransactionManagerAutoConfiguration.class, 
 		HibernateJpaAutoConfiguration.class, 

@@ -1,0 +1,36 @@
+<div class="card ">
+  <h1 class="d-inline card-header">Create New Watchlist</h1>
+<div class ="card-body">
+  <div class="container">
+    <form (ngSubmit)="!watchlistForm.invalid && onSubmit(watchlistForm.value)" #watchlistForm="ngForm">
+      <div *ngIf="(watchlistForm.submitted && name.invalid) || errorMsg"
+          class="alert alert-danger">
+          <div *ngIf="name.errors?.required">
+            Watchlist Name is required.
+          </div>
+          <div *ngIf="name.errors?.minlength">
+            Watchlist Name must be at least 4 characters long.
+          </div>
+          <div *ngIf="errorMsg">
+            <b>Error: </b> {{errorMsg}}
+          </div>
+      </div>
+      <div class="form-group">
+        <label for="name">Watchlist Name: </label>
+        <input type="text" class="form-control" id="name"
+        [ngModel]="watchlist.name" #name="ngModel" name="name"
+        minlength="4" maxlength="25" required>
+      </div>
+      <div class="form-group">
+        <label for="remarks">Remarks: </label>
+        <input type="text" class="form-control" id="remarks"
+        [ngModel]="watchlist.remarks" #remarks="ngModel" name="remarks" maxlength="100">
+      </div>
+      <div class="form-group">
+          <button type="submit" class="btn btn-success custom">Save</button>
+          <button type="button" class="btn btn-danger custom" (click)="onClose()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+</div>

@@ -1,0 +1,87 @@
+<div class="container">
+  <br>
+  <div class="card ">
+      <h1 class="d-inline card-header">{{mode === MODE_CREATE_USER ? "Create New User" : "Update User"}}</h1>
+    <div class ="card-body">
+      <div class="container">
+        <form (ngSubmit)="!userForm.invalid && onSubmit(userForm.value, mode)" #userForm="ngForm">
+          <div *ngIf="(userForm.submitted && userForm.invalid) || this.user.errMsg"
+              class="alert alert-danger">
+              <div *ngIf=" mode == MODE_CREATE_USER && username.errors?.required">
+                User Name is required.
+              </div>
+              <div *ngIf="mode == MODE_CREATE_USER && username.errors?.minlength">
+                User Name must be at least 4 characters long.
+              </div>
+              <div *ngIf="mode == MODE_CREATE_USER && password.errors?.required">
+                Password is required.
+              </div>
+              <div *ngIf="mode == MODE_CREATE_USER && password.errors?.minlength">
+                Password must be at least 6 characters long.
+              </div>
+              <div *ngIf="email.errors?.email">
+                Invalid email. Please enter a valid email.
+              </div>
+              <div *ngIf="contactNo.errors?.pattern">
+                Invalid Contact Number. Contact Number should only contain numbers.
+              </div>
+              <div *ngIf="contactNo.errors?.minlength">
+                Invalid Contact Number. Contact Number should have at least 7 numbers.
+              </div>
+              <div *ngIf="selectedRoles.errors?.required">
+                At least 1 role should be selected.
+              </div>
+              <div *ngIf="this.user.errMsg">
+                <b>Error: </b> {{this.user.errMsg}}
+              </div>
+          </div>
+          <div class="form-group">
+            <label for="username">User Name: </label>
+            <input type="text" class="form-control" id="username"
+            [ngModel]="user.username" #username="ngModel" name="username"
+            minlength="4" maxlength="20" required [disabled] = "mode == MODE_UPDATE_USER">
+          </div>
+
+          <div class="form-group" >
+            <label for="password">Password: </label>
+            <input type="password" class="form-control" id="password"
+            [ngModel]="user.password" #password="ngModel" name="password" [disabled] = "mode == MODE_UPDATE_USER"
+            minlength="6" maxlength="50" required>
+          </div>
+          <div class="form-group" *ngIf = "mode == MODE_CREATE_USER">
+            <label for="confirmPassword">Confirm Password: </label>
+            <input type="password" class="form-control" id="confirmPassword"
+            [ngModel]="user.confirmPassword" #confirmPassword="ngModel" name="confirmPassword" maxlength="20">
+          </div>
+          <div class="form-group">
+            <label for="email">Email: </label>
+            <input type="email" class="form-control" id="email"
+            [ngModel]="user.email" #email="ngModel" name="email" maxlength="100" email>
+          </div>
+          <div class="form-group">
+            <label for="contactNo">Contact No.: </label>
+            <input type="text" class="form-control" id="contactNo" pattern="^[0-9]*$"
+            [ngModel]="user.contactNo" #contactNo="ngModel" name="contactNo" minlength = "7" maxlength="16">
+          </div>
+          <div class="form-group">
+            <label for="roles">Roles: </label>
+            <mat-select class="form-control" multiple [(ngModel)]="user.selectedRoles"
+              #selectedRoles="ngModel" name="selectedRoles" required>
+              <mat-option *ngFor="let roles of rolesList"  [value]="roles" [disabled]="!userIsAdmin">{{roles}}</mat-option>
+            </mat-select>
+          </div>
+          <div class="form-group" *ngIf = "mode == MODE_UPDATE_USER">
+            <label for="createdDt">Created Date: </label>
+            <input type="text" class="form-control" id="createdDt"
+            [ngModel]="user.createdDt | date" #createdDt="ngModel" name="createdDt" disabled>
+          </div>
+          <div class="form-group">
+              <button type="submit" class="btn btn-success custom">Save</button>
+              <button type="button" class="btn btn-danger custom" routerLink = "/userlist">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
