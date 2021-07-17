@@ -12,7 +12,7 @@ public class DBCPDataSource {
     static {
         ds.setUrl("jdbc:oracle:thin:@localhost:1521:xe");
         ds.setUsername("pms_app");
-        ds.setPassword("pms_app");
+        ds.setPassword("password");
         ds.setMinIdle(5);
         ds.setMaxIdle(10);
         ds.setMaxOpenPreparedStatements(100);

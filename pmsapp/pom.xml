@@ -68,7 +68,7 @@
 		<dependency>
 		    <groupId>net.sf.jasperreports</groupId>
 		    <artifactId>jasperreports</artifactId>
-		    <version>6.1.0</version>
+		    <version>6.17.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.oracle</groupId>
@@ -116,6 +116,11 @@
 				<enabled>true</enabled>
 			</snapshots>
 		</repository>
+	    <repository>
+	        <id>hand-china-repo</id>
+	        <name>HandChinaRepo</name>
+	        <url>http://nexus.saas.hand-china.com/content/repositories/rdc/</url>
+	    </repository>
 	</repositories>
 	<pluginRepositories>
 		<pluginRepository>
