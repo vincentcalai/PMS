@@ -60,14 +60,14 @@
                         <tr>
                             <th style="width: 25%">Stock Name</th>
                             <th style="width: 5%">Stock Symbol</th>
-                            <th style="width: 5%">Stock Exchange</th>
-                            <th style="width: 5%">Total Shares</th>
+                            <!-- <th style="width: 5%">Stock Exchange</th> -->
+                            <th style="width: 7%">Total Shares</th>
                             <th style="width: 5%">Average Price/Share</th>
-                            <th style="width: 10%">Total Amount</th>
-                            <th style="width: 10%">Last Trans Price</th>
-                            <th style="width: 10%">Market Value</th>
-                            <th style="width: 10%">P&L(+/-)</th>
-                            <th style="width: 10%">Converted P&L(+/-)</th>
+                            <th style="width: 12%">Total Amount</th>
+                            <th style="width: 5%">Last Trans Price</th>
+                            <th style="width: 12%">Market Value</th>
+                            <th style="width: 12%">P&L(+/-)</th>
+                            <th style="width: 12%">Converted P&L(+/-)</th>
                             <th style="width: 5%">P&L(%)</th>
                         </tr>
                     </thead>
@@ -75,7 +75,7 @@
                         <tr *ngFor = "let unrealised of this.form.unrealisedList">
                             <td><label>{{unrealised.stockName}}</label></td>
                             <td><label>{{unrealised.stockSymbol}}</label></td>
-                            <td><label>{{unrealised.stockExchg}}</label></td>
+                            <!-- <td><label>{{unrealised.stockExchg}}</label></td> -->
                             <td><label>{{unrealised.totalShare}}</label></td>
 
                             <td *ngIf="unrealised.avgPrice"><label>{{unrealised.domCurr + '$' + (unrealised.avgPrice | number : '1.2-2')}}</label></td>
@@ -107,24 +107,24 @@
                             <td *ngIf="!unrealised.profitLossPct"><label>{{(unrealised.profitLossPct | number : '1.2-2') + '%'}}</label></td>
                         </tr>
                         <tr style="background-color:rgb(209, 180, 202)" *ngIf = "this.form.unrealisedTotalList">
-                          <th>   </th>
-                          <th>   </th>
-                          <th>   </th>
-                          <th>   </th>
-                          <th>   </th>
-                          <th>Total Share Value</th>
-                          <th>   </th>
-                          <th>Total Market Value</th>
-                          <th>   </th>
-                          <th>Converted Total P&L(+/-)</th>
-                          <th>Total P&L(%)</th>
+                          <th style="width: 25%">   </th>
+                          <th style="width: 5%">   </th>
+                          <!-- <th>   </th> -->
+                          <th style="width: 7%">   </th>
+                          <th style="width: 5%">   </th>
+                          <th style="width: 12%">Total Share Value</th>
+                          <th style="width: 5%">   </th>
+                          <th style="width: 12%">Total Market Value</th>
+                          <th style="width: 12%">   </th>
+                          <th style="width: 12%">Converted Total P&L(+/-)</th>
+                          <th style="width: 5%">Total P&L(%)</th>
                         </tr>
                         <tr *ngIf = "this.form.unrealisedTotalList">
                           <td></td>
                           <td></td>
                           <td></td>
                           <td></td>
-                          <td></td>
+                          <!-- <td></td> -->
                           <td><input type="text" [(ngModel)]=unrealTotalShareValue disabled></td>
                           <td></td>
                           <td><input type="text" [(ngModel)]=unrealTotalMktValue disabled></td>

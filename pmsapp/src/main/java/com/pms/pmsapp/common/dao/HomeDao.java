@@ -1,9 +1,9 @@
-package com.pms.pmsapp.home.dao;
+package com.pms.pmsapp.common.dao;
 
 import java.util.List;
 
-import com.pms.pmsapp.home.data.Forex;
-import com.pms.pmsapp.home.data.Index;
+import com.pms.pmsapp.common.data.Forex;
+import com.pms.pmsapp.common.data.Index;
 import com.pms.pmsapp.portfolio.data.StockWrapper;
 
 public interface HomeDao{

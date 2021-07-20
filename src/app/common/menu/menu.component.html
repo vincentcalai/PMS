@@ -2,20 +2,33 @@
   <nav class="navbar navbar-expand-md navbar-dark bg-dark">
       <div><a class ="navbar-brand">
           PMS</a></div>
-      <ul class="navbar-nav" *ngIf = "authenticateService.isUserLoggedIn()">
+      <div class="collapse navbar-collapse" style="flex-direction: column; align-items: flex-start;">
+        <ul class="navbar-nav" *ngIf = "authenticateService.isUserLoggedIn()">
           <li><a routerLink="/home" class="nav-link">Home</a></li>
           <li><a routerLink="/userlist" class="nav-link">System Admin</a></li>
           <li><a routerLink="/portfoliolist" class="nav-link"> Manage Portfolio</a></li>
           <li><a routerLink="/loadportfolio" class="nav-link">Data Loading</a></li>
           <li><a routerLink="/profitloss" class="nav-link">P&L Overview</a></li>
           <li><a routerLink="/watchlistmain" class="nav-link">Watchlist</a></li>
-      </ul>
-      <ul class="navbar-nav navbar-collapse justify-content-end" *ngIf = "authenticateService.isUserLoggedIn()">
-
-        <li>
-          <span class="nav-link disabled">Login User: {{authenticateService.getAuthenticationUser()}}</span>
-          <a routerLink="" class="nav-link float-right"
-            (click) = "authenticateService.logout()">Logout</a></li>
-      </ul>
+        </ul>
+      </div>
+      <div class="collapse navbar-collapse flex-column" style="flex-direction: column; align-items: flex-end;"  id="navbarCollapse">
+        <ul class="navbar-nav flex-row" *ngIf = "authenticateService.isUserLoggedIn()">
+          <li class="nav-item">
+            <a class="nav-link disabled">Login User: {{authenticateService.getAuthenticationUser()}}</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav flex-row">
+          <li class="nav-item" style="margin:0 20px 0 0">
+            <mat-icon matBadge="5" matBadgeColor="warn" style="color: white; cursor: pointer" 
+            (click)="displayNoti()"> notifications</mat-icon>
+            <!-- <a routerLink="" class="nav-link">Notification</a> -->
+          </li>
+          <li class="nav-item">
+            <a routerLink="" class="nav-link"
+              (click) = "authenticateService.logout()">Logout</a>
+          </li>
+        </ul>
+      </div>
   </nav>
 </header>

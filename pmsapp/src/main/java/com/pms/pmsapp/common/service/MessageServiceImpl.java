@@ -12,7 +12,7 @@ public class MessageServiceImpl implements MessageService {
 	private MessageDao messageDao;
 
 	@Override
-	public void genOtherNotiMsg() {
-		messageDao.genOtherNotiMsg();
+	public void genWatchlistNotiMsg() {
+		messageDao.genWatchlistNotiMsg();
 	}
 }

@@ -17,6 +17,6 @@ import com.pms.pmsapp.watchlist.data.WatchlistNotification;
 
 public interface MessageDao {
 
-	public void genOtherNotiMsg();
+	public void genWatchlistNotiMsg();
 
 }

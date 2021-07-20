@@ -36,6 +36,7 @@ import { CreateWatchlistComponent } from './user-watchlist/create-watchlist/crea
 import { CreateWatchlistEntryComponent } from './user-watchlist/create-watchlist-entry/create-watchlist-entry.component';
 import { NotiWatchlistComponent } from './user-watchlist/noti-watchlist/noti-watchlist.component';
 import {MatRadioModule} from '@angular/material/radio';
+import {MatBadgeModule} from '@angular/material/badge';
 
 @NgModule({
   declarations: [
@@ -73,7 +74,8 @@ import {MatRadioModule} from '@angular/material/radio';
     MatIconModule,
     NgxPaginationModule,
     MatDialogModule,
-    MatRadioModule
+    MatRadioModule,
+    MatBadgeModule
   ],
   providers: [
     RouteGuard,

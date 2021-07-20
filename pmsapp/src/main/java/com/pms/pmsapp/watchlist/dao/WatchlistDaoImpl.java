@@ -131,6 +131,7 @@ public class WatchlistDaoImpl implements WatchlistDao {
 			
 			String sql1 = "delete from PMS_WATCHLIST where id = :id";
 			String sql2 = "delete from PMS_WATCHLIST_ENTRY where watch_id = :id";
+			String sql3 = "delete from PMS_WATCHLIST_NOTI where watch_id = :id";
 			
 			NativeQuery query1 = session.createSQLQuery(sql1);
 			query1.setParameter("id",id);
@@ -139,6 +140,11 @@ public class WatchlistDaoImpl implements WatchlistDao {
 			NativeQuery query2 = session.createSQLQuery(sql2);
 			query2.setParameter("id",id);
 			query2.executeUpdate();
+			
+			NativeQuery query3 = session.createSQLQuery(sql3);
+			query3.setParameter("id",id);
+			query3.executeUpdate();
+			
 			
 			transaction.commit();
 			session.close();

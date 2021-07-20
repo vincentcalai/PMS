@@ -12,7 +12,7 @@ import com.pms.pmsapp.watchlist.data.WatchlistNotification;
 
 public interface MessageService {
 
-	void genOtherNotiMsg();
+	void genWatchlistNotiMsg();
 
 
 }

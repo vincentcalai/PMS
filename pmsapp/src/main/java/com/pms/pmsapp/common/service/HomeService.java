@@ -1,13 +1,9 @@
-package com.pms.pmsapp.home.service;
+package com.pms.pmsapp.common.service;
 
-import java.math.BigDecimal;
 import java.util.List;
 
-import org.springframework.web.multipart.MultipartFile;
-
-import com.pms.pmsapp.home.data.Forex;
-import com.pms.pmsapp.home.data.Index;
-import com.pms.pmsapp.loadportfolio.data.LoadPortUpload;
+import com.pms.pmsapp.common.data.Forex;
+import com.pms.pmsapp.common.data.Index;
 import com.pms.pmsapp.portfolio.data.StockWrapper;
 
 public interface HomeService{

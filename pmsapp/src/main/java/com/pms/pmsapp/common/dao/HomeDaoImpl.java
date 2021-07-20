@@ -1,4 +1,4 @@
-package com.pms.pmsapp.home.dao;
+package com.pms.pmsapp.common.dao;
 
 import java.io.IOException;
 import java.util.List;
@@ -12,8 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.orm.hibernate5.SessionFactoryUtils;
 import org.springframework.stereotype.Repository;
 
-import com.pms.pmsapp.home.data.Forex;
-import com.pms.pmsapp.home.data.Index;
+import com.pms.pmsapp.common.data.Forex;
+import com.pms.pmsapp.common.data.Index;
 import com.pms.pmsapp.portfolio.data.StockWrapper;
 import com.pms.pmsapp.util.HibernateUtil;
 

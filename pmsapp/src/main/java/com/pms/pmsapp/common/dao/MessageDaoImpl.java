@@ -33,15 +33,15 @@ public class MessageDaoImpl implements MessageDao {
 	private static final Logger log = LoggerFactory.getLogger(MessageDaoImpl.class);
 
 	@Override
-	public void genOtherNotiMsg() {
-		log.info("genOtherNotiMsg in DaoImpl..");
+	public void genWatchlistNotiMsg() {
+		log.info("genWatchlistNotiMsg in DaoImpl..");
 
 		CallableStatement callableStatement = null;
 
 		try {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 
-		String callPkg = "{call PG_NOTIFICATION_MSG.gen_other_noti_msg()}";
+		String callPkg = "{call PG_NOTIFICATION_MSG.gen_watchlist_noti_msg()}";
 		callableStatement = ((SessionImpl)session).connection().prepareCall(callPkg);
 		callableStatement.executeUpdate();
 		((SessionImpl)session).connection().commit();

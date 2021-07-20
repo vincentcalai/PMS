@@ -22,7 +22,7 @@ public class NotificationMessageJob implements Job{
 		
 		log.info("executing notificationMessageJob..");
 	
-		messageService.genOtherNotiMsg();
+		messageService.genWatchlistNotiMsg();
 	}
 	
 }
