@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { DataService } from 'src/app/service/data.service';
+import { RequestService } from 'src/app/service/request.service';
 import { AuthenticateService } from '../../service/authenticate.service';
-import { DataService } from '../../service/data.service';
 
 @Component({
   selector: 'app-login',
@@ -14,9 +15,12 @@ export class LoginComponent implements OnInit {
   password: string;
   errorMsg: string = "";
   invalidLogin: boolean = false;
+  msgCount: number = 0;
+
 
   constructor(private authenticateService:AuthenticateService,
     private dataService: DataService,
+    private requestService: RequestService,
     private router:Router) { }
 
   ngOnInit(): void {
@@ -40,6 +44,6 @@ export class LoginComponent implements OnInit {
         this.invalidLogin = true;
       }
     )
-  }
+  }  
 
 }

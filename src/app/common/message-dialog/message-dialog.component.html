@@ -1,0 +1,47 @@
+<div class="card">
+    <h1 class="card-header" cdkFocusInitial>
+      Notification Box
+    </h1>
+    <div class="card-body">
+        <div class="row">
+            <table class="table" style="width: 100%">
+                <thead class="table-header">
+                    <tr>
+                        <th>ID</th>
+                        <th>Subject</th>
+                        <th>Notification Message</th>
+                        <th>Generate Date & Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor = "let message of messages">
+                        <td style="width:5%; background-color:yellow" *ngIf = "message.delInd == 'N'">
+                            {{message.msgId}}</td>
+                        <td style="width:30%; background-color:yellow;" *ngIf = "message.delInd == 'N'">
+                            {{message.subject}}</td>
+                        <td style="width:50%; background-color:yellow;" *ngIf = "message.delInd == 'N'">
+                            {{message.msg}}</td>
+                        <td style="width:15%; background-color:yellow;" *ngIf = "message.delInd == 'N'">
+                            {{message.genDt | date:'medium'}}</td>
+                        <td style="width:5%;" *ngIf = "message.delInd == 'Y'">
+                            {{message.msgId}}</td>
+                        <td style="width:30%;" *ngIf = "message.delInd == 'Y'">
+                            {{message.subject}}</td>
+                        <td style="width:50%;" *ngIf = "message.delInd == 'Y'">
+                            {{message.msg}}</td>
+                        <td style="width:15%;" *ngIf = "message.delInd == 'Y'">
+                            {{message.genDt | date:'medium'}}</td>
+                    </tr>
+                    <tr>
+                      <td *ngIf = "!messages || messages.length == 0" class='text-center' colspan=12>
+                        There are no notification message for you.
+                      </td>
+                    </tr> 
+                </tbody>
+            </table>
+        </div>
+        <div class="row justify-content-center">
+            <button class="btn btn-danger" (click)="deleteAllMsg(loginUser)">Clear All Notifications</button>
+        </div>
+  </div>
+</div>

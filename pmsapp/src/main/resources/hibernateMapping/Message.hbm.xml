@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+    
+<hibernate-mapping>
+<class name="com.pms.pmsapp.common.data.Message" table="PMS_MSG">
+    
+    <id name="msgId" type="java.lang.Long" column="ID">
+      <generator class="sequence">
+          <param name="sequence_name">SQ_PMS_MSG</param>
+      </generator>
+    </id>
+
+    <property
+        name="type"
+        type="java.lang.String"
+        column="TYPE"
+        length="25"
+    />
+    <property
+        name="subject"
+        type="java.lang.String"
+        column="SUBJECT"
+        length="100"
+    />
+    <property
+        name="msg"
+        type="java.lang.String"
+        column="MSG"
+        length="1000"
+    />
+    <property
+        name="username"
+        type="java.lang.String"
+        column="USERNAME"
+        length="25"
+    />
+    <property
+        name="delInd"
+        type="java.lang.String"
+        column="DEL_IND"
+        length="1"
+    />
+    <property
+        name="genDt"
+        type="java.util.Date"
+        column="GEN_DT"
+    />
+</class>
+</hibernate-mapping>

@@ -12,23 +12,24 @@
           <li><a routerLink="/watchlistmain" class="nav-link">Watchlist</a></li>
         </ul>
       </div>
-      <div class="collapse navbar-collapse flex-column" style="flex-direction: column; align-items: flex-end;"  id="navbarCollapse">
-        <ul class="navbar-nav flex-row" *ngIf = "authenticateService.isUserLoggedIn()">
+      <div class="collapse navbar-collapse flex-column" style="flex-direction: column; align-items: flex-end;"  id="navbarCollapse"
+        *ngIf = "authenticateService.isUserLoggedIn()">
+        <ul class="navbar-nav flex-row">
           <li class="nav-item">
-            <a class="nav-link disabled">Login User: {{authenticateService.getAuthenticationUser()}}</a>
+            <a class="nav-link disabled"> Login User: {{authenticateService.getAuthenticationUser()}}</a>
           </li>
         </ul>
-        <ul class="navbar-nav flex-row">
+        <ul class="navbar-nav flex-row" >
           <li class="nav-item" style="margin:0 20px 0 0">
-            <mat-icon matBadge="5" matBadgeColor="warn" style="color: white; cursor: pointer" 
-            (click)="displayNoti()"> notifications</mat-icon>
-            <!-- <a routerLink="" class="nav-link">Notification</a> -->
+            <mat-icon matBadge="{{msgCount}}" matBadgeColor="warn" style="color: white; cursor: pointer" 
+            (click)="displayNoti()" tabindex="0"> notifications</mat-icon>
           </li>
           <li class="nav-item">
-            <a routerLink="" class="nav-link"
+            <a class="nav-link" style="cursor: pointer" 
               (click) = "authenticateService.logout()">Logout</a>
           </li>
         </ul>
       </div>
+      
   </nav>
 </header>

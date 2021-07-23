@@ -37,6 +37,7 @@ import { CreateWatchlistEntryComponent } from './user-watchlist/create-watchlist
 import { NotiWatchlistComponent } from './user-watchlist/noti-watchlist/noti-watchlist.component';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatBadgeModule} from '@angular/material/badge';
+import { MessageDialogComponent } from './common/message-dialog/message-dialog.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import {MatBadgeModule} from '@angular/material/badge';
     WatchlistComponent,
     CreateWatchlistComponent,
     CreateWatchlistEntryComponent,
-    NotiWatchlistComponent
+    NotiWatchlistComponent,
+    MessageDialogComponent
   ],
   imports: [
     BrowserModule,

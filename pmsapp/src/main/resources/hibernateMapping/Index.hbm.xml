@@ -4,7 +4,7 @@
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
     
 <hibernate-mapping>
-<class name="com.pms.pmsapp.home.data.Index" table="PMS_INDEX">
+<class name="com.pms.pmsapp.common.data.Index" table="PMS_INDEX">
     
     <id name="id" type="java.lang.Long" column="ID">
     </id>

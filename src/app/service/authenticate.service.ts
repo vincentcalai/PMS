@@ -2,6 +2,7 @@ import { RequestService } from './request.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {map} from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 export const AUTH_USER = 'authenticateUser';
 export const TOKEN = 'token';
@@ -15,7 +16,10 @@ export class AuthenticateService {
 
   api_url: String = "http://localhost:8080";
 
-  constructor(private http: HttpClient, private requestService: RequestService) { }
+  username: String;
+
+  constructor(private http: HttpClient, private router: Router, 
+    private requestService: RequestService) { }
 
   jwtAuthenticate(username, password){
 
@@ -65,6 +69,7 @@ export class AuthenticateService {
       this.roles = null;
       sessionStorage.removeItem(AUTH_USER);
       sessionStorage.removeItem(TOKEN);
+      this.router.navigate(['/']);
     }
   }
 }

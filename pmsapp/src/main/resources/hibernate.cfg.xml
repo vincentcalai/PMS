@@ -36,7 +36,8 @@
     <mapping resource="hibernateMapping/User.hbm.xml"></mapping> 
     <mapping resource="hibernateMapping/Watchlist.hbm.xml"></mapping>
     <mapping resource="hibernateMapping/WatchlistEntry.hbm.xml"></mapping>  
-    <mapping resource="hibernateMapping/WatchlistNotification.hbm.xml"></mapping>  
+    <mapping resource="hibernateMapping/WatchlistNotification.hbm.xml"></mapping> 
+    <mapping resource="hibernateMapping/Message.hbm.xml"></mapping>  
       
   </session-factory>
 </hibernate-configuration>
