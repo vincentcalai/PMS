@@ -1,4 +1,4 @@
-import { RequestService } from './../service/request.service';
+import { RequestService } from '../util/service/request.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import * as fileSaver from 'file-saver';
 import { HttpEventType, HttpResponse } from '@angular/common/http';

@@ -2,8 +2,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { DataService } from 'src/app/service/data.service';
-import { RequestService } from 'src/app/service/request.service';
+import { DataService } from 'src/app/util/service/data.service';
+import { RequestService } from 'src/app/util/service/request.service';
 import { CreateWatchlistComponent } from '../create-watchlist/create-watchlist.component';
 import { WatchlistComponent } from '../watchlist/watchlist.component';
 

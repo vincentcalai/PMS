@@ -1,6 +1,6 @@
-import { AuthenticateService } from './../../service/authenticate.service';
-import { RequestService } from '../../service/request.service';
-import { DataService } from '../../service/data.service';
+import { AuthenticateService } from '../../util/service/authenticate.service';
+import { RequestService } from '../../util/service/request.service';
+import { DataService } from '../../util/service/data.service';
 import { Component, OnInit } from '@angular/core';
 import { Data } from '@angular/router';
 

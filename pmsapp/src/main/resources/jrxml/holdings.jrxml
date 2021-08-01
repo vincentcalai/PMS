@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="holdings" pageWidth="1200" pageHeight="600" columnWidth="1160" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" isIgnorePagination="true">
+<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="holdings" pageWidth="1200" pageHeight="600" columnWidth="1160" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" isIgnorePagination="true" uuid="77f879ed-7018-48f7-87e3-5360a64a718f">
 	<property name="ireport.zoom" value="1.1000000000000016"/>
 	<property name="ireport.x" value="4"/>
 	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="PMS_APP"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -123,7 +125,7 @@
 			<pen lineWidth="0.5" lineColor="#000000"/>
 		</box>
 	</style>
-	<subDataset name="Table Dataset 1">
+	<subDataset name="Table Dataset 1" uuid="d582dbc1-887e-409e-8003-563a3023fb2a">
 		<parameter name="portId" class="java.lang.Long" isForPrompting="false"/>
 		<queryString>
 			<![CDATA[select port_id, stock_nam, stock_sym, stock_exchg, total_share,
@@ -162,6 +164,7 @@ where port_id = $P{portId} order by last_trans_dt desc]]>
 	</queryString>
 	<field name="PORT_NAME" class="java.lang.String"/>
 	<variable name="todayDate" class="java.lang.String">
+		<variableExpression><![CDATA[new SimpleDateFormat("dd/MM/yy").format(new Date())]]></variableExpression>
 		<initialValueExpression><![CDATA[new SimpleDateFormat("dd/MM/yy").format(new Date())]]></initialValueExpression>
 	</variable>
 	<background>
@@ -170,7 +173,7 @@ where port_id = $P{portId} order by last_trans_dt desc]]>
 	<title>
 		<band height="35">
 			<staticText>
-				<reportElement x="0" y="1" width="1160" height="34"/>
+				<reportElement x="0" y="0" width="1160" height="35" uuid="5d376bee-ff91-4cf0-8d78-a9c4ecd7cbac"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="15" isBold="true"/>
 				</textElement>
@@ -181,36 +184,30 @@ where port_id = $P{portId} order by last_trans_dt desc]]>
 	<columnHeader>
 		<band height="22">
 			<textField>
-				<reportElement x="0" y="0" width="974" height="21"/>
+				<reportElement x="0" y="0" width="1160" height="22" uuid="b14551ca-e0eb-4874-9f6c-0d206bf67502"/>
 				<textElement verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA["Portfolio Name : "+ $F{PORT_NAME}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="974" y="0" width="186" height="22"/>
-				<textElement>
-					<font size="12" isBold="true"/>
-				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA["Generated Date:" + $V{todayDate}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Portfolio Name : "+ $F{PORT_NAME}]]></textFieldExpression>
 			</textField>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="101">
+		<band height="72">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<componentElement>
-				<reportElement key="table 5" style="table 5" x="0" y="0" width="1160" height="101"/>
+				<reportElement key="table 5" style="table 5" x="0" y="22" width="1160" height="50" uuid="fb56a8fb-304a-429f-8bb0-03e95e5fdbc6"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="Table Dataset 1">
+					<datasetRun subDataset="Table Dataset 1" uuid="76cf8253-d1f6-4988-959d-7d00264da175">
 						<datasetParameter name="portId">
 							<datasetParameterExpression><![CDATA[$P{portId}]]></datasetParameterExpression>
 						</datasetParameter>
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>
-					<jr:column width="165">
+					<jr:column width="165" uuid="759fcf54-4d5b-40f9-a5c5-dc5b94df816e">
 						<jr:columnHeader style="table 5_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="165" height="30"/>
+								<reportElement x="0" y="0" width="165" height="30" uuid="4962b0c0-5ef9-42e0-b520-cae2ef1c2f57"/>
 								<textElement>
 									<font isBold="true"/>
 								</textElement>
@@ -219,16 +216,15 @@ where port_id = $P{portId} order by last_trans_dt desc]]>
 						</jr:columnHeader>
 						<jr:detailCell style="table 5_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="165" height="20"/>
-								<textElement/>
-								<textFieldExpression class="java.lang.String"><![CDATA[$F{STOCK_NAM}]]></textFieldExpression>
+								<reportElement x="0" y="0" width="165" height="20" uuid="df2c1da7-5002-49c5-86cd-87752c138747"/>
+								<textFieldExpression><![CDATA[$F{STOCK_NAM}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="90">
+					<jr:column width="90" uuid="25477926-cc31-4ff3-847d-c7dd5ca0cdc9">
 						<jr:columnHeader style="table 5_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="90" height="30"/>
+								<reportElement x="0" y="0" width="90" height="30" uuid="27da479f-68bb-41c3-83f5-768f529b610a"/>
 								<textElement>
 									<font isBold="true"/>
 								</textElement>
@@ -237,16 +233,15 @@ where port_id = $P{portId} order by last_trans_dt desc]]>
 						</jr:columnHeader>
 						<jr:detailCell style="table 5_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="90" height="20"/>
-								<textElement/>
-								<textFieldExpression class="java.lang.String"><![CDATA[$F{STOCK_SYM}]]></textFieldExpression>
+								<reportElement x="0" y="0" width="90" height="20" uuid="e578651f-05bf-48a9-80c6-0da21be7ee04"/>
+								<textFieldExpression><![CDATA[$F{STOCK_SYM}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="90">
+					<jr:column width="90" uuid="09623b76-23c4-46c2-8f98-2783c568b4f4">
 						<jr:columnHeader style="table 5_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="90" height="30"/>
+								<reportElement x="0" y="0" width="90" height="30" uuid="5a8a74c8-18b1-407f-a939-3c2712ffe97c"/>
 								<textElement>
 									<font isBold="true"/>
 								</textElement>
@@ -255,16 +250,15 @@ where port_id = $P{portId} order by last_trans_dt desc]]>
 						</jr:columnHeader>
 						<jr:detailCell style="table 5_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="90" height="20"/>
-								<textElement/>
-								<textFieldExpression class="java.lang.String"><![CDATA[$F{STOCK_EXCHG}]]></textFieldExpression>
+								<reportElement x="0" y="0" width="90" height="20" uuid="7e96a4c1-f6d0-4120-ac4c-f03391984a83"/>
+								<textFieldExpression><![CDATA[$F{STOCK_EXCHG}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="90">
+					<jr:column width="90" uuid="dd62604f-dccb-472c-b06b-da4f66917c82">
 						<jr:columnHeader style="table 5_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="90" height="30"/>
+								<reportElement x="0" y="0" width="90" height="30" uuid="8f5656d7-c691-494c-93ad-2c1ebf0daedb"/>
 								<textElement>
 									<font isBold="true"/>
 								</textElement>
@@ -273,16 +267,15 @@ where port_id = $P{portId} order by last_trans_dt desc]]>
 						</jr:columnHeader>
 						<jr:detailCell style="table 5_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="90" height="20"/>
-								<textElement/>
-								<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{TOTAL_SHARE}]]></textFieldExpression>
+								<reportElement x="0" y="0" width="90" height="20" uuid="f755ca0c-627b-4c2b-b2ca-6b3b4efde982"/>
+								<textFieldExpression><![CDATA[$F{TOTAL_SHARE}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="90">
+					<jr:column width="90" uuid="511038fb-8ecc-44c3-b882-15fa3c9754f0">
 						<jr:columnHeader style="table 5_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="90" height="30"/>
+								<reportElement x="0" y="0" width="90" height="30" uuid="6450c4b5-7e8c-49f1-8308-3d74225467f2"/>
 								<textElement>
 									<font isBold="true"/>
 								</textElement>
@@ -291,16 +284,15 @@ where port_id = $P{portId} order by last_trans_dt desc]]>
 						</jr:columnHeader>
 						<jr:detailCell style="table 5_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="90" height="20"/>
-								<textElement/>
-								<textFieldExpression class="java.lang.String"><![CDATA[$F{AVG_PRICE}]]></textFieldExpression>
+								<reportElement x="0" y="0" width="90" height="20" uuid="2521b694-66ec-405e-8100-52d9dece18e9"/>
+								<textFieldExpression><![CDATA[$F{AVG_PRICE}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="90">
+					<jr:column width="90" uuid="6964201d-2ce0-4338-956d-d9e0d2534fdb">
 						<jr:columnHeader style="table 5_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="90" height="30"/>
+								<reportElement x="0" y="0" width="90" height="30" uuid="e9e6b33b-402c-486f-a376-d8e1197ceac3"/>
 								<textElement>
 									<font isBold="true"/>
 								</textElement>
@@ -309,16 +301,15 @@ where port_id = $P{portId} order by last_trans_dt desc]]>
 						</jr:columnHeader>
 						<jr:detailCell style="table 5_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="90" height="20"/>
-								<textElement/>
-								<textFieldExpression class="java.lang.String"><![CDATA[$F{TOTAL_AMT}]]></textFieldExpression>
+								<reportElement x="0" y="0" width="90" height="20" uuid="a598e4a4-c247-4d17-b77b-cc8346b4dcfb"/>
+								<textFieldExpression><![CDATA[$F{TOTAL_AMT}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="90">
+					<jr:column width="90" uuid="bdb02c00-8913-4a69-aa5b-2b58fe9e3b7f">
 						<jr:columnHeader style="table 5_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="90" height="30"/>
+								<reportElement x="0" y="0" width="90" height="30" uuid="bb1cb027-41ab-4a44-bc80-fdc11bc989c5"/>
 								<textElement>
 									<font isBold="true"/>
 								</textElement>
@@ -327,16 +318,15 @@ where port_id = $P{portId} order by last_trans_dt desc]]>
 						</jr:columnHeader>
 						<jr:detailCell style="table 5_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="90" height="20"/>
-								<textElement/>
-								<textFieldExpression class="java.lang.String"><![CDATA[$F{LAST_TRANS_PRICE}]]></textFieldExpression>
+								<reportElement x="0" y="0" width="90" height="20" uuid="33578af5-67e9-489f-95dd-8244d3618656"/>
+								<textFieldExpression><![CDATA[$F{LAST_TRANS_PRICE}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="90">
+					<jr:column width="90" uuid="e8c3e86f-fe4c-48a8-9e31-c840c5c81a65">
 						<jr:columnHeader style="table 5_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="90" height="30"/>
+								<reportElement x="0" y="0" width="90" height="30" uuid="24caa817-bd71-4cd5-b41c-4e16313e5e5f"/>
 								<textElement>
 									<font isBold="true"/>
 								</textElement>
@@ -345,16 +335,15 @@ where port_id = $P{portId} order by last_trans_dt desc]]>
 						</jr:columnHeader>
 						<jr:detailCell style="table 5_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="90" height="20"/>
-								<textElement/>
-								<textFieldExpression class="java.lang.String"><![CDATA[$F{MKT_VALUE}]]></textFieldExpression>
+								<reportElement x="0" y="0" width="90" height="20" uuid="ac3110af-1b06-4e96-b400-452aaf2939f3"/>
+								<textFieldExpression><![CDATA[$F{MKT_VALUE}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="90">
+					<jr:column width="90" uuid="2d77ff3f-dfc6-4acf-8c17-dccfa304d40e">
 						<jr:columnHeader style="table 5_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="90" height="30"/>
+								<reportElement x="0" y="0" width="90" height="30" uuid="f59c7601-dc80-4f67-97da-d2fbf2fcbbb6"/>
 								<textElement>
 									<font isBold="true"/>
 								</textElement>
@@ -363,16 +352,15 @@ where port_id = $P{portId} order by last_trans_dt desc]]>
 						</jr:columnHeader>
 						<jr:detailCell style="table 5_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="90" height="20"/>
-								<textElement/>
-								<textFieldExpression class="java.lang.String"><![CDATA[$F{PROFIT_LOSS}]]></textFieldExpression>
+								<reportElement x="0" y="0" width="90" height="20" uuid="9ca62ffe-bf37-4c91-a464-f217a84fbe3f"/>
+								<textFieldExpression><![CDATA[$F{PROFIT_LOSS}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="90">
+					<jr:column width="90" uuid="92235b41-b7ab-446c-91bf-2d7bd1674c39">
 						<jr:columnHeader style="table 5_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="90" height="30"/>
+								<reportElement x="0" y="0" width="90" height="30" uuid="d82acf51-5a16-4b20-8d57-57550107106c"/>
 								<textElement>
 									<font isBold="true"/>
 								</textElement>
@@ -381,16 +369,15 @@ where port_id = $P{portId} order by last_trans_dt desc]]>
 						</jr:columnHeader>
 						<jr:detailCell style="table 5_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="90" height="20"/>
-								<textElement/>
-								<textFieldExpression class="java.lang.String"><![CDATA[$F{PROFIT_LOSS_PCT}]]></textFieldExpression>
+								<reportElement x="0" y="0" width="90" height="20" uuid="739d04d4-eff6-462e-aabf-e20ba0a8176e"/>
+								<textFieldExpression><![CDATA[$F{PROFIT_LOSS_PCT}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="90">
+					<jr:column width="90" uuid="f50a5de9-a07f-45d9-af70-587c7bf1ad70">
 						<jr:columnHeader style="table 5_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="90" height="30"/>
+								<reportElement x="0" y="0" width="90" height="30" uuid="25bf8772-93a2-411f-87ac-56bf164feb86"/>
 								<textElement>
 									<font isBold="true"/>
 								</textElement>
@@ -399,16 +386,15 @@ where port_id = $P{portId} order by last_trans_dt desc]]>
 						</jr:columnHeader>
 						<jr:detailCell style="table 5_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="90" height="20"/>
-								<textElement/>
-								<textFieldExpression class="java.lang.String"><![CDATA[$F{LAST_TRANS_BY}]]></textFieldExpression>
+								<reportElement x="0" y="0" width="90" height="20" uuid="45e1d4fa-033c-411e-b4d5-dd2712c76f48"/>
+								<textFieldExpression><![CDATA[$F{LAST_TRANS_BY}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="96">
+					<jr:column width="96" uuid="f5eea02d-91df-438e-b33f-f19ffa802cd7">
 						<jr:columnHeader style="table 5_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="96" height="30"/>
+								<reportElement x="0" y="0" width="96" height="30" uuid="f92c986e-82ea-4b58-92ea-7ace855250f2"/>
 								<textElement>
 									<font isBold="true"/>
 								</textElement>
@@ -417,14 +403,20 @@ where port_id = $P{portId} order by last_trans_dt desc]]>
 						</jr:columnHeader>
 						<jr:detailCell style="table 5_TD" height="20" rowSpan="1">
 							<textField pattern="dd/MM/yyyy">
-								<reportElement x="0" y="0" width="96" height="20"/>
-								<textElement/>
-								<textFieldExpression class="java.util.Date"><![CDATA[$F{LAST_TRANS_DT}]]></textFieldExpression>
+								<reportElement x="0" y="0" width="96" height="20" uuid="a1ae21c3-9ba9-4fed-9be7-ac3d66a6620d"/>
+								<textFieldExpression><![CDATA[$F{LAST_TRANS_DT}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
 				</jr:table>
 			</componentElement>
+			<textField>
+				<reportElement x="0" y="0" width="1160" height="22" uuid="cae7b91a-64e0-48dc-970c-5c2896d032a5"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Generated Date:" + $V{todayDate}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 </jasperReport>

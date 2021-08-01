@@ -1,7 +1,11 @@
 td{
-  font-size: 10px;
+  font-size: 12px;
 }
 
 tr{
   font-size: 12px;
+}
+
+th{
+  cursor: pointer;
 }

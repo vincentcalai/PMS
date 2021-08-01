@@ -9,3 +9,7 @@
   border-left: none;
   cursor: pointer;
 }
+
+thead{
+  cursor: pointer;
+}

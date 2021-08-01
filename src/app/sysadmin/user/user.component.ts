@@ -1,9 +1,9 @@
-import { AuthenticateService } from './../../service/authenticate.service';
+import { AuthenticateService } from '../../util/service/authenticate.service';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { DataService } from 'src/app/service/data.service';
-import { RequestService } from 'src/app/service/request.service';
+import { DataService } from 'src/app/util/service/data.service';
+import { RequestService } from 'src/app/util/service/request.service';
 
 @Component({
   selector: 'app-user',

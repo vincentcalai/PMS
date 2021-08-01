@@ -46,7 +46,8 @@ public class ProfitLossDaoImpl implements ProfitLossDao {
 		try {
 			Session session = HibernateUtil.getSessionFactory().openSession();
 			
-			String sql = "SELECT * FROM PMS_UNREAL_PL";				
+			String sql = "SELECT PORT_ID, STOCK_NAM, STOCK_SYM, STOCK_EXCHG, DOM_CURR, TOTAL_SHARE, AVG_PRICE, TOTAL_AMT, "
+					+ "LAST_TRANS_PRICE, MKT_VALUE, PROFIT_LOSS, CONV_PROFIT_LOSS, PROFIT_LOSS_PCT from PMS_UNREAL_PL order by STOCK_NAM";				
 					
 			SQLQuery sqlQuery = session.createSQLQuery(sql);
 	

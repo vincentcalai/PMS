@@ -1,4 +1,4 @@
-import { RequestService } from '../service/request.service';
+import { RequestService } from '../util/service/request.service';
 import { Component, OnInit } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 
@@ -38,6 +38,9 @@ export class ProfitLossComponent implements OnInit {
   unrealTotalMktValue: string = '';
   unrealConvTotalProfitLoss: string = '';
   unrealProfitLossPct: string = '';
+
+  columnSortBy: string = '';
+  orderDesc: boolean = true;
 
   constructor(private requestService: RequestService,
     private decimalPipe: DecimalPipe) { }
@@ -102,7 +105,7 @@ export class ProfitLossComponent implements OnInit {
   }
 
   checkCurr(stockExchg){
-    if(stockExchg === 'NYSE' || stockExchg === 'NASDAQ'){
+    if(stockExchg === 'NYSE' || stockExchg === 'NASDAQ' || stockExchg === 'OTC'){
       return 'USD$';
     }else if (stockExchg === 'HKEX'){
       return 'HKD$';

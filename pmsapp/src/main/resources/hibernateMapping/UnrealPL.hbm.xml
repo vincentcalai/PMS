@@ -1,21 +1,21 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC
     "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+    "http://hibernate.org/dtd/hibernate-mapping-3.0.dtd">
     
 <hibernate-mapping>
 <class name="com.pms.pmsapp.profitloss.data.UnrealPL" table="PMS_UNREAL_PL">
     
     <composite-id>
 		<key-property name="portId" length="10" type="java.lang.Long" column="PORT_ID" />
-		<key-property name="stockName" length="100" type="java.lang.String" column="STOCK_NAM" />
+		<key-property name="stockSymbol" length="10" type="java.lang.String" column="STOCK_SYM" />
 	</composite-id>
 
     <property
-        name="stockSymbol"
+        name="stockName"
         type="java.lang.String"
-        column="STOCK_SYM"
-        length="10"
+        column="STOCK_NAM"
+        length="100"
     />
     <property
         name="stockExchg"

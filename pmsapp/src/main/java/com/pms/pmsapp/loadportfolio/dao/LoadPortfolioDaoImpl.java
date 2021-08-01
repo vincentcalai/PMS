@@ -60,12 +60,15 @@ public class LoadPortfolioDaoImpl implements LoadPortfolioDao {
 	private final String EXCHG_HKEX = "HKSE";
 	private final String EXCHG_SGX = "SES";
 	private final String EXCHG_NYSE = "NYSE";
+	private final String EXCHG_NYSE_ARCA = "NYSEArca";
 	private final String EXCHG_NASDAQ = "NasdaqGS";
+	private final String EXCHG_OTC = "Other OTC";
 	
 	private final String RENAM_EXCHG_HKEX = "HKEX";
 	private final String RENAM_EXCHG_SGX = "SGX";
 	private final String RENAM_EXCHG_NYSE = "NYSE";
 	private final String RENAM_EXCHG_NASDAQ = "NASDAQ";
+	private final String RENAM_EXCHG_OTC = "OTC";
 	
 	private final String ACTION_BUY = "BUY";
 	private final String ACTION_SELL = "SELL";
@@ -356,6 +359,8 @@ public class LoadPortfolioDaoImpl implements LoadPortfolioDao {
 					exchgSuffmap.put(EXCHG_HKEX, RENAM_EXCHG_HKEX);
 					exchgSuffmap.put(EXCHG_SGX, RENAM_EXCHG_SGX);
 					exchgSuffmap.put(EXCHG_NYSE, RENAM_EXCHG_NYSE);
+					exchgSuffmap.put(EXCHG_NYSE_ARCA, RENAM_EXCHG_NYSE);
+					exchgSuffmap.put(EXCHG_OTC, RENAM_EXCHG_OTC);
 					exchgSuffmap.put(EXCHG_NASDAQ, RENAM_EXCHG_NASDAQ);
 					
 					try {

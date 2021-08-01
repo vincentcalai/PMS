@@ -1,8 +1,8 @@
-import { DataService } from '../../service/data.service';
+import { DataService } from '../../util/service/data.service';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { RequestService } from '../../service/request.service';
+import { RequestService } from '../../util/service/request.service';
 
 @Component({
   selector: 'app-portfolio',

@@ -24,7 +24,7 @@
                 </div>
                 <div *ngIf="stockExchg.errors?.required">
                   Stock Exchange is required.
-                </div>
+                </div> 
                 <!-- <div *ngIf="action.errors?.required">
                   Buy/Sell Action is required.
                 </div> -->
@@ -48,8 +48,7 @@
                 <div class="form-group">
                   <label for="stockName">Stock Name: </label>
                   <input type="text" class="form-control" id="stockName"
-                  [(ngModel)]="transaction.stockName"  #stockName="ngModel" name="stockName"
-                  minlength="4" maxlength="50" readonly="readonly">
+                  [(ngModel)]="transaction.stockName"  #stockName="ngModel" name="stockName" readonly="readonly">
                 </div>
               </div>
               <div class="col">

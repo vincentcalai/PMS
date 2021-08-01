@@ -1,7 +1,7 @@
-import { RequestService } from '../../service/request.service';
+import { RequestService } from '../../util/service/request.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DataService } from '../../service/data.service';
+import { DataService } from '../../util/service/data.service';
 import {Location} from '@angular/common';
 
 @Component({
@@ -52,6 +52,9 @@ export class PortfolioTransComponent implements OnInit {
   }
 
   currentStockHold: number;
+
+  columnSortBy: string;
+  orderDesc: boolean = true;
 
   GEN_TRANS_REPORT_URL: string = "/genTransReport"
 

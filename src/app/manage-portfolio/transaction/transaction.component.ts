@@ -1,5 +1,5 @@
-import { DataService } from '../../service/data.service';
-import { RequestService } from '../../service/request.service';
+import { DataService } from '../../util/service/data.service';
+import { RequestService } from '../../util/service/request.service';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -34,6 +34,7 @@ export class TransactionComponent implements OnInit {
     createdBy : '',
     createdDt : null,
     remarks : '',
+    currentStockHold : null,
     systemMsg: '',
     errMsg:''
   }
@@ -67,6 +68,7 @@ export class TransactionComponent implements OnInit {
       this.transaction.action = this.ACTION_SELL;
       this.isActionBuy = false;
       this.retrieveStockHold(this.transaction);
+      this.transaction.totalAmt = this.transaction.currentStockHold * this.transaction.transPrice;
     } else{
       this.transaction.action = this.ACTION_BUY;
       this.isActionBuy = true;

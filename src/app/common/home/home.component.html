@@ -71,18 +71,18 @@
                   <thead class="table-header">
                       <tr>
                           <th style="width:10%">Forex Name</th>
-                          <th style="width:10%">Forex Symbol</th>
+                          <!-- <th style="width:10%">Forex Symbol</th> -->
                           <!-- <th>Forex Desc</th> -->
                           <th style="width:10%">Last</th>
                           <th style="width:10%">Change</th>
                           <th style="width:10%">Change(%)</th>
-                          <th style="width:50%">Last Updated Date</th>
+                          <th style="width:60%">Last Updated Date</th>
                       </tr>
                   </thead>
                   <tbody>
                       <tr *ngFor = "let forex of forexes">
                           <td>{{forex.forexName}}</td>
-                          <td>{{forex.forexSymbol}}</td>
+                          <!-- <td>{{forex.forexSymbol}}</td> -->
                           <!-- <td>{{forex.forexDesc}}</td> -->
                           <td><b>{{forex.last}}</b></td>
                           <td *ngIf = "forex.change < 0" style="color:red;">

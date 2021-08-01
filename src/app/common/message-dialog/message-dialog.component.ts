@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { RequestService } from 'src/app/service/request.service';
+import { RequestService } from 'src/app/util/service/request.service';
 
 @Component({
   selector: 'app-message-dialog',

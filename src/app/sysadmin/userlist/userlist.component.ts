@@ -1,8 +1,8 @@
-import { DataService } from './../../service/data.service';
+import { DataService } from '../../util/service/data.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { RequestService } from 'src/app/service/request.service';
-import { AuthenticateService } from 'src/app/service/authenticate.service';
+import { RequestService } from 'src/app/util/service/request.service';
+import { AuthenticateService } from 'src/app/util/service/authenticate.service';
 
 @Component({
   selector: 'app-userlist',

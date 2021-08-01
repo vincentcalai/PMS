@@ -23,7 +23,7 @@ import { LoadPortfolioComponent } from './load-portfolio/load-portfolio.componen
 import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
 import {MatIconModule} from '@angular/material/icon';
-import { HttpInterceptorBasicAuthService } from './service/http-interceptor-basic-auth.service';
+import { HttpInterceptorBasicAuthService } from './util/service/http-interceptor-basic-auth.service';
 import { ProfitLossComponent } from './profit-loss/profit-loss.component';
 import { DecimalPipe } from '@angular/common';
 import {NgxPaginationModule} from 'ngx-pagination';
@@ -38,6 +38,7 @@ import { NotiWatchlistComponent } from './user-watchlist/noti-watchlist/noti-wat
 import {MatRadioModule} from '@angular/material/radio';
 import {MatBadgeModule} from '@angular/material/badge';
 import { MessageDialogComponent } from './common/message-dialog/message-dialog.component';
+import { SortPipe } from './util/pipe/sort.pipe';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { MessageDialogComponent } from './common/message-dialog/message-dialog.c
     CreateWatchlistComponent,
     CreateWatchlistEntryComponent,
     NotiWatchlistComponent,
-    MessageDialogComponent
+    MessageDialogComponent,
+    SortPipe
   ],
   imports: [
     BrowserModule,

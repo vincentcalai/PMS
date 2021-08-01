@@ -1,7 +1,7 @@
-import { DataService } from './../../service/data.service';
+import { DataService } from '../../util/service/data.service';
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { RequestService } from 'src/app/service/request.service';
+import { RequestService } from 'src/app/util/service/request.service';
 import { WatchlistComponent } from '../watchlist/watchlist.component';
 import { Router } from '@angular/router';
 

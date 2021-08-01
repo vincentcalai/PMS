@@ -2,8 +2,8 @@ import { CreateWatchlistEntryComponent } from './../create-watchlist-entry/creat
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { DataService } from 'src/app/service/data.service';
-import { RequestService } from 'src/app/service/request.service';
+import { DataService } from 'src/app/util/service/data.service';
+import { RequestService } from 'src/app/util/service/request.service';
 import { WatchlistComponent } from '../watchlist/watchlist.component';
 import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 

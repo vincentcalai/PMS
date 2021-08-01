@@ -66,7 +66,7 @@ public class SchedulerConfig {
         CronTriggerFactoryBean factoryBean = new CronTriggerFactoryBean();
         factoryBean.setJobDetail(jobDetail);
         factoryBean.setStartDelay(0L);
-        factoryBean.setCronExpression("0 */15 * ? * *");
+        factoryBean.setCronExpression("0 */45 * ? * *");
         return factoryBean;
     }
  
@@ -87,7 +87,7 @@ public class SchedulerConfig {
     	CronTriggerFactoryBean factoryBean = new CronTriggerFactoryBean();
         factoryBean.setJobDetail(jobDetail);
         factoryBean.setStartDelay(0L);
-    	factoryBean.setCronExpression("0 */15 * ? * *");
+    	factoryBean.setCronExpression("0 */45 * ? * *");
         return factoryBean;
     }
     
@@ -108,7 +108,7 @@ public class SchedulerConfig {
     	CronTriggerFactoryBean factoryBean = new CronTriggerFactoryBean();
         factoryBean.setJobDetail(jobDetail);
         factoryBean.setStartDelay(0L);
-    	factoryBean.setCronExpression("0 */15 * ? * *");
+    	factoryBean.setCronExpression("0 */45 * ? * *");
         return factoryBean;
     }
     
@@ -128,7 +128,7 @@ public class SchedulerConfig {
     	CronTriggerFactoryBean factoryBean = new CronTriggerFactoryBean();
         factoryBean.setJobDetail(jobDetail);
         factoryBean.setStartDelay(0L);
-    	factoryBean.setCronExpression("0 */15 * ? * *");
+    	factoryBean.setCronExpression("0 */45 * ? * *");
         return factoryBean;
     }
     
@@ -148,7 +148,7 @@ public class SchedulerConfig {
     	CronTriggerFactoryBean factoryBean = new CronTriggerFactoryBean();
         factoryBean.setJobDetail(jobDetail);
         factoryBean.setStartDelay(0L);
-    	factoryBean.setCronExpression("0 */15 * ? * *");
+    	factoryBean.setCronExpression("0 */45 * ? * *");
         return factoryBean;
     }
     

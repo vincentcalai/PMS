@@ -1,3 +1,5 @@
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
 <div class="container-fluid">
   <br/>
   <div class="card ">
@@ -58,21 +60,51 @@
                   <table class="table table-striped" style="width: 100%">
                     <thead class="table-header">
                         <tr>
-                            <th style="width: 25%">Stock Name</th>
-                            <th style="width: 5%">Stock Symbol</th>
+                            <th style="width: 25%" (click)="columnSortBy='stockName'; orderDesc=!orderDesc;">
+                              Stock Name
+                              <i class="fa fa-fw fa-sort"></i>
+                            </th>
+                            <th style="width: 5%" (click)="columnSortBy='stockSymbol'; orderDesc=!orderDesc;">
+                              Stock Symbol
+                              <i class="fa fa-fw fa-sort"></i>
+                            </th>
                             <!-- <th style="width: 5%">Stock Exchange</th> -->
-                            <th style="width: 7%">Total Shares</th>
-                            <th style="width: 5%">Average Price/Share</th>
-                            <th style="width: 12%">Total Amount</th>
-                            <th style="width: 5%">Last Trans Price</th>
-                            <th style="width: 12%">Market Value</th>
-                            <th style="width: 12%">P&L(+/-)</th>
-                            <th style="width: 12%">Converted P&L(+/-)</th>
-                            <th style="width: 5%">P&L(%)</th>
+                            <th style="width: 7%" (click)="columnSortBy='totalShare'; orderDesc=!orderDesc;">
+                              Total Shares
+                              <i class="fa fa-fw fa-sort"></i>
+                            </th>
+                            <th style="width: 5%" (click)="columnSortBy='avgPrice'; orderDesc=!orderDesc;">
+                              Average Price/Share
+                              <i class="fa fa-fw fa-sort"></i>
+                            </th>
+                            <th style="width: 12%" (click)="columnSortBy='totalAmt'; orderDesc=!orderDesc;">
+                              Total Amount
+                              <i class="fa fa-fw fa-sort"></i>
+                            </th>
+                            <th style="width: 5%" (click)="columnSortBy='lastTransPrice'; orderDesc=!orderDesc;">
+                              Last Trans Price
+                              <i class="fa fa-fw fa-sort"></i>
+                            </th>
+                            <th style="width: 12%" (click)="columnSortBy='mktValue'; orderDesc=!orderDesc;">
+                              Market Value
+                              <i class="fa fa-fw fa-sort"></i>
+                            </th>
+                            <th style="width: 12%" (click)="columnSortBy='profitLoss'; orderDesc=!orderDesc;">
+                              P&L(+/-)
+                              <i class="fa fa-fw fa-sort"></i>
+                            </th>
+                            <th style="width: 12%" (click)="columnSortBy='convProfitLoss'; orderDesc=!orderDesc;">
+                              Converted P&L(+/-)
+                              <i class="fa fa-fw fa-sort"></i>
+                            </th>
+                            <th style="width: 5%" (click)="columnSortBy='profitLossPct'; orderDesc=!orderDesc;">
+                              P&L(%)
+                              <i class="fa fa-fw fa-sort"></i>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor = "let unrealised of this.form.unrealisedList">
+                        <tr *ngFor = "let unrealised of this.form.unrealisedList | sort : columnSortBy:orderDesc">
                             <td><label>{{unrealised.stockName}}</label></td>
                             <td><label>{{unrealised.stockSymbol}}</label></td>
                             <!-- <td><label>{{unrealised.stockExchg}}</label></td> -->
@@ -169,20 +201,50 @@
                   <table class="table table-striped" style="width: 100%">
                     <thead class="table-header" >
                         <tr>
-                            <th style="width: 20%">Stock Name</th>
-                            <th style="width: 5%">Stock Symbol</th>
-                            <th style="width: 5%">Stock Exchange</th>
-                            <th style="width: 5%">Quantity</th>
-                            <th style="width: 15%">Sell Date</th>
-                            <th style="width: 10%">Average Cost</th>
-                            <th style="width: 10%">Sell Price</th>
-                            <th style="width: 10%">P&L(+/-)</th>
-                            <th style="width: 10%">Converted P&L(+/-)</th>
-                            <th style="width: 10%">P&L(%)</th>
+                            <th style="width: 20%" (click)="columnSortBy='stockName'; orderDesc=!orderDesc;">
+                              Stock Name
+                              <i class="fa fa-fw fa-sort"></i>
+                            </th>
+                            <th style="width: 5%" (click)="columnSortBy='stockSymbol'; orderDesc=!orderDesc;">
+                              Stock Symbol
+                              <i class="fa fa-fw fa-sort"></i>
+                            </th>
+                            <th style="width: 5%" (click)="columnSortBy='stockExchg'; orderDesc=!orderDesc;">
+                              Stock Exchange
+                              <i class="fa fa-fw fa-sort"></i>
+                            </th>
+                            <th style="width: 5%" (click)="columnSortBy='totalShare'; orderDesc=!orderDesc;">
+                              Quantity
+                              <i class="fa fa-fw fa-sort"></i>
+                            </th>
+                            <th style="width: 15%" (click)="columnSortBy='sellDt'; orderDesc=!orderDesc;">
+                              Sell Date
+                              <i class="fa fa-fw fa-sort"></i>
+                            </th>
+                            <th style="width: 10%" (click)="columnSortBy='avgCost'; orderDesc=!orderDesc;">
+                              Average Cost
+                              <i class="fa fa-fw fa-sort"></i>
+                            </th>
+                            <th style="width: 10%" (click)="columnSortBy='sellPrice'; orderDesc=!orderDesc;">
+                              Sell Price
+                              <i class="fa fa-fw fa-sort"></i>
+                            </th>
+                            <th style="width: 10%" (click)="columnSortBy='profitLoss'; orderDesc=!orderDesc;">
+                              P&L(+/-)
+                              <i class="fa fa-fw fa-sort"></i>
+                            </th>
+                            <th style="width: 10%" (click)="columnSortBy='convProfitLoss'; orderDesc=!orderDesc;">
+                              Converted P&L(+/-)
+                              <i class="fa fa-fw fa-sort"></i>
+                            </th>
+                            <th style="width: 10%" (click)="columnSortBy='profitLossPct'; orderDesc=!orderDesc;">
+                              P&L(%)
+                              <i class="fa fa-fw fa-sort"></i>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor = "let realised of this.form.realisedList">
+                        <tr *ngFor = "let realised of this.form.realisedList | sort: columnSortBy:orderDesc">
                             <td><label>{{realised.stockName}}</label></td>
                             <td><label>{{realised.stockSymbol}}</label></td>
                             <td><label>{{realised.stockExchg}}</label></td>
