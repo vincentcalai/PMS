@@ -1,0 +1,113 @@
+<div class="container-fluid">
+  <br/>
+  <div class="card ">
+    <h1 class="card-header">
+      Manage Dividend
+    </h1>
+    <div *ngIf="this.form.sysMsg" class="alert alert-success">
+      <b>Success: </b> {{this.form.sysMsg}}
+    </div>
+    <div *ngIf="this.form.errMsg" class="alert alert-danger">
+      <b>Error: </b> {{this.form.errMsg}}
+    </div>
+    <div class="card-body">
+        <div class="row">
+          <div class="col-2">
+            <label style='position:absolute; top:25%'>Select Portfolio: </label>
+          </div>
+          <div class="col-2">
+            <select class="form-control" [(ngModel)]="form.selectedPortfolio" (ngModelChange)="retrievePortfolioDiv(form)" [compareWith]="compareFn">
+              <option *ngFor = "let portfolio of this.form.portfolioList" [ngValue]="portfolio">{{portfolio.portfolioName}}</option>
+            </select>
+          </div>
+          <div class='col-6'>
+          </div>
+          <div class='col-2'>
+            <button type="button" class="btn btn-success" style='float: right; width:300px;' (click)="createDiv(form)">Create Dividend Record</button>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-2">
+            <label style='position:absolute; top:25%'>Total Dividends Till Date: </label>
+          </div>
+          <div class="col-4">
+            <input type="text" [(ngModel)] = "totalDividend" disabled>
+          </div>
+        </div>
+        
+        <br>
+        <mat-accordion class="example-headers-align" multi>
+          <mat-expansion-panel *ngFor = "let div of form.divDetList | keyvalue">
+            <mat-expansion-panel-header style="background-color:orange;" *ngIf="div.key">
+              <mat-panel-title style="font-size: large; font-weight: bold;">
+                  Year {{div.key}}
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <table mat-table [dataSource]="div.value" matSort  class="w-100" >
+              <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef> ID </th>
+                <td mat-cell *matCellDef="let div">{{div.id}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="stockName">
+                <th mat-header-cell *matHeaderCellDef> Stock Name </th>
+                <td mat-cell *matCellDef="let div">{{div.stockName}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="stockSym">
+                <th  mat-header-cell *matHeaderCellDef>  Stock Symbol </th>
+                <td mat-cell *matCellDef="let div"> {{div.stockSym}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="stockExchg">
+                <th mat-header-cell *matHeaderCellDef> Stock Exchg </th>
+                <td mat-cell *matCellDef="let div"> {{div.stockExchg}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="noOfShare">
+                <th  mat-header-cell *matHeaderCellDef> No Of Shares </th>
+                <td mat-cell *matCellDef="let div"> {{div.noOfShare}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="exDate">
+                <th mat-header-cell *matHeaderCellDef> Ex Date </th>
+                <td mat-cell *matCellDef="let div"> {{div.exDate | date:'dd-MM-yyyy'}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="adjDiv">
+                <th  mat-header-cell *matHeaderCellDef> Adj Dividend </th>
+                <td mat-cell *matCellDef="let div"> {{div.adjDiv}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="divPayout">
+                <th mat-header-cell *matHeaderCellDef><mat-icon matTooltip="Subjected to 30% dividend withholding tax for US Stocks" matTooltipPosition="above">info</mat-icon> Div Payout </th> 
+                <td mat-cell *matCellDef="let div"> {{checkCurr(div.stockExchg) + (div.divPayout | number : '1.2-3')}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="sgdDivPayout">
+                <th mat-header-cell *matHeaderCellDef> Div Payout(SGD) </th>
+                <td mat-cell *matCellDef="let div"> SGD${{div.sgdDivPayout | number : '1.2-3'}} </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+              <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
+
+            </table>
+            <table align="right">
+              <tr align="left">
+                <th> Total Dividend for {{div.key}}:</th>
+              </tr>
+              <tr>
+                <td> <b><input type="text" [ngModel] = "totalYearDividend.get(div.key)"  disabled></b></td>
+              </tr>
+            </table>
+            
+        
+          </mat-expansion-panel>
+
+        </mat-accordion>
+    </div>
+    </div>  
+</div>
+

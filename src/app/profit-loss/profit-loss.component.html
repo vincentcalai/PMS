@@ -110,14 +110,14 @@
                             <!-- <td><label>{{unrealised.stockExchg}}</label></td> -->
                             <td><label>{{unrealised.totalShare}}</label></td>
 
-                            <td *ngIf="unrealised.avgPrice"><label>{{unrealised.domCurr + '$' + (unrealised.avgPrice | number : '1.2-2')}}</label></td>
-                            <td *ngIf="!unrealised.avgPrice"><label>{{unrealised.domCurr + '$' + (unrealised.avgPrice | number : '1.2-2')}}</label></td>
+                            <td *ngIf="unrealised.avgPrice"><label>{{unrealised.domCurr + '$' + (unrealised.avgPrice | number : '1.2-3')}}</label></td>
+                            <td *ngIf="!unrealised.avgPrice"><label>{{unrealised.domCurr + '$' + (unrealised.avgPrice | number : '1.2-3')}}</label></td>
 
                             <td *ngIf="unrealised.totalAmt"><label>{{unrealised.domCurr + '$' + (unrealised.totalAmt | number : '1.2-2')}}</label></td>
                             <td *ngIf="!unrealised.totalAmt"><label>{{unrealised.domCurr + '$' + (unrealised.totalAmt | number : '1.2-2')}}</label></td>
 
-                            <td *ngIf="unrealised.lastTransPrice"><label>{{unrealised.domCurr + '$' + (unrealised.lastTransPrice | number : '1.2-2')}}</label></td>
-                            <td *ngIf="!unrealised.lastTransPrice"><label>{{unrealised.domCurr + '$' + (unrealised.lastTransPrice | number : '1.2-2')}}</label></td>
+                            <td *ngIf="unrealised.lastTransPrice"><label>{{unrealised.domCurr + '$' + (unrealised.lastTransPrice | number : '1.2-3')}}</label></td>
+                            <td *ngIf="!unrealised.lastTransPrice"><label>{{unrealised.domCurr + '$' + (unrealised.lastTransPrice | number : '1.2-3')}}</label></td>
 
                             <td *ngIf="unrealised.mktValue"><label>{{unrealised.domCurr + '$' + (unrealised.mktValue | number : '1.2-2')}}</label></td>
                             <td *ngIf="!unrealised.mktValue"><label>{{unrealised.domCurr + '$' + (unrealised.mktValue | number : '1.2-2')}}</label></td>
@@ -252,8 +252,8 @@
                             <td><label>{{realised.sellDt | date:'dd-MM-yyyy'}}</label></td>
                             <td *ngIf="realised.avgCost"><label>{{realised.domCurr + '$' + (realised.avgCost | number : '1.2-2')}}</label></td>
                             <td *ngIf="!realised.avgCost"><label>{{realised.domCurr + '$' + (realised.avgCost | number : '1.2-2')}}</label></td>
-                            <td *ngIf="realised.sellPrice"><label>{{realised.domCurr + '$' + (realised.sellPrice | number : '1.2-2')}}</label></td>
-                            <td *ngIf="!realised.sellPrice"><label>{{realised.domCurr + '$' + (realised.sellPrice | number : '1.2-2')}}</label></td>
+                            <td *ngIf="realised.sellPrice"><label>{{realised.domCurr + '$' + (realised.sellPrice | number : '1.2-3')}}</label></td>
+                            <td *ngIf="!realised.sellPrice"><label>{{realised.domCurr + '$' + (realised.sellPrice | number : '1.2-3')}}</label></td>
 
                             <td *ngIf="realised.profitLoss > 0 && realised.profitLoss" style="color:green;">
                               <label><b> +{{realised.domCurr + '$' + (getAbsolutePL(realised.profitLoss) | number : '1.2-2')}}</b></label></td>

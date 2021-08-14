@@ -39,6 +39,7 @@ import com.pms.pmsapp.portfolio.data.PortfolioHold;
 import com.pms.pmsapp.portfolio.data.StockWrapper;
 import com.pms.pmsapp.portfolio.service.PortfolioHoldService;
 import com.pms.pmsapp.portfolio.service.PortfolioTransService;
+import com.pms.pmsapp.sysadmin.service.UserService;
 import com.pms.pmsapp.util.HibernateUtil;
 
 
@@ -79,11 +80,14 @@ public class LoadPortfolioDaoImpl implements LoadPortfolioDao {
 	private final String NO = "N";
 	
 	private final String isNumberRegex = "\\d+";
-	private final String priceRegex = "^\\d{0,8}(\\.\\d{1,2})?$";
+	private final String priceRegex = "^\\d{0,8}(\\.\\d{1,3})?$";
 	private final String dateRegex = "^([0-2][0-9]||3[0-1])/(0[0-9]||1[0-2])/([0-9][0-9])?[0-9][0-9]$";
 	
 	@Autowired
 	private PortfolioHoldService portfolioHoldService;
+	
+	@Autowired
+	private UserService userService;
 
 	public List<LoadPortUpload> getUploadList(String portfolioName, Pageable pageable) {
 		log.info("getUploadList in DaoImpl..");
@@ -293,6 +297,9 @@ public class LoadPortfolioDaoImpl implements LoadPortfolioDao {
 					
 					if (row.getCell(createdByIdx) == null){
 						logDataSb.append("ERROR - Row " + rowId + ", Transacted By cannot be blank \r\n");
+						rowError = true;
+					} else if (!userService.checkUserExist(fmt.formatCellValue(row.getCell(createdByIdx)))) {
+						logDataSb.append("ERROR - Row " + rowId + ", Transacted By user does not exist \r\n");
 						rowError = true;
 					}
 					

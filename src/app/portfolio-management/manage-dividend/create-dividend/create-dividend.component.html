@@ -1,0 +1,131 @@
+<div class="container">
+    <br>
+    <div class="card ">
+        <h1 class="card-header">Create Dividend Record</h1>
+  
+      <div class="card-body">
+        <div class="container">
+          <div *ngIf="this.div.errMsg" class="alert alert-danger">
+            <b>Error: </b> {{this.div.errMsg}}
+          </div>
+  
+            <form (ngSubmit)="!divForm.invalid && onSubmit(divForm.value)" #divForm="ngForm">
+              <div *ngIf="divForm.submitted && divForm.invalid"
+                  class="alert alert-danger">
+                  <div *ngIf="noOfShare.errors?.required">
+                    Number of Share is required.
+                  </div>
+                  <div *ngIf="stockSym.errors?.required">
+                    Stock Symbol is required.
+                  </div>
+                  <div *ngIf="datePurchaseRef.errors?.required">
+                    Date of Purchase is required.
+                  </div> 
+                  <div *ngIf="dateSoldRef.errors?.required">
+                    Date Sold is required.
+                  </div> 
+              </div>
+              <div *ngIf="divForm.submitted && dateValidationError"
+                  class="alert alert-danger">
+                  <div>
+                    Date Purchase must be earlier than Date Sold.
+                  </div>
+              </div>
+            
+              <div class="row">
+                <div class="col">
+
+                </div>
+                <div class="col" >
+                    <mat-checkbox class='checkbox-inline' name="currHoldInd" 
+                    labelPosition = "after" 
+                    [(ngModel)]="div.currHoldInd">Currently Holding 
+                    </mat-checkbox>
+                </div>
+              </div>
+              
+  
+              <div class="row">
+                <div class="col">
+                  <div class="form-group">
+                    <label for="stockName">Stock Name: </label>
+                    <input type="text" class="form-control" id="stockName"
+                    [(ngModel)]="div.stockName"  #stockName="ngModel" name="stockName" readonly="readonly">
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-group">
+                    <label for="noOfShare">No. of Share: </label>
+                    <input type="text" class="form-control" id="noOfShare" (keypress) = "onlyNumAllowed($event)"
+                    [(ngModel)]="div.noOfShare" #noOfShare="ngModel" name="noOfShare" required>
+                  </div>
+                </div>
+              </div>
+  
+              <div class="row">
+                <div class="col">
+                  <div class="form-group">
+                    <label for="stockSym">Stock Symbol (HKEX: .HK, SGX: .SI): </label>
+                    <input type="text" class="form-control" id="stockSym"
+                    [ngModel]="div.stockSym | uppercase" (ngModelChange)="div.stockSym=$event"
+                    (change)="retrieveStockInfo(divForm.value)" #stockSym="ngModel" name="stockSym" maxlength="8" required>
+                  </div>
+                </div>
+                <div class="col">
+                  <!-- <div class="form-group">
+                    <label for="datePurchase">Date of Purchase: </label>
+                    <input type="text" class="form-control" id="datePurchase"
+                    [(ngModel)]="div.datePurchase" #datePurchase="ngModel" name="datePurchase" required>
+                  </div> -->
+                  <div class="form-group">
+                    <label for="datePurchase">Date of Purchase: </label>
+                    <br>
+                    <mat-form-field appearance="fill">
+                      <mat-label>Select Purchase Date</mat-label>
+                      <input name="datePurchase" matInput [matDatepicker]="datePurchase" #datePurchaseRef=ngModel [max]="maxDate"
+                        [(ngModel)]="div.datePurchase" required>
+                      <mat-datepicker-toggle matSuffix [for]="datePurchase"></mat-datepicker-toggle>
+                      <mat-datepicker #datePurchase></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+  
+              <div class="row">
+                <div class="col">
+                  <div class="form-group">
+                    <label for="stockExchg">Stock Exchange: </label>
+                    <input type="text" class="form-control" id="stockExchg"
+                    [ngModel]="div.stockExchg" #stockExchg="ngModel" name="stockExchg" readonly="readonly">
+                  </div>
+                </div>
+                <div class="col">
+                  <!-- <div class="form-group">
+                    <label for="dateSold">Date Sold: </label>
+                    <input type="text" class="form-control" id="dateSold" 
+                    [(ngModel)]="div.dateSold" #dateSold="ngModel" name="dateSold" [disabled]="div.currHoldInd">
+                  </div> -->
+                  <div class="form-group">
+                    <label for="dateSold">Date Sold: </label>
+                    <br>
+                    <mat-form-field appearance="fill">
+                      <mat-label>Select Sold Date</mat-label>
+                      <input name="dateSold" matInput [matDatepicker]="dateSold" #dateSoldRef=ngModel [max]="maxDate"
+                       [(ngModel)]="div.dateSold" [disabled]="div.currHoldInd" required>
+                      <mat-datepicker-toggle matSuffix [for]="dateSold"></mat-datepicker-toggle>
+                      <mat-datepicker #dateSold></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+  
+              <div class="form-group">
+                <button type="submit" class="btn btn-success">Save</button>
+                <button type="button" class="btn btn-danger" (click)="cancel()">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+    </div>
+  </div>
+  

@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="transaction" pageWidth="1000" pageHeight="600" columnWidth="960" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" isIgnorePagination="true" uuid="ded3b696-a5d9-4387-a309-fd7aceb97565">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="transaction" pageWidth="957" pageHeight="600" orientation="Landscape" columnWidth="957" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isFloatColumnFooter="true" isIgnorePagination="true" uuid="ded3b696-a5d9-4387-a309-fd7aceb97565">
 	<property name="ireport.zoom" value="2.853116706110008"/>
 	<property name="ireport.x" value="1589"/>
 	<property name="ireport.y" value="4"/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="PMS_APP"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -126,7 +135,7 @@ where port_id = $P{portId} order by created_dt]]>
 	<title>
 		<band height="35">
 			<staticText>
-				<reportElement x="0" y="0" width="960" height="35" uuid="2a4ea187-23a2-4c89-8f4d-27a1aa390293"/>
+				<reportElement x="0" y="0" width="957" height="35" uuid="2a4ea187-23a2-4c89-8f4d-27a1aa390293"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="15" isBold="true"/>
 				</textElement>
@@ -137,7 +146,7 @@ where port_id = $P{portId} order by created_dt]]>
 	<columnHeader>
 		<band height="22">
 			<textField>
-				<reportElement x="0" y="0" width="960" height="22" uuid="41a8c5e6-56c4-47a0-9b3d-ec84ec7e53a4"/>
+				<reportElement x="0" y="0" width="957" height="22" uuid="41a8c5e6-56c4-47a0-9b3d-ec84ec7e53a4"/>
 				<textElement verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
@@ -149,7 +158,9 @@ where port_id = $P{portId} order by created_dt]]>
 		<band height="81">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<componentElement>
-				<reportElement key="table 3" style="table 3" stretchType="RelativeToTallestObject" x="0" y="22" width="960" height="59" isRemoveLineWhenBlank="true" uuid="9f703195-bc57-4c8b-b8fd-f2bc9febbdac"/>
+				<reportElement key="table 3" style="table 3" stretchType="RelativeToTallestObject" x="0" y="22" width="957" height="59" isRemoveLineWhenBlank="true" uuid="9f703195-bc57-4c8b-b8fd-f2bc9febbdac">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" whenNoDataType="Blank">
 					<datasetRun subDataset="New Dataset 1" uuid="dae2285b-4e01-43aa-ad57-b5e7fcee5579">
 						<datasetParameter name="portId">
@@ -310,10 +321,11 @@ where port_id = $P{portId} order by created_dt]]>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="94" uuid="187823ac-fb48-49af-a3a6-8ada4314e784">
+					<jr:column width="90" uuid="187823ac-fb48-49af-a3a6-8ada4314e784">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 						<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="94" height="30" uuid="091b74c7-ca01-434b-85ba-6fcd4004e5cc"/>
+								<reportElement x="0" y="0" width="90" height="30" uuid="091b74c7-ca01-434b-85ba-6fcd4004e5cc"/>
 								<textElement>
 									<font isBold="true"/>
 								</textElement>
@@ -322,7 +334,9 @@ where port_id = $P{portId} order by created_dt]]>
 						</jr:columnHeader>
 						<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
 							<textField isBlankWhenNull="true">
-								<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="94" height="30" uuid="15b15eb3-281e-414a-b5a7-082230d85f2f"/>
+								<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="90" height="30" uuid="15b15eb3-281e-414a-b5a7-082230d85f2f">
+									<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+								</reportElement>
 								<textFieldExpression><![CDATA[$F{REMARKS}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -330,7 +344,7 @@ where port_id = $P{portId} order by created_dt]]>
 				</jr:table>
 			</componentElement>
 			<textField>
-				<reportElement x="0" y="0" width="960" height="22" uuid="057a7222-4a4d-4f4a-bed3-30c4cab959fe"/>
+				<reportElement x="0" y="0" width="957" height="22" uuid="057a7222-4a4d-4f4a-bed3-30c4cab959fe"/>
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>

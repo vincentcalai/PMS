@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="holdings" pageWidth="1200" pageHeight="600" columnWidth="1160" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" isIgnorePagination="true" uuid="77f879ed-7018-48f7-87e3-5360a64a718f">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="holdings" pageWidth="1155" pageHeight="600" orientation="Landscape" columnWidth="1155" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isFloatColumnFooter="true" isIgnorePagination="true" uuid="77f879ed-7018-48f7-87e3-5360a64a718f">
 	<property name="ireport.zoom" value="1.1000000000000016"/>
 	<property name="ireport.x" value="4"/>
 	<property name="ireport.y" value="0"/>
@@ -173,7 +173,9 @@ where port_id = $P{portId} order by last_trans_dt desc]]>
 	<title>
 		<band height="35">
 			<staticText>
-				<reportElement x="0" y="0" width="1160" height="35" uuid="5d376bee-ff91-4cf0-8d78-a9c4ecd7cbac"/>
+				<reportElement x="0" y="0" width="1155" height="35" uuid="5d376bee-ff91-4cf0-8d78-a9c4ecd7cbac">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="15" isBold="true"/>
 				</textElement>
@@ -184,7 +186,9 @@ where port_id = $P{portId} order by last_trans_dt desc]]>
 	<columnHeader>
 		<band height="22">
 			<textField>
-				<reportElement x="0" y="0" width="1160" height="22" uuid="b14551ca-e0eb-4874-9f6c-0d206bf67502"/>
+				<reportElement x="0" y="0" width="1155" height="22" uuid="b14551ca-e0eb-4874-9f6c-0d206bf67502">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
 				<textElement verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
@@ -196,7 +200,7 @@ where port_id = $P{portId} order by last_trans_dt desc]]>
 		<band height="72">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<componentElement>
-				<reportElement key="table 5" style="table 5" x="0" y="22" width="1160" height="50" uuid="fb56a8fb-304a-429f-8bb0-03e95e5fdbc6"/>
+				<reportElement key="table 5" style="table 5" x="0" y="22" width="1155" height="50" uuid="fb56a8fb-304a-429f-8bb0-03e95e5fdbc6"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="Table Dataset 1" uuid="76cf8253-d1f6-4988-959d-7d00264da175">
 						<datasetParameter name="portId">
@@ -391,10 +395,11 @@ where port_id = $P{portId} order by last_trans_dt desc]]>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="96" uuid="f5eea02d-91df-438e-b33f-f19ffa802cd7">
+					<jr:column width="90" uuid="f5eea02d-91df-438e-b33f-f19ffa802cd7">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 						<jr:columnHeader style="table 5_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="96" height="30" uuid="f92c986e-82ea-4b58-92ea-7ace855250f2"/>
+								<reportElement x="0" y="0" width="90" height="30" uuid="f92c986e-82ea-4b58-92ea-7ace855250f2"/>
 								<textElement>
 									<font isBold="true"/>
 								</textElement>
@@ -403,7 +408,7 @@ where port_id = $P{portId} order by last_trans_dt desc]]>
 						</jr:columnHeader>
 						<jr:detailCell style="table 5_TD" height="20" rowSpan="1">
 							<textField pattern="dd/MM/yyyy">
-								<reportElement x="0" y="0" width="96" height="20" uuid="a1ae21c3-9ba9-4fed-9be7-ac3d66a6620d"/>
+								<reportElement x="0" y="0" width="90" height="20" uuid="a1ae21c3-9ba9-4fed-9be7-ac3d66a6620d"/>
 								<textFieldExpression><![CDATA[$F{LAST_TRANS_DT}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -411,7 +416,9 @@ where port_id = $P{portId} order by last_trans_dt desc]]>
 				</jr:table>
 			</componentElement>
 			<textField>
-				<reportElement x="0" y="0" width="1160" height="22" uuid="cae7b91a-64e0-48dc-970c-5c2896d032a5"/>
+				<reportElement x="0" y="0" width="1155" height="22" uuid="cae7b91a-64e0-48dc-970c-5c2896d032a5">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>

@@ -126,12 +126,12 @@ public class PortfolioDaoImpl implements PortfolioDao {
 			query3.executeUpdate();
 			
 			NativeQuery query4 = session.createSQLQuery(sql4);
-			query3.setParameter("id",id);
-			query3.executeUpdate();
+			query4.setParameter("id",id);
+			query4.executeUpdate();
 			
 			NativeQuery query5 = session.createSQLQuery(sql5);
-			query3.setParameter("id",id);
-			query3.executeUpdate();
+			query5.setParameter("id",id);
+			query5.executeUpdate();
 			
 			transaction.commit();
 			session.close();

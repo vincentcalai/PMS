@@ -8,14 +8,14 @@
     
     <composite-id>
 		<key-property name="portId" length="10" type="java.lang.Long" column="PORT_ID" />
-		<key-property name="stockName" length="100" type="java.lang.String" column="STOCK_NAM" />
+		<key-property name="stockSymbol" length="6" type="java.lang.String" column="STOCK_SYM" />
 	</composite-id>
 
     <property
-        name="stockSymbol"
+        name="stockName"
         type="java.lang.String"
-        column="STOCK_SYM"
-        length="6"
+        column="STOCK_NAM"
+        length="100"
     />
     <property
         name="stockExchg"

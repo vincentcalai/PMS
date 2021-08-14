@@ -1,0 +1,119 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<div class="container-fluid">
+  <br>
+  <div class="card ">
+      <div class="text-left">
+        <h1 class="card-header">Portfolio Transaction Management</h1>
+      </div>
+    <div *ngIf="this.sysMsg" class="alert alert-success">
+      <b>Success: </b> {{this.sysMsg}}
+    </div>
+    <div *ngIf="this.errMsg" class="alert alert-danger">
+      <b>Error: </b> {{this.errMsg}}
+    </div>
+    <div class="card-body">
+      <div class="container-fluid">
+        <h1 class="d-inline"><b>Portfolio Name: {{portfolio.portfolioName}}</b></h1>
+        <button type="button" class="d-inline float-right btn btn-warning" (click) = "genTransReport(portId)">Generate Transaction Report</button>
+      </div>
+      <br>
+      <div class="container-fluid">
+        <mat-form-field class="col-4">
+          <mat-label>Search Stock Name or Stock Symbol </mat-label>
+          <input matInput placeholder="Eg. &quot;Apple Inc.&quot; or &quot;AAPL&quot; " [(ngModel)]="searchInput" (ngModelChange)="searchInput = $event.toUpperCase()">
+        </mat-form-field>
+        <button type="submit" class="searchBtn" (click)="search(portId, 1, searchInput)"><i class="fa fa-search"></i></button>
+        <br>
+        <table class="table table-striped" style="width: 100%">
+            <thead class= "table-header">
+                <tr>
+                    <th (click)="columnSortBy='stockName'; orderDesc=!orderDesc;">
+                      Stock Name
+                      <i class="fa fa-fw fa-sort"></i>
+                    </th>
+                    <th (click)="columnSortBy='stockSymbol'; orderDesc=!orderDesc;">
+                      Stock Symbol
+                      <i class="fa fa-fw fa-sort"></i>
+                    </th>
+                    <th (click)="columnSortBy='stockExchg'; orderDesc=!orderDesc;">
+                      Stock Exchange
+                      <i class="fa fa-fw fa-sort"></i>
+                    </th>
+                    <th (click)="columnSortBy='noOfShare'; orderDesc=!orderDesc;">
+                      No. Of Shares
+                      <i class="fa fa-fw fa-sort"></i>
+                    </th>
+                    <th (click)="columnSortBy='transPrice'; orderDesc=!orderDesc;">
+                      Buy/Sell Price
+                      <i class="fa fa-fw fa-sort"></i>
+                    </th>
+                    <th (click)="columnSortBy='totalAmt'; orderDesc=!orderDesc;">
+                      Total Amount
+                      <i class="fa fa-fw fa-sort"></i>
+                    </th>
+                    <th (click)="columnSortBy='action'; orderDesc=!orderDesc;">
+                      Buy/Sell
+                      <i class="fa fa-fw fa-sort"></i>
+                    </th>
+                    <th (click)="columnSortBy='createdBy'; orderDesc=!orderDesc;">
+                      Transacted By
+                      <i class="fa fa-fw fa-sort"></i>
+                    </th>
+                    <th (click)="columnSortBy='createdDt'; orderDesc=!orderDesc;">
+                      Transacted Date
+                      <i class="fa fa-fw fa-sort"></i>
+                    </th>
+                    <th (click)="columnSortBy='remarks'; orderDesc=!orderDesc;">
+                      Remarks
+                      <i class="fa fa-fw fa-sort"></i>
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let transaction of (transactions | sort: columnSortBy:orderDesc) | paginate: { itemsPerPage: itemsPerPage, currentPage: p, totalItems: totalItems } ">
+                    <td *ngIf = "transaction.currentStockHold > 0">
+                      <a [routerLink]="" (click)="sellPortfolioTrans(transaction)">{{transaction.stockName}}</a></td>
+                    <td *ngIf = "transaction.currentStockHold <= 0">
+                     {{transaction.stockName}}</td>
+                    <td>{{transaction.stockSymbol}}</td>
+                    <td>{{transaction.stockExchg}}</td>
+                    <td>{{transaction.noOfShare }}</td>
+                    <td>{{checkCurr(transaction.stockExchg) + (transaction.transPrice | number : '1.2-3')}}</td>
+                    <td>{{checkCurr(transaction.stockExchg) + (transaction.totalAmt | number : '1.2-2')}}</td>
+                    <td>{{transaction.action}}</td>
+                    <td>{{transaction.createdBy}}</td>
+                    <td>{{transaction.createdDt | date:'dd-MM-yyyy'}}</td>
+                    <td>{{transaction.remarks}}</td>
+                    <td *ngIf = "transaction.currentStockHold > 0"><button class="btn btn-danger btn-sm" style = "width: 150px"
+                      (click)="sellPortfolioTrans(transaction)">Create SELL Transaction</button></td>
+                    <td *ngIf = "transaction.currentStockHold <= 0"></td>
+                </tr>
+                <tr *ngIf = '!transactions || transactions.length == 0'>
+                  <td class='text-center' colspan=12>
+                    No Transaction(s) Found.
+                  </td>
+                </tr>
+            </tbody>
+        </table>
+      </div>
+
+      <div class="row" *ngIf='transactions && transactions.length > 0'>
+        <div class="col-3 text-left">
+          <label>No. of Records: {{totalItems}}</label>
+        </div>
+        <div class="col-6 text-center">
+          <pagination-controls (pageChange)="retrieveAllTrans(portId, $event)"></pagination-controls>
+        </div>
+      </div>
+
+      <div style = "text-align: center">
+        <button class="btn btn-success col-2 text-center" style = "width: 200px" (click)="addPortfolioTransaction()">Create BUY Transaction</button>
+        <button class="btn btn-danger col-1 text-center"  style = "width: 100px" (click)="back()">Back</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+

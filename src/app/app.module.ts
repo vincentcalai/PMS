@@ -9,17 +9,12 @@ import { MenuComponent } from './common/menu/menu.component';
 import { HomeComponent } from './common/home/home.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
-import { PortfoliolistComponent } from './manage-portfolio/portfoliolist/portfoliolist.component';
-import { PortfolioComponent } from './manage-portfolio/portfolio/portfolio.component';
 import { ErrorComponent } from './common/error/error.component';
-import { PortfolioTransComponent } from './manage-portfolio/portfolio-trans/portfolio-trans.component';
-import { TransactionComponent } from './manage-portfolio/transaction/transaction.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSelectModule } from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
-import { PortfolioHoldComponent } from './manage-portfolio/portfolio-hold/portfolio-hold.component';
-import { LoadPortfolioComponent } from './load-portfolio/load-portfolio.component';
+import { LoadPortfolioComponent } from './data-loading/load-portfolio/load-portfolio.component';
 import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
 import {MatIconModule} from '@angular/material/icon';
@@ -39,6 +34,20 @@ import {MatRadioModule} from '@angular/material/radio';
 import {MatBadgeModule} from '@angular/material/badge';
 import { MessageDialogComponent } from './common/message-dialog/message-dialog.component';
 import { SortPipe } from './util/pipe/sort.pipe';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatTableModule } from '@angular/material/table';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSortModule } from '@angular/material/sort';
+import { LoadDividendComponent } from './data-loading/load-dividend/load-dividend.component';
+import { PortfoliolistComponent } from './portfolio-management/manage-portfolio/portfoliolist/portfoliolist.component';
+import { CreateDividendComponent } from './portfolio-management/manage-dividend/create-dividend/create-dividend.component';
+import { DividendComponent } from './portfolio-management/manage-dividend/dividend/dividend.component';
+import { PortfolioHoldComponent } from './portfolio-management/manage-portfolio/portfolio-hold/portfolio-hold.component';
+import { PortfolioTransComponent } from './portfolio-management/manage-portfolio/portfolio-trans/portfolio-trans.component';
+import { PortfolioComponent } from './portfolio-management/manage-portfolio/portfolio/portfolio.component';
+import { TransactionComponent } from './portfolio-management/manage-portfolio/transaction/transaction.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +71,10 @@ import { SortPipe } from './util/pipe/sort.pipe';
     CreateWatchlistEntryComponent,
     NotiWatchlistComponent,
     MessageDialogComponent,
-    SortPipe
+    SortPipe,
+    DividendComponent,
+    CreateDividendComponent,
+    LoadDividendComponent
   ],
   imports: [
     BrowserModule,
@@ -79,7 +91,13 @@ import { SortPipe } from './util/pipe/sort.pipe';
     NgxPaginationModule,
     MatDialogModule,
     MatRadioModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatExpansionModule,
+    MatTableModule,
+    MatTooltipModule,
+    MatSortModule
   ],
   providers: [
     RouteGuard,

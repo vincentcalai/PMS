@@ -6,8 +6,24 @@
         <ul class="navbar-nav" *ngIf = "authenticateService.isUserLoggedIn()">
           <li><a routerLink="/home" class="nav-link">Home</a></li>
           <li><a routerLink="/userlist" class="nav-link">System Admin</a></li>
-          <li><a routerLink="/portfoliolist" class="nav-link"> Manage Portfolio</a></li>
-          <li><a routerLink="/loadportfolio" class="nav-link">Data Loading</a></li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="portfolioMngt" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Portfolio Management
+            </a>
+            <div class="dropdown-menu" aria-labelledby="portfolioMngt">
+              <a routerLink="/portfoliolist" class="dropdown-item"> Manage Portfolio </a>
+              <a routerLink="/div" class="dropdown-item">Manage Dividend</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="dataLoading" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Data Loading
+            </a>
+            <div class="dropdown-menu" aria-labelledby="dataLoading">
+              <a routerLink="/loadportfolio" class="dropdown-item"> Load Transaction Data </a>
+              <a routerLink="/loaddiv" class="dropdown-item"> Load Dividend Data </a>
+            </div>
+          </li>
           <li><a routerLink="/profitloss" class="nav-link">P&L Overview</a></li>
           <li><a routerLink="/watchlistmain" class="nav-link">Watchlist</a></li>
         </ul>

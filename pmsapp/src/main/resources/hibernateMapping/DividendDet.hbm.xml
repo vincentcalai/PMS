@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+<class name="com.pms.pmsapp.dividend.data.DividendDet" table="PMS_PORT_DIV_DET">
+
+    <id name="id" type="java.lang.Long" column="ID">
+      <generator class="sequence">
+          <param name="sequence_name">SQ_PMS_PORT_DIV_DET</param>
+      </generator>
+    </id>
+	
+	<property
+        name="divId"
+        type="java.lang.Long"
+        column="DIV_ID"
+    />
+    <property
+        name="portId"
+        type="java.lang.Long"
+        column="PORT_ID"
+    />
+    <property
+        name="stockName"
+        type="java.lang.String"
+        column="STOCK_NAM"
+        length="100"
+    />
+    <property
+        name="stockSym"
+        type="java.lang.String"
+        column="STOCK_SYM"
+        length="6"
+    />
+    <property
+        name="stockExchg"
+        type="java.lang.String"
+        column="STOCK_EXCHG"
+        length="6"
+    />
+    <property
+        name="exDate"
+        type="java.util.Date"
+        column="EX_DATE"
+    >
+    </property>
+    <property
+        name="noOfShare"
+        type="int"
+        column="NO_OF_SHARE"
+    />
+    <property
+        name="adjDiv"
+        type="java.math.BigDecimal"
+        column="ADJ_DIV"
+    />
+    <property
+        name="divPayout"
+        type="java.math.BigDecimal"
+        column="DIV_PAYOUT"
+    />
+    <property
+        name="sgdDivPayout"
+        type="java.math.BigDecimal"
+        column="SGD_DIV_PAYOUT"
+    />
+</class>
+</hibernate-mapping>

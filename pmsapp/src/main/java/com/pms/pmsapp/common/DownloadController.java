@@ -7,6 +7,8 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Clob;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,6 +18,7 @@ import org.apache.poi.util.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,7 +26,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pms.pmsapp.loadportfolio.data.LoadPortUpload;
 import com.pms.pmsapp.loadportfolio.service.LoadPortfolioService;
-import com.pms.pmsapp.util.DBCPDataSource;
 
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -44,7 +46,14 @@ public class DownloadController {
 	@Autowired
 	private LoadPortfolioService loadPortfolioService;
 	
-	private DBCPDataSource dBCPDataSource;
+	@Value("${spring.datasource.url}")
+	private String url;
+	
+	@Value("${spring.datasource.username}")
+	private String username;
+	
+	@Value("${spring.datasource.password}")
+	private String password;
 	
 	@RequestMapping(value = "/downloadTmplt", method = RequestMethod.GET)
 	public void downloadTmplt(String fileName, HttpServletResponse res) throws IOException, URISyntaxException {
@@ -147,7 +156,8 @@ public class DownloadController {
 			Map<String, Object> params = new HashMap<>();
 			params.put("portId", id);
 			
-			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, dBCPDataSource.getConnection());
+			Connection conn = DriverManager.getConnection(url, username, password);  
+			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, conn);
 
 			String fileName = "transaction";
 			File file = new File(fileName + ".xlsx");
@@ -188,9 +198,10 @@ public class DownloadController {
 			Map<String, Object> params = new HashMap<>();
 			params.put("portId", id);
 			
-			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, dBCPDataSource.getConnection());
+			Connection conn = DriverManager.getConnection(url, username, password);  
+			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, conn);
 			
-			//String home = System.getProperty("user.home");
+			String home = System.getProperty("user.home");
 			String fileName = "holdings";
 			File file = new File(fileName + ".xlsx");
 			

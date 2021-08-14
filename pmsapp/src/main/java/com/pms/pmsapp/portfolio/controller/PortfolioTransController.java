@@ -117,8 +117,6 @@ public class PortfolioTransController {
 		return currentStockHold;
 	}
 	
-	
-	
 	@RequestMapping(value="/portfolio/retrieveStockInfo", method=RequestMethod.POST)
 	public PortfolioTrans retrieveStockInfo(@RequestBody PortfolioTrans portfolioTrans) {
 		log.info("retrieveStockInfo Trans in Controller");
@@ -154,13 +152,6 @@ public class PortfolioTransController {
 		 log.info("portId:  " + portId);
 		 long id = 0;
 		 int sellActionCheck = 0;
-//		 String stockSymSuff = "";
-//		 
-//		 Map<String, String> exchgSuffmap = new HashMap<String, String>();
-//		 exchgSuffmap.put(EXCHG_HKEX, SUFFIX_HKEX);
-//		 exchgSuffmap.put(EXCHG_SGX, SUFFIX_SGX);
-//		 exchgSuffmap.put(EXCHG_NYSE, SUFFIX_NYSE);
-//		 exchgSuffmap.put(EXCHG_NASDAQ, SUFFIX_NASDAQ);
 		 
 		 String username = authentication.getName();
 		 
@@ -175,13 +166,6 @@ public class PortfolioTransController {
 		 String transPrice = portfolioTrans.getTransPrice().toString();
 		 portfolioTrans.setPortId(portId);
 		 portfolioTrans.setStockSymbol(stockSym);
-		 
-//		 suffix = portfolioTransService.findSuffix(stockExchg);
-//		 log.info("suffix: " + suffix);
-//		 
-//		 if(suffix != null) {
-//			 stockSym = stockSym + suffix;
-//		 }
 		 
 		if(noOfShare <= 0) {
 			 portfolioTrans.setErrMsg("Invalid No. Of Share. No. Of Share should be more than 0. Save transaction failed.");

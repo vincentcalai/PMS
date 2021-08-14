@@ -45,7 +45,7 @@
                     <td>{{entry.stockName}}</td>
                     <td>{{entry.stockSym}}</td>
                     <td>{{entry.stockExchg}}</td>
-                    <td>{{entry.lastPrice | number : '1.2-2' }}</td>
+                    <td>{{entry.lastPrice | number : '1.2-3' }}</td>
 
                     <td *ngIf="entry.change > 0 && entry.change" style="color:green;">
                       <b>+{{entry.change | number : '1.2-2' }}</b></td>
@@ -59,7 +59,7 @@
                       <b>{{entry.changePct | number : '1.2-2' }}%</b></td>
                     <td *ngIf="!entry.changePct">{{entry.changePct | number : '1.2-2' }}%</td>
 
-                    <td>{{entry.targetPrice | number : '1.2-2'}}</td>
+                    <td>{{entry.targetPrice | number : '1.2-3'}}</td>
 
                     <td *ngIf="entry.premiumDisc > 0 && entry.premiumDisc" style="color:green;">
                       <b>+{{entry.premiumDisc | number : '1.2-2' }}%</b></td>
