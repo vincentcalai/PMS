@@ -4,7 +4,7 @@
     "http://hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-<class name="com.pms.pmsapp.dividend.data.Dividend" table="PMS_PORT_DIV">
+<class name="com.pms.pmsapp.manageportfolio.dividend.data.Dividend" table="PMS_PORT_DIV">
 
     <id name="id" type="java.lang.Long" column="ID">
       <generator class="sequence">

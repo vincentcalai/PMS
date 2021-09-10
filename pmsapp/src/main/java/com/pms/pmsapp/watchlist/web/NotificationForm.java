@@ -1,8 +1,5 @@
 package com.pms.pmsapp.watchlist.web;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
 import com.pms.pmsapp.watchlist.data.Watchlist;
 import com.pms.pmsapp.watchlist.data.WatchlistEntry;
 import com.pms.pmsapp.watchlist.data.WatchlistNotification;

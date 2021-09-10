@@ -2,7 +2,6 @@ package com.pms.pmsapp.profitloss.dao;
 
 import java.util.List;
 
-import com.pms.pmsapp.portfolio.data.PortfolioHold;
 import com.pms.pmsapp.profitloss.data.RealPL;
 import com.pms.pmsapp.profitloss.data.RealTotalPL;
 import com.pms.pmsapp.profitloss.data.UnrealPL;

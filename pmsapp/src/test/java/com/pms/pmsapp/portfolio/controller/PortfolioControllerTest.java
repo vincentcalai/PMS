@@ -1,7 +1,5 @@
 package com.pms.pmsapp.portfolio.controller;
 
-import static org.hamcrest.Matchers.is;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,8 +19,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pms.pmsapp.portfolio.data.Portfolio;
-import com.pms.pmsapp.portfolio.service.PortfolioService;
+import com.pms.pmsapp.manageportfolio.portfolio.controller.PortfolioController;
+import com.pms.pmsapp.manageportfolio.portfolio.data.Portfolio;
+import com.pms.pmsapp.manageportfolio.portfolio.service.PortfolioService;
 import com.pms.pmsapp.util.jwt.JwtTokenUtil;
 import com.pms.pmsapp.util.jwt.JwtUnAuthorizedResponseAuthenticationEntryPoint;
 

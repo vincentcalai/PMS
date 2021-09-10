@@ -123,12 +123,15 @@ export class DividendComponent implements OnInit {
         data => {
           this.form = data as any;
           console.log(this.form);
-          this.totalDividend = "SGD$" + this.form.totalDiv;
-
+          if(this.form.totalDiv != null){
+            this.totalDividend = "SGD$" + this.form.totalDiv;
+          } else{
+            this.totalDividend = "SGD$0";
+          }
+        
           for (let [key,value] of Object.entries(this.form.totalDivDetList)) {
             this.totalYearDividend.set(key, "SGD$" + value);        
           } 
-    
         }
       );
     }

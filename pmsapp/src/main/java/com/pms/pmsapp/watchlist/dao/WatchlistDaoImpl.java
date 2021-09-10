@@ -17,9 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.orm.hibernate5.SessionFactoryUtils;
 import org.springframework.stereotype.Repository;
 
-import com.pms.pmsapp.portfolio.data.PortfolioTrans;
-import com.pms.pmsapp.portfolio.data.StockWrapper;
-import com.pms.pmsapp.sysadmin.data.User;
+import com.pms.pmsapp.manageportfolio.portfolio.data.StockWrapper;
 import com.pms.pmsapp.util.HibernateUtil;
 import com.pms.pmsapp.watchlist.data.Watchlist;
 import com.pms.pmsapp.watchlist.data.WatchlistEntry;

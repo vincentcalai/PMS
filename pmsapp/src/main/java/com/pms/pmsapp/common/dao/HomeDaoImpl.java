@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import com.pms.pmsapp.common.data.Forex;
 import com.pms.pmsapp.common.data.Index;
-import com.pms.pmsapp.portfolio.data.StockWrapper;
+import com.pms.pmsapp.manageportfolio.portfolio.data.StockWrapper;
 import com.pms.pmsapp.util.HibernateUtil;
 
 import yahoofinance.YahooFinance;

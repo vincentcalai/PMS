@@ -4,7 +4,7 @@
     "http://hibernate.org/dtd/hibernate-mapping-3.0.dtd">
     
 <hibernate-mapping>
-    <class name="com.pms.pmsapp.loadportfolio.data.LoadPortUpload" table="PMS_LOAD_PORT_UPLOAD" >
+    <class name="com.pms.pmsapp.dataloading.data.LoadPortUpload" table="PMS_LOAD_PORT_UPLOAD" >
 		<id name="uploadId" type="long">
            <column name="UPLOAD_ID" precision="12" scale="0" />
            <generator class="sequence" >

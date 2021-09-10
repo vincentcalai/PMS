@@ -40,6 +40,8 @@
     <mapping resource="hibernateMapping/Message.hbm.xml"></mapping>  
     <mapping resource="hibernateMapping/Dividend.hbm.xml"></mapping>  
     <mapping resource="hibernateMapping/DividendDet.hbm.xml"></mapping> 
+    <mapping resource="hibernateMapping/LoadDivUpload.hbm.xml"></mapping> 
+    <mapping resource="hibernateMapping/LoadDiv.hbm.xml"></mapping> 
       
   </session-factory>
 </hibernate-configuration>

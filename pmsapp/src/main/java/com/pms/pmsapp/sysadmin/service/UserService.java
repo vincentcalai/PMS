@@ -3,7 +3,6 @@ package com.pms.pmsapp.sysadmin.service;
 import java.util.List;
 
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import com.pms.pmsapp.sysadmin.data.User;
 

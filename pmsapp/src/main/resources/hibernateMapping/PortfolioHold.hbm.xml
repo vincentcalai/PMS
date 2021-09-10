@@ -4,7 +4,7 @@
     "http://hibernate.org/dtd/hibernate-mapping-3.0.dtd">
     
 <hibernate-mapping>
-<class name="com.pms.pmsapp.portfolio.data.PortfolioHold" table="PMS_PORT_HOLD">
+<class name="com.pms.pmsapp.manageportfolio.portfolio.data.PortfolioHold" table="PMS_PORT_HOLD">
     
     <composite-id>
 		<key-property name="portId" length="10" type="java.lang.Long" column="PORT_ID" />

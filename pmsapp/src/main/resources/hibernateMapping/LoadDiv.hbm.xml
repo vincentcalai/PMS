@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+<class name="com.pms.pmsapp.dataloading.data.LoadDiv" table="PMS_LOAD_DIV">
+
+    <id name="id" type="java.lang.Long" column="ID">
+      <generator class="sequence">
+          <param name="sequence_name">SQ_PMS_LOAD_DIV</param>
+      </generator>
+    </id>
+    
+    <property
+        name="uploadId"
+        type="java.lang.Long"
+        column="UPLOAD_ID"
+        length="10"
+    />
+    <property
+        name="stockName"
+        type="java.lang.String"
+        column="STOCK_NAM"
+        length="100"
+    />
+    <property
+        name="stockSym"
+        type="java.lang.String"
+        column="STOCK_SYM"
+        length="6"
+    />
+    <property
+        name="stockExchg"
+        type="java.lang.String"
+        column="STOCK_EXCHG"
+        length="6"
+    />
+    <property
+        name="noOfShare"
+        type="int"
+        column="NO_OF_SHARE"
+    />
+    <property
+        name="datePurchase"
+        type="java.util.Date"
+        column="DATE_PURCHASE"
+    >
+    </property>
+    <property
+        name="dateSold"
+        type="java.util.Date"
+        column="DATE_SOLD"
+    >
+    </property>
+    <property
+        name="currHoldInd"
+        type="java.lang.String"
+        column="CURR_HOLD_IND"
+        length="1"
+    >
+    </property>
+    <property
+        name="createdBy"
+        type="java.lang.String"
+        column="CREATED_BY"
+    >
+    </property>
+</class>
+</hibernate-mapping>

@@ -4,7 +4,7 @@
     "http://hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-<class name="com.pms.pmsapp.portfolio.data.PortfolioTrans" table="PMS_PORT_TRANS">
+<class name="com.pms.pmsapp.manageportfolio.portfolio.data.PortfolioTrans" table="PMS_PORT_TRANS">
 
     <id name="id" type="java.lang.Long" column="ID">
       <generator class="sequence">

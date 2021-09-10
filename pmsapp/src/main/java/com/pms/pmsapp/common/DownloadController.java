@@ -24,8 +24,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pms.pmsapp.loadportfolio.data.LoadPortUpload;
-import com.pms.pmsapp.loadportfolio.service.LoadPortfolioService;
+import com.pms.pmsapp.dataloading.data.LoadDiv;
+import com.pms.pmsapp.dataloading.data.LoadDivUpload;
+import com.pms.pmsapp.dataloading.data.LoadPortUpload;
+import com.pms.pmsapp.dataloading.service.LoadDivService;
+import com.pms.pmsapp.dataloading.service.LoadPortfolioService;
 
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -46,6 +49,9 @@ public class DownloadController {
 	@Autowired
 	private LoadPortfolioService loadPortfolioService;
 	
+	@Autowired
+	private LoadDivService loadDivService;
+	
 	@Value("${spring.datasource.url}")
 	private String url;
 	
@@ -65,7 +71,6 @@ public class DownloadController {
 		log.info("download path: " + Paths.get(getClass().getClassLoader().getResource(fileName).toURI()));
 		return Files.readAllBytes(Paths.get(getClass().getClassLoader().getResource(fileName).toURI()));
 	}
-	
 	
 	@RequestMapping(value = "/downloadFile", method = RequestMethod.GET)
 	public void downloadFile(Long fileId, HttpServletResponse res) throws IOException, URISyntaxException {
@@ -92,6 +97,18 @@ public class DownloadController {
 		handleLoadPortTransLog(fileId,res);
 	}
 	
+	@RequestMapping(value = "/downloadDivUploadFile", method = RequestMethod.GET)
+	public void downloadDivUploadFile(Long fileId, HttpServletResponse res) throws IOException, URISyntaxException {
+		//res.setHeader("Content-Disposition", "attachment; fileId=" + fileId);
+		res.setHeader("Access-Control-Expose-Headers", "Content-Disposition");
+		handleLoadDiv(fileId,res);
+	}
+	
+	@RequestMapping(value = "/downloadDivLogFile", method = RequestMethod.GET)
+	public void downloadDivLogFile(Long fileId, HttpServletResponse res) throws IOException, URISyntaxException {
+		res.setHeader("Access-Control-Expose-Headers", "Content-Disposition");
+		handleLoadDivLog(fileId,res);
+	}
 	
 	private void handleLoadPortTrans(Long id, HttpServletResponse response) {
 		LoadPortUpload fileLoad = null;
@@ -231,4 +248,60 @@ public class DownloadController {
 		}
 		
 	}
+	
+	private void handleLoadDiv(Long id, HttpServletResponse response) {
+		LoadDivUpload fileLoad = null;
+
+		try {
+			fileLoad = loadDivService.getHistFileById(id);
+		} catch (Exception e) {
+			log.error("", e);
+		}
+
+		try {
+			if (fileLoad.getFileData() != null) {
+				byte[] bytes = fileLoad.getFileData();
+
+				response.setContentType("application/x-download");
+				response.setHeader("Content-Disposition",
+						"attachment; filename=" + fileLoad.getFileName() + ".xlsx");
+				response.setContentLength((int) fileLoad.getFileData().length);
+				response.getOutputStream().write(bytes);
+				response.getOutputStream().flush();
+				response.getOutputStream().close();
+			}
+		} catch (Exception e) {
+			log.error("", e);
+		}
+	}
+	
+	private void handleLoadDivLog(Long id, HttpServletResponse response) {
+		LoadDivUpload fileLoad = null;
+
+		try {
+			fileLoad = loadDivService.getHistFileById(id);
+		} catch (Exception e) {
+			log.error("", e);
+		}
+
+		try {
+			if (fileLoad.getLogData() != null) {
+
+				Clob logData = fileLoad.getLogData();
+
+				InputStream fis = logData.getAsciiStream();
+				response.setContentType("application/x-download");
+				response.setHeader("Content-Disposition", "attachment; filename=" + fileLoad.getLogName() + ".txt");
+				response.setContentLength((int) logData.length());
+				response.getOutputStream().write(IOUtils.toByteArray(fis));
+				response.getOutputStream().flush();
+				response.getOutputStream().close();
+				fis.close();
+			}
+		} catch (Exception e) {
+			log.error("", e);
+		}
+	}
+	
+	
 }

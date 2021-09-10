@@ -8,12 +8,9 @@ import org.quartz.JobExecutionContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
-import com.pms.pmsapp.portfolio.data.StockWrapper;
-import com.pms.pmsapp.portfolio.service.PortfolioHoldService;
+import com.pms.pmsapp.manageportfolio.portfolio.data.StockWrapper;
 import com.pms.pmsapp.watchlist.service.WatchlistService;
 
 @Service

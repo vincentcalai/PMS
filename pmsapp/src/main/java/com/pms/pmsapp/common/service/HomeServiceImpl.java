@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.pms.pmsapp.common.dao.HomeDao;
 import com.pms.pmsapp.common.data.Forex;
 import com.pms.pmsapp.common.data.Index;
-import com.pms.pmsapp.portfolio.data.StockWrapper;
+import com.pms.pmsapp.manageportfolio.portfolio.data.StockWrapper;
 
 @Service
 public class HomeServiceImpl implements HomeService {
