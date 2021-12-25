@@ -169,7 +169,10 @@ public class SchedulerConfig {
         factoryBean.setJobDetail(jobDetail);
         factoryBean.setStartDelay(0L);
     	factoryBean.setCronExpression("0 0 9 ? * * *");
+    	//factoryBean.setCronExpression("0 */2 * ? * *");
         return factoryBean;
+        
+        
     }
     
     @Bean

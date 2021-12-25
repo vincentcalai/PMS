@@ -56,4 +56,14 @@ public class DividendServiceImpl implements DividendService {
 	public BigDecimal retrieveTotalYearDiv(long portId, String divYear) {
 		return dividendDao.retrieveTotalYearDiv(portId, divYear);
 	}
+
+	@Override
+	public List<Dividend> findAllCurrHoldDiv() {
+		return dividendDao.findAllCurrHoldDiv();
+	}
+
+	@Override
+	public void updateDailyDivRec(Dividend divRec, Date exDate, BigDecimal adjDiv) {
+		dividendDao.updateDailyDivRec(divRec, exDate, adjDiv);
+	}
 }

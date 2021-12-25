@@ -24,4 +24,8 @@ public interface DividendDao{
 
 	BigDecimal retrieveTotalYearDiv(long portId, String divYear);
 
+	List<Dividend> findAllCurrHoldDiv();
+
+	void updateDailyDivRec(Dividend divRec, Date exDate, BigDecimal adjDiv);
+
 }

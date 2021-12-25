@@ -64,7 +64,7 @@ public class DividendDaoImpl implements DividendDao {
 		try {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 
-		String callStoreProc = "{call SP_POPULATE_DIV_REC(?,?,?)}";
+		String callStoreProc = "{call PG_DIV_PROCESS.SP_POPULATE_DIV_REC(?,?,?)}";
 		callableStatement = ((SessionImpl)session).connection().prepareCall(callStoreProc);
 		callableStatement.setLong(1, id);
 		callableStatement.setDate(2, sqlExDate);
@@ -121,6 +121,44 @@ public class DividendDaoImpl implements DividendDao {
 				.setParameter("divYear", divYear);
 		BigDecimal totalDiv = (BigDecimal) sqlQuery.uniqueResult();
 		return totalDiv;
+	}
+
+	@Override
+	public List<Dividend> findAllCurrHoldDiv() {
+		String sql = "select * from PMS_PORT_DIV where CURR_HOLD_IND = 'Y' order by PORT_ID, STOCK_SYM";
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		NativeQuery sqlQuery = session.createSQLQuery(sql)
+				.addEntity(Dividend.class);
+		List<Dividend> divList = sqlQuery.list();
+		return divList;
+	}
+
+	@Override
+	public void updateDailyDivRec(Dividend divRec, Date exDate, BigDecimal adjDiv) {
+		log.info("update daily dividend records- id: " + divRec.getId() + " portId: " + divRec.getPortId() + " exDate: " + exDate + " adjDiv: " + adjDiv);
+
+		java.sql.Date sqlExDate = new java.sql.Date(exDate.getTime());
+		
+		CallableStatement callableStatement = null;
+
+		try {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+
+		String callStoreProc = "{call PG_DIV_PROCESS.SP_POPULATE_DIV_REC(?,?,?,?)}";
+		callableStatement = ((SessionImpl)session).connection().prepareCall(callStoreProc);
+		callableStatement.setLong(1, divRec.getId());
+		callableStatement.setLong(2, divRec.getPortId());
+		callableStatement.setDate(3, sqlExDate);
+		callableStatement.setBigDecimal(4, adjDiv);
+		callableStatement.executeUpdate();
+		((SessionImpl)session).connection().commit();
+		
+		session.close();
+
+		} catch (Exception e) {
+			log.info("exception = " + e.getMessage());
+			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
+		}
 	}
 
 }

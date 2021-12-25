@@ -11,7 +11,7 @@
 	<groupId>com.pms</groupId>
 	<artifactId>pmsapp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>pmsapp</name>
+	<name>pmsapp_v1.1</name>
 	<description>Portfolio Management System Project</description>
 	
 	<properties>

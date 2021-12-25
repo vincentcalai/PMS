@@ -22,4 +22,8 @@ public interface DividendService{
 	public BigDecimal retrieveTotalDiv(long portId);
 
 	public BigDecimal retrieveTotalYearDiv(long portId, String divYear);
+
+	public List<Dividend> findAllCurrHoldDiv();
+
+	public void updateDailyDivRec(Dividend divRec, Date exDate, BigDecimal adjDiv);
 }
