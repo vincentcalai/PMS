@@ -161,4 +161,29 @@ public class DividendDaoImpl implements DividendDao {
 		}
 	}
 
+	@Override
+	public void updateDivRec(long portId, String stockSym, int noOfShare) {
+		
+		log.info("updateDivRec - portId: " + portId +  " stockSym: " + stockSym);
+		CallableStatement callableStatement = null;
+
+		try {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+
+		String callStoreProc = "{call PG_DIV_PROCESS.SP_UPDATE_DIV_REC(?,?,?)}";
+		callableStatement = ((SessionImpl)session).connection().prepareCall(callStoreProc);
+		callableStatement.setLong(1, portId);
+		callableStatement.setString(2, stockSym);
+		callableStatement.setInt(3, noOfShare);
+		callableStatement.executeUpdate();
+		((SessionImpl)session).connection().commit();
+		
+		session.close();
+
+		} catch (Exception e) {
+			log.info("exception = " + e.getMessage());
+			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
+		}
+	}
+
 }

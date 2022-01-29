@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pms.pmsapp.manageportfolio.dividend.service.DividendService;
 import com.pms.pmsapp.manageportfolio.portfolio.data.MktExchg;
 import com.pms.pmsapp.manageportfolio.portfolio.data.PortfolioTrans;
 import com.pms.pmsapp.manageportfolio.portfolio.data.StockWrapper;
@@ -35,6 +36,9 @@ public class PortfolioTransController {
 	
 	@Autowired
 	private PortfolioTransService portfolioTransService;
+	
+	@Autowired
+	private DividendService dividendService;
 	
 	@Autowired
 	private PortfolioHoldService portfolioHoldService;
@@ -188,6 +192,10 @@ public class PortfolioTransController {
 			 
 			 portfolioTransService.populateToHolding(id, portId);
 			 
+			 if(portfolioTrans.getAction().equals(SELL_ACTION)) {
+				 dividendService.updateDivRec(portId, stockSym, noOfShare);
+			 }
+			
 			 try {
 					BigDecimal lastTransPrice = stockWrapper.getStock().getQuote(true).getPrice();
 					log.info("Stock: " + stockSym + " Last Transacted Price: " + lastTransPrice);

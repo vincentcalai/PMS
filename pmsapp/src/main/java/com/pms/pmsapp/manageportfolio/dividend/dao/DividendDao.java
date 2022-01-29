@@ -28,4 +28,6 @@ public interface DividendDao{
 
 	void updateDailyDivRec(Dividend divRec, Date exDate, BigDecimal adjDiv);
 
+	void updateDivRec(long portId, String stockSym, int noOfShare);
+
 }

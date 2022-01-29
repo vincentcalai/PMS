@@ -66,4 +66,9 @@ public class DividendServiceImpl implements DividendService {
 	public void updateDailyDivRec(Dividend divRec, Date exDate, BigDecimal adjDiv) {
 		dividendDao.updateDailyDivRec(divRec, exDate, adjDiv);
 	}
+
+	@Override
+	public void updateDivRec(long portId, String stockSym, int noOfShare) {
+		dividendDao.updateDivRec(portId, stockSym, noOfShare);
+	}
 }

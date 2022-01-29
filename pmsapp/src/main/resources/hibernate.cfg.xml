@@ -7,7 +7,7 @@
     <property name="connection.driver_class">oracle.jdbc.OracleDriver</property>
     <property name="connection.url">jdbc:oracle:thin:@localhost:1521:xe</property>
     <property name="connection.username">pms_app</property>
-    <property name="connection.password">password</property>
+    <property name="connection.password">pms_app</property>
     <property name="dialect">org.hibernate.dialect.Oracle12cDialect</property>
     <property name="temp.use_jdbc_metadata_defaults">false</property>
      

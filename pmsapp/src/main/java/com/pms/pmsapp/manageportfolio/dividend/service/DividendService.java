@@ -26,4 +26,6 @@ public interface DividendService{
 	public List<Dividend> findAllCurrHoldDiv();
 
 	public void updateDailyDivRec(Dividend divRec, Date exDate, BigDecimal adjDiv);
+
+	public void updateDivRec(long portId, String stockSym, int noOfShare);
 }
