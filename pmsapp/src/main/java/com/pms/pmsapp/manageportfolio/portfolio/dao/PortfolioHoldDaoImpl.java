@@ -52,6 +52,27 @@ public class PortfolioHoldDaoImpl implements PortfolioHoldDao {
 		}
 	}
 	
+	public List<PortfolioHold> findAllHold(long id){
+		log.info("findAllHold Holding in DaoImpl..");
+		try {
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			
+			String sql = "SELECT * FROM PMS_PORT_HOLD where port_id = :id order by last_trans_dt desc ";				
+					
+			NativeQuery sqlQuery = session.createSQLQuery(sql);
+			
+			sqlQuery.addEntity(PortfolioHold.class).setParameter("id", id);
+			
+			List<PortfolioHold> portfolioHold = sqlQuery.list();
+			
+			return portfolioHold;
+		
+		} catch (Exception e) {
+			// convert to HibernateException then to DataAccessException
+			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
+		}
+	}
+	
 	@Override
 	public List<MktExchg> findAllMktExchg(){
 		log.info("findAllMktExchg Hold in DaoImpl..");

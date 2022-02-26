@@ -61,7 +61,17 @@ export class PortfolioHoldComponent implements OnInit {
   ngOnInit(): void {
     this.portfolio = this.dataService.dataObj.portfolioForm;
     this.currency = this.getCurr();
-    this.retrieveAllHolds(this.portId, this.p);
+    
+    this.updateLivePrices(this.portId, this.p);
+    
+  }
+
+  updateLivePrices(portId, p) : void{
+    this.requestService.get(`/portfolio/hold/updateliveprices/${portId}`).subscribe(
+      data => {
+        this.retrieveAllHolds(portId, p)
+      }
+    );
   }
 
   retrieveAllHolds(portId, page){

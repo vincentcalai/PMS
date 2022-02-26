@@ -6,13 +6,19 @@
       Welcome to Portfolio Management System
     </h1>
     <div class="card-body">
-        <div class="container">
-          <h1>Welcome {{username}},</h1>
-        </div>
+      <div class="row" >
+        <div class="col-2">
 
-        <div class="container" >
+        </div>
+        <div class="col-6">
+            <h1>Welcome {{username}},</h1>
             <h2>You can manage your portfolio <a routerLink = "/portfoliolist">here</a></h2>
         </div>
+
+        <div class="col-4">
+          <button class="btn btn-success" (click)="updateLivePrices()">Update Live Prices</button>
+        </div>
+      </div>
 
         <div class="row" >
           <div class="col-6">

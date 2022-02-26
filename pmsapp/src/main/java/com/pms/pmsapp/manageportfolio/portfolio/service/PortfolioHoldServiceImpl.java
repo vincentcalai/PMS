@@ -34,6 +34,11 @@ public class PortfolioHoldServiceImpl implements PortfolioHoldService {
 		log.info("findAll holdings in ServiceImpl");
 		return portfolioHoldDao.findAllHold(id, pageable);
 	}
+	
+	public List<PortfolioHold> findAllHold(long id){
+		log.info("findAll holdings in ServiceImpl");
+		return portfolioHoldDao.findAllHold(id);
+	}
 
 	@Override
 	public StockWrapper findStock(String stockSym) {

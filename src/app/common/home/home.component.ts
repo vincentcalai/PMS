@@ -57,4 +57,12 @@ export class HomeComponent implements OnInit {
     //this.username = this.dataService.dataObj.username;
   }
 
+  updateLivePrices() : void{
+    this.requestService.get('/home/updateliveprices').subscribe(
+      data => {
+        this.ngOnInit();
+      }
+    );
+  }
+
 }
