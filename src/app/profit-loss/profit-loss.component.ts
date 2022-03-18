@@ -99,6 +99,14 @@ export class ProfitLossComponent implements OnInit {
     )
   }
 
+  updateLivePrices(form): void{
+    this.requestService.post('/profitloss/updateliveprices',this.form).subscribe(
+      data => {
+        this.retrieve(form);
+      }
+    )
+  }
+
   getAbsolutePL(profitLoss): number{
     this.absolutePL = Math.abs(profitLoss);
      return this.absolutePL;

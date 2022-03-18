@@ -44,6 +44,9 @@
             <button type="button" mat-raised-button color='primary' style='float: right; width:150px;'
             (click)="retrieve(form)">Retrieve</button>
           </div>
+          <div class="col-2" *ngIf = "this.form.unrealisedList && this.form.unrealisedList.length != 0 || this.form.realisedList && this.form.realisedList.length != 0">
+            <button type="button" mat-raised-button color='primary' (click)="updateLivePrices(form)">Update Live Prices</button>
+          </div>
           <!-- <div class='col-1'>
             <button type="button" mat-raised-button color='primary' style='float: right; width:150px;'
             (click)="initPage()" >Refresh</button>

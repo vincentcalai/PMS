@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.pms.pmsapp.manageportfolio.portfolio.data.StockWrapper;
 import com.pms.pmsapp.profitloss.dao.ProfitLossDao;
 import com.pms.pmsapp.profitloss.data.RealPL;
 import com.pms.pmsapp.profitloss.data.RealTotalPL;
@@ -59,5 +60,15 @@ public class ProfitLossServiceImpl implements ProfitLossService {
 	@Override
 	public RealTotalPL getRealisedTotalList(String portfolio) {
 		return profitLossDao.getRealisedTotalList(portfolio);
+	}
+
+	@Override
+	public StockWrapper findStock(String stockSym) {
+		return profitLossDao.findStock(stockSym);
+	}
+
+	@Override
+	public void updateLastVal(UnrealPL unrealPl) {
+		profitLossDao.updateLastVal(unrealPl);
 	}
 }

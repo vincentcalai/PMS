@@ -1,22 +1,29 @@
 package com.pms.pmsapp.profitloss.dao;
 
+import java.io.IOException;
 import java.sql.CallableStatement;
 import java.util.List;
 
 import org.hibernate.HibernateException;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.internal.SessionImpl;
+import org.hibernate.query.NativeQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.orm.hibernate5.SessionFactoryUtils;
 import org.springframework.stereotype.Repository;
 
+import com.pms.pmsapp.common.data.Index;
+import com.pms.pmsapp.manageportfolio.portfolio.data.StockWrapper;
 import com.pms.pmsapp.profitloss.data.RealPL;
 import com.pms.pmsapp.profitloss.data.RealTotalPL;
 import com.pms.pmsapp.profitloss.data.UnrealPL;
 import com.pms.pmsapp.profitloss.data.UnrealTotalPL;
 import com.pms.pmsapp.util.HibernateUtil;
+
+import yahoofinance.YahooFinance;
 
 
 @Repository
@@ -104,11 +111,6 @@ public class ProfitLossDaoImpl implements ProfitLossDao {
 			List<RealPL> realPLList = sqlQuery.list();
 			
 			return realPLList;
-			
-//			String sqlQuery = "SELECT * FROM PMS_REAL_PL";
-//			Session session = HibernateUtil.getSessionFactory().openSession();
-//			List<RealPL> realPLList = session.createSQLQuery(sqlQuery).list();
-//			return realPLList;
 		
 		} catch (Exception e) {
 			// convert to HibernateException then to DataAccessException
@@ -173,6 +175,43 @@ public class ProfitLossDaoImpl implements ProfitLossDao {
 			RealTotalPL realTotalPLList = (RealTotalPL) sqlQuery.uniqueResult();
 			
 			return realTotalPLList;
+		
+		} catch (Exception e) {
+			// convert to HibernateException then to DataAccessException
+			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
+		}
+	}
+	
+	@Override
+	public StockWrapper findStock(String stockSym) {
+		try {
+			return new StockWrapper(YahooFinance.get(stockSym));
+		} catch (IOException e) {
+			log.error(e.getMessage());
+		}
+		return null;
+	}
+	
+	@Override
+	public void updateLastVal(UnrealPL unrealPl) {
+		log.info("updateLastVal unrealPl in DaoImpl..");
+		
+		try {
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			Transaction transaction = session.beginTransaction();
+			
+			String sql = "update PMS_PORT_HOLD set last_trans_price = :lastTransPrice " 
+					+ " where stock_sym = :stockSym and port_id = :portId";
+			
+			
+			NativeQuery query = session.createSQLQuery(sql);
+			query.setParameter("lastTransPrice", unrealPl.getLastTransPrice());
+			query.setParameter("stockSym", unrealPl.getStockSymbol());
+			query.setParameter("portId", unrealPl.getPortId());	
+			query.executeUpdate();
+			
+			transaction.commit();
+			session.close();
 		
 		} catch (Exception e) {
 			// convert to HibernateException then to DataAccessException

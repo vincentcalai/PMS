@@ -11,12 +11,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pms.pmsapp.common.data.Index;
+import com.pms.pmsapp.manageportfolio.portfolio.data.StockWrapper;
 import com.pms.pmsapp.profitloss.data.RealPL;
 import com.pms.pmsapp.profitloss.data.RealTotalPL;
 import com.pms.pmsapp.profitloss.data.UnrealPL;
 import com.pms.pmsapp.profitloss.data.UnrealTotalPL;
 import com.pms.pmsapp.profitloss.service.ProfitLossService;
 import com.pms.pmsapp.profitloss.web.ProfitLossForm;
+
+import yahoofinance.quotes.stock.StockQuote;
 
 @CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
 @RestController
@@ -73,6 +77,34 @@ public class ProfitLossController {
 		}
 		
 		return profitLossForm;
+	}
+	
+	@RequestMapping(value="/profitloss/updateliveprices", method=RequestMethod.POST)
+	public void updateLivePrices(@RequestBody ProfitLossForm profitLossForm) {
+		log.info("updateLivePrices in Controller");
+		
+		String portfolio = profitLossForm.getSelectedPortfolio();
+		
+		if(!(portfolio == "")) {
+				List<UnrealPL> unrealPlList = profitLossService.getUnrealisedList();
+				
+				log.info("get all unrealPl stocks positions..");
+				
+				for(UnrealPL unrealPl : unrealPlList) {
+					String stockSym = unrealPl.getStockSymbol();
+					StockWrapper stockWrapper = profitLossService.findStock(stockSym);
+					try {
+						StockQuote stockQuote = stockWrapper.getStock().getQuote(true);
+						unrealPl.setLastTransPrice(stockQuote.getPrice());
+						log.info("Stock Symbol: " + stockSym + " Last Price: " + unrealPl.getLastTransPrice());
+						profitLossService.updateLastVal(unrealPl);
+					} catch (Exception e) {
+						log.error(e.getMessage());
+					}
+				}
+				
+				
+		} 
 	}
 	
 }
