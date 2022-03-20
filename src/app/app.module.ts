@@ -48,6 +48,7 @@ import { PortfolioHoldComponent } from './portfolio-management/manage-portfolio/
 import { PortfolioTransComponent } from './portfolio-management/manage-portfolio/portfolio-trans/portfolio-trans.component';
 import { PortfolioComponent } from './portfolio-management/manage-portfolio/portfolio/portfolio.component';
 import { TransactionComponent } from './portfolio-management/manage-portfolio/transaction/transaction.component';
+import { PerformanceComponent } from './performance/performance.component';
 
 @NgModule({
   declarations: [
@@ -74,7 +75,8 @@ import { TransactionComponent } from './portfolio-management/manage-portfolio/tr
     SortPipe,
     DividendComponent,
     CreateDividendComponent,
-    LoadDividendComponent
+    LoadDividendComponent,
+    PerformanceComponent
   ],
   imports: [
     BrowserModule,

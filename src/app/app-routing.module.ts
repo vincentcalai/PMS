@@ -19,6 +19,7 @@ import { PortfolioTransComponent } from './portfolio-management/manage-portfolio
 import { PortfolioComponent } from './portfolio-management/manage-portfolio/portfolio/portfolio.component';
 import { PortfoliolistComponent } from './portfolio-management/manage-portfolio/portfoliolist/portfoliolist.component';
 import { TransactionComponent } from './portfolio-management/manage-portfolio/transaction/transaction.component';
+import { PerformanceComponent } from './performance/performance.component';
 
 
 const routes: Routes = [
@@ -39,6 +40,7 @@ const routes: Routes = [
   { path: 'div', component: DividendComponent, canActivate:[RouteGuard] },
   { path: 'creatediv/:id', component: CreateDividendComponent, canActivate:[RouteGuard] },
   { path: 'loaddiv', component: LoadDividendComponent, canActivate:[RouteGuard] },
+  { path: 'performance', component: PerformanceComponent, canActivate:[RouteGuard] },
   { path: '**', component: ErrorComponent}
 ];
 
