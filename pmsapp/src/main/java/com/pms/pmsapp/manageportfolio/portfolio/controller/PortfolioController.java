@@ -24,39 +24,39 @@ import com.pms.pmsapp.manageportfolio.portfolio.service.PortfolioService;
 @CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
 @RestController
 public class PortfolioController {
-	
+
 	private static final Logger log = LoggerFactory.getLogger(PortfolioController.class);
-	
+
 	@Autowired
 	private PortfolioService portfolioService;
-	
+
 	@RequestMapping(value="/portfolio", method=RequestMethod.GET)
 	public Page<Portfolio> findAll(@RequestParam("page") int page, @RequestParam("size") int size) {
 		log.info("findAll in Controller");
 		Pageable pageable = PageRequest.of(page-1, size);
-		
+
 		List<Portfolio> portfolioList= portfolioService.findAll(pageable);
 		long totalRec = portfolioService.findAllCount();
-		
-		PageImpl<Portfolio> portfolioPage = new PageImpl((List<Portfolio>) portfolioList, pageable, totalRec);
+
+		PageImpl<Portfolio> portfolioPage = new PageImpl(portfolioList, pageable, totalRec);
 		return portfolioPage;
 	}
-	
+
 	@RequestMapping(value="portfolio/add", method=RequestMethod.POST)
 	public Portfolio addPortfolio(@RequestBody Portfolio portfolioForm, Authentication authentication) {
 		 boolean portfolioExist = false;
 		 String portfolioName = portfolioForm.getPortfolioName();
-		 
+
 		 String username = authentication.getName();
-		 
+
 		 if(username != null) {
 			 portfolioForm.setCreatedBy(username);
 			 portfolioForm.setLastMdfyBy(username);
 		 }
-		 
+
 		 log.info("addPortfolio in Controller.. ");
 		 log.info("portfolioForm:  " + portfolioName);
-		 
+
 		 portfolioExist = portfolioService.checkPortfolioExist(portfolioName);
 		 if(portfolioExist) {
 			 portfolioForm.setErrMsg("Portfolio name already exist. Please create portfolio with different name.");
@@ -66,23 +66,23 @@ public class PortfolioController {
 		 }
 		 return portfolioForm;
 	}
-	
+
 	@RequestMapping(value="portfolio/update/{id}", method=RequestMethod.PUT)
 	public Portfolio updatePortfolio(@PathVariable long id, @RequestBody Portfolio portfolioForm, Authentication authentication) {
 		 log.info("updatePortfolio in Controller.. ");
-		 
+
 		 boolean portfolioExist = false;
 		 Long portfolioId = portfolioForm.getId();
 		 String portfolioName = portfolioForm.getPortfolioName();
 		 String username = authentication.getName();
-		 
+
 		 if(username != null) {
 			 portfolioForm.setCreatedBy(username);
 			 portfolioForm.setLastMdfyBy(username);
 		 }
-		 
+
 		 portfolioExist = portfolioService.checkPortfolioExist(portfolioId, portfolioName);
-		 
+
 		 if(portfolioExist) {
 			 portfolioForm.setErrMsg("Portfolio name already exist. Please update portfolio with different name.");
 		 } else {
@@ -91,16 +91,16 @@ public class PortfolioController {
 		 }
 		 return portfolioForm;
 	}
-	
+
 	@RequestMapping(value="portfolio/delete/{id}", method=RequestMethod.DELETE)
 	public Portfolio deletePortfolio(@PathVariable long id) {
 		Portfolio portfolio = new Portfolio();
 		log.info("deletePortfolio in Controller");
 		portfolioService.deletePortfolio(id);
-		
+
 		portfolio.setSystemMsg("Portfolio deleted successfully.");
-		
+
 		return portfolio;
 	}
-	
+
 }

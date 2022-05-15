@@ -9,23 +9,23 @@ import com.pms.pmsapp.manageportfolio.dividend.data.DividendDet;
 import com.pms.pmsapp.manageportfolio.portfolio.data.Portfolio;
 
 public interface DividendService{
-	public List<Portfolio> getPortfolios();
+	List<Portfolio> getPortfolios();
 
-	public long saveDivRec(Dividend dividend);
+	long saveDivRec(Dividend dividend);
 
-	public void populateDivRec(long id, Date exDate, BigDecimal adjDiv);
+	void populateDivRec(long id, Date exDate, BigDecimal adjDiv);
 
-	public List<String> retrieveDivYears(long portId);
+	List<String> retrieveDivYears(long portId);
 
-	public List<DividendDet> retrieveDivDet(Long portId,  String divYear);
+	List<DividendDet> retrieveDivDet(Long portId,  String divYear);
 
-	public BigDecimal retrieveTotalDiv(long portId);
+	BigDecimal retrieveTotalDiv(long portId);
 
-	public BigDecimal retrieveTotalYearDiv(long portId, String divYear);
+	BigDecimal retrieveTotalYearDiv(long portId, String divYear);
 
-	public List<Dividend> findAllCurrHoldDiv();
+	List<Dividend> findAllCurrHoldDiv();
 
-	public void updateDailyDivRec(Dividend divRec, Date exDate, BigDecimal adjDiv);
+	void updateDailyDivRec(Dividend divRec, Date exDate, BigDecimal adjDiv);
 
-	public void updateDivRec(long portId, String stockSym, int noOfShare);
+	void updateDivRec(long portId, String stockSym, int noOfShare);
 }

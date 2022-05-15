@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class WatchlistNotification implements Serializable{
-	
+
 	private Long id;
 	private Long watchId;
 	private String trigger1Ind;
@@ -26,11 +26,11 @@ public class WatchlistNotification implements Serializable{
 	private BigDecimal discPremPct;
 	private String lastMdfyBy;
 	private Date lastMdfyDt;
-	
+
 	public WatchlistNotification() {
 		super();
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -55,13 +55,10 @@ public class WatchlistNotification implements Serializable{
 		} else if (!id.equals(other.id))
 			return false;
 		if (watchId == null) {
-			if (other.watchId != null)
-				return false;
-		} else if (!watchId.equals(other.watchId))
-			return false;
-		return true;
-	}
-	
+      return other.watchId == null;
+		} else return watchId.equals(other.watchId);
+  }
+
 	public Long getId() {
 		return id;
 	}
@@ -189,7 +186,7 @@ public class WatchlistNotification implements Serializable{
 	public void setCustomDownPct(BigDecimal customDownPct) {
 		this.customDownPct = customDownPct;
 	}
-	
+
 	public String getDiscPremType() {
 		return discPremType;
 	}
@@ -221,5 +218,5 @@ public class WatchlistNotification implements Serializable{
 	public void setLastMdfyDt(Date lastMdfyDt) {
 		this.lastMdfyDt = lastMdfyDt;
 	}
-	
+
 }

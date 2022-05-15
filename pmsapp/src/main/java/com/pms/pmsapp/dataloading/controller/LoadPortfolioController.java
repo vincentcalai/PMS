@@ -27,34 +27,34 @@ import com.pms.pmsapp.dataloading.web.LoadPortfolioForm;
 @CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
 @RestController
 public class LoadPortfolioController {
-	
+
 	private static final Logger log = LoggerFactory.getLogger(LoadPortfolioController.class);
-	
+
 	private final String COMPLETED_CD = "C";
 	private final String FAILED_CD = "F";
 	private final String INPROGRESS_CD = "IP";
 	private final String PENDING_CD = "P";
-	
+
 	private final String COMPLETED_DESC = "COMPLETED";
 	private final String FAILED_DESC = "FAILED";
 	private final String INPROGRESS_DESC = "IN PROGRESS";
 	private final String PENDING_DESC = "PENDING";
-	
-	
+
+
 	@Autowired
 	private LoadPortfolioService loadPortfolioService;
-	
+
 	@RequestMapping(value="/loadportfolio/getUploadList", method=RequestMethod.POST)
-	public Page<LoadPortUpload> getUploadList(@RequestParam("page") int page, @RequestParam("size") int size, 
+	public Page<LoadPortUpload> getUploadList(@RequestParam("page") int page, @RequestParam("size") int size,
 			@RequestBody LoadPortfolioForm loadPortfolioForm) {
 		log.info("getUploadList in Controller");
 		String portfolioName = loadPortfolioForm.getPortfolioName();
-		
+
 		Pageable pageable = PageRequest.of(page-1, size);
-		
+
 		List<LoadPortUpload> dtos = loadPortfolioService.getUploadList(portfolioName, pageable);
 		long totalRec = loadPortfolioService.getUploadListCount();
-		
+
 		List<LoadPortUpload> loadPortfolioList = new ArrayList<LoadPortUpload>();
 		for(LoadPortUpload dto: dtos){
 			LoadPortUpload record = new LoadPortUpload();
@@ -74,48 +74,48 @@ public class LoadPortfolioController {
 				record.setStatus(PENDING_DESC);
 			else if (INPROGRESS_CD.equals(dto.getStatus()))
 				record.setStatus(INPROGRESS_DESC);
-			
+
 			record.setFileData(null);
 			record.setLogData(null);
-			
+
 			loadPortfolioList.add(record);
 		}
-		
+
 		//return loadPortfolioList;
-		PageImpl<LoadPortUpload> loadPortfolioPage = new PageImpl((List<LoadPortUpload>) loadPortfolioList, pageable, totalRec);
+		PageImpl<LoadPortUpload> loadPortfolioPage = new PageImpl(loadPortfolioList, pageable, totalRec);
 		return loadPortfolioPage;
 	}
-	
+
 	@RequestMapping(value="/loadportfolio/init", method=RequestMethod.POST)
 	public List<String> getPortfolios(@RequestBody LoadPortfolioForm loadPortfolioForm) {
 		log.info("getPortfolios in Controller");
 		List<String> portfolios = loadPortfolioService.getPortfolios();
 		return portfolios;
 	}
-	
+
 	@RequestMapping(value="/loadportfolio/uploadFile", method=RequestMethod.POST)
-	public LoadPortfolioForm uploadFile(@RequestPart(value="param", required=true) LoadPortfolioForm loadPortfolioForm, 
+	public LoadPortfolioForm uploadFile(@RequestPart(value="param", required=true) LoadPortfolioForm loadPortfolioForm,
 			@RequestPart(value="file", required = false) MultipartFile file, Authentication authentication) {
 		log.info("uploadFile in Controller");
 		String fileName = file.getOriginalFilename();
 		String fileExtension = "";
 		String fileWithoutExt = "";
 		String portfolioName = loadPortfolioForm.getPortfolioName();
-		String errMsg = "";		
-		String sysMsg = "";	
+		String errMsg = "";
+		String sysMsg = "";
 		String username = "";
-		
+
 		username = authentication.getName();
-		 
+
 		int dotPosition = fileName.lastIndexOf('.');
 		if (dotPosition > 0) {
 			fileExtension = fileName.substring(dotPosition+1);
 		    log.info("File extension: " + fileExtension);
 		}
-		
+
 		fileWithoutExt = fileName.substring(0, dotPosition);
 			log.info("File without extension: " + fileWithoutExt);
-		
+
 		if(!(fileExtension.equals("xls") || fileExtension.equals("xlsx"))) {
 			errMsg = "File type is incorrect. Please upload '.xls' or '.xlsx' files only.";
 		}else if(fileWithoutExt.length() > 80 ) {
@@ -139,32 +139,32 @@ public class LoadPortfolioController {
 				errMsg = "An error occurred while uploading the file. Please contact the administrator.";
 			}
 		}
-		
+
 		loadPortfolioForm.setErrMsg(errMsg);
 		loadPortfolioForm.setSysMsg(sysMsg);
-		
+
 		return loadPortfolioForm;
 	}
-	
+
 	@RequestMapping(value="/loadportfolio/delete", method=RequestMethod.POST)
 	public void deleteUpload(@RequestBody LoadPortfolioForm loadPortfolioForm) {
 		log.info("deleteUpload in Controller");
 		List<Long> idList = new ArrayList<Long>();
 		List<LoadPortUpload> deleteList = loadPortfolioForm.getDeleteList();
-		
+
 		for(LoadPortUpload rec : deleteList) {
 			Long id = rec.getUploadId();
 			idList.add(id);
 		}
-		
+
 		if(!idList.isEmpty()) {
 			loadPortfolioService.deleteUploadHist(idList);
 		}
-		
+
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 }

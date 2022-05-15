@@ -10,15 +10,15 @@ import com.pms.pmsapp.profitloss.data.UnrealTotalPL;
 
 public interface ProfitLossDao{
 
-	public List<String> getPortfolios();
-	public List<String> getAllCurr();
-	public List<UnrealPL> getUnrealisedList();
-	public void computeUnrealisedList(String portfolio, String currency);
-	public List<RealPL> getRealisedList(String portfolio, String currency);
-	public void computeRealisedList(String portfolio, String currency);
-	public UnrealTotalPL getUnrealisedTotalList(String portfolio);
-	public RealTotalPL getRealisedTotalList(String portfolio);
-	public StockWrapper findStock(String stockSym);
-	public void updateLastVal(UnrealPL unrealPl);
+	List<String> getPortfolios();
+	List<String> getAllCurr();
+	List<UnrealPL> getUnrealisedList();
+	void computeUnrealisedList(String portfolio, String currency);
+	List<RealPL> getRealisedList(String portfolio, String currency);
+	void computeRealisedList(String portfolio, String currency);
+	UnrealTotalPL getUnrealisedTotalList(String portfolio);
+	RealTotalPL getRealisedTotalList(String portfolio);
+	StockWrapper findStock(String stockSym);
+	void updateLastVal(UnrealPL unrealPl);
 
 }

@@ -6,13 +6,13 @@ import com.pms.pmsapp.common.data.Message;
 
 public interface MessageService {
 
-	public void genWatchlistNotiMsg();
-	
-	public List<Message> retrieveMsg(String loginUser);
-	
-	public int retrieveMsgCnt(String loginUser);
+	void genWatchlistNotiMsg();
 
-	public void softDelReadMsg(String loginUser);
-	
-	public void deleteAllMsg(String loginUser);
+	List<Message> retrieveMsg(String loginUser);
+
+	int retrieveMsgCnt(String loginUser);
+
+	void softDelReadMsg(String loginUser);
+
+	void deleteAllMsg(String loginUser);
 }

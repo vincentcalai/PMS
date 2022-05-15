@@ -8,14 +8,14 @@ import com.pms.pmsapp.common.data.Message;
 
 public interface MessageDao {
 
-	public void genWatchlistNotiMsg();
+	void genWatchlistNotiMsg();
 
-	public List<Message> retrieveMsg(String loginUser);
-	
-	public int retrieveMsgCnt(String loginUser);
+	List<Message> retrieveMsg(String loginUser);
 
-	public void softDelReadMsg(String loginUser);
-	
-	public void deleteAllMsg(String loginUser);
+	int retrieveMsgCnt(String loginUser);
+
+	void softDelReadMsg(String loginUser);
+
+	void deleteAllMsg(String loginUser);
 
 }

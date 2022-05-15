@@ -22,7 +22,7 @@ public class JwtTokenUtil implements Serializable {
   static final String CLAIM_KEY_USERNAME = "sub";
   static final String CLAIM_KEY_CREATED = "iat";
   private static final long serialVersionUID = -3301605591108950415L;
-  private Clock clock = DefaultClock.INSTANCE;
+  private final Clock clock = DefaultClock.INSTANCE;
 
   @Value("${jwt.signing.key.secret}")
   private String secret;

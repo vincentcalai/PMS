@@ -8,7 +8,7 @@ import javax.persistence.Entity;
 
 @Entity
 public class PortfolioHold implements Serializable{
-	
+
 	private Long portId;
 	private String stockName;
 	private String stockSymbol;
@@ -22,10 +22,10 @@ public class PortfolioHold implements Serializable{
 	private BigDecimal profitLossPct;
 	private String lastTransBy;
 	private Date lastTransDt;
-	
+
 	public PortfolioHold() {
 	}
-	
+
 	public PortfolioHold(Long portId, String stockName, String stockSymbol, String stockExchg,
 			int totalShare, BigDecimal avgPrice, BigDecimal totalAmt, BigDecimal lastTransPrice, BigDecimal mktValue,
 			BigDecimal profitLoss, BigDecimal profitLossPct, String lastTransBy, Date lastTransDt) {
@@ -44,7 +44,7 @@ public class PortfolioHold implements Serializable{
 		this.lastTransBy = lastTransBy;
 		this.lastTransDt = lastTransDt;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -69,12 +69,9 @@ public class PortfolioHold implements Serializable{
 		} else if (!portId.equals(other.portId))
 			return false;
 		if (stockName == null) {
-			if (other.stockName != null)
-				return false;
-		} else if (!stockName.equals(other.stockName))
-			return false;
-		return true;
-	}
+      return other.stockName == null;
+		} else return stockName.equals(other.stockName);
+  }
 
 	public Long getPortId() {
 		return portId;

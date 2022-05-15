@@ -1,11 +1,11 @@
 package com.pms.pmsapp.profitloss.web;
 
-import java.util.List;
-
 import com.pms.pmsapp.profitloss.data.RealPL;
 import com.pms.pmsapp.profitloss.data.RealTotalPL;
 import com.pms.pmsapp.profitloss.data.UnrealPL;
 import com.pms.pmsapp.profitloss.data.UnrealTotalPL;
+
+import java.util.List;
 
 public class ProfitLossForm {
 
@@ -13,22 +13,22 @@ public class ProfitLossForm {
 
 	private String selectedPnlType;
     private String selectedCurr;
-    	
+
 	private List<String> portfolioList;
 	private List<String> currList;
-	
+
 	private List<UnrealPL> unrealisedList;
 	private List<RealPL> realisedList;
-	
+
 	private UnrealTotalPL unrealisedTotalList;
 	private RealTotalPL realisedTotalList;
-	
+
 	private String errMsg;
-	
+
 	public ProfitLossForm() {
-		
+
 	}
-	
+
 	public ProfitLossForm(String selectedPortfolio, String selectedPnlType, String selectedCurr,
 			List<String> portfolioList, List<String> currList, List<UnrealPL> unrealisedList, List<RealPL> realisedList,
 			UnrealTotalPL unrealisedTotalList, RealTotalPL realisedTotalList, String errMsg) {
@@ -44,8 +44,8 @@ public class ProfitLossForm {
 		this.realisedTotalList = realisedTotalList;
 		this.errMsg = errMsg;
 	}
-	
-	
+
+
 	public List<String> getPortfolioList() {
 		return portfolioList;
 	}
@@ -93,7 +93,7 @@ public class ProfitLossForm {
 	public void setSelectedCurr(String selectedCurr) {
 		this.selectedCurr = selectedCurr;
 	}
-	
+
 	public List<RealPL> getRealisedList() {
 		return realisedList;
 	}
@@ -126,5 +126,5 @@ public class ProfitLossForm {
 		this.realisedTotalList = realisedTotalList;
 	}
 
-	
+
 }

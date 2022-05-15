@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pms.pmsapp.dataloading.data.LoadDiv;
 import com.pms.pmsapp.dataloading.data.LoadDivUpload;
 import com.pms.pmsapp.dataloading.data.LoadPortUpload;
 import com.pms.pmsapp.dataloading.service.LoadDivService;
@@ -43,73 +42,73 @@ import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
 @CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
 @RestController
 public class DownloadController {
-	
+
 	private static final Logger log = LoggerFactory.getLogger(DownloadController.class);
-	
+
 	@Autowired
 	private LoadPortfolioService loadPortfolioService;
-	
+
 	@Autowired
 	private LoadDivService loadDivService;
-	
+
 	@Value("${spring.datasource.url}")
 	private String url;
-	
+
 	@Value("${spring.datasource.username}")
 	private String username;
-	
+
 	@Value("${spring.datasource.password}")
 	private String password;
-	
+
 	@RequestMapping(value = "/downloadTmplt", method = RequestMethod.GET)
 	public void downloadTmplt(String fileName, HttpServletResponse res) throws IOException, URISyntaxException {
 		res.setHeader("Content-Disposition", "attachment; filename=" + fileName);
 		res.getOutputStream().write(contentOf("excel/" + fileName));
 	}
-	
+
 	public byte[] contentOf(String fileName) throws IOException, URISyntaxException {
 		log.info("download path: " + Paths.get(getClass().getClassLoader().getResource(fileName).toURI()));
 		return Files.readAllBytes(Paths.get(getClass().getClassLoader().getResource(fileName).toURI()));
 	}
-	
+
 	@RequestMapping(value = "/downloadFile", method = RequestMethod.GET)
 	public void downloadFile(Long fileId, HttpServletResponse res) throws IOException, URISyntaxException {
 		//res.setHeader("Content-Disposition", "attachment; fileId=" + fileId);
 		res.setHeader("Access-Control-Expose-Headers", "Content-Disposition");
 		handleLoadPortTrans(fileId,res);
 	}
-	
+
 	@RequestMapping(value = "/genTransReport", method = RequestMethod.GET)
 	public void genTransReport(Long fileId, HttpServletResponse res) throws IOException, URISyntaxException {
 		res.setHeader("Access-Control-Expose-Headers", "Content-Disposition");
 		handleGenTransReport(fileId,res);
 	}
-	
+
 	@RequestMapping(value = "/genHoldReport", method = RequestMethod.GET)
 	public void genHoldReport(Long fileId, HttpServletResponse res) throws IOException, URISyntaxException {
 		res.setHeader("Access-Control-Expose-Headers", "Content-Disposition");
 		handleGenHoldReport(fileId,res);
 	}
-	
+
 	@RequestMapping(value = "/downloadLogFile", method = RequestMethod.GET)
 	public void downloadLogFile(Long fileId, HttpServletResponse res) throws IOException, URISyntaxException {
 		res.setHeader("Access-Control-Expose-Headers", "Content-Disposition");
 		handleLoadPortTransLog(fileId,res);
 	}
-	
+
 	@RequestMapping(value = "/downloadDivUploadFile", method = RequestMethod.GET)
 	public void downloadDivUploadFile(Long fileId, HttpServletResponse res) throws IOException, URISyntaxException {
 		//res.setHeader("Content-Disposition", "attachment; fileId=" + fileId);
 		res.setHeader("Access-Control-Expose-Headers", "Content-Disposition");
 		handleLoadDiv(fileId,res);
 	}
-	
+
 	@RequestMapping(value = "/downloadDivLogFile", method = RequestMethod.GET)
 	public void downloadDivLogFile(Long fileId, HttpServletResponse res) throws IOException, URISyntaxException {
 		res.setHeader("Access-Control-Expose-Headers", "Content-Disposition");
 		handleLoadDivLog(fileId,res);
 	}
-	
+
 	private void handleLoadPortTrans(Long id, HttpServletResponse response) {
 		LoadPortUpload fileLoad = null;
 
@@ -126,7 +125,7 @@ public class DownloadController {
 				response.setContentType("application/x-download");
 				response.setHeader("Content-Disposition",
 						"attachment; filename=" + fileLoad.getFileName() + ".xlsx");
-				response.setContentLength((int) fileLoad.getFileData().length);
+				response.setContentLength(fileLoad.getFileData().length);
 				response.getOutputStream().write(bytes);
 				response.getOutputStream().flush();
 				response.getOutputStream().close();
@@ -135,7 +134,7 @@ public class DownloadController {
 			log.error("", e);
 		}
 	}
-	
+
 	private void handleLoadPortTransLog(Long id, HttpServletResponse response) {
 		LoadPortUpload fileLoad = null;
 
@@ -163,22 +162,22 @@ public class DownloadController {
 			log.error("", e);
 		}
 	}
-	
+
 	private void handleGenTransReport(Long id, HttpServletResponse response) {
-		
+
 		try {
 			InputStream transactionReportStream = getClass().getResourceAsStream("/jrxml/transaction.jrxml");
 			JasperReport jasperReport = JasperCompileManager.compileReport(transactionReportStream);
-			
+
 			Map<String, Object> params = new HashMap<>();
 			params.put("portId", id);
-			
-			Connection conn = DriverManager.getConnection(url, username, password);  
+
+			Connection conn = DriverManager.getConnection(url, username, password);
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, conn);
 
 			String fileName = "transaction";
 			File file = new File(fileName + ".xlsx");
-			
+
 			SimpleXlsxReportConfiguration configuration = new SimpleXlsxReportConfiguration();
 			configuration.setOnePagePerSheet(true);
 			configuration.setIgnoreGraphics(false);
@@ -189,7 +188,7 @@ public class DownloadController {
 		    exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(file.getAbsolutePath()));
 		    exporter.setConfiguration(configuration);
 		    exporter.exportReport();
-		    
+
 			byte[] bytes = Files.readAllBytes(file.toPath());
 
 			response.setContentType("application/x-download");
@@ -203,25 +202,25 @@ public class DownloadController {
 		} catch (Exception e) {
 			log.error("", e);
 		}
-		
+
 	}
-	
+
 	private void handleGenHoldReport(Long id, HttpServletResponse response) {
-		
+
 		try {
 			InputStream transactionReportStream = getClass().getResourceAsStream("/jrxml/holdings.jrxml");
 			JasperReport jasperReport = JasperCompileManager.compileReport(transactionReportStream);
-			
+
 			Map<String, Object> params = new HashMap<>();
 			params.put("portId", id);
-			
-			Connection conn = DriverManager.getConnection(url, username, password);  
+
+			Connection conn = DriverManager.getConnection(url, username, password);
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, conn);
-			
+
 			String home = System.getProperty("user.home");
 			String fileName = "holdings";
 			File file = new File(fileName + ".xlsx");
-			
+
 			SimpleXlsxReportConfiguration configuration = new SimpleXlsxReportConfiguration();
 			configuration.setOnePagePerSheet(true);
 			configuration.setIgnoreGraphics(false);
@@ -232,7 +231,7 @@ public class DownloadController {
 		    exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(file.getAbsolutePath()));
 		    exporter.setConfiguration(configuration);
 		    exporter.exportReport();
-		    
+
 			byte[] bytes = Files.readAllBytes(file.toPath());
 
 			response.setContentType("application/x-download");
@@ -246,9 +245,9 @@ public class DownloadController {
 		} catch (Exception e) {
 			log.error("", e);
 		}
-		
+
 	}
-	
+
 	private void handleLoadDiv(Long id, HttpServletResponse response) {
 		LoadDivUpload fileLoad = null;
 
@@ -265,7 +264,7 @@ public class DownloadController {
 				response.setContentType("application/x-download");
 				response.setHeader("Content-Disposition",
 						"attachment; filename=" + fileLoad.getFileName() + ".xlsx");
-				response.setContentLength((int) fileLoad.getFileData().length);
+				response.setContentLength(fileLoad.getFileData().length);
 				response.getOutputStream().write(bytes);
 				response.getOutputStream().flush();
 				response.getOutputStream().close();
@@ -274,7 +273,7 @@ public class DownloadController {
 			log.error("", e);
 		}
 	}
-	
+
 	private void handleLoadDivLog(Long id, HttpServletResponse response) {
 		LoadDivUpload fileLoad = null;
 
@@ -302,6 +301,6 @@ public class DownloadController {
 			log.error("", e);
 		}
 	}
-	
-	
+
+
 }

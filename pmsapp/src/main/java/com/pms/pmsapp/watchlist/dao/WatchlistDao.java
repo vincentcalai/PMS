@@ -14,47 +14,47 @@ import com.pms.pmsapp.watchlist.data.WatchlistNotification;
 
 public interface WatchlistDao {
 
-	public List<Watchlist> findAllWatchlist(Pageable pageable);
+	List<Watchlist> findAllWatchlist(Pageable pageable);
 
-	public long findAllWatchlistCount();
+	long findAllWatchlistCount();
 
-	public boolean checkWatchlistExist(String watchlistName);
+	boolean checkWatchlistExist(String watchlistName);
 
-	public void addWatchlist(Watchlist watchlistForm);
+	void addWatchlist(Watchlist watchlistForm);
 
-	public void deleteWatchlist(long id);
+	void deleteWatchlist(long id);
 
-	public List<WatchlistEntry> findAllEntry(Long watchId, Pageable pageable);
+	List<WatchlistEntry> findAllEntry(Long watchId, Pageable pageable);
 
-	public long findAllEntryCount(Long watchId);
+	long findAllEntryCount(Long watchId);
 
-	public boolean checkEntryExist(WatchlistEntry entryForm);
+	boolean checkEntryExist(WatchlistEntry entryForm);
 
-	public void addWatchlistEntry(WatchlistEntry entryForm);
+	void addWatchlistEntry(WatchlistEntry entryForm);
 
-	public List<WatchlistEntry> searchEntry(long watchId, String searchText, Pageable pageable);
+	List<WatchlistEntry> searchEntry(long watchId, String searchText, Pageable pageable);
 
-	public long searchEntryCount(long watchId, String searchText);
+	long searchEntryCount(long watchId, String searchText);
 
-	public void deleteWatchlistEntry(Long entryId, Long watchId);
+	void deleteWatchlistEntry(Long entryId, Long watchId);
 
-	public void initNotification(Long id, Long watchId, BigDecimal targetPrice, String username);
+	void initNotification(Long id, Long watchId, BigDecimal targetPrice, String username);
 
-	public Long findNextEntrySeq();
+	Long findNextEntrySeq();
 
-	public WatchlistNotification findNotification(Long id, Long watchId);
+	WatchlistNotification findNotification(Long id, Long watchId);
 
-	public void updateNotification(WatchlistNotification watchlistNotification);
+	void updateNotification(WatchlistNotification watchlistNotification);
 
-	public List<String> findAllStockSym();
+	List<String> findAllStockSym();
 
-	public StockWrapper findStock(String stockSym);
+	StockWrapper findStock(String stockSym);
 
-	public void updateWatchlistEntryPrice(String stock, BigDecimal lastPrice, BigDecimal change, BigDecimal changePct);
+	void updateWatchlistEntryPrice(String stock, BigDecimal lastPrice, BigDecimal change, BigDecimal changePct);
 
-	public void updateOtherNoti();
+	void updateOtherNoti();
 
-	public void deleteAllOtherNoti();
+	void deleteAllOtherNoti();
 
-	public void updateTriggerNoti();
+	void updateTriggerNoti();
 }

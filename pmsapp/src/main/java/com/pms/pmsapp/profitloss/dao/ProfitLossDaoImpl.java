@@ -15,7 +15,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.orm.hibernate5.SessionFactoryUtils;
 import org.springframework.stereotype.Repository;
 
-import com.pms.pmsapp.common.data.Index;
 import com.pms.pmsapp.manageportfolio.portfolio.data.StockWrapper;
 import com.pms.pmsapp.profitloss.data.RealPL;
 import com.pms.pmsapp.profitloss.data.RealTotalPL;
@@ -28,7 +27,7 @@ import yahoofinance.YahooFinance;
 
 @Repository
 public class ProfitLossDaoImpl implements ProfitLossDao {
-	
+
 	private static final Logger log = LoggerFactory.getLogger(ProfitLossDaoImpl.class);
 
 	@Override
@@ -51,23 +50,23 @@ public class ProfitLossDaoImpl implements ProfitLossDao {
 	public List<UnrealPL> getUnrealisedList() {
 		try {
 			Session session = HibernateUtil.getSessionFactory().openSession();
-			
+
 			String sql = "SELECT PORT_ID, STOCK_NAM, STOCK_SYM, STOCK_EXCHG, DOM_CURR, TOTAL_SHARE, AVG_PRICE, TOTAL_AMT, "
-					+ "LAST_TRANS_PRICE, MKT_VALUE, PROFIT_LOSS, CONV_PROFIT_LOSS, PROFIT_LOSS_PCT from PMS_UNREAL_PL order by STOCK_NAM";				
-					
+					+ "LAST_TRANS_PRICE, MKT_VALUE, PROFIT_LOSS, CONV_PROFIT_LOSS, PROFIT_LOSS_PCT from PMS_UNREAL_PL order by STOCK_NAM";
+
 			SQLQuery sqlQuery = session.createSQLQuery(sql);
-	
+
 			sqlQuery.addEntity(UnrealPL.class);
-	
+
 			List<UnrealPL> unrealPLList = sqlQuery.list();
-			
+
 			return unrealPLList;
-		
+
 		} catch (Exception e) {
 			// convert to HibernateException then to DataAccessException
 			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
 		}
-		
+
 	}
 
 	@Override
@@ -85,7 +84,7 @@ public class ProfitLossDaoImpl implements ProfitLossDao {
 		callableStatement.setString(2, currency);
 		callableStatement.executeUpdate();
 		((SessionImpl)session).connection().commit();
-		
+
 		session.close();
 
 		} catch (Exception e) {
@@ -98,26 +97,26 @@ public class ProfitLossDaoImpl implements ProfitLossDao {
 	public List<RealPL> getRealisedList(String portfolio, String currency) {
 		try {
 			Session session = HibernateUtil.getSessionFactory().openSession();
-			
+
 			String sql = "select r.* from pms_real_pl r  inner join pms_port p  "
-					+ "on r.port_id = p.id where p.port_name = :portfolio " 
-					+ "order by sell_dt desc";				
-					
+					+ "on r.port_id = p.id where p.port_name = :portfolio "
+					+ "order by sell_dt desc";
+
 			SQLQuery sqlQuery = session.createSQLQuery(sql);
-	
+
 			sqlQuery.addEntity(RealPL.class)
 			.setParameter("portfolio", portfolio);
-	
+
 			List<RealPL> realPLList = sqlQuery.list();
-			
+
 			return realPLList;
-		
+
 		} catch (Exception e) {
 			// convert to HibernateException then to DataAccessException
 			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
 		}
 	}
-	
+
 	@Override
 	public void computeRealisedList(String portfolio, String currency) {
 		log.info("computeRealisedList in DaoImpl..");
@@ -133,7 +132,7 @@ public class ProfitLossDaoImpl implements ProfitLossDao {
 		callableStatement.setString(2, currency);
 		callableStatement.executeUpdate();
 		((SessionImpl)session).connection().commit();
-		
+
 		session.close();
 
 		} catch (Exception e) {
@@ -145,17 +144,17 @@ public class ProfitLossDaoImpl implements ProfitLossDao {
 	@Override
 	public UnrealTotalPL getUnrealisedTotalList(String portfolio) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		
+
 		String sql = "select r.* from pms_unreal_total_pl r  inner join pms_port p "
-				+ "on r.port_id = p.id where p.port_name = :portfolio";				
-				
+				+ "on r.port_id = p.id where p.port_name = :portfolio";
+
 		SQLQuery sqlQuery = session.createSQLQuery(sql)
 				.setParameter("portfolio", portfolio);
 
 		sqlQuery.addEntity(UnrealTotalPL.class);
-		
+
 		UnrealTotalPL unrealTotalPLList = (UnrealTotalPL) sqlQuery.uniqueResult();
-		
+
 		return unrealTotalPLList;
 	}
 
@@ -163,25 +162,25 @@ public class ProfitLossDaoImpl implements ProfitLossDao {
 	public RealTotalPL getRealisedTotalList(String portfolio) {
 		try {
 			Session session = HibernateUtil.getSessionFactory().openSession();
-			
+
 			String sql = "select r.* from pms_real_total_pl r  inner join pms_port p "
-					+ "on r.port_id = p.id where p.port_name = :portfolio";				
-					
+					+ "on r.port_id = p.id where p.port_name = :portfolio";
+
 			SQLQuery sqlQuery = session.createSQLQuery(sql)
 					.setParameter("portfolio", portfolio);
-	
+
 			sqlQuery.addEntity(RealTotalPL.class);
-	
+
 			RealTotalPL realTotalPLList = (RealTotalPL) sqlQuery.uniqueResult();
-			
+
 			return realTotalPLList;
-		
+
 		} catch (Exception e) {
 			// convert to HibernateException then to DataAccessException
 			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
 		}
 	}
-	
+
 	@Override
 	public StockWrapper findStock(String stockSym) {
 		try {
@@ -191,33 +190,33 @@ public class ProfitLossDaoImpl implements ProfitLossDao {
 		}
 		return null;
 	}
-	
+
 	@Override
 	public void updateLastVal(UnrealPL unrealPl) {
 		log.info("updateLastVal unrealPl in DaoImpl..");
-		
+
 		try {
 			Session session = HibernateUtil.getSessionFactory().openSession();
 			Transaction transaction = session.beginTransaction();
-			
-			String sql = "update PMS_PORT_HOLD set last_trans_price = :lastTransPrice " 
+
+			String sql = "update PMS_PORT_HOLD set last_trans_price = :lastTransPrice "
 					+ " where stock_sym = :stockSym and port_id = :portId";
-			
-			
+
+
 			NativeQuery query = session.createSQLQuery(sql);
 			query.setParameter("lastTransPrice", unrealPl.getLastTransPrice());
 			query.setParameter("stockSym", unrealPl.getStockSymbol());
-			query.setParameter("portId", unrealPl.getPortId());	
+			query.setParameter("portId", unrealPl.getPortId());
 			query.executeUpdate();
-			
+
 			transaction.commit();
 			session.close();
-		
+
 		} catch (Exception e) {
 			// convert to HibernateException then to DataAccessException
 			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
 		}
 	}
-	
-	
+
+
 }

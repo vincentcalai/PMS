@@ -8,7 +8,7 @@ import javax.persistence.Entity;
 
 @Entity
 public class UnrealPL implements Serializable{
-	
+
 	private Long portId;
 	private String stockName;
 	private String stockSymbol;
@@ -24,10 +24,10 @@ public class UnrealPL implements Serializable{
 	private BigDecimal profitLossPct;
 	private String lastTransBy;
 	private Date lastTransDt;
-	
+
 	public UnrealPL() {
 	}
-	
+
 	public UnrealPL(Long portId, String stockName, String stockSymbol, String stockExchg, String domCurr,
 			int totalShare, BigDecimal avgPrice, BigDecimal totalAmt, BigDecimal lastTransPrice, BigDecimal mktValue,
 			BigDecimal profitLoss, BigDecimal convProfitLoss, BigDecimal profitLossPct, String lastTransBy,
@@ -49,7 +49,7 @@ public class UnrealPL implements Serializable{
 		this.lastTransBy = lastTransBy;
 		this.lastTransDt = lastTransDt;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -74,12 +74,9 @@ public class UnrealPL implements Serializable{
 		} else if (!portId.equals(other.portId))
 			return false;
 		if (stockName == null) {
-			if (other.stockName != null)
-				return false;
-		} else if (!stockName.equals(other.stockName))
-			return false;
-		return true;
-	}
+      return other.stockName == null;
+		} else return stockName.equals(other.stockName);
+  }
 
 	public Long getPortId() {
 		return portId;
@@ -112,7 +109,7 @@ public class UnrealPL implements Serializable{
 	public void setStockExchg(String stockExchg) {
 		this.stockExchg = stockExchg;
 	}
-	
+
 	public String getDomCurr() {
 		return domCurr;
 	}
@@ -168,7 +165,7 @@ public class UnrealPL implements Serializable{
 	public void setProfitLoss(BigDecimal profitLoss) {
 		this.profitLoss = profitLoss;
 	}
-	
+
 	public BigDecimal getConvProfitLoss() {
 		return convProfitLoss;
 	}
@@ -200,5 +197,5 @@ public class UnrealPL implements Serializable{
 	public void setLastTransDt(Date lastTransDt) {
 		this.lastTransDt = lastTransDt;
 	}
-	
+
 }

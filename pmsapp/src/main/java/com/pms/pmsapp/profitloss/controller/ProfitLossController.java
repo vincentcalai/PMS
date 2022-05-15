@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pms.pmsapp.common.data.Index;
 import com.pms.pmsapp.manageportfolio.portfolio.data.StockWrapper;
 import com.pms.pmsapp.profitloss.data.RealPL;
 import com.pms.pmsapp.profitloss.data.RealTotalPL;
@@ -25,17 +24,17 @@ import yahoofinance.quotes.stock.StockQuote;
 @CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
 @RestController
 public class ProfitLossController {
-	
+
 	private static final Logger log = LoggerFactory.getLogger(ProfitLossController.class);
-	
+
 	private final String PNL_TYPE_ALL = "ALL";
 	private final String PNL_TYPE_UNREAL = "UNREALISED";
 	private final String PNL_TYPE_REAL = "REALISED";
-	
+
 	@Autowired
 	private ProfitLossService profitLossService;
-	
-	
+
+
 	@RequestMapping(value="/profitloss/init", method=RequestMethod.POST)
 	public ProfitLossForm init(@RequestBody ProfitLossForm profitLossForm) {
 		log.info("profitloss init in Controller");
@@ -52,11 +51,11 @@ public class ProfitLossController {
 		profitLossForm.setRealisedList(null);
 		profitLossForm.setUnrealisedList(null);
 		profitLossForm.setErrMsg(null);
-		
+
 		String portfolio = profitLossForm.getSelectedPortfolio();
 		String pnlType = profitLossForm.getSelectedPnlType();
 		String currency = profitLossForm.getSelectedCurr();
-		
+
 		if(!(portfolio == "")) {
 			if(pnlType.equals(PNL_TYPE_ALL) || pnlType.equals(PNL_TYPE_UNREAL)) {
 				profitLossService.computeUnrealisedList(portfolio, currency);
@@ -64,32 +63,32 @@ public class ProfitLossController {
 				UnrealTotalPL unrealTotalPlList = profitLossService.getUnrealisedTotalList(portfolio);
 				profitLossForm.setUnrealisedList(unrealPlList);
 				profitLossForm.setUnrealisedTotalList(unrealTotalPlList);
-			} 
+			}
 			if(pnlType.equals(PNL_TYPE_ALL) || pnlType.equals(PNL_TYPE_REAL)) {
 				profitLossService.computeRealisedList(portfolio, currency);
 				List<RealPL> realPlList = profitLossService.getRealisedList(portfolio, currency);
 				RealTotalPL realTotalPlList = profitLossService.getRealisedTotalList(portfolio);
 				profitLossForm.setRealisedList(realPlList);
 				profitLossForm.setRealisedTotalList(realTotalPlList);
-			} 
+			}
 		} else {
 			profitLossForm.setErrMsg("Please select a portfolio.");
 		}
-		
+
 		return profitLossForm;
 	}
-	
+
 	@RequestMapping(value="/profitloss/updateliveprices", method=RequestMethod.POST)
 	public void updateLivePrices(@RequestBody ProfitLossForm profitLossForm) {
 		log.info("updateLivePrices in Controller");
-		
+
 		String portfolio = profitLossForm.getSelectedPortfolio();
-		
+
 		if(!(portfolio == "")) {
 				List<UnrealPL> unrealPlList = profitLossService.getUnrealisedList();
-				
+
 				log.info("get all unrealPl stocks positions..");
-				
+
 				for(UnrealPL unrealPl : unrealPlList) {
 					String stockSym = unrealPl.getStockSymbol();
 					StockWrapper stockWrapper = profitLossService.findStock(stockSym);
@@ -102,9 +101,9 @@ public class ProfitLossController {
 						log.error(e.getMessage());
 					}
 				}
-				
-				
-		} 
+
+
+		}
 	}
-	
+
 }

@@ -10,11 +10,11 @@ import com.pms.pmsapp.manageportfolio.portfolio.data.PortfolioHold;
 import com.pms.pmsapp.manageportfolio.portfolio.data.StockWrapper;
 
 public interface PortfolioHoldDao{
-	public List<PortfolioHold> findAllHold(long id, Pageable pageable);
-	public List<PortfolioHold> findAllHold(long id);
-	public StockWrapper findStock(String stockSym);
-	public void computeHoldingsJob(String stock, BigDecimal lastTransPrice);
-	public List<String> findAllStockSym();
-	public List<MktExchg> findAllMktExchg();
-	public long findAllCount(long id);
+	List<PortfolioHold> findAllHold(long id, Pageable pageable);
+	List<PortfolioHold> findAllHold(long id);
+	StockWrapper findStock(String stockSym);
+	void computeHoldingsJob(String stock, BigDecimal lastTransPrice);
+	List<String> findAllStockSym();
+	List<MktExchg> findAllMktExchg();
+	long findAllCount(long id);
 }

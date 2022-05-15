@@ -10,25 +10,25 @@ import com.pms.pmsapp.sysadmin.data.User;
 
 
 public interface UserDao {
-	public Optional<User> findUser(String username);
+	Optional<User> findUser(String username);
 
-	public List<User> findAllUsers(Pageable pageable);
+	List<User> findAllUsers(Pageable pageable);
 
 	boolean checkUserExist(String username);
 
-	public void addUser(User userForm);
+	void addUser(User userForm);
 
-	public void addUserRole(String username, String newUserRole);
+	void addUserRole(String username, String newUserRole);
 
-	public long findAllUserCount();
+	long findAllUserCount();
 
-	public void updateUser(User userForm);
+	void updateUser(User userForm);
 
-	public void updateUserRole(Long id, String newUserRole);
+	void updateUserRole(Long id, String newUserRole);
 
-	public void deleteUser(long id);
-	
-	public List<String> findUserRoles(String username);
+	void deleteUser(long id);
 
-	public void clearUserRole(Long id);
+	List<String> findUserRoles(String username);
+
+	void clearUserRole(Long id);
 }

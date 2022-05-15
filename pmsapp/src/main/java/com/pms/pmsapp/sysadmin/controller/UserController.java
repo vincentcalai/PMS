@@ -25,40 +25,40 @@ import com.pms.pmsapp.sysadmin.service.UserService;
 @CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
 @RestController
 public class UserController {
-	
+
 	private static final Logger log = LoggerFactory.getLogger(UserController.class);
-	
+
 	@Autowired
 	private UserService userService;
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-	
+
 	@RequestMapping(value="/sysadmin/userlist", method=RequestMethod.GET)
 	public Page<User> findAllUsers(@RequestParam("page") int page, @RequestParam("size") int size) {
 		log.info("findAllUsers in Controller");
 		Pageable pageable = PageRequest.of(page-1, size);
-		
+
 		List<User> users= userService.findAllUsers(pageable);
 		long totalRec = userService.findAllUserCount();
-		
-		PageImpl<User> usersPage = new PageImpl((List<User>) users, pageable, totalRec);
+
+		PageImpl<User> usersPage = new PageImpl(users, pageable, totalRec);
 		return usersPage;
 	}
-	
+
 	@RequestMapping(value="/sysadmin/createuser", method=RequestMethod.POST)
 	public User createUser(@RequestBody User userForm, Authentication authentication) {
 		 log.info("createUser in Controller.. ");
-		 
+
 		 String username = userForm.getUsername();
 		 String createdBy = authentication.getName();
-		 
+
 		 if(createdBy != null) {
 			 userForm.setCreatedBy(createdBy);
 		 }
-		 
+
 		 userForm.setRoles(String.join(", ", userForm.getSelectedRoles()));
-		 
+
 		 boolean userExist = userService.checkUserExist(userForm.getUsername());
 		 if(userExist) {
 			 //userForm.setPassword(null);
@@ -71,7 +71,7 @@ public class UserController {
 		 } else {
 			//encode password
 			 userForm.setPassword(passwordEncoder.encode(userForm.getPassword()));
-			 
+
 			 userService.addUser(userForm);
 			 for( int i=0; i<userForm.getSelectedRoles().length; i++) {
 				 String newUserRole = userForm.getSelectedRoles()[i];
@@ -81,20 +81,20 @@ public class UserController {
 		 }
 		 return userForm;
 	}
-	
+
 	@RequestMapping(value="/sysadmin/updateuser/{id}", method=RequestMethod.POST)
 	public User updateuser(@PathVariable long id, @RequestBody User userForm, Authentication authentication) {
 		 log.info("updateuser in Controller.. ");
-			 
+
 		 userForm.setId(id);
 		 String createdBy = authentication.getName();
-		 
+
 		 if(createdBy != null) {
 			 userForm.setCreatedBy(createdBy);
 		 }
-		 
+
 		 userForm.setRoles(String.join(", ", userForm.getSelectedRoles()));
-			 
+
 		 userService.updateUser(userForm);
 		 userService.clearUserRole(userForm.getId());
 		 for( int i=0; i<userForm.getSelectedRoles().length; i++) {
@@ -102,29 +102,29 @@ public class UserController {
 			 userService.updateUserRole(userForm.getId(), newUserRole);
 		 }
 		 userForm.setSystemMsg("User updated Successfully.");
-		 
+
 		 return userForm;
 	}
-	
-	
+
+
 	@RequestMapping(value="/sysadmin/deleteuser/{id}", method=RequestMethod.DELETE)
 	public User deleteUser(@PathVariable long id) {
 		User user = new User();
 		log.info("deleteUser in Controller");
 		userService.deleteUser(id);
-		
+
 		user.setSystemMsg("User deleted successfully.");
-		
+
 		return user;
 	}
-	
+
 	@RequestMapping(value="/user/roles", method=RequestMethod.POST)
 	public List<String> getLoginUserRoles(@RequestBody String username) {
 		 log.info("getRoles in Controller.. ");
-		 
+
 		 List<String> roles = userService.findUserRoles(username);
-		
+
 		 return roles;
 	}
-	
+
 }
