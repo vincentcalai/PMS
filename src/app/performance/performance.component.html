@@ -1,18 +1,3 @@
-
-<!-- <nav>
-    <div class="nav nav-tabs  nav-pills" id="nav-tab" role="tablist">
-      <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Home</a>
-      <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</a>
-      <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</a>
-    </div>
-</nav>
-
-<div class="tab-content" id="nav-tabContent">
-<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">...</div>
-<div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">...</div>
-<div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
-</div> -->
-
 <div class="container-fluid">
   <br/>
 
@@ -20,9 +5,6 @@
     <h1 class="card-header">
       Portfolio Performance
     </h1>
-    <!-- <div *ngIf="this.message" class="alert alert-success">
-      <b>Success: </b> {{message}}
-    </div> -->
     <div class="card-body">
 
         <div class="row">
@@ -30,7 +12,7 @@
             <label style='position:absolute; top:25%'>Select Portfolio: </label>
           </div>
           <div class="col-2">
-            <select class="form-control" [(ngModel)]="this.form.selectedPortfolio">
+            <select class="form-control" [(ngModel)]="selectedPortfolio">
               <option *ngFor = "let portfolio of this.form.portfolioList" [value] = "portfolio">{{portfolio}}</option>
             </select>
           </div>
@@ -38,72 +20,115 @@
 
         <br>
 
-        <div class="content">
-          <!-- Nav pills -->
-          <ul class="nav nav-pills" role="tablist">
-            <li class="nav-item">
-              <a class="nav-link active" data-toggle="pill" href="#investment">Investment</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" data-toggle="pill" href="#cashsol">Cash Solution</a>
-            </li>
-          </ul>
-        
-          <!-- Tab panes -->
-          <div class="tab-content">
-            <div id="investment" class="container tab-pane active">
-              
+        <mat-tab-group mat-stretch-tabs>
+          <mat-tab label="Investment"> 
+            <br>
+            <div class="card" style="width:50%">
+              <h1 class="card-header">
+                Portfolio Investment Performance
+              </h1>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-3">
+                    <div class="card">
+                      <h4 class="card-header">
+                        Investment Amount
+                      </h4>
+                      <div class="card-body">
+                        <h2>${{portfolioPerformance.investAmt}}</h2>
+                      </div>
+                    </div>
+                  </div> 
+                  <div class="col-3">
+                    <div class="card">
+                      <h4 class="card-header">
+                        Current Value
+                      </h4>
+                      <div class="card-body">
+                        <h2>${{portfolioPerformance.currentVal}}</h2>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="card">
+                      <h4 class="card-header">
+                        Profit(SGD)
+                      </h4>
+                      <div class="card-body">
+                        <h2 *ngIf = "portfolioPerformance.profit < 0" style="color:red;">-${{portfolioPerformance.profit}}</h2>
+                        <h2 *ngIf = "portfolioPerformance.profit == 0">${{portfolioPerformance.profit}}</h2>
+                        <h2 *ngIf = "portfolioPerformance.profit > 0" style="color:green;">+${{portfolioPerformance.profit}}</h2>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="card">
+                      <h4 class="card-header">
+                        Profit(%)
+                      </h4>
+                      <div class="card-body">
+                        <h2 *ngIf = "portfolioPerformance.profitPct < 0" style="color:red;">-{{portfolioPerformance.profitPct}}%</h2>
+                        <h2 *ngIf = "portfolioPerformance.profitPct == 0">{{portfolioPerformance.profitPct}}%</h2>
+                        <h2 *ngIf = "portfolioPerformance.profitPct > 0" style="color:green;">+{{portfolioPerformance.profitPct}}%</h2>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div id="cashsol" class="container tab-pane fade">
-              
-            </div>
-          </div>
-        </div>
-        <!-- <table class="table table-striped" style="width: 100%">
-            <thead class= "table-header">
-                <tr>
-                    <th>ID</th>
-                    <th>Watchlist Name</th>
-                    <th>Remarks</th>
-                    <th>Created By</th>
-                    <th>Created Date</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor = "let watchlist of watchlists | paginate : { itemsPerPage: itemsPerPage, currentPage: p, totalItems: totalItems }">
-                    <td>{{watchlist.id}}</td>
-                    <td>
-                      <label>
-                        <a href='javascript:void(0)' (click)="updateWatchlist(watchlist)">{{watchlist.name}}</a>
-                      </label>
-                    </td>
-                    <td>{{watchlist.remarks}}</td>
-                    <td>{{watchlist.createdBy}}</td>
-                    <td>{{watchlist.createdDt | date}}</td>
-                    <td><button class="btn btn-danger" (click)="deleteWatchlist(watchlist.id)">Delete Watchlist</button></td>
-                </tr>
-                <tr *ngIf = '!watchlists || watchlists.length == 0'>
-                  <td class='text-center' colspan=12>
-                    No Record(s) Found.
-                  </td>
-                </tr>
-            </tbody>
-        </table> -->
-
-        <!-- <div class="row" *ngIf='watchlists && watchlists.length > 0'>
-          <div class="col-3 text-left">
-            <label>No. of Records: {{totalItems}}</label>
-          </div>
-          <div class="col-6 text-center">
-            <pagination-controls (pageChange)="retrieveAllWatchlist($event)"></pagination-controls>
-          </div>
-        </div> -->
-
-        <!-- <div class="row">
-          <button class="btn btn-success" (click)="createWatchlist()">Create New Watchlist</button>
-        </div> -->
-      
+            <br>
+            <table class="table table-striped" style="width:50%">
+              <thead class="table-header">
+                  <tr>
+                      <th>&nbsp;</th>
+                      <th>Investment Amount(SGD)</th>
+                      <th>Current Value(SGD)</th>
+                      <th>Profit(SGD)</th>
+                      <th>Profit(%)</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                    <td>{{etfPerformance.name}}</td>  
+                    <td>${{etfPerformance.investAmt}}</td>
+                    <td>${{etfPerformance.currentVal}}</td>
+                    <td *ngIf = "etfPerformance.profit < 0" style="color:red;">
+                      <b>-${{etfPerformance.profit}}</b> </td>
+                    <td *ngIf = "etfPerformance.profit == 0">
+                          ${{etfPerformance.profit}} </td>
+                    <td *ngIf = "etfPerformance.profit > 0" style="color:green;">
+                        <b>+${{etfPerformance.profit}}</b> </td>
+                    <td *ngIf = "etfPerformance.profitPct < 0" style="color:red;">
+                      <b>{{etfPerformance.profitPct}}%</b> </td>
+                    <td *ngIf = "etfPerformance.profitPct == 0">
+                          {{etfPerformance.profitPct}}% </td>
+                    <td *ngIf = "etfPerformance.profitPct > 0" style="color:green;">
+                        <b>+{{etfPerformance.profitPct}}%</b> </td>
+                  </tr>
+                  <tr>
+                    <td>{{stockPerformance.name}}</td>  
+                    <td>${{stockPerformance.investAmt}}</td>
+                    <td>${{stockPerformance.currentVal}}</td>
+                    <td *ngIf = "stockPerformance.profit < 0" style="color:red;">
+                      <b>-${{stockPerformance.profit}}</b> </td>
+                    <td *ngIf = "stockPerformance.profit == 0">
+                          ${{stockPerformance.profit}} </td>
+                    <td *ngIf = "stockPerformance.profit > 0" style="color:green;">
+                        <b>+${{stockPerformance.profit}}</b> </td>
+                    <td *ngIf = "stockPerformance.profitPct < 0" style="color:red;">
+                      <b>-{{stockPerformance.profitPct}}%</b> </td>
+                    <td *ngIf = "stockPerformance.profitPct == 0">
+                          {{stockPerformance.profitPct}}% </td>
+                    <td *ngIf = "stockPerformance.profitPct > 0" style="color:green;">
+                        <b>+{{stockPerformance.profitPct}}%</b> </td>
+                  </tr>
+              </tbody>
+            </table>
+          </mat-tab>
+          <mat-tab label="Cash Solutions"> 
+            Content 2 
+          </mat-tab>
+        </mat-tab-group>
     </div>
   </div>
 </div>

@@ -57,11 +57,6 @@
                                 <b>+{{index.changePct}}%</b> </td>
                             <td>{{index.lastUpdatedDt | date:'dd-MM-yyyy HH:mm a':'+0800'}}</td>
                         </tr>
-                        <tr>
-                          <td *ngIf = "!indexes || indexes.length == 0" class='text-center' colspan=12>
-                            No Record(s) Found.
-                          </td>
-                        </tr>
                     </tbody>
                 </table>
               </div>

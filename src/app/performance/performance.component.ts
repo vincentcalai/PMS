@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { RequestService } from '../util/service/request.service';
 
 @Component({
   selector: 'app-performance',
@@ -10,24 +11,86 @@ export class PerformanceComponent implements OnInit {
   form = {
     portfolioList: [],
     selectedPortfolio : '',
+    portfolioPerformance: {
+      investAmt: 0,
+      currentVal: 0,
+      profit: 0,
+      profitPct: 0
+    },
+    etfPerformance: {
+      name: "Stock Equity",
+      investAmt: 0,
+      currentVal: 0,
+      profit: 0,
+      profitPct: 0
+    },
+    stockPerformance: {
+      name: "Stock Equity",
+      investAmt: 0,
+      currentVal: 0,
+      profit: 0,
+      profitPct: 0
+    },
     errMsg: ''
   };
-  requestService: any;
 
-  constructor() { }
+  etfPerformance = {
+    name: "ETF",
+    investAmt: 0,
+    currentVal: 0,
+    profit: 0,
+    profitPct: 0
+  };
+
+  stockPerformance = {
+    name: "Stock Equity",
+    investAmt: 0,
+    currentVal: 0,
+    profit: 0,
+    profitPct: 0
+  };
+
+  portfolioPerformance = {
+    investAmt: 0,
+    currentVal: 0,
+    profit: 0,
+    profitPct: 0
+  };
+
+  selectedPortfolio: String;
+
+
+  constructor(private requestService: RequestService) { }
 
   ngOnInit(): void {
     this.initPage();
   }
 
   initPage(){
-    this.requestService.post('/profitloss/init',this.form).subscribe(
+    this.requestService.post('/performance/init',this.form).subscribe(
       data => {
         this.form = data as any;
         console.log(this.form);
+        if(this.form.portfolioList != null && this.form.portfolioList.length != 0){
+          this.selectedPortfolio = this.form.portfolioList[0];
+        }
+        this.loadPerfTab(this.selectedPortfolio);
       }
-    )
-
+    );
   }
+
+  loadPerfTab(selectedPortfolio: String) {
+    this.requestService.post('/performance/loadPerfTab',this.form).subscribe(
+      data => {
+        this.form = data as any;
+        console.log(this.form);
+        this.portfolioPerformance = this.form.portfolioPerformance;
+        this.etfPerformance = this.form.etfPerformance;
+        this.stockPerformance = this.form.stockPerformance;
+        console.log(this.portfolioPerformance);
+      }
+    );
+  }
+
 
 }

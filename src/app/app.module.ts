@@ -40,6 +40,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSortModule } from '@angular/material/sort';
+import {MatTabsModule} from '@angular/material/tabs';
 import { LoadDividendComponent } from './data-loading/load-dividend/load-dividend.component';
 import { PortfoliolistComponent } from './portfolio-management/manage-portfolio/portfoliolist/portfoliolist.component';
 import { CreateDividendComponent } from './portfolio-management/manage-dividend/create-dividend/create-dividend.component';
@@ -99,7 +100,8 @@ import { PerformanceComponent } from './performance/performance.component';
     MatExpansionModule,
     MatTableModule,
     MatTooltipModule,
-    MatSortModule
+    MatSortModule,
+    MatTabsModule
   ],
   providers: [
     RouteGuard,

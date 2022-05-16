@@ -12,7 +12,7 @@ public class ProfitLossForm {
 	private String selectedPortfolio;
 
 	private String selectedPnlType;
-    private String selectedCurr;
+  private String selectedCurr;
 
 	private List<String> portfolioList;
 	private List<String> currList;
@@ -47,71 +47,71 @@ public class ProfitLossForm {
 
 
 	public List<String> getPortfolioList() {
-		return portfolioList;
+    return portfolioList;
 	}
 
 	public void setPortfolioList(List<String> portfolioList) {
-		this.portfolioList = portfolioList;
+    this.portfolioList = portfolioList;
 	}
 
 	public List<String> getCurrList() {
-		return currList;
+    return currList;
 	}
 
 	public void setCurrList(List<String> currList) {
-		this.currList = currList;
+    this.currList = currList;
 	}
 
 	public List<UnrealPL> getUnrealisedList() {
-		return unrealisedList;
+    return unrealisedList;
 	}
 
 	public void setUnrealisedList(List<UnrealPL> unrealisedList) {
-		this.unrealisedList = unrealisedList;
+    this.unrealisedList = unrealisedList;
 	}
 
 	public String getSelectedPortfolio() {
-		return selectedPortfolio;
+    return selectedPortfolio;
 	}
 
 	public void setSelectedPortfolio(String selectedPortfolio) {
-		this.selectedPortfolio = selectedPortfolio;
+    this.selectedPortfolio = selectedPortfolio;
 	}
 
 	public String getSelectedPnlType() {
-		return selectedPnlType;
+    return selectedPnlType;
 	}
 
 	public void setSelectedPnlType(String selectedPnlType) {
-		this.selectedPnlType = selectedPnlType;
+    this.selectedPnlType = selectedPnlType;
 	}
 
 	public String getSelectedCurr() {
-		return selectedCurr;
+    return selectedCurr;
 	}
 
 	public void setSelectedCurr(String selectedCurr) {
-		this.selectedCurr = selectedCurr;
+    this.selectedCurr = selectedCurr;
 	}
 
 	public List<RealPL> getRealisedList() {
-		return realisedList;
+    return realisedList;
 	}
 
 	public void setRealisedList(List<RealPL> realisedList) {
-		this.realisedList = realisedList;
+    this.realisedList = realisedList;
 	}
 
 	public String getErrMsg() {
-		return errMsg;
+    return errMsg;
 	}
 
 	public void setErrMsg(String errMsg) {
-		this.errMsg = errMsg;
+    this.errMsg = errMsg;
 	}
 
 	public UnrealTotalPL getUnrealisedTotalList() {
-		return unrealisedTotalList;
+    return unrealisedTotalList;
 	}
 
 	public void setUnrealisedTotalList(UnrealTotalPL unrealisedTotalList) {
@@ -119,11 +119,11 @@ public class ProfitLossForm {
 	}
 
 	public RealTotalPL getRealisedTotalList() {
-		return realisedTotalList;
+    return realisedTotalList;
 	}
 
 	public void setRealisedTotalList(RealTotalPL realisedTotalList) {
-		this.realisedTotalList = realisedTotalList;
+    this.realisedTotalList = realisedTotalList;
 	}
 
 
