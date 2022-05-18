@@ -1,25 +1,20 @@
 package com.pms.pmsapp.profitloss.controller;
 
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.pms.pmsapp.manageportfolio.portfolio.data.StockWrapper;
+import com.pms.pmsapp.manageportfolio.portfolio.service.PortfolioService;
 import com.pms.pmsapp.profitloss.data.RealPL;
 import com.pms.pmsapp.profitloss.data.RealTotalPL;
 import com.pms.pmsapp.profitloss.data.UnrealPL;
 import com.pms.pmsapp.profitloss.data.UnrealTotalPL;
 import com.pms.pmsapp.profitloss.service.ProfitLossService;
 import com.pms.pmsapp.profitloss.web.ProfitLossForm;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 import yahoofinance.quotes.stock.StockQuote;
+
+import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
 @RestController
@@ -33,6 +28,9 @@ public class ProfitLossController {
 
 	@Autowired
 	private ProfitLossService profitLossService;
+
+  @Autowired
+  PortfolioService portfolioService;
 
 
 	@RequestMapping(value="/profitloss/init", method=RequestMethod.POST)
@@ -56,10 +54,12 @@ public class ProfitLossController {
 		String pnlType = profitLossForm.getSelectedPnlType();
 		String currency = profitLossForm.getSelectedCurr();
 
+    long portId = portfolioService.getPortIdFromPortName(portfolio);
+
 		if(!(portfolio == "")) {
 			if(pnlType.equals(PNL_TYPE_ALL) || pnlType.equals(PNL_TYPE_UNREAL)) {
 				profitLossService.computeUnrealisedList(portfolio, currency);
-				List<UnrealPL> unrealPlList = profitLossService.getUnrealisedList();
+				List<UnrealPL> unrealPlList = profitLossService.getUnrealisedList(portId);
 				UnrealTotalPL unrealTotalPlList = profitLossService.getUnrealisedTotalList(portfolio);
 				profitLossForm.setUnrealisedList(unrealPlList);
 				profitLossForm.setUnrealisedTotalList(unrealTotalPlList);
@@ -83,9 +83,10 @@ public class ProfitLossController {
 		log.info("updateLivePrices in Controller");
 
 		String portfolio = profitLossForm.getSelectedPortfolio();
+    long portId = portfolioService.getPortIdFromPortName(portfolio);
 
 		if(!(portfolio == "")) {
-				List<UnrealPL> unrealPlList = profitLossService.getUnrealisedList();
+				List<UnrealPL> unrealPlList = profitLossService.getUnrealisedList(portId);
 
 				log.info("get all unrealPl stocks positions..");
 

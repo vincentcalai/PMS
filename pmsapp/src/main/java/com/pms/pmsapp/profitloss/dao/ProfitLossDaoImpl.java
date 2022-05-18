@@ -1,9 +1,11 @@
 package com.pms.pmsapp.profitloss.dao;
 
-import java.io.IOException;
-import java.sql.CallableStatement;
-import java.util.List;
-
+import com.pms.pmsapp.manageportfolio.portfolio.data.StockWrapper;
+import com.pms.pmsapp.profitloss.data.RealPL;
+import com.pms.pmsapp.profitloss.data.RealTotalPL;
+import com.pms.pmsapp.profitloss.data.UnrealPL;
+import com.pms.pmsapp.profitloss.data.UnrealTotalPL;
+import com.pms.pmsapp.util.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
@@ -14,15 +16,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.orm.hibernate5.SessionFactoryUtils;
 import org.springframework.stereotype.Repository;
-
-import com.pms.pmsapp.manageportfolio.portfolio.data.StockWrapper;
-import com.pms.pmsapp.profitloss.data.RealPL;
-import com.pms.pmsapp.profitloss.data.RealTotalPL;
-import com.pms.pmsapp.profitloss.data.UnrealPL;
-import com.pms.pmsapp.profitloss.data.UnrealTotalPL;
-import com.pms.pmsapp.util.HibernateUtil;
-
 import yahoofinance.YahooFinance;
+
+import java.io.IOException;
+import java.sql.CallableStatement;
+import java.util.List;
 
 
 @Repository
@@ -47,16 +45,16 @@ public class ProfitLossDaoImpl implements ProfitLossDao {
 	}
 
 	@Override
-	public List<UnrealPL> getUnrealisedList() {
+	public List<UnrealPL> getUnrealisedList(long portId) {
 		try {
 			Session session = HibernateUtil.getSessionFactory().openSession();
 
 			String sql = "SELECT PORT_ID, STOCK_NAM, STOCK_SYM, STOCK_EXCHG, DOM_CURR, TOTAL_SHARE, AVG_PRICE, TOTAL_AMT, "
-					+ "LAST_TRANS_PRICE, MKT_VALUE, PROFIT_LOSS, CONV_PROFIT_LOSS, PROFIT_LOSS_PCT from PMS_UNREAL_PL order by STOCK_NAM";
+					+ "LAST_TRANS_PRICE, MKT_VALUE, PROFIT_LOSS, CONV_PROFIT_LOSS, PROFIT_LOSS_PCT from PMS_UNREAL_PL where PORT_ID = :portId order by STOCK_NAM";
 
 			SQLQuery sqlQuery = session.createSQLQuery(sql);
 
-			sqlQuery.addEntity(UnrealPL.class);
+			sqlQuery.addEntity(UnrealPL.class).setParameter("portId", portId);
 
 			List<UnrealPL> unrealPLList = sqlQuery.list();
 

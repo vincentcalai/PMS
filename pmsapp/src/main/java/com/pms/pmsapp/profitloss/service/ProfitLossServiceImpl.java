@@ -1,27 +1,26 @@
 package com.pms.pmsapp.profitloss.service;
 
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.pms.pmsapp.manageportfolio.portfolio.data.StockWrapper;
 import com.pms.pmsapp.profitloss.dao.ProfitLossDao;
 import com.pms.pmsapp.profitloss.data.RealPL;
 import com.pms.pmsapp.profitloss.data.RealTotalPL;
 import com.pms.pmsapp.profitloss.data.UnrealPL;
 import com.pms.pmsapp.profitloss.data.UnrealTotalPL;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ProfitLossServiceImpl implements ProfitLossService {
-	
+
 	private static final Logger log = LoggerFactory.getLogger(ProfitLossServiceImpl.class);
-	
+
 	@Autowired
 	private ProfitLossDao profitLossDao;
-	
+
 	public List<String> getPortfolios(){
 		return profitLossDao.getPortfolios();
 	}
@@ -32,8 +31,8 @@ public class ProfitLossServiceImpl implements ProfitLossService {
 	}
 
 	@Override
-	public List<UnrealPL> getUnrealisedList() {
-		return profitLossDao.getUnrealisedList();
+	public List<UnrealPL> getUnrealisedList(long portId) {
+		return profitLossDao.getUnrealisedList(portId);
 	}
 
 	@Override
@@ -49,7 +48,7 @@ public class ProfitLossServiceImpl implements ProfitLossService {
 	@Override
 	public void computeRealisedList(String portfolio, String currency) {
 		profitLossDao.computeRealisedList(portfolio, currency);
-		
+
 	}
 
 	@Override
