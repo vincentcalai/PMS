@@ -6,10 +6,10 @@ import java.math.BigDecimal;
 
 public class ETFPerformance extends PortfolioPerformance{
 
-  private final String name = "ETF";
+  public static final String etfName = "ETF";
 
-  public ETFPerformance(BigDecimal investAmt, BigDecimal currentVal, BigDecimal profit, BigDecimal profitPct) {
-    super(investAmt, currentVal, profit, profitPct);
+  public ETFPerformance(String name, BigDecimal investAmt, BigDecimal currentVal, BigDecimal profit, BigDecimal profitPct) {
+    super(name, investAmt, currentVal, profit, profitPct);
   }
 
 }

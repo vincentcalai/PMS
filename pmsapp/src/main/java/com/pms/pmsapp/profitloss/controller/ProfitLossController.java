@@ -30,7 +30,7 @@ public class ProfitLossController {
 	private ProfitLossService profitLossService;
 
   @Autowired
-  PortfolioService portfolioService;
+  private PortfolioService portfolioService;
 
 
 	@RequestMapping(value="/profitloss/init", method=RequestMethod.POST)

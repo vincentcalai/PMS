@@ -13,7 +13,14 @@ public class PortfolioPerformance {
   }
 
   public PortfolioPerformance(BigDecimal investAmt, BigDecimal currentVal, BigDecimal profit, BigDecimal profitPct) {
-    this.name = "";
+    this.investAmt = investAmt;
+    this.currentVal = currentVal;
+    this.profit = profit;
+    this.profitPct = profitPct;
+  }
+
+  public PortfolioPerformance(String name, BigDecimal investAmt, BigDecimal currentVal, BigDecimal profit, BigDecimal profitPct) {
+    this.name = name;
     this.investAmt = investAmt;
     this.currentVal = currentVal;
     this.profit = profit;

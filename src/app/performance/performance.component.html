@@ -12,7 +12,7 @@
             <label style='position:absolute; top:25%'>Select Portfolio: </label>
           </div>
           <div class="col-2">
-            <select class="form-control" [(ngModel)]="selectedPortfolio">
+            <select class="form-control" [(ngModel)]="selectedPortfolio" (change)='loadPerfTab(selectedPortfolio)'>
               <option *ngFor = "let portfolio of this.form.portfolioList" [value] = "portfolio">{{portfolio}}</option>
             </select>
           </div>
@@ -35,7 +35,7 @@
                         Investment Amount
                       </h4>
                       <div class="card-body">
-                        <h2>${{portfolioPerformance.investAmt}}</h2>
+                        <h2>${{portfolioPerformance.investAmt | number : '1.2-2'}}</h2>
                       </div>
                     </div>
                   </div> 
@@ -45,7 +45,7 @@
                         Current Value
                       </h4>
                       <div class="card-body">
-                        <h2>${{portfolioPerformance.currentVal}}</h2>
+                        <h2>${{portfolioPerformance.currentVal | number : '1.2-2'}}</h2>
                       </div>
                     </div>
                   </div>
@@ -55,9 +55,9 @@
                         Profit(SGD)
                       </h4>
                       <div class="card-body">
-                        <h2 *ngIf = "portfolioPerformance.profit < 0" style="color:red;">-${{portfolioPerformance.profit}}</h2>
-                        <h2 *ngIf = "portfolioPerformance.profit == 0">${{portfolioPerformance.profit}}</h2>
-                        <h2 *ngIf = "portfolioPerformance.profit > 0" style="color:green;">+${{portfolioPerformance.profit}}</h2>
+                        <h2 *ngIf = "portfolioPerformance.profit < 0" style="color:red;">-${{getAbsoluteVal(portfolioPerformance.profit) | number : '1.2-2'}}</h2>
+                        <h2 *ngIf = "portfolioPerformance.profit == 0">${{getAbsoluteVal(portfolioPerformance.profit) | number : '1.2-2'}}</h2>
+                        <h2 *ngIf = "portfolioPerformance.profit > 0" style="color:green;">+${{getAbsoluteVal(portfolioPerformance.profit) | number : '1.2-2'}}</h2>
                       </div>
                     </div>
                   </div>
@@ -67,9 +67,9 @@
                         Profit(%)
                       </h4>
                       <div class="card-body">
-                        <h2 *ngIf = "portfolioPerformance.profitPct < 0" style="color:red;">-{{portfolioPerformance.profitPct}}%</h2>
-                        <h2 *ngIf = "portfolioPerformance.profitPct == 0">{{portfolioPerformance.profitPct}}%</h2>
-                        <h2 *ngIf = "portfolioPerformance.profitPct > 0" style="color:green;">+{{portfolioPerformance.profitPct}}%</h2>
+                        <h2 *ngIf = "portfolioPerformance.profitPct < 0" style="color:red;">-{{getAbsoluteVal(portfolioPerformance.profitPct)}}%</h2>
+                        <h2 *ngIf = "portfolioPerformance.profitPct == 0">{{getAbsoluteVal(portfolioPerformance.profitPct)}}%</h2>
+                        <h2 *ngIf = "portfolioPerformance.profitPct > 0" style="color:green;">+{{getAbsoluteVal(portfolioPerformance.profitPct)}}%</h2>
                       </div>
                     </div>
                   </div>
@@ -89,38 +89,38 @@
               </thead>
               <tbody>
                   <tr>
-                    <td>{{etfPerformance.name}}</td>  
-                    <td>${{etfPerformance.investAmt}}</td>
-                    <td>${{etfPerformance.currentVal}}</td>
+                    <td><b>{{etfPerformance.name}}</b></td>  
+                    <td>${{etfPerformance.investAmt | number : '1.2-2'}}</td>
+                    <td>${{etfPerformance.currentVal | number : '1.2-2'}}</td>
                     <td *ngIf = "etfPerformance.profit < 0" style="color:red;">
-                      <b>-${{etfPerformance.profit}}</b> </td>
+                      <b>-${{getAbsoluteVal(etfPerformance.profit) | number : '1.2-2'}}</b> </td>
                     <td *ngIf = "etfPerformance.profit == 0">
-                          ${{etfPerformance.profit}} </td>
+                          ${{getAbsoluteVal(etfPerformance.profit) | number : '1.2-2'}} </td>
                     <td *ngIf = "etfPerformance.profit > 0" style="color:green;">
-                        <b>+${{etfPerformance.profit}}</b> </td>
+                        <b>+${{getAbsoluteVal(etfPerformance.profit) | number : '1.2-2'}}</b> </td>
                     <td *ngIf = "etfPerformance.profitPct < 0" style="color:red;">
-                      <b>{{etfPerformance.profitPct}}%</b> </td>
+                      <b>{{getAbsoluteVal(etfPerformance.profitPct) | number : '1.2-2'}}%</b> </td>
                     <td *ngIf = "etfPerformance.profitPct == 0">
-                          {{etfPerformance.profitPct}}% </td>
+                          {{getAbsoluteVal(etfPerformance.profitPct) | number : '1.2-2'}}% </td>
                     <td *ngIf = "etfPerformance.profitPct > 0" style="color:green;">
-                        <b>+{{etfPerformance.profitPct}}%</b> </td>
+                        <b>+{{getAbsoluteVal(etfPerformance.profitPct) | number : '1.2-2'}}%</b> </td>
                   </tr>
                   <tr>
-                    <td>{{stockPerformance.name}}</td>  
-                    <td>${{stockPerformance.investAmt}}</td>
-                    <td>${{stockPerformance.currentVal}}</td>
+                    <td><b>{{stockPerformance.name}}</b></td>  
+                    <td>${{stockPerformance.investAmt | number : '1.2-2'}}</td>
+                    <td>${{stockPerformance.currentVal | number : '1.2-2'}}</td>
                     <td *ngIf = "stockPerformance.profit < 0" style="color:red;">
-                      <b>-${{stockPerformance.profit}}</b> </td>
+                      <b>-${{getAbsoluteVal(stockPerformance.profit) | number : '1.2-2'}}</b> </td>
                     <td *ngIf = "stockPerformance.profit == 0">
-                          ${{stockPerformance.profit}} </td>
+                          ${{getAbsoluteVal(stockPerformance.profit) | number : '1.2-2'}} </td>
                     <td *ngIf = "stockPerformance.profit > 0" style="color:green;">
-                        <b>+${{stockPerformance.profit}}</b> </td>
+                        <b>+${{getAbsoluteVal(stockPerformance.profit) | number : '1.2-2'}}</b> </td>
                     <td *ngIf = "stockPerformance.profitPct < 0" style="color:red;">
-                      <b>-{{stockPerformance.profitPct}}%</b> </td>
+                      <b>-{{getAbsoluteVal(stockPerformance.profitPct) | number : '1.2-2'}}%</b> </td>
                     <td *ngIf = "stockPerformance.profitPct == 0">
-                          {{stockPerformance.profitPct}}% </td>
+                          {{getAbsoluteVal(stockPerformance.profitPct) | number : '1.2-2'}}% </td>
                     <td *ngIf = "stockPerformance.profitPct > 0" style="color:green;">
-                        <b>+{{stockPerformance.profitPct}}%</b> </td>
+                        <b>+{{getAbsoluteVal(stockPerformance.profitPct) | number : '1.2-2'}}%</b> </td>
                   </tr>
               </tbody>
             </table>

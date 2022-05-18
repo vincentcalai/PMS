@@ -57,8 +57,8 @@ export class PerformanceComponent implements OnInit {
     profitPct: 0
   };
 
-  selectedPortfolio: String;
-
+  selectedPortfolio: string;
+  absoluteVal: number;
 
   constructor(private requestService: RequestService) { }
 
@@ -79,7 +79,8 @@ export class PerformanceComponent implements OnInit {
     );
   }
 
-  loadPerfTab(selectedPortfolio: String) {
+  loadPerfTab(selectedPortfolio: string) {
+    this.form.selectedPortfolio = this.selectedPortfolio;
     this.requestService.post('/performance/loadPerfTab',this.form).subscribe(
       data => {
         this.form = data as any;
@@ -90,6 +91,11 @@ export class PerformanceComponent implements OnInit {
         console.log(this.portfolioPerformance);
       }
     );
+  }
+
+  getAbsoluteVal(value): number{
+    this.absoluteVal = Math.abs(value);
+     return this.absoluteVal;
   }
 
 
