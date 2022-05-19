@@ -99,7 +99,7 @@
                     <td *ngIf = "etfPerformance.profit > 0" style="color:green;">
                         <b>+${{getAbsoluteVal(etfPerformance.profit) | number : '1.2-2'}}</b> </td>
                     <td *ngIf = "etfPerformance.profitPct < 0" style="color:red;">
-                      <b>{{getAbsoluteVal(etfPerformance.profitPct) | number : '1.2-2'}}%</b> </td>
+                      <b>-{{getAbsoluteVal(etfPerformance.profitPct) | number : '1.2-2'}}%</b> </td>
                     <td *ngIf = "etfPerformance.profitPct == 0">
                           {{getAbsoluteVal(etfPerformance.profitPct) | number : '1.2-2'}}% </td>
                     <td *ngIf = "etfPerformance.profitPct > 0" style="color:green;">

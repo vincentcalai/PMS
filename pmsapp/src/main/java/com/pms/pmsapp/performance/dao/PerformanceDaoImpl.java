@@ -17,8 +17,13 @@ public class PerformanceDaoImpl implements PerformanceDao {
   public ETFPerformance findEtfPerformance(String portfolio) {
     Session session = HibernateUtil.getSessionFactory().openSession();
 
-    String sql = "select sum(total_amt) as INVESTAMT, sum(mkt_value) as CURRENTAM, sum(profit_loss) as PROFIT, (sum(mkt_value)-sum(total_amt))/sum(total_amt) * 100 as PROFITPCT " +
-      "from pms_unreal_pl r inner join pms_port p on r.port_id = p.id where p.port_name = :portfolio and r.stock_nam like '%ETF%'";
+    String sql = "select sum(CONVERT_TO_SGD(total_amt, dom_curr)) as INVESTAMT, sum(CONVERT_TO_SGD(mkt_value, dom_curr)) as CURRENTVAL, " +
+      "sum(CONVERT_TO_SGD(mkt_value, dom_curr)) - sum(CONVERT_TO_SGD(total_amt, dom_curr)) as PROFIT, " +
+      "(sum(CONVERT_TO_SGD(mkt_value, dom_curr)) - sum(CONVERT_TO_SGD(total_amt, dom_curr))) / sum(CONVERT_TO_SGD(mkt_value, dom_curr)) * 100 as PROFITPCT " +
+      "from pms_unreal_pl r " +
+      "inner join pms_port p " +
+      "on r.port_id = p.id  " +
+      "where p.port_name = :portfolio and r.stock_nam like '%ETF%'";
 
     SQLQuery sqlQuery = session.createSQLQuery(sql)
       .setParameter("portfolio", portfolio);
@@ -46,8 +51,13 @@ public class PerformanceDaoImpl implements PerformanceDao {
   public StockPerformance findStockPerformance(String portfolio) {
     Session session = HibernateUtil.getSessionFactory().openSession();
 
-    String sql = "select sum(total_amt) as INVESTAMT, sum(mkt_value) as CURRENTAM, sum(profit_loss) as PROFIT, (sum(mkt_value)-sum(total_amt))/sum(total_amt) * 100 as PROFITPCT " +
-      "from pms_unreal_pl r inner join pms_port p on r.port_id = p.id where p.port_name = :portfolio and r.stock_nam not like '%ETF%'";
+    String sql = "select sum(CONVERT_TO_SGD(total_amt, dom_curr)) as INVESTAMT, sum(CONVERT_TO_SGD(mkt_value, dom_curr)) as CURRENTVAL, " +
+      "sum(CONVERT_TO_SGD(mkt_value, dom_curr)) - sum(CONVERT_TO_SGD(total_amt, dom_curr)) as PROFIT, " +
+      "(sum(CONVERT_TO_SGD(mkt_value, dom_curr)) - sum(CONVERT_TO_SGD(total_amt, dom_curr))) / sum(CONVERT_TO_SGD(mkt_value, dom_curr)) * 100 as PROFITPCT " +
+      "from pms_unreal_pl r " +
+      "inner join pms_port p " +
+      "on r.port_id = p.id  " +
+      "where p.port_name = :portfolio and r.stock_nam not like '%ETF%'";
 
     SQLQuery sqlQuery = session.createSQLQuery(sql)
       .setParameter("portfolio", portfolio);

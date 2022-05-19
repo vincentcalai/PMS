@@ -131,16 +131,6 @@ public class PortfolioTransController {
 	public PortfolioTrans retrieveStockInfo(@RequestBody PortfolioTrans portfolioTrans) {
 		log.info("retrieveStockInfo Trans in Controller");
 
-//		Map<String, String> exchgSuffmap = new HashMap<String, String>();
-//		exchgSuffmap.put(EXCHG_HKEX, RENAM_EXCHG_HKEX);
-//		exchgSuffmap.put(EXCHG_SGX, RENAM_EXCHG_SGX);
-//		exchgSuffmap.put(EXCHG_NYSE, RENAM_EXCHG_NYSE);
-//		exchgSuffmap.put(EXCHG_NYSE_ARCA, RENAM_EXCHG_NYSE);
-//		exchgSuffmap.put(EXCHG_NASDAQ_GS, RENAM_EXCHG_NASDAQ);
-//    exchgSuffmap.put(EXCHG_NASDAQ_GM, RENAM_EXCHG_NASDAQ);
-//    exchgSuffmap.put(EXCHG_NASDAQ_CM, RENAM_EXCHG_NASDAQ);
-//		exchgSuffmap.put(EXCHG_OTC, RENAM_EXCHG_OTC);
-
 		String stockSym = portfolioTrans.getStockSymbol();
 		StockWrapper stockWrapper = portfolioHoldService.findStock(stockSym);
 		try {
