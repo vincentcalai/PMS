@@ -2,6 +2,7 @@ package com.pms.pmsapp.performance.service;
 
 import com.pms.pmsapp.performance.dao.PerformanceDao;
 import com.pms.pmsapp.performance.data.ETFPerformance;
+import com.pms.pmsapp.performance.data.GphyPerformance;
 import com.pms.pmsapp.performance.data.StockPerformance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,5 +19,9 @@ public class PerformanceServiceImpl implements PerformanceService{
 
   public StockPerformance findStockPerformance(String portfolio){
     return performanceDao.findStockPerformance(portfolio);
+  }
+
+  public GphyPerformance findGphyPerformance(String selectedPortfolio){
+    return performanceDao.findGphyPerformance(selectedPortfolio);
   }
 }

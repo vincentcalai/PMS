@@ -35,6 +35,11 @@ export class PerformanceComponent implements OnInit {
       profit: 0,
       profitPct: 0
     },
+    gphyPerformance: {
+      usAllocation: 0,
+      hkAllocation: 0,
+      sgAllocation: 0
+    },
     errMsg: ''
   };
 
@@ -117,7 +122,7 @@ export class PerformanceComponent implements OnInit {
               [this.form.etfPerformance.currentVal, this.form.stockPerformance.currentVal]
             ];
             this.gphyChartData = [
-              [6, 4, 2]
+              [this.form.gphyPerformance.usAllocation, this.form.gphyPerformance.hkAllocation, this.form.gphyPerformance.sgAllocation]
             ];
 
             console.log(this.portfolioPerformance);
@@ -138,7 +143,7 @@ export class PerformanceComponent implements OnInit {
           [this.form.etfPerformance.currentVal, this.form.stockPerformance.currentVal]
         ];
         this.gphyChartData = [
-          [6, 4, 2]
+          [this.form.gphyPerformance.usAllocation, this.form.gphyPerformance.hkAllocation, this.form.gphyPerformance.sgAllocation]
         ];
         
         console.log(this.portfolioPerformance);

@@ -1,6 +1,7 @@
 package com.pms.pmsapp.performance.web;
 
 import com.pms.pmsapp.performance.data.ETFPerformance;
+import com.pms.pmsapp.performance.data.GphyPerformance;
 import com.pms.pmsapp.performance.data.PortfolioPerformance;
 import com.pms.pmsapp.performance.data.StockPerformance;
 
@@ -13,6 +14,8 @@ public class PerformanceForm {
   private PortfolioPerformance portfolioPerformance;
   private ETFPerformance etfPerformance;
   private StockPerformance stockPerformance;
+
+  private GphyPerformance gphyPerformance;
   private String errMsg;
 
   public List<String> getPortfolioList() {
@@ -53,6 +56,14 @@ public class PerformanceForm {
 
   public void setStockPerformance(StockPerformance stockPerformance) {
     this.stockPerformance = stockPerformance;
+  }
+
+  public GphyPerformance getGphyPerformance() {
+    return gphyPerformance;
+  }
+
+  public void setGphyPerformance(GphyPerformance gphyPerformance) {
+    this.gphyPerformance = gphyPerformance;
   }
 
   public String getErrMsg() {

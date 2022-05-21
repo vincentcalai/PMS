@@ -1,6 +1,7 @@
 package com.pms.pmsapp.performance.dao;
 
 import com.pms.pmsapp.performance.data.ETFPerformance;
+import com.pms.pmsapp.performance.data.GphyPerformance;
 import com.pms.pmsapp.performance.data.StockPerformance;
 import com.pms.pmsapp.util.HibernateUtil;
 import org.hibernate.SQLQuery;
@@ -80,5 +81,37 @@ public class PerformanceDaoImpl implements PerformanceDao {
     StockPerformance stockPerformance = new StockPerformance(StockPerformance.stockName, investAmt, currentVal, profit, profitPct);
 
     return stockPerformance;
+  }
+
+  public GphyPerformance findGphyPerformance(String selectedPortfolio) {
+    Session session = HibernateUtil.getSessionFactory().openSession();
+
+    String sql = "select CONVERT_TO_SGD(sum(h.mkt_value), m.CURR) as SGDCURR, m.gphy from pms_port_hold h " +
+      "inner join pms_port p on p.id = h.port_id inner join pms_mkt_exchg m on h.stock_exchg = m.mkt_exchg_name where port_name = :portfolio group by m.gphy, m.CURR";
+
+    SQLQuery sqlQuery = session.createSQLQuery(sql)
+      .setParameter("portfolio", selectedPortfolio);
+
+    BigDecimal usAllocation = new BigDecimal(0);
+    BigDecimal hkAllocation = new BigDecimal(0);
+    BigDecimal sgAllocation = new BigDecimal(0);
+
+    List<Object> result = (List<Object>) sqlQuery.list();
+    Iterator itr = result.iterator();
+    while(itr.hasNext()){
+      Object[] obj = (Object[]) itr.next();
+      if(obj[1] != null && obj[1].equals("US") && obj[0] != null){
+        usAllocation = BigDecimal.valueOf(Double.valueOf(String.valueOf(obj[0])));
+      } else if(obj[1] != null && obj[1].equals("HK") && obj[0] != null){
+        hkAllocation =  BigDecimal.valueOf(Double.valueOf(String.valueOf(obj[0])));
+      } else if(obj[1] != null && obj[1].equals("SG") && obj[0] != null){
+        sgAllocation =  BigDecimal.valueOf(Double.valueOf(String.valueOf(obj[0])));
+      }
+    }
+
+    GphyPerformance gphyPerformance = new GphyPerformance(usAllocation, hkAllocation, sgAllocation);
+
+    return gphyPerformance;
+
   }
 }

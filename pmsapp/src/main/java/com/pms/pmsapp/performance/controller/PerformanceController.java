@@ -2,6 +2,7 @@ package com.pms.pmsapp.performance.controller;
 
 import com.pms.pmsapp.manageportfolio.portfolio.service.PortfolioService;
 import com.pms.pmsapp.performance.data.ETFPerformance;
+import com.pms.pmsapp.performance.data.GphyPerformance;
 import com.pms.pmsapp.performance.data.PortfolioPerformance;
 import com.pms.pmsapp.performance.data.StockPerformance;
 import com.pms.pmsapp.performance.service.PerformanceService;
@@ -55,6 +56,7 @@ public class PerformanceController {
 
     profitLossService.computeUnrealisedList(selectedPortfolio, convCurrency);
     UnrealTotalPL unrealTotalPlList = profitLossService.getUnrealisedTotalList(selectedPortfolio);
+    GphyPerformance grpyPerformance = performanceService.findGphyPerformance(selectedPortfolio);
 
     if(unrealTotalPlList != null){
       portfolioPerformance = new PortfolioPerformance(unrealTotalPlList.getTotalAmt(), unrealTotalPlList.getMktValue(), unrealTotalPlList.getConvProfitLoss(), unrealTotalPlList.getProfitLossPct());
@@ -69,6 +71,8 @@ public class PerformanceController {
     performanceForm.setPortfolioPerformance(portfolioPerformance);
     performanceForm.setEtfPerformance(etfPerformance);
     performanceForm.setStockPerformance(stockPerformance);
+    performanceForm.setGphyPerformance(grpyPerformance);
+    
     return performanceForm;
   }
 
