@@ -50,6 +50,7 @@ import { PortfolioTransComponent } from './portfolio-management/manage-portfolio
 import { PortfolioComponent } from './portfolio-management/manage-portfolio/portfolio/portfolio.component';
 import { TransactionComponent } from './portfolio-management/manage-portfolio/transaction/transaction.component';
 import { PerformanceComponent } from './performance/performance.component';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -101,7 +102,8 @@ import { PerformanceComponent } from './performance/performance.component';
     MatTableModule,
     MatTooltipModule,
     MatSortModule,
-    MatTabsModule
+    MatTabsModule,
+    ChartsModule
   ],
   providers: [
     RouteGuard,
