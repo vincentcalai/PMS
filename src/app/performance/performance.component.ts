@@ -59,6 +59,12 @@ export class PerformanceComponent implements OnInit {
     profitPct: 0
   };
 
+  gphyPerformance= {
+    usAllocation: 0,
+    hkAllocation: 0,
+    sgAllocation: 0
+  }
+
   portfolioPerformance = {
     investAmt: 0,
     currentVal: 0,
@@ -115,6 +121,7 @@ export class PerformanceComponent implements OnInit {
             this.portfolioPerformance = this.form.portfolioPerformance;
             this.etfPerformance = this.form.etfPerformance;
             this.stockPerformance = this.form.stockPerformance;
+            this.gphyPerformance = this.form.gphyPerformance;
 
             console.log("etf currentVal: " + this.form.etfPerformance.currentVal);
             console.log("stock currentVal: " + this.form.stockPerformance.currentVal);
@@ -138,6 +145,7 @@ export class PerformanceComponent implements OnInit {
         this.portfolioPerformance = this.form.portfolioPerformance;
         this.etfPerformance = this.form.etfPerformance;
         this.stockPerformance = this.form.stockPerformance;
+        this.gphyPerformance = this.form.gphyPerformance;
 
         this.assetChartData = [
           [this.form.etfPerformance.currentVal, this.form.stockPerformance.currentVal]

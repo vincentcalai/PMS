@@ -79,6 +79,7 @@
                   </div>
                 </div>
                 <br>
+
                 <table class="table table-striped">
                   <thead class="table-header">
                       <tr>
@@ -126,6 +127,26 @@
                       </tr>
                   </tbody>
                 </table>
+
+                <table class="table table-striped">
+                  <thead class="table-header">
+                      <tr>
+                          <th>&nbsp;</th>
+                          <th>US Allocation</th>
+                          <th>HK Allocation</th>
+                          <th>SG Allocation</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                        <td><b>Allocation Amount</b></td> 
+                        <td>${{gphyPerformance.usAllocation | number : '1.2-2'}}</td>
+                        <td>${{gphyPerformance.hkAllocation | number : '1.2-2'}}</td>
+                        <td>${{gphyPerformance.sgAllocation | number : '1.2-2'}}</td>
+                      </tr>
+                  </tbody>
+                </table>
+
               </div>
               <div class="col-3">
                 <div class="chart">
