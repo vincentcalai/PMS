@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ChartType } from 'chart.js';
 import { Label, MultiDataSet } from 'ng2-charts';
 import { forkJoin } from 'rxjs';
-import { map, mergeMap } from 'rxjs/operators';
+import { concatMap, flatMap, map, mergeMap, tap } from 'rxjs/operators';
 import { RequestService } from '../util/service/request.service';
 
 @Component({
@@ -75,65 +75,53 @@ export class PerformanceComponent implements OnInit {
     []
   ];
   gphyChartType: ChartType = 'doughnut';
+
+  doughnutChartColors: Array<any> = [ { backgroundColor: ['#6CA0DC', '#FF6961', ' #77DD77'], borderColor: 'transparent' } ];
   
   constructor(private requestService: RequestService) { }
 
   ngOnInit(): void {
     
-   // this.initPage();
-
-
-    
-    this.requestService.post('/performance/loadPerfTab',this.form)
-      .pipe(map(
-        data => {
-          if(this.form.portfolioList != null && this.form.portfolioList.length != 0){
-            this.selectedPortfolio = this.form.portfolioList[0];
-          }
-          console.log("this.selectedPortfolio: " + this.selectedPortfolio  );
-        }),
-        mergeMap(data => this.requestService.post('/performance/init',this.form))).subscribe(
-        data => {
-          console.log("mergemap outer");
-          this.form.selectedPortfolio = this.selectedPortfolio;
-            data => {
-              this.form = data as any;
-              console.log(this.form);
-              this.portfolioPerformance = this.form.portfolioPerformance;
-              this.etfPerformance = this.form.etfPerformance;
-              this.stockPerformance = this.form.stockPerformance;
-              
-              
-              console.log(this.portfolioPerformance);
-            };
-        }
-      );
-
-        // console.log("etf currentVal: " + this.form.etfPerformance.currentVal);
-        // console.log("stock currentVal: " + this.form.stockPerformance.currentVal);
-        // this.assetChartData = [
-        //   [this.form.etfPerformance.currentVal, this.form.stockPerformance.currentVal]
-        // ];
-        // this.gphyChartData = [
-        //   [6, 4, 2]
-        // ];
+    this.initPage();
+  
   }
 
   initPage(){
-    this.requestService.post('/performance/init',this.form).subscribe(
-      data => {
-        this.form = data as any;
+    this.requestService.post('/performance/init',this.form)
+      .pipe(
+        tap(res => {
+          console.log('First result', res);
+          this.form = res as any;
         
-        console.log(this.form);
-        if(this.form.portfolioList != null && this.form.portfolioList.length != 0){
-          this.selectedPortfolio = this.form.portfolioList[0];
-        }
+          console.log("inner observable:" + this.form);
+          if(this.form.portfolioList != null && this.form.portfolioList.length != 0){
+            this.selectedPortfolio = this.form.portfolioList[0];
+          }
 
-        
+          console.log("selected portfolio: " + this.selectedPortfolio);
+          this.form.selectedPortfolio = this.selectedPortfolio;
+        }),
+        concatMap((res) => this.requestService.post('/performance/loadPerfTab',this.form))
+      )
+      .subscribe(res => {
+        this.form = res as any;
+            console.log(this.form);
+            
+            this.portfolioPerformance = this.form.portfolioPerformance;
+            this.etfPerformance = this.form.etfPerformance;
+            this.stockPerformance = this.form.stockPerformance;
 
-        this.loadPerfTab(this.selectedPortfolio);
-      }
-    );
+            console.log("etf currentVal: " + this.form.etfPerformance.currentVal);
+            console.log("stock currentVal: " + this.form.stockPerformance.currentVal);
+            this.assetChartData = [
+              [this.form.etfPerformance.currentVal, this.form.stockPerformance.currentVal]
+            ];
+            this.gphyChartData = [
+              [6, 4, 2]
+            ];
+
+            console.log(this.portfolioPerformance);
+      });
   }
 
   loadPerfTab(selectedPortfolio: string) {
@@ -145,7 +133,13 @@ export class PerformanceComponent implements OnInit {
         this.portfolioPerformance = this.form.portfolioPerformance;
         this.etfPerformance = this.form.etfPerformance;
         this.stockPerformance = this.form.stockPerformance;
-        
+
+        this.assetChartData = [
+          [this.form.etfPerformance.currentVal, this.form.stockPerformance.currentVal]
+        ];
+        this.gphyChartData = [
+          [6, 4, 2]
+        ];
         
         console.log(this.portfolioPerformance);
       }
