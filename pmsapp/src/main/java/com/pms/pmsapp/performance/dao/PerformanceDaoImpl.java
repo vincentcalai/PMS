@@ -108,10 +108,7 @@ public class PerformanceDaoImpl implements PerformanceDao {
         sgAllocation =  BigDecimal.valueOf(Double.valueOf(String.valueOf(obj[0])));
       }
     }
-
-    GphyPerformance gphyPerformance = new GphyPerformance(usAllocation, hkAllocation, sgAllocation);
-
-    return gphyPerformance;
+    return new GphyPerformance(usAllocation, hkAllocation, sgAllocation);
 
   }
 }

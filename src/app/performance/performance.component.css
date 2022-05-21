@@ -2,3 +2,12 @@
 h2,h4{
   text-align: center;
 }
+
+.mat-card-header{
+    color: black;
+    background-color: #FA8072 !important;
+}
+
+.mat-card-title{
+  padding-top: 20px;
+}

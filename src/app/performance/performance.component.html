@@ -180,8 +180,74 @@
           </mat-tab>
           
 
-          <mat-tab label="Cash Solutions"> 
-            Content 2 
+          <mat-tab label="Cash Solutions">
+            <br> 
+            <div class="card">
+              <h1 class="card-header">
+                Cash Solutions
+              </h1>
+              <div class="card-body">
+                <mat-card class="mat-elevation-z5">
+                  <mat-card-header>
+                    <mat-card-title>Total Cash Available</mat-card-title>
+                    <mat-card-subtitle>
+                      Total Cash in Bank Balance of <b> {{username}} </b>
+                    </mat-card-subtitle>
+                  </mat-card-header>
+                  <br>
+                  <mat-card-content>
+                    <div class="row">
+                      <div class="col-2">
+                        <h2>
+                          ${{totalCash}}
+                        </h2>
+                      </div>
+                      <div class="col-6">
+                        <h4>
+                          This is the consolidated all available balance of <b>{{username}}</b>'s cash in bank for this user.
+                        </h4>
+                      </div>
+                      <div class="col-4">
+                          <button mat-raised-button color="primary">Update Cash in Bank Balance</button>
+                      </div>
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+                <br>
+                <mat-card class="mat-elevation-z5">
+                  <mat-card-header>
+                    <mat-card-title>Total Wealth</mat-card-title>
+                    <mat-card-subtitle>
+                      Total Cash in Bank Balance and Investments of <b> {{username}} </b> 
+                    </mat-card-subtitle>
+                  </mat-card-header>
+                  <br>
+                  <mat-card-content>
+                    <div class="row">
+                      <div class="col-2">
+                        <h2>
+                          ${{totalWealth}}
+                        </h2>
+                      </div>
+                      <div class="col-1">
+                       
+                      </div>
+                      <div class="col-9">
+                        <h4 style="text-align:left">
+                          This is the combined amount of <b>{{username}}</b>'s total cash available and total investment current value.
+                        </h4>
+                      </div>
+                    </div>
+                  </mat-card-content>
+              
+                </mat-card>
+              </div>
+            </div>
+
+            
+
+            <br>
+
           </mat-tab>
         </mat-tab-group>
     </div>

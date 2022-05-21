@@ -3,6 +3,7 @@ import { ChartType } from 'chart.js';
 import { Label, MultiDataSet } from 'ng2-charts';
 import { forkJoin } from 'rxjs';
 import { concatMap, flatMap, map, mergeMap, tap } from 'rxjs/operators';
+import { AuthenticateService } from '../util/service/authenticate.service';
 import { RequestService } from '../util/service/request.service';
 
 @Component({
@@ -88,11 +89,15 @@ export class PerformanceComponent implements OnInit {
   gphyChartType: ChartType = 'doughnut';
 
   doughnutChartColors: Array<any> = [ { backgroundColor: ['#6CA0DC', '#FF6961', ' #77DD77'], borderColor: 'transparent' } ];
+
+  username: string= '';
+  totalCash: number = 0;
+  totalWealth: number = 0;
   
-  constructor(private requestService: RequestService) { }
+  constructor(private requestService: RequestService, public authenticateService: AuthenticateService) { }
 
   ngOnInit(): void {
-    
+    this.username = this.authenticateService.getAuthenticationUser();
     this.initPage();
   
   }
@@ -104,7 +109,7 @@ export class PerformanceComponent implements OnInit {
           console.log('First result', res);
           this.form = res as any;
         
-          console.log("inner observable:" + this.form);
+          console.log(this.form);
           if(this.form.portfolioList != null && this.form.portfolioList.length != 0){
             this.selectedPortfolio = this.form.portfolioList[0];
           }
@@ -116,6 +121,7 @@ export class PerformanceComponent implements OnInit {
       )
       .subscribe(res => {
         this.form = res as any;
+            console.log('Second result' + this.form);
             console.log(this.form);
             
             this.portfolioPerformance = this.form.portfolioPerformance;
@@ -123,8 +129,6 @@ export class PerformanceComponent implements OnInit {
             this.stockPerformance = this.form.stockPerformance;
             this.gphyPerformance = this.form.gphyPerformance;
 
-            console.log("etf currentVal: " + this.form.etfPerformance.currentVal);
-            console.log("stock currentVal: " + this.form.stockPerformance.currentVal);
             this.assetChartData = [
               [this.form.etfPerformance.currentVal, this.form.stockPerformance.currentVal]
             ];
