@@ -199,7 +199,7 @@
                     <div class="row">
                       <div class="col-2">
                         <h2>
-                          ${{totalCash}}
+                          ${{totalCash | number : '1.2-2'}}
                         </h2>
                       </div>
                       <div class="col-6">
@@ -226,7 +226,7 @@
                     <div class="row">
                       <div class="col-2">
                         <h2>
-                          ${{totalWealth}}
+                          ${{totalWealth | number : '1.2-2'}}
                         </h2>
                       </div>
                       <div class="col-1">
@@ -239,12 +239,21 @@
                       </div>
                     </div>
                   </mat-card-content>
-              
                 </mat-card>
+
+                <br>
+                <h2>Total Cash and Investments</h2>
+                <div style=" margin: auto; width: 40vw; height: 40vh;">
+                  <canvas baseChart
+                  [data]="cashSolChartData"
+                  [labels]="cashSolChartLabels"
+                  [chartType]="cashSolChartType"
+                  [colors]="doughnutChartColors">
+                  </canvas>
+                </div>
+              
               </div>
             </div>
-
-            
 
             <br>
 

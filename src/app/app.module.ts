@@ -52,6 +52,7 @@ import { TransactionComponent } from './portfolio-management/manage-portfolio/tr
 import { PerformanceComponent } from './performance/performance.component';
 import { ChartsModule } from 'ng2-charts';
 import {MatCardModule} from '@angular/material/card';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 @NgModule({
   declarations: [
@@ -105,7 +106,8 @@ import {MatCardModule} from '@angular/material/card';
     MatSortModule,
     MatTabsModule,
     ChartsModule,
-    MatCardModule
+    MatCardModule,
+    MatGridListModule
   ],
   providers: [
     RouteGuard,

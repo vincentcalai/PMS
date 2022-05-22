@@ -5,6 +5,7 @@ import com.pms.pmsapp.performance.data.GphyPerformance;
 import com.pms.pmsapp.performance.data.PortfolioPerformance;
 import com.pms.pmsapp.performance.data.StockPerformance;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class PerformanceForm {
@@ -14,8 +15,10 @@ public class PerformanceForm {
   private PortfolioPerformance portfolioPerformance;
   private ETFPerformance etfPerformance;
   private StockPerformance stockPerformance;
-
   private GphyPerformance gphyPerformance;
+  private BigDecimal bankBal;
+
+  private BigDecimal bankAndInvest;
   private String errMsg;
 
   public List<String> getPortfolioList() {
@@ -64,6 +67,22 @@ public class PerformanceForm {
 
   public void setGphyPerformance(GphyPerformance gphyPerformance) {
     this.gphyPerformance = gphyPerformance;
+  }
+
+  public BigDecimal getBankBal() {
+    return bankBal;
+  }
+
+  public void setBankBal(BigDecimal bankBal) {
+    this.bankBal = bankBal;
+  }
+
+  public BigDecimal getBankAndInvest() {
+    return bankAndInvest;
+  }
+
+  public void setBankAndInvest(BigDecimal bankAndInvest) {
+    this.bankAndInvest = bankAndInvest;
   }
 
   public String getErrMsg() {

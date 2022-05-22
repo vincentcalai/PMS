@@ -41,6 +41,8 @@ export class PerformanceComponent implements OnInit {
       hkAllocation: 0,
       sgAllocation: 0
     },
+    bankBal: 0,
+    bankAndInvest: 0,
     errMsg: ''
   };
 
@@ -88,6 +90,12 @@ export class PerformanceComponent implements OnInit {
   ];
   gphyChartType: ChartType = 'doughnut';
 
+  cashSolChartLabels: Label[] = ['Cash', 'Investments'];
+  cashSolChartData: MultiDataSet = [
+    []
+  ];
+  cashSolChartType: ChartType = 'pie';
+
   doughnutChartColors: Array<any> = [ { backgroundColor: ['#6CA0DC', '#FF6961', ' #77DD77'], borderColor: 'transparent' } ];
 
   username: string= '';
@@ -98,18 +106,19 @@ export class PerformanceComponent implements OnInit {
 
   ngOnInit(): void {
     this.username = this.authenticateService.getAuthenticationUser();
-    this.initPage();
-  
+    //init investment tab
+    this.initInvestment();
+    //init cash solution tab
+    this.initCashSol();
   }
 
-  initPage(){
+  initInvestment(){
     this.requestService.post('/performance/init',this.form)
       .pipe(
         tap(res => {
           console.log('First result', res);
           this.form = res as any;
-        
-          console.log(this.form);
+
           if(this.form.portfolioList != null && this.form.portfolioList.length != 0){
             this.selectedPortfolio = this.form.portfolioList[0];
           }
@@ -128,6 +137,7 @@ export class PerformanceComponent implements OnInit {
             this.etfPerformance = this.form.etfPerformance;
             this.stockPerformance = this.form.stockPerformance;
             this.gphyPerformance = this.form.gphyPerformance;
+            //this.totalCash = this.form.bankBal;
 
             this.assetChartData = [
               [this.form.etfPerformance.currentVal, this.form.stockPerformance.currentVal]
@@ -136,8 +146,24 @@ export class PerformanceComponent implements OnInit {
               [this.form.gphyPerformance.usAllocation, this.form.gphyPerformance.hkAllocation, this.form.gphyPerformance.sgAllocation]
             ];
 
-            console.log(this.portfolioPerformance);
       });
+  }
+
+  initCashSol(){
+    this.requestService.post('/performance/loadCashSol',this.form).subscribe(
+      data => {
+        this.form = data as any;
+        this.totalCash = this.form.bankBal;
+        this.totalWealth = this.form.bankAndInvest;
+        
+        console.log("total cash: " + this.totalCash );
+        console.log("total wealth: " + this.totalWealth );
+        this.cashSolChartData = [
+          [this.form.bankBal, this.form.bankAndInvest-this.form.bankBal]
+        ]
+        console.log(this.form);
+      }
+    );
   }
 
   loadPerfTab(selectedPortfolio: string) {
@@ -150,6 +176,7 @@ export class PerformanceComponent implements OnInit {
         this.etfPerformance = this.form.etfPerformance;
         this.stockPerformance = this.form.stockPerformance;
         this.gphyPerformance = this.form.gphyPerformance;
+        //this.totalCash = this.form.bankBal;
 
         this.assetChartData = [
           [this.form.etfPerformance.currentVal, this.form.stockPerformance.currentVal]
@@ -158,7 +185,6 @@ export class PerformanceComponent implements OnInit {
           [this.form.gphyPerformance.usAllocation, this.form.gphyPerformance.hkAllocation, this.form.gphyPerformance.sgAllocation]
         ];
         
-        console.log(this.portfolioPerformance);
       }
     );
   }

@@ -4,8 +4,11 @@ import com.pms.pmsapp.performance.data.ETFPerformance;
 import com.pms.pmsapp.performance.data.GphyPerformance;
 import com.pms.pmsapp.performance.data.StockPerformance;
 import com.pms.pmsapp.util.HibernateUtil;
+import org.hibernate.HibernateException;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
+import org.hibernate.query.NativeQuery;
+import org.springframework.orm.hibernate5.SessionFactoryUtils;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
@@ -110,5 +113,47 @@ public class PerformanceDaoImpl implements PerformanceDao {
     }
     return new GphyPerformance(usAllocation, hkAllocation, sgAllocation);
 
+  }
+
+  @Override
+  public BigDecimal findUserBankBal(String username) {
+      try {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        String sql = "select bank_bal from pms_cash_sol where usr_nam = :username ";
+
+        NativeQuery sqlQuery = session.createSQLQuery(sql);
+
+        sqlQuery.setParameter("username", username);
+
+        BigDecimal bankBal = (BigDecimal) sqlQuery.uniqueResult();
+
+        return bankBal;
+      } catch (Exception e) {
+        // convert to HibernateException then to DataAccessException
+        throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
+      }
+
+  }
+
+  @Override
+  public BigDecimal findUserTotalInvestment(String username) {
+    try {
+      Session session = HibernateUtil.getSessionFactory().openSession();
+
+      String sql = "select sum(CONVERT_TO_SGD(mkt_value, e.curr)) from pms_usr u, pms_port p, pms_port_hold h, pms_mkt_exchg e " +
+        "where u.usr_nam = p.created_by and p.id = h.port_id and h.stock_exchg = e.mkt_exchg_name and usr_nam = :username";
+
+      NativeQuery sqlQuery = session.createSQLQuery(sql);
+
+      sqlQuery.setParameter("username", username);
+
+      BigDecimal totalInvesment = (BigDecimal) sqlQuery.uniqueResult();
+
+      return totalInvesment;
+    } catch (Exception e) {
+      // convert to HibernateException then to DataAccessException
+      throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
+    }
   }
 }

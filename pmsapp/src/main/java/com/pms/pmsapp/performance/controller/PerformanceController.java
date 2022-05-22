@@ -12,6 +12,7 @@ import com.pms.pmsapp.profitloss.service.ProfitLossService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -54,6 +55,8 @@ public class PerformanceController {
     String selectedPortfolio = performanceForm.getSelectedPortfolio();
     long portId = portfolioService.getPortIdFromPortName(selectedPortfolio);
 
+    log.info("backend init investment data");
+    //init investment data
     profitLossService.computeUnrealisedList(selectedPortfolio, convCurrency);
     UnrealTotalPL unrealTotalPlList = profitLossService.getUnrealisedTotalList(selectedPortfolio);
     GphyPerformance grpyPerformance = performanceService.findGphyPerformance(selectedPortfolio);
@@ -72,7 +75,23 @@ public class PerformanceController {
     performanceForm.setEtfPerformance(etfPerformance);
     performanceForm.setStockPerformance(stockPerformance);
     performanceForm.setGphyPerformance(grpyPerformance);
-    
+
+    return performanceForm;
+  }
+
+  @RequestMapping(value="/performance/loadCashSol", method= RequestMethod.POST)
+  public PerformanceForm loadCashSol(@RequestBody PerformanceForm performanceForm, Authentication authentication) {
+    log.info("performance loadCashSol in Controller");
+
+    String username = authentication.getName();
+
+    log.info("backend init cash solution data");
+    //init cash solution data
+    BigDecimal bankBal = performanceService.findUserBankBal(username);
+    BigDecimal totalInvestment = performanceService.findUserTotalInvestment(username);
+    BigDecimal bankAndInvest = bankBal.add(totalInvestment);
+    performanceForm.setBankBal(bankBal);
+    performanceForm.setBankAndInvest(bankAndInvest);
     return performanceForm;
   }
 
