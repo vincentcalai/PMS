@@ -53,6 +53,7 @@ import { PerformanceComponent } from './performance/performance.component';
 import { ChartsModule } from 'ng2-charts';
 import {MatCardModule} from '@angular/material/card';
 import {MatGridListModule} from '@angular/material/grid-list';
+import { UpdateCashBalComponent } from './performance/update-cash-bal/update-cash-bal.component';
 
 @NgModule({
   declarations: [
@@ -80,7 +81,8 @@ import {MatGridListModule} from '@angular/material/grid-list';
     DividendComponent,
     CreateDividendComponent,
     LoadDividendComponent,
-    PerformanceComponent
+    PerformanceComponent,
+    UpdateCashBalComponent
   ],
   imports: [
     BrowserModule,

@@ -1,10 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ChartType } from 'chart.js';
 import { Label, MultiDataSet } from 'ng2-charts';
 import { forkJoin } from 'rxjs';
 import { concatMap, flatMap, map, mergeMap, tap } from 'rxjs/operators';
 import { AuthenticateService } from '../util/service/authenticate.service';
 import { RequestService } from '../util/service/request.service';
+import { UpdateCashBalComponent } from './update-cash-bal/update-cash-bal.component';
 
 @Component({
   selector: 'app-performance',
@@ -102,7 +104,7 @@ export class PerformanceComponent implements OnInit {
   totalCash: number = 0;
   totalWealth: number = 0;
   
-  constructor(private requestService: RequestService, public authenticateService: AuthenticateService) { }
+  constructor(private requestService: RequestService, private dialog: MatDialog, public authenticateService: AuthenticateService) { }
 
   ngOnInit(): void {
     this.username = this.authenticateService.getAuthenticationUser();
@@ -192,6 +194,25 @@ export class PerformanceComponent implements OnInit {
   getAbsoluteVal(value): number{
     this.absoluteVal = Math.abs(value);
      return this.absoluteVal;
+  }
+
+  updateCash(){
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "80%";
+
+    this.dialog.open(UpdateCashBalComponent, {
+      width: '60%',
+      height: '100%'
+    }).afterClosed().subscribe( result=> {
+        console.log("before ngOnInit");
+        this.initCashSol();
+        console.log("after ngOnInit");
+        //console.log(this.dataService.dataObj);
+
+        //window.scroll(0,0);
+    });
   }
 
 

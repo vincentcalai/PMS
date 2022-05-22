@@ -1,0 +1,33 @@
+<div class="card ">
+    <h1 class="d-inline card-header">Update Cash on Bank Balance</h1>
+  <div class ="card-body">
+    <div class="container">
+      <form #entryForm="ngForm">
+        <div *ngIf="errorMsg"
+            class="alert alert-danger">
+            <div *ngIf="errorMsg">
+              <b>Error: </b> {{errorMsg}}
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm text-center">
+                    <div class="form-group">
+                    <label for="cashBal">New Cash on Bank Balance: </label>
+                    &nbsp;
+                    <input type="text" id="cashBal"
+                    [ngModel]="cashBal" name="cashBal">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success custom">Save</button>
+                        <button type="button" class="btn btn-danger custom" (click)="onClose()">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+      </form>
+    </div>
+  </div>
+  </div>
+  
