@@ -141,8 +141,18 @@ public class PerformanceDaoImpl implements PerformanceDao {
     try {
       Session session = HibernateUtil.getSessionFactory().openSession();
 
-      String sql = "select sum(CONVERT_TO_SGD(mkt_value, e.curr)) from pms_usr u, pms_port p, pms_port_hold h, pms_mkt_exchg e " +
-        "where u.usr_nam = p.created_by and p.id = h.port_id and h.stock_exchg = e.mkt_exchg_name and usr_nam = :username";
+      String sql = "select sum(convert_to_sgd(mkt_value, coalesce(spec.dom_curr, hold.curr))) from ( "
+      		+ "select h.port_id, h.stock_sym, h.stock_nam, convert_to_sgd(mkt_value, e.curr), mkt_value, e.curr  "
+      		+ "from pms_usr u, pms_port p, pms_port_hold h, pms_mkt_exchg e \r\n"
+      		+ "where u.usr_nam = p.created_by and p.id = h.port_id and h.stock_exchg = e.mkt_exchg_name and usr_nam = :username "
+      		+ ") hold "
+      		+ "left join "
+      		+ "( "
+      		+ "select p.stock_sym, s.dom_curr from pms_port_hold p  "
+      		+ "inner join pms_stock_curr_exchg_spec s "
+      		+ "on p.stock_sym = s.stock_sym "
+      		+ ") spec "
+      		+ "on hold.stock_sym = spec.stock_sym";
 
       NativeQuery sqlQuery = session.createSQLQuery(sql);
 
