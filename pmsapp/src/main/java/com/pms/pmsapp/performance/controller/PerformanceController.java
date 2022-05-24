@@ -1,5 +1,21 @@
 package com.pms.pmsapp.performance.controller;
 
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.pms.pmsapp.manageportfolio.portfolio.service.PortfolioService;
 import com.pms.pmsapp.performance.data.ETFPerformance;
 import com.pms.pmsapp.performance.data.GphyPerformance;
@@ -9,14 +25,6 @@ import com.pms.pmsapp.performance.service.PerformanceService;
 import com.pms.pmsapp.performance.web.PerformanceForm;
 import com.pms.pmsapp.profitloss.data.UnrealTotalPL;
 import com.pms.pmsapp.profitloss.service.ProfitLossService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.*;
-
-import java.math.BigDecimal;
-import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
 @RestController
@@ -39,6 +47,9 @@ public class PerformanceController {
   StockPerformance stockPerformance;
 
   private static final Logger log = LoggerFactory.getLogger(PerformanceController.class);
+
+
+  private static final String mapKey = "key";
 
   @RequestMapping(value="/performance/init", method= RequestMethod.POST)
   public PerformanceForm init(@RequestBody PerformanceForm performanceForm) {
@@ -92,6 +103,20 @@ public class PerformanceController {
     BigDecimal bankAndInvest = bankBal.add(totalInvestment);
     performanceForm.setBankBal(bankBal);
     performanceForm.setBankAndInvest(bankAndInvest);
+    return performanceForm;
+  }
+  
+  @RequestMapping(value="/performance/updateCashBal", method= RequestMethod.POST)
+  public PerformanceForm updateCashBal(@RequestBody Map<String, Integer> jsonMap, Authentication authentication) {
+    log.info("performance updateCashBal in Controller");
+    
+    String username = authentication.getName();
+    
+    String msg = performanceService.updateCashBal(jsonMap.get(mapKey), username);
+    
+    PerformanceForm performanceForm = new PerformanceForm();
+    performanceForm.setMsg(msg);
+    
     return performanceForm;
   }
 

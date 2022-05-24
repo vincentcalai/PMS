@@ -2,31 +2,30 @@
     <h1 class="d-inline card-header">Update Cash on Bank Balance</h1>
   <div class ="card-body">
     <div class="container">
-      <form #entryForm="ngForm">
+        <div *ngIf="successMsg"
+          class="alert alert-success">
+            <b>Success: </b>{{successMsg}}
+        </div>
         <div *ngIf="errorMsg"
             class="alert alert-danger">
-            <div *ngIf="errorMsg">
               <b>Error: </b> {{errorMsg}}
-            </div>
         </div>
         <div class="container">
             <div class="row">
                 <div class="col-sm text-center">
-                    <div class="form-group">
-                    <label for="cashBal">New Cash on Bank Balance: </label>
-                    &nbsp;
-                    <input type="text" id="cashBal"
-                    [ngModel]="cashBal" name="cashBal">
+                    <div class="container">
+                      <label for="cashBal">New Cash on Bank Balance (In SGD): </label>
+                      &nbsp;
+                      <input type="text" id="cashBal" [(ngModel)]="cashBal" name="cashBal">
                     </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-success custom">Save</button>
+                    <br>
+                    <div class="container">
+                        <button type="button" class="btn btn-success custom" (click)="onUpdate(cashBal)">Save</button>
                         <button type="button" class="btn btn-danger custom" (click)="onClose()">Cancel</button>
                     </div>
                 </div>
             </div>
         </div>
-        
-      </form>
     </div>
   </div>
   </div>

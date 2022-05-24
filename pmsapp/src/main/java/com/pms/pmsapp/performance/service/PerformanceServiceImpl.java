@@ -10,33 +10,38 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 
 @Service
-public class PerformanceServiceImpl implements PerformanceService{
+public class PerformanceServiceImpl implements PerformanceService {
 
-  @Autowired
-  private PerformanceDao performanceDao;
+	@Autowired
+	private PerformanceDao performanceDao;
 
-  @Override
-  public ETFPerformance findEtfPerformance(String portfolio){
-    return performanceDao.findEtfPerformance(portfolio);
-  }
+	@Override
+	public ETFPerformance findEtfPerformance(String portfolio) {
+		return performanceDao.findEtfPerformance(portfolio);
+	}
 
-  @Override
-  public StockPerformance findStockPerformance(String portfolio){
-    return performanceDao.findStockPerformance(portfolio);
-  }
+	@Override
+	public StockPerformance findStockPerformance(String portfolio) {
+		return performanceDao.findStockPerformance(portfolio);
+	}
 
-  @Override
-  public GphyPerformance findGphyPerformance(String selectedPortfolio){
-    return performanceDao.findGphyPerformance(selectedPortfolio);
-  }
+	@Override
+	public GphyPerformance findGphyPerformance(String selectedPortfolio) {
+		return performanceDao.findGphyPerformance(selectedPortfolio);
+	}
 
-  @Override
-  public BigDecimal findUserBankBal(String username) {
-    return performanceDao.findUserBankBal(username);
-  }
+	@Override
+	public BigDecimal findUserBankBal(String username) {
+		return performanceDao.findUserBankBal(username);
+	}
 
-  @Override
-  public BigDecimal findUserTotalInvestment(String username) {
-    return performanceDao.findUserTotalInvestment(username);
-  }
+	@Override
+	public BigDecimal findUserTotalInvestment(String username) {
+		return performanceDao.findUserTotalInvestment(username);
+	}
+
+	@Override
+	public String updateCashBal(int newCashBal, String username) {
+		return performanceDao.updateCashBal(newCashBal, username);
+	}
 }

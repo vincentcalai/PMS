@@ -10,8 +10,7 @@ public interface PerformanceService {
   public ETFPerformance findEtfPerformance(String portfolio);
   public StockPerformance findStockPerformance(String portfolio);
   public GphyPerformance findGphyPerformance(String selectedPortfolio);
-
-  BigDecimal findUserBankBal(String username);
-
-  BigDecimal findUserTotalInvestment(String username);
+  public BigDecimal findUserBankBal(String username);
+  public BigDecimal findUserTotalInvestment(String username);
+  public String updateCashBal(int newCashBal, String username);
 }

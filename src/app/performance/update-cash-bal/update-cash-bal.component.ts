@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { RequestService } from '../../util/service/request.service';
 import { PerformanceComponent } from '../performance.component';
 
 @Component({
@@ -10,10 +11,16 @@ import { PerformanceComponent } from '../performance.component';
 export class UpdateCashBalComponent implements OnInit {
 
   cashBal: number;
+  readonly mapKey: string = 'key' ;
 
-  errorMsg: string = '';
+  form:{
+    msg: string;
+  }
+  
+  successMsg: string;
+  errorMsg: string;
 
-  constructor(private dialogRef: MatDialogRef<PerformanceComponent>) { }
+  constructor(private requestService: RequestService, private dialogRef: MatDialogRef<PerformanceComponent>) { }
 
   ngOnInit(): void {
   }
@@ -22,5 +29,18 @@ export class UpdateCashBalComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  onUpdate(cashBal): void {
+    const map = {};
+    map[this.mapKey] = cashBal;
+    console.log(map);
+    this.requestService.post('/performance/updateCashBal', map).subscribe(
+      data => {
+        this.form = data as any;
+        this.successMsg = this.form.msg; 
+        console.log(this.successMsg);
+        console.log(this.form);
+      }
+    );
+  }
 
 }
