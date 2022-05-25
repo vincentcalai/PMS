@@ -7,10 +7,15 @@ import com.pms.pmsapp.performance.data.StockPerformance;
 import java.math.BigDecimal;
 
 public interface PerformanceService {
-  public ETFPerformance findEtfPerformance(String portfolio);
-  public StockPerformance findStockPerformance(String portfolio);
-  public GphyPerformance findGphyPerformance(String selectedPortfolio);
-  public BigDecimal findUserBankBal(String username);
-  public BigDecimal findUserTotalInvestment(String username);
-  public String updateCashBal(int newCashBal, String username) throws Exception;
+	public ETFPerformance findEtfPerformance(String portfolio);
+
+	public StockPerformance findStockPerformance(String portfolio);
+
+	public GphyPerformance findGphyPerformance(String selectedPortfolio);
+
+	public BigDecimal findUserBankBal(String username);
+
+	public BigDecimal findUserTotalInvestment(String username);
+
+	public String updateCashBal(BigDecimal bigDecimal, String username) throws Exception;
 }

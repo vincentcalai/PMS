@@ -16,7 +16,7 @@
                     <div class="container">
                       <label for="cashBal">New Cash on Bank Balance (In SGD): </label>
                       &nbsp;
-                      <input type="text" id="cashBal" [(ngModel)]="cashBal" name="cashBal">
+                      <input type="text" id="cashBal" [(ngModel)]="cashBal" name="cashBal" (keypress) = "onlyNumAllowed($event)">
                     </div>
                     <br>
                     <div class="container">

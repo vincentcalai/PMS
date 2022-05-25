@@ -31,6 +31,10 @@ export class UpdateCashBalComponent implements OnInit {
   }
 
   onUpdate(cashBal): void {
+    console.log("before rounding: " + cashBal);
+    cashBal = Math.round(cashBal * 100) / 100;
+    console.log("after rounding: " + cashBal);
+
     const map = {};
     map[this.mapKey] = cashBal;
     console.log(map);
@@ -43,6 +47,14 @@ export class UpdateCashBalComponent implements OnInit {
         console.log(this.form);
       }
     );
+  }
+
+  onlyNumAllowed(event) : boolean{
+    const charCode = (event.which)?event.which: event.keyCode;
+    if((charCode > 31 && charCode < 48 || charCode > 57) && charCode != 46){
+      return false;
+    }
+    return true;
   }
 
 }

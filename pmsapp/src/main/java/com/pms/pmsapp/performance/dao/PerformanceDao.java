@@ -13,9 +13,9 @@ public interface PerformanceDao {
 
 	public GphyPerformance findGphyPerformance(String selectedPortfolio);
 
-	BigDecimal findUserBankBal(String username);
+	public BigDecimal findUserBankBal(String username);
 
-	BigDecimal findUserTotalInvestment(String username);
+	public BigDecimal findUserTotalInvestment(String username);
 
-	public String updateCashBal(int newCashBal, String username) throws Exception;
+	public String updateCashBal(BigDecimal newCashBal, String username) throws Exception;
 }

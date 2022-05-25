@@ -110,7 +110,7 @@ public class PerformanceController {
 	}
 
 	@RequestMapping(value = "/performance/updateCashBal", method = RequestMethod.POST)
-	public PerformanceForm updateCashBal(@RequestBody Map<String, Integer> jsonMap, Authentication authentication) {
+	public PerformanceForm updateCashBal(@RequestBody Map<String, BigDecimal> jsonMap, Authentication authentication) {
 		log.info("performance updateCashBal in Controller");
 
 		String username = authentication.getName();

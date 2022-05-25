@@ -175,7 +175,7 @@ public class PerformanceDaoImpl implements PerformanceDao {
 	}
 
 	@Override
-	public String updateCashBal(int newCashBal, String username) throws Exception{
+	public String updateCashBal(BigDecimal newCashBal, String username) throws Exception{
 		try {
 			Session session = HibernateUtil.getSessionFactory().openSession();
 			Transaction transaction = session.beginTransaction();
