@@ -19,6 +19,7 @@ public class PerformanceForm {
 	private BigDecimal bankBal;
 	private BigDecimal bankAndInvest;
 	private String msg;
+	private String errorMsg;
 
 	public List<String> getPortfolioList() {
 		return portfolioList;
@@ -91,5 +92,14 @@ public class PerformanceForm {
 	public void setMsg(String msg) {
 		this.msg = msg;
 	}
+
+	public String getErrorMsg() {
+		return errorMsg;
+	}
+
+	public void setErrorMsg(String errorMsg) {
+		this.errorMsg = errorMsg;
+	}
+
 
 }

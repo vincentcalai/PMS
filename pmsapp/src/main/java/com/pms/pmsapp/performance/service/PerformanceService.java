@@ -12,5 +12,5 @@ public interface PerformanceService {
   public GphyPerformance findGphyPerformance(String selectedPortfolio);
   public BigDecimal findUserBankBal(String username);
   public BigDecimal findUserTotalInvestment(String username);
-  public String updateCashBal(int newCashBal, String username);
+  public String updateCashBal(int newCashBal, String username) throws Exception;
 }

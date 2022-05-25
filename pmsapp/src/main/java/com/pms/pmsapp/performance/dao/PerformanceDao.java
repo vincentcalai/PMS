@@ -17,5 +17,5 @@ public interface PerformanceDao {
 
 	BigDecimal findUserTotalInvestment(String username);
 
-	public String updateCashBal(int newCashBal, String username);
+	public String updateCashBal(int newCashBal, String username) throws Exception;
 }

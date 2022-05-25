@@ -30,94 +30,106 @@ import com.pms.pmsapp.profitloss.service.ProfitLossService;
 @RestController
 public class PerformanceController {
 
-  private final String convCurrency = "SGD";
+	private final String convCurrency = "SGD";
 
+	@Autowired
+	private ProfitLossService profitLossService;
 
-  @Autowired
-  private ProfitLossService profitLossService;
+	@Autowired
+	private PortfolioService portfolioService;
 
-  @Autowired
-  private PortfolioService portfolioService;
+	@Autowired
+	private PerformanceService performanceService;
 
-  @Autowired
-  private PerformanceService performanceService;
+	PortfolioPerformance portfolioPerformance;
+	ETFPerformance etfPerformance;
+	StockPerformance stockPerformance;
 
-  PortfolioPerformance portfolioPerformance;
-  ETFPerformance etfPerformance;
-  StockPerformance stockPerformance;
+	private static final Logger log = LoggerFactory.getLogger(PerformanceController.class);
 
-  private static final Logger log = LoggerFactory.getLogger(PerformanceController.class);
+	private static final String mapKey = "key";
 
+	@RequestMapping(value = "/performance/init", method = RequestMethod.POST)
+	public PerformanceForm init(@RequestBody PerformanceForm performanceForm) {
+		log.info("performance init in Controller");
+		List<String> portfolios = profitLossService.getPortfolios();
+		performanceForm.setPortfolioList(portfolios);
+		return performanceForm;
+	}
 
-  private static final String mapKey = "key";
+	@RequestMapping(value = "/performance/loadPerfTab", method = RequestMethod.POST)
+	public PerformanceForm loadPerfTab(@RequestBody PerformanceForm performanceForm) {
+		log.info("performance loadPerfTab in Controller");
 
-  @RequestMapping(value="/performance/init", method= RequestMethod.POST)
-  public PerformanceForm init(@RequestBody PerformanceForm performanceForm) {
-    log.info("performance init in Controller");
-    List<String> portfolios = profitLossService.getPortfolios();
-    performanceForm.setPortfolioList(portfolios);
-    return performanceForm;
-  }
+		String selectedPortfolio = performanceForm.getSelectedPortfolio();
+		long portId = portfolioService.getPortIdFromPortName(selectedPortfolio);
 
-  @RequestMapping(value="/performance/loadPerfTab", method= RequestMethod.POST)
-  public PerformanceForm loadPerfTab(@RequestBody PerformanceForm performanceForm) {
-    log.info("performance loadPerfTab in Controller");
+		log.info("backend init investment data");
+		// init investment data
+		profitLossService.computeUnrealisedList(selectedPortfolio, convCurrency);
+		UnrealTotalPL unrealTotalPlList = profitLossService.getUnrealisedTotalList(selectedPortfolio);
+		GphyPerformance grpyPerformance = performanceService.findGphyPerformance(selectedPortfolio);
 
-    String selectedPortfolio = performanceForm.getSelectedPortfolio();
-    long portId = portfolioService.getPortIdFromPortName(selectedPortfolio);
+		if (unrealTotalPlList != null) {
+			portfolioPerformance = new PortfolioPerformance(unrealTotalPlList.getTotalAmt(),
+					unrealTotalPlList.getMktValue(), unrealTotalPlList.getConvProfitLoss(),
+					unrealTotalPlList.getProfitLossPct());
+			etfPerformance = performanceService.findEtfPerformance(selectedPortfolio);
+			stockPerformance = performanceService.findStockPerformance(selectedPortfolio);
+		} else {
+			portfolioPerformance = new PortfolioPerformance(new BigDecimal(0), new BigDecimal(0), new BigDecimal(0),
+					new BigDecimal(0));
+			etfPerformance = new ETFPerformance(ETFPerformance.etfName, new BigDecimal(0), new BigDecimal(0),
+					new BigDecimal(0), new BigDecimal(0));
+			stockPerformance = new StockPerformance(StockPerformance.stockName, new BigDecimal(0), new BigDecimal(0),
+					new BigDecimal(0), new BigDecimal(0));
+		}
 
-    log.info("backend init investment data");
-    //init investment data
-    profitLossService.computeUnrealisedList(selectedPortfolio, convCurrency);
-    UnrealTotalPL unrealTotalPlList = profitLossService.getUnrealisedTotalList(selectedPortfolio);
-    GphyPerformance grpyPerformance = performanceService.findGphyPerformance(selectedPortfolio);
+		performanceForm.setPortfolioPerformance(portfolioPerformance);
+		performanceForm.setEtfPerformance(etfPerformance);
+		performanceForm.setStockPerformance(stockPerformance);
+		performanceForm.setGphyPerformance(grpyPerformance);
 
-    if(unrealTotalPlList != null){
-      portfolioPerformance = new PortfolioPerformance(unrealTotalPlList.getTotalAmt(), unrealTotalPlList.getMktValue(), unrealTotalPlList.getConvProfitLoss(), unrealTotalPlList.getProfitLossPct());
-      etfPerformance = performanceService.findEtfPerformance(selectedPortfolio);
-      stockPerformance = performanceService.findStockPerformance(selectedPortfolio);
-    } else {
-      portfolioPerformance = new PortfolioPerformance(new BigDecimal(0), new BigDecimal(0), new BigDecimal(0), new BigDecimal(0));
-      etfPerformance = new ETFPerformance(ETFPerformance.etfName, new BigDecimal(0), new BigDecimal(0), new BigDecimal(0), new BigDecimal(0));
-      stockPerformance = new StockPerformance(StockPerformance.stockName, new BigDecimal(0), new BigDecimal(0), new BigDecimal(0), new BigDecimal(0));
-    }
+		return performanceForm;
+	}
 
-    performanceForm.setPortfolioPerformance(portfolioPerformance);
-    performanceForm.setEtfPerformance(etfPerformance);
-    performanceForm.setStockPerformance(stockPerformance);
-    performanceForm.setGphyPerformance(grpyPerformance);
+	@RequestMapping(value = "/performance/loadCashSol", method = RequestMethod.POST)
+	public PerformanceForm loadCashSol(@RequestBody PerformanceForm performanceForm, Authentication authentication) {
+		log.info("performance loadCashSol in Controller");
 
-    return performanceForm;
-  }
+		String username = authentication.getName();
 
-  @RequestMapping(value="/performance/loadCashSol", method= RequestMethod.POST)
-  public PerformanceForm loadCashSol(@RequestBody PerformanceForm performanceForm, Authentication authentication) {
-    log.info("performance loadCashSol in Controller");
+		log.info("backend init cash solution data");
+		// init cash solution data
+		BigDecimal bankBal = performanceService.findUserBankBal(username);
+		BigDecimal totalInvestment = performanceService.findUserTotalInvestment(username);
+		BigDecimal bankAndInvest = bankBal.add(totalInvestment);
+		performanceForm.setBankBal(bankBal);
+		performanceForm.setBankAndInvest(bankAndInvest);
+		return performanceForm;
+	}
 
-    String username = authentication.getName();
+	@RequestMapping(value = "/performance/updateCashBal", method = RequestMethod.POST)
+	public PerformanceForm updateCashBal(@RequestBody Map<String, Integer> jsonMap, Authentication authentication) {
+		log.info("performance updateCashBal in Controller");
 
-    log.info("backend init cash solution data");
-    //init cash solution data
-    BigDecimal bankBal = performanceService.findUserBankBal(username);
-    BigDecimal totalInvestment = performanceService.findUserTotalInvestment(username);
-    BigDecimal bankAndInvest = bankBal.add(totalInvestment);
-    performanceForm.setBankBal(bankBal);
-    performanceForm.setBankAndInvest(bankAndInvest);
-    return performanceForm;
-  }
-  
-  @RequestMapping(value="/performance/updateCashBal", method= RequestMethod.POST)
-  public PerformanceForm updateCashBal(@RequestBody Map<String, Integer> jsonMap, Authentication authentication) {
-    log.info("performance updateCashBal in Controller");
-    
-    String username = authentication.getName();
-    
-    String msg = performanceService.updateCashBal(jsonMap.get(mapKey), username);
-    
-    PerformanceForm performanceForm = new PerformanceForm();
-    performanceForm.setMsg(msg);
-    
-    return performanceForm;
-  }
+		String username = authentication.getName();
+
+		String msg;
+
+		PerformanceForm performanceForm = new PerformanceForm();
+
+		try {
+			msg = performanceService.updateCashBal(jsonMap.get(mapKey), username);
+			performanceForm.setMsg(msg);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			msg = "Update failed. Cash Balance was reverted to the previous amount.";
+			performanceForm.setErrorMsg(msg);
+			e.printStackTrace();
+		}
+
+		return performanceForm;
+	}
 
 }

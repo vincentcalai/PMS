@@ -15,6 +15,7 @@ export class UpdateCashBalComponent implements OnInit {
 
   form:{
     msg: string;
+    errorMsg: string;
   }
   
   successMsg: string;
@@ -37,6 +38,7 @@ export class UpdateCashBalComponent implements OnInit {
       data => {
         this.form = data as any;
         this.successMsg = this.form.msg; 
+        this.errorMsg = this.form.errorMsg;
         console.log(this.successMsg);
         console.log(this.form);
       }

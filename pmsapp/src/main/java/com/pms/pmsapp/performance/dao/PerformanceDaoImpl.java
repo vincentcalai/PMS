@@ -175,13 +175,12 @@ public class PerformanceDaoImpl implements PerformanceDao {
 	}
 
 	@Override
-	public String updateCashBal(int newCashBal, String username) {
+	public String updateCashBal(int newCashBal, String username) throws Exception{
 		try {
 			Session session = HibernateUtil.getSessionFactory().openSession();
 			Transaction transaction = session.beginTransaction();
 			
 			String sql = "update pms_cash_sol set bank_bal = :cashbal where usr_nam = :username";
-			
 			
 			NativeQuery query = session.createSQLQuery(sql);
 			query.setParameter("cashbal", newCashBal);
@@ -193,9 +192,10 @@ public class PerformanceDaoImpl implements PerformanceDao {
 		
 		} catch (Exception e) {
 			// convert to HibernateException then to DataAccessException
+			
 			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
 		}
 		
-		return "Update Successful!";
+		return "Update Successful! New Cash Balance was updated to $" + newCashBal;
 	}
 }

@@ -41,7 +41,7 @@ public class PerformanceServiceImpl implements PerformanceService {
 	}
 
 	@Override
-	public String updateCashBal(int newCashBal, String username) {
+	public String updateCashBal(int newCashBal, String username) throws Exception {
 		return performanceDao.updateCashBal(newCashBal, username);
 	}
 }

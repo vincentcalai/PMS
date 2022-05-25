@@ -66,7 +66,7 @@ public class SchedulerConfig {
         CronTriggerFactoryBean factoryBean = new CronTriggerFactoryBean();
         factoryBean.setJobDetail(jobDetail);
         factoryBean.setStartDelay(0L);
-        factoryBean.setCronExpression("0 */60 * ? * *");
+        factoryBean.setCronExpression("0 0 * ? * * *");
         return factoryBean;
     }
  

@@ -71,7 +71,7 @@ public class PortfolioDaoImpl implements PortfolioDao {
 		}
 	}
 	
-	public Portfolio updatePortfolio(Portfolio portfolioForm) {
+	public Portfolio updatePortfolio(Portfolio portfolioForm){
 		log.info("updating portfolio in DaoImpl..");
 		
 		try {
