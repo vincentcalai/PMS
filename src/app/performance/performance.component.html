@@ -12,7 +12,7 @@
             <label style='position:absolute; top:25%'>Select Portfolio: </label>
           </div>
           <div class="col-2">
-            <select class="form-control" [(ngModel)]="selectedPortfolio" (change)='loadPerfTab(selectedPortfolio)'>
+            <select class="form-control" [(ngModel)]="selectedPortfolio" (change)='loadInvest(selectedPortfolio)'>
               <option *ngFor = "let portfolio of this.form.portfolioList" [value] = "portfolio">{{portfolio}}</option>
             </select>
           </div>

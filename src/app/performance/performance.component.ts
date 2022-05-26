@@ -47,6 +47,73 @@ export class PerformanceComponent implements OnInit {
     bankAndInvest: 0,
     errMsg: ''
   };
+  
+  
+  investForm = {
+    portfolioList: [],
+    selectedPortfolio : '',
+    portfolioPerformance: {
+      investAmt: 0,
+      currentVal: 0,
+      profit: 0,
+      profitPct: 0
+    },
+    etfPerformance: {
+      name: "Stock Equity",
+      investAmt: 0,
+      currentVal: 0,
+      profit: 0,
+      profitPct: 0
+    },
+    stockPerformance: {
+      name: "Stock Equity",
+      investAmt: 0,
+      currentVal: 0,
+      profit: 0,
+      profitPct: 0
+    },
+    gphyPerformance: {
+      usAllocation: 0,
+      hkAllocation: 0,
+      sgAllocation: 0
+    },
+    bankBal: 0,
+    bankAndInvest: 0,
+    errMsg: ''
+  };
+
+  cashSolForm = {
+    portfolioList: [],
+    selectedPortfolio : '',
+    portfolioPerformance: {
+      investAmt: 0,
+      currentVal: 0,
+      profit: 0,
+      profitPct: 0
+    },
+    etfPerformance: {
+      name: "Stock Equity",
+      investAmt: 0,
+      currentVal: 0,
+      profit: 0,
+      profitPct: 0
+    },
+    stockPerformance: {
+      name: "Stock Equity",
+      investAmt: 0,
+      currentVal: 0,
+      profit: 0,
+      profitPct: 0
+    },
+    gphyPerformance: {
+      usAllocation: 0,
+      hkAllocation: 0,
+      sgAllocation: 0
+    },
+    bankBal: 0,
+    bankAndInvest: 0,
+    errMsg: ''
+  };
 
   etfPerformance = {
     name: "ETF",
@@ -108,14 +175,50 @@ export class PerformanceComponent implements OnInit {
 
   ngOnInit(): void {
     this.username = this.authenticateService.getAuthenticationUser();
-    //init investment tab
-    this.initInvestment();
-    //init cash solution tab
-    this.initCashSol();
+
+    let initInvestAPI = this.initInvestment();
+    let initCashSolAPI = this.initCashSol();
+
+    //parallel loading of Investment and Cash Solution tabs
+    forkJoin([initInvestAPI,initCashSolAPI]).subscribe(results => {
+      console.log(results);
+        this.investForm = results[0] as any;
+        this.cashSolForm = results[1] as any;
+        console.log('Second result in forkJoin: ');
+        console.log(this.investForm);
+        console.log(this.cashSolForm);
+        
+        //init investment tab
+        this.portfolioPerformance = this.investForm.portfolioPerformance;
+        this.etfPerformance = this.investForm.etfPerformance;
+        this.stockPerformance = this.investForm.stockPerformance;
+        this.gphyPerformance = this.investForm.gphyPerformance;
+
+        this.assetChartData = [
+          [this.investForm.etfPerformance.currentVal, this.investForm.stockPerformance.currentVal]
+        ];
+        this.gphyChartData = [
+          [this.investForm.gphyPerformance.usAllocation, this.investForm.gphyPerformance.hkAllocation, this.investForm.gphyPerformance.sgAllocation]
+        ];
+        
+        //init cash solution tab
+        this.totalCash = this.cashSolForm.bankBal;
+        this.totalWealth = this.cashSolForm.bankAndInvest;
+        
+        console.log("total cash: " + this.totalCash );
+        console.log("total wealth: " + this.totalWealth );
+        this.cashSolChartData = [
+          [this.cashSolForm.bankBal, this.cashSolForm.bankAndInvest-this.cashSolForm.bankBal]
+        ]
+
+    });
+    
   }
 
   initInvestment(){
-    this.requestService.post('/performance/init',this.form)
+    console.log("executing initInvestment");
+    //init Selected Portfolio to be first in Portfolio List
+    return this.requestService.post('/performance/init',this.form)
       .pipe(
         tap(res => {
           console.log('First result', res);
@@ -128,49 +231,20 @@ export class PerformanceComponent implements OnInit {
           console.log("selected portfolio: " + this.selectedPortfolio);
           this.form.selectedPortfolio = this.selectedPortfolio;
         }),
-        concatMap((res) => this.requestService.post('/performance/loadPerfTab',this.form))
+        //observable of Investment tab to be in forkJoin above
+        concatMap((res) => this.requestService.post('/performance/loadInvest',this.form))
       )
-      .subscribe(res => {
-        this.form = res as any;
-            console.log('Second result' + this.form);
-            console.log(this.form);
-            
-            this.portfolioPerformance = this.form.portfolioPerformance;
-            this.etfPerformance = this.form.etfPerformance;
-            this.stockPerformance = this.form.stockPerformance;
-            this.gphyPerformance = this.form.gphyPerformance;
-            //this.totalCash = this.form.bankBal;
-
-            this.assetChartData = [
-              [this.form.etfPerformance.currentVal, this.form.stockPerformance.currentVal]
-            ];
-            this.gphyChartData = [
-              [this.form.gphyPerformance.usAllocation, this.form.gphyPerformance.hkAllocation, this.form.gphyPerformance.sgAllocation]
-            ];
-
-      });
   }
 
   initCashSol(){
-    this.requestService.post('/performance/loadCashSol',this.form).subscribe(
-      data => {
-        this.form = data as any;
-        this.totalCash = this.form.bankBal;
-        this.totalWealth = this.form.bankAndInvest;
-        
-        console.log("total cash: " + this.totalCash );
-        console.log("total wealth: " + this.totalWealth );
-        this.cashSolChartData = [
-          [this.form.bankBal, this.form.bankAndInvest-this.form.bankBal]
-        ]
-        console.log(this.form);
-      }
-    );
+    //observable of Cash Solution in forkJoin above
+    console.log("executing initCashSol");
+    return this.requestService.post('/performance/loadCashSol',this.form);
   }
 
-  loadPerfTab(selectedPortfolio: string) {
+  loadInvest(selectedPortfolio: string) {
     this.form.selectedPortfolio = this.selectedPortfolio;
-    this.requestService.post('/performance/loadPerfTab',this.form).subscribe(
+    this.requestService.post('/performance/loadInvest',this.form).subscribe(
       data => {
         this.form = data as any;
         console.log(this.form);
@@ -178,7 +252,6 @@ export class PerformanceComponent implements OnInit {
         this.etfPerformance = this.form.etfPerformance;
         this.stockPerformance = this.form.stockPerformance;
         this.gphyPerformance = this.form.gphyPerformance;
-        //this.totalCash = this.form.bankBal;
 
         this.assetChartData = [
           [this.form.etfPerformance.currentVal, this.form.stockPerformance.currentVal]
@@ -209,9 +282,6 @@ export class PerformanceComponent implements OnInit {
         console.log("before ngOnInit");
         this.initCashSol();
         console.log("after ngOnInit");
-        //console.log(this.dataService.dataObj);
-
-        //window.scroll(0,0);
     });
   }
 

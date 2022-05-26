@@ -57,8 +57,8 @@ public class PerformanceController {
 		return performanceForm;
 	}
 
-	@RequestMapping(value = "/performance/loadPerfTab", method = RequestMethod.POST)
-	public PerformanceForm loadPerfTab(@RequestBody PerformanceForm performanceForm) {
+	@RequestMapping(value = "/performance/loadInvest", method = RequestMethod.POST)
+	public PerformanceForm loadInvest(@RequestBody PerformanceForm performanceForm) {
 		log.info("performance loadPerfTab in Controller");
 
 		String selectedPortfolio = performanceForm.getSelectedPortfolio();
