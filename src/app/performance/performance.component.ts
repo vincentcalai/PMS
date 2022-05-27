@@ -276,8 +276,7 @@ export class PerformanceComponent implements OnInit {
   }
 
   updateCash(totalCash){
-    
-    console.log("total cash: " + totalCash);
+    console.log("original total cash: " + totalCash);
     this.dataService.setDataObj({totalCash: totalCash});
 
     const dialogConfig = new MatDialogConfig();
@@ -289,9 +288,7 @@ export class PerformanceComponent implements OnInit {
       width: '60%',
       height: '100%'
     }).afterClosed().subscribe( result=> {
-        console.log("before ngOnInit");
         this.ngOnInit();
-        console.log("after ngOnInit");
     });
   }
 

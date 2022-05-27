@@ -30,8 +30,6 @@ export class UpdateCashBalComponent implements OnInit {
 
   ngOnInit(): void {
     this.origCashBal = this.dataService.dataObj.totalCash;
-    console.log("original Cash Bal: " + this.origCashBal);
-    //this.dataService.dataObj = null;
   }
 
   onClose(): void {
@@ -39,9 +37,7 @@ export class UpdateCashBalComponent implements OnInit {
   }
 
   onUpdate(cashBal): void {
-    console.log("before rounding: " + cashBal);
     cashBal = Math.round(cashBal * 100) / 100;
-    console.log("after rounding: " + cashBal);
 
     const map = {};
     map[this.mapKey] = cashBal;
@@ -51,11 +47,9 @@ export class UpdateCashBalComponent implements OnInit {
         this.form = data as any;
         this.successMsg = this.form.msg; 
         this.errorMsg = this.form.errorMsg;
-        if(this.successMsg != ""){
+        if(this.successMsg && !this.errorMsg){
           this.origCashBal = cashBal;
         }
-        console.log(this.successMsg);
-        console.log(this.form);
       }
     );
   }

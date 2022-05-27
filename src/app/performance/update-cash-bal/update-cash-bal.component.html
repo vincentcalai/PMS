@@ -14,12 +14,25 @@
             <div class="row">
                 <div class="col-sm text-center">
                     <div class="container">
-                      <label for="origCashBal">Cash on Bank Balance (In SGD):</label> <span style="font-size: 16px;"><b> ${{origCashBal}}</b></span>
+                      <!-- <label for="origCashBal">Cash on Bank Balance (In SGD):</label> <span style="font-size: 16px;"><b> ${{origCashBal}}</b></span>
                       <br>
 
                       <label for="cashBal">New Cash on Bank Balance (In SGD): </label>
                       &nbsp;
-                      <input type="text" id="cashBal" [(ngModel)]="cashBal" name="cashBal" (keypress) = "onlyNumAllowed($event)">
+                      <input type="text" id="cashBal" [(ngModel)]="cashBal" name="cashBal" (keypress) = "onlyNumAllowed($event)"> -->
+
+                      <table class="table">
+                        <tbody>
+                            <tr>
+                              <td>Current Cash on Bank Balance (In SGD):</td> 
+                              <td style="font-size: 16px;"><b> ${{origCashBal}}</b></td>
+                            </tr>
+                            <tr>
+                              <td>New Cash on Bank Balance (In SGD): </td> 
+                              <td><b><input type="text" id="cashBal" [(ngModel)]="cashBal" name="cashBal" (keypress) = "onlyNumAllowed($event)"></b></td>
+                            </tr>
+                        </tbody>
+                      </table>
                     </div>
                     <br>
                     <div class="container">
