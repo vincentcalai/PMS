@@ -9,6 +9,40 @@ import { DataService } from '../util/service/data.service';
 import { RequestService } from '../util/service/request.service';
 import { UpdateCashBalComponent } from './update-cash-bal/update-cash-bal.component';
 
+type Form = {
+    portfolioList: string[],
+    selectedPortfolio : string,
+    portfolioPerformance: {
+      investAmt: number,
+      currentVal: number,
+      profit: number,
+      profitPct: number
+    },
+    etfPerformance: {
+      name: "ETF",
+      investAmt: number,
+      currentVal: number,
+      profit: number,
+      profitPct: number
+    },
+    stockPerformance: {
+      name: "Stock Equity",
+      investAmt: number,
+      currentVal: number,
+      profit: number,
+      profitPct: number
+    },
+    gphyPerformance: {
+      usAllocation: number,
+      hkAllocation: number,
+      sgAllocation: number
+    },
+    bankBal: number,
+    bankAndInvest: number,
+    errMsg: string
+  };
+
+
 @Component({
   selector: 'app-performance',
   templateUrl: './performance.component.html',
@@ -26,74 +60,7 @@ export class PerformanceComponent implements OnInit {
       profitPct: 0
     },
     etfPerformance: {
-      name: "Stock Equity",
-      investAmt: 0,
-      currentVal: 0,
-      profit: 0,
-      profitPct: 0
-    },
-    stockPerformance: {
-      name: "Stock Equity",
-      investAmt: 0,
-      currentVal: 0,
-      profit: 0,
-      profitPct: 0
-    },
-    gphyPerformance: {
-      usAllocation: 0,
-      hkAllocation: 0,
-      sgAllocation: 0
-    },
-    bankBal: 0,
-    bankAndInvest: 0,
-    errMsg: ''
-  };
-  
-  
-  investForm = {
-    portfolioList: [],
-    selectedPortfolio : '',
-    portfolioPerformance: {
-      investAmt: 0,
-      currentVal: 0,
-      profit: 0,
-      profitPct: 0
-    },
-    etfPerformance: {
-      name: "Stock Equity",
-      investAmt: 0,
-      currentVal: 0,
-      profit: 0,
-      profitPct: 0
-    },
-    stockPerformance: {
-      name: "Stock Equity",
-      investAmt: 0,
-      currentVal: 0,
-      profit: 0,
-      profitPct: 0
-    },
-    gphyPerformance: {
-      usAllocation: 0,
-      hkAllocation: 0,
-      sgAllocation: 0
-    },
-    bankBal: 0,
-    bankAndInvest: 0,
-    errMsg: ''
-  };
-
-  cashSolForm = {
-    portfolioList: [],
-    selectedPortfolio : '',
-    portfolioPerformance: {
-      investAmt: 0,
-      currentVal: 0,
-      profit: 0,
-      profitPct: 0
-    },
-    etfPerformance: {
-      name: "Stock Equity",
+      name: "ETF",
       investAmt: 0,
       currentVal: 0,
       profit: 0,
@@ -185,36 +152,38 @@ export class PerformanceComponent implements OnInit {
     let initInvestAPI = this.initInvestment();
     let initCashSolAPI = this.initCashSol();
 
+    let investForm: Form;
+    let cashSolForm: Form;
     //parallel loading of Investment and Cash Solution tabs
     forkJoin([initInvestAPI,initCashSolAPI]).subscribe(results => {
       console.log(results);
-        this.investForm = results[0] as any;
-        this.cashSolForm = results[1] as any;
+        investForm = results[0] as any;
+        cashSolForm = results[1] as any;
         console.log('Second result in forkJoin: ');
-        console.log(this.investForm);
-        console.log(this.cashSolForm);
+        console.log(investForm);
+        console.log(cashSolForm);
         
         //init investment tab
-        this.portfolioPerformance = this.investForm.portfolioPerformance;
-        this.etfPerformance = this.investForm.etfPerformance;
-        this.stockPerformance = this.investForm.stockPerformance;
-        this.gphyPerformance = this.investForm.gphyPerformance;
+        this.portfolioPerformance = investForm.portfolioPerformance;
+        this.etfPerformance = investForm.etfPerformance;
+        this.stockPerformance = investForm.stockPerformance;
+        this.gphyPerformance = investForm.gphyPerformance;
 
         this.assetChartData = [
-          [this.investForm.etfPerformance.currentVal, this.investForm.stockPerformance.currentVal]
+          [investForm.etfPerformance.currentVal, investForm.stockPerformance.currentVal]
         ];
         this.gphyChartData = [
-          [this.investForm.gphyPerformance.usAllocation, this.investForm.gphyPerformance.hkAllocation, this.investForm.gphyPerformance.sgAllocation]
+          [investForm.gphyPerformance.usAllocation, investForm.gphyPerformance.hkAllocation, investForm.gphyPerformance.sgAllocation]
         ];
         
         //init cash solution tab
-        this.totalCash = this.cashSolForm.bankBal;
-        this.totalWealth = this.cashSolForm.bankAndInvest;
+        this.totalCash = cashSolForm.bankBal;
+        this.totalWealth = cashSolForm.bankAndInvest;
         
         console.log("total cash: " + this.totalCash );
         console.log("total wealth: " + this.totalWealth );
         this.cashSolChartData = [
-          [this.cashSolForm.bankBal, this.cashSolForm.bankAndInvest-this.cashSolForm.bankBal]
+          [cashSolForm.bankBal, cashSolForm.bankAndInvest-cashSolForm.bankBal]
         ]
 
     });

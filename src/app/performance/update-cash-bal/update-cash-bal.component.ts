@@ -9,16 +9,18 @@ import { PerformanceComponent } from '../performance.component';
   templateUrl: './update-cash-bal.component.html',
   styleUrls: ['./update-cash-bal.component.css']
 })
+
 export class UpdateCashBalComponent implements OnInit {
 
   cashBal: number;
   readonly mapKey: string = 'key' ;
+  isEmpty: boolean = true;
 
-  form:{
+  form : {
     msg: string;
     errorMsg: string;
   }
-  
+
   successMsg: string;
   errorMsg: string;
 

@@ -36,8 +36,8 @@
                     </div>
                     <br>
                     <div class="container">
-                        <button type="button" class="btn btn-success custom" (click)="onUpdate(cashBal)">Save</button>
-                        <button type="button" class="btn btn-danger custom" (click)="onClose()">Cancel</button>
+                        <button type="button" class="btn btn-success custom" (click)="onUpdate(cashBal)" [disabled]="!cashBal">Save</button>
+                        <button type="button" class="btn btn-danger custom" (click)="onClose()" >Cancel</button>
                     </div>
                 </div>
             </div>
