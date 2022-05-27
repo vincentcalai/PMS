@@ -14,8 +14,14 @@ public interface PerformanceService {
 	public GphyPerformance findGphyPerformance(String selectedPortfolio);
 
 	public BigDecimal findUserBankBal(String username);
+	
+	public BigDecimal findUserOtherAsset(String username);
 
 	public BigDecimal findUserTotalInvestment(String username);
 
-	public String updateCashBal(BigDecimal bigDecimal, String username) throws Exception;
+	public String updateCashBal(BigDecimal newCashBal, String username) throws Exception;
+
+	public String updateOtherAsset(BigDecimal newOtherAsset, String username) throws Exception;
+
+	
 }

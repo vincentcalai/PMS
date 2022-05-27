@@ -5,14 +5,14 @@ import { RequestService } from '../../util/service/request.service';
 import { PerformanceComponent } from '../performance.component';
 
 @Component({
-  selector: 'app-update-cash-bal',
-  templateUrl: './update-cash-bal.component.html',
-  styleUrls: ['./update-cash-bal.component.css']
+  selector: 'app-update-other-asset',
+  templateUrl: './update-other-asset.component.html',
+  styleUrls: ['./update-other-asset.component.css']
 })
 
-export class UpdateCashBalComponent implements OnInit {
+export class UpdateOtherAssetComponent implements OnInit {
 
-  cashBal: number;
+  otherAsset: number;
   readonly mapKey: string = 'key' ;
 
   form : {
@@ -23,33 +23,33 @@ export class UpdateCashBalComponent implements OnInit {
   successMsg: string;
   errorMsg: string;
 
-  origCashBal: number;
+  origOtherAsset: number;
 
   constructor(private requestService: RequestService, 
     private dataService: DataService,
     private dialogRef: MatDialogRef<PerformanceComponent>) { }
 
   ngOnInit(): void {
-    this.origCashBal = this.dataService.dataObj.totalCash;
+    this.origOtherAsset = this.dataService.dataObj.otherAsset;
   }
 
   onClose(): void {
     this.dialogRef.close();
   }
 
-  onUpdate(cashBal): void {
-    cashBal = Math.round(cashBal * 100) / 100;
+  onUpdate(otherAsset): void {
+    otherAsset = Math.round(otherAsset * 100) / 100;
 
     const map = {};
-    map[this.mapKey] = cashBal;
+    map[this.mapKey] = otherAsset;
     console.log(map);
-    this.requestService.post('/performance/updateCashBal', map).subscribe(
+    this.requestService.post('/performance/updateOtherAsset', map).subscribe(
       data => {
         this.form = data as any;
         this.successMsg = this.form.msg; 
         this.errorMsg = this.form.errorMsg;
         if(this.successMsg && !this.errorMsg){
-          this.origCashBal = cashBal;
+          this.origOtherAsset = otherAsset;
         }
       }
     );

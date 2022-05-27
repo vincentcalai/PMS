@@ -17,7 +17,8 @@ public class PerformanceForm {
 	private StockPerformance stockPerformance;
 	private GphyPerformance gphyPerformance;
 	private BigDecimal bankBal;
-	private BigDecimal bankAndInvest;
+	private BigDecimal otherAsset;
+	private BigDecimal totalWealth;
 	private String msg;
 	private String errorMsg;
 
@@ -76,13 +77,21 @@ public class PerformanceForm {
 	public void setBankBal(BigDecimal bankBal) {
 		this.bankBal = bankBal;
 	}
-
-	public BigDecimal getBankAndInvest() {
-		return bankAndInvest;
+	
+	public BigDecimal getOtherAsset() {
+		return otherAsset;
 	}
 
-	public void setBankAndInvest(BigDecimal bankAndInvest) {
-		this.bankAndInvest = bankAndInvest;
+	public void setOtherAsset(BigDecimal otherAsset) {
+		this.otherAsset = otherAsset;
+	}
+
+	public BigDecimal getTotalWealth() {
+		return totalWealth;
+	}
+
+	public void setTotalWealth(BigDecimal totalWealth) {
+		this.totalWealth = totalWealth;
 	}
 
 	public String getMsg() {

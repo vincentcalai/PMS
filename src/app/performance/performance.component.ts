@@ -8,6 +8,7 @@ import { AuthenticateService } from '../util/service/authenticate.service';
 import { DataService } from '../util/service/data.service';
 import { RequestService } from '../util/service/request.service';
 import { UpdateCashBalComponent } from './update-cash-bal/update-cash-bal.component';
+import { UpdateOtherAssetComponent } from './update-other-asset/update-other-asset.component';
 
 type Form = {
     portfolioList: string[],
@@ -38,7 +39,8 @@ type Form = {
       sgAllocation: number
     },
     bankBal: number,
-    bankAndInvest: number,
+    otherAsset: number,
+    totalWealth: number,
     errMsg: string
   };
 
@@ -79,7 +81,8 @@ export class PerformanceComponent implements OnInit {
       sgAllocation: 0
     },
     bankBal: 0,
-    bankAndInvest: 0,
+    otherAsset: 0,
+    totalWealth: 0,
     errMsg: ''
   };
 
@@ -127,7 +130,7 @@ export class PerformanceComponent implements OnInit {
   ];
   gphyChartType: ChartType = 'doughnut';
 
-  cashSolChartLabels: Label[] = ['Cash', 'Investments'];
+  cashSolChartLabels: Label[] = ['Cash', 'Other Assets', 'Investments'];
   cashSolChartData: MultiDataSet = [
     []
   ];
@@ -137,6 +140,7 @@ export class PerformanceComponent implements OnInit {
 
   username: string= '';
   totalCash: number = 0;
+  otherAsset: number = 0;
   totalWealth: number = 0;
   
   constructor(private requestService: RequestService, 
@@ -178,12 +182,16 @@ export class PerformanceComponent implements OnInit {
         
         //init cash solution tab
         this.totalCash = cashSolForm.bankBal;
-        this.totalWealth = cashSolForm.bankAndInvest;
+        this.otherAsset = cashSolForm.otherAsset;
+        this.totalWealth = cashSolForm.totalWealth;
         
         console.log("total cash: " + this.totalCash );
+        console.log("other asset: " + this.otherAsset );
         console.log("total wealth: " + this.totalWealth );
+        let totalInvestment = cashSolForm.totalWealth-cashSolForm.otherAsset-cashSolForm.bankBal;
+
         this.cashSolChartData = [
-          [cashSolForm.bankBal, cashSolForm.bankAndInvest-cashSolForm.bankBal]
+          [cashSolForm.bankBal, cashSolForm.otherAsset, totalInvestment]
         ]
 
     });
@@ -254,6 +262,23 @@ export class PerformanceComponent implements OnInit {
     dialogConfig.width = "80%";
 
     this.dialog.open(UpdateCashBalComponent, {
+      width: '60%',
+      height: '100%'
+    }).afterClosed().subscribe( result=> {
+        this.ngOnInit();
+    });
+  }
+
+  updateOtherAsset(otherAsset){
+    console.log("original other asset: " + otherAsset);
+    this.dataService.setDataObj({otherAsset: otherAsset});
+
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "80%";
+
+    this.dialog.open(UpdateOtherAssetComponent, {
       width: '60%',
       height: '100%'
     }).afterClosed().subscribe( result=> {

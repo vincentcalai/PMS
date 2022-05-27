@@ -132,7 +132,7 @@ public class PerformanceDaoImpl implements PerformanceDao {
 		try {
 			Session session = HibernateUtil.getSessionFactory().openSession();
 
-			String sql = "select bank_bal from pms_cash_sol where usr_nam = :username ";
+			String sql = "select cash_bal from pms_cash_sol where usr_nam = :username ";
 
 			NativeQuery sqlQuery = session.createSQLQuery(sql);
 
@@ -146,6 +146,26 @@ public class PerformanceDaoImpl implements PerformanceDao {
 			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
 		}
 
+	}
+	
+	@Override
+	public BigDecimal findUserOtherAsset(String username) {
+		try {
+			Session session = HibernateUtil.getSessionFactory().openSession();
+
+			String sql = "select other_asset from pms_cash_sol where usr_nam = :username ";
+
+			NativeQuery sqlQuery = session.createSQLQuery(sql);
+
+			sqlQuery.setParameter("username", username);
+
+			BigDecimal otherAsset = (BigDecimal) sqlQuery.uniqueResult();
+
+			return otherAsset;
+		} catch (Exception e) {
+			// convert to HibernateException then to DataAccessException
+			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
+		}
 	}
 
 	@Override
@@ -180,7 +200,7 @@ public class PerformanceDaoImpl implements PerformanceDao {
 			Session session = HibernateUtil.getSessionFactory().openSession();
 			Transaction transaction = session.beginTransaction();
 			
-			String sql = "update pms_cash_sol set bank_bal = :cashbal where usr_nam = :username";
+			String sql = "update pms_cash_sol set cash_bal = :cashbal where usr_nam = :username";
 			
 			NativeQuery query = session.createSQLQuery(sql);
 			query.setParameter("cashbal", newCashBal);
@@ -198,4 +218,31 @@ public class PerformanceDaoImpl implements PerformanceDao {
 		
 		return "Update Successful! New Cash Balance was updated to $" + newCashBal;
 	}
+
+	@Override
+	public String updateOtherAsset(BigDecimal newOtherAsset, String username) throws Exception {
+		try {
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			Transaction transaction = session.beginTransaction();
+			
+			String sql = "update pms_cash_sol set other_asset = :otherAsset where usr_nam = :username";
+			
+			NativeQuery query = session.createSQLQuery(sql);
+			query.setParameter("otherAsset", newOtherAsset);
+			query.setParameter("username", username);		
+			query.executeUpdate();
+			
+			transaction.commit();
+			session.close();
+		
+		} catch (Exception e) {
+			// convert to HibernateException then to DataAccessException
+			
+			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
+		}
+		
+		return "Update Successful! New Cash Balance was updated to $" + newOtherAsset;
+	}
+
+	
 }

@@ -1,0 +1,42 @@
+<div class="card ">
+    <h1 class="d-inline card-header">Update Other Assets Balance</h1>
+  <div class ="card-body">
+    <div class="container">
+        <div *ngIf="successMsg"
+          class="alert alert-success">
+            <b>Success: </b>{{successMsg}}
+        </div>
+        <div *ngIf="errorMsg"
+            class="alert alert-danger">
+              <b>Error: </b> {{errorMsg}}
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm text-center">
+                    <div class="container">
+
+                      <table class="table">
+                        <tbody>
+                            <tr>
+                              <td>Other Assets Balance (In SGD):</td> 
+                              <td style="font-size: 16px;"><b> ${{origOtherAsset}}</b></td>
+                            </tr>
+                            <tr>
+                              <td>New Other Assets Balance (In SGD): </td> 
+                              <td><b><input type="text" id="otherAsset" [(ngModel)]="otherAsset" name="otherAsset" (keypress) = "onlyNumAllowed($event)"></b></td>
+                            </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <br>
+                    <div class="container">
+                        <button type="button" class="btn btn-success custom" (click)="onUpdate(otherAsset)" [disabled]="!otherAsset">Save</button>
+                        <button type="button" class="btn btn-danger custom" (click)="onClose()" >Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  </div>
+  

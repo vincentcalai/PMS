@@ -34,6 +34,12 @@ public class PerformanceServiceImpl implements PerformanceService {
 	public BigDecimal findUserBankBal(String username) {
 		return performanceDao.findUserBankBal(username);
 	}
+	
+
+	@Override
+	public BigDecimal findUserOtherAsset(String username) {
+		return performanceDao.findUserOtherAsset(username);
+	}
 
 	@Override
 	public BigDecimal findUserTotalInvestment(String username) {
@@ -44,4 +50,10 @@ public class PerformanceServiceImpl implements PerformanceService {
 	public String updateCashBal(BigDecimal newCashBal, String username) throws Exception {
 		return performanceDao.updateCashBal(newCashBal, username);
 	}
+
+	@Override
+	public String updateOtherAsset(BigDecimal newOtherAsset, String username) throws Exception {
+		return performanceDao.updateOtherAsset(newOtherAsset, username);
+	}
+
 }

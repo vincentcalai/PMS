@@ -102,10 +102,12 @@ public class PerformanceController {
 		log.info("backend init cash solution data");
 		// init cash solution data
 		BigDecimal bankBal = performanceService.findUserBankBal(username);
+		BigDecimal otherAsset = performanceService.findUserOtherAsset(username);
 		BigDecimal totalInvestment = performanceService.findUserTotalInvestment(username);
-		BigDecimal bankAndInvest = bankBal.add(totalInvestment);
+		BigDecimal totalWealth = bankBal.add(totalInvestment).add(otherAsset);
 		performanceForm.setBankBal(bankBal);
-		performanceForm.setBankAndInvest(bankAndInvest);
+		performanceForm.setOtherAsset(otherAsset);
+		performanceForm.setTotalWealth(totalWealth);
 		return performanceForm;
 	}
 
@@ -124,7 +126,30 @@ public class PerformanceController {
 			performanceForm.setMsg(msg);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			msg = "Update failed. Cash Balance was reverted to the previous amount.";
+			msg = "Update failed. Cash Balance was not updated.";
+			performanceForm.setErrorMsg(msg);
+			e.printStackTrace();
+		}
+
+		return performanceForm;
+	}
+	
+	@RequestMapping(value = "/performance/updateOtherAsset", method = RequestMethod.POST)
+	public PerformanceForm updateOtherAsset(@RequestBody Map<String, BigDecimal> jsonMap, Authentication authentication) {
+		log.info("performance updateCashBal in Controller");
+
+		String username = authentication.getName();
+
+		String msg;
+
+		PerformanceForm performanceForm = new PerformanceForm();
+
+		try {
+			msg = performanceService.updateOtherAsset(jsonMap.get(mapKey), username);
+			performanceForm.setMsg(msg);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			msg = "Update failed. Other Asset amount was not updated.";
 			performanceForm.setErrorMsg(msg);
 			e.printStackTrace();
 		}
