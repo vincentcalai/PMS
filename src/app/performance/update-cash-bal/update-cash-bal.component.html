@@ -14,6 +14,9 @@
             <div class="row">
                 <div class="col-sm text-center">
                     <div class="container">
+                      <label for="origCashBal">Cash on Bank Balance (In SGD):</label> <span style="font-size: 16px;"><b> ${{origCashBal}}</b></span>
+                      <br>
+
                       <label for="cashBal">New Cash on Bank Balance (In SGD): </label>
                       &nbsp;
                       <input type="text" id="cashBal" [(ngModel)]="cashBal" name="cashBal" (keypress) = "onlyNumAllowed($event)">

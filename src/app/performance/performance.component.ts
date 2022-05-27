@@ -5,6 +5,7 @@ import { Label, MultiDataSet } from 'ng2-charts';
 import { forkJoin } from 'rxjs';
 import { concatMap, flatMap, map, mergeMap, tap } from 'rxjs/operators';
 import { AuthenticateService } from '../util/service/authenticate.service';
+import { DataService } from '../util/service/data.service';
 import { RequestService } from '../util/service/request.service';
 import { UpdateCashBalComponent } from './update-cash-bal/update-cash-bal.component';
 
@@ -171,7 +172,12 @@ export class PerformanceComponent implements OnInit {
   totalCash: number = 0;
   totalWealth: number = 0;
   
-  constructor(private requestService: RequestService, private dialog: MatDialog, public authenticateService: AuthenticateService) { }
+  constructor(private requestService: RequestService, 
+    private dataService: DataService, 
+    private dialog: MatDialog, 
+    public authenticateService: AuthenticateService) { 
+
+    }
 
   ngOnInit(): void {
     this.username = this.authenticateService.getAuthenticationUser();
@@ -269,7 +275,11 @@ export class PerformanceComponent implements OnInit {
      return this.absoluteVal;
   }
 
-  updateCash(){
+  updateCash(totalCash){
+    
+    console.log("total cash: " + totalCash);
+    this.dataService.setDataObj({totalCash: totalCash});
+
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
@@ -280,7 +290,7 @@ export class PerformanceComponent implements OnInit {
       height: '100%'
     }).afterClosed().subscribe( result=> {
         console.log("before ngOnInit");
-        this.initCashSol();
+        this.ngOnInit();
         console.log("after ngOnInit");
     });
   }

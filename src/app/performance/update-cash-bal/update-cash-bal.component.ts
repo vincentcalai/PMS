@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { DataService } from '../../util/service/data.service';
 import { RequestService } from '../../util/service/request.service';
 import { PerformanceComponent } from '../performance.component';
 
@@ -21,9 +22,16 @@ export class UpdateCashBalComponent implements OnInit {
   successMsg: string;
   errorMsg: string;
 
-  constructor(private requestService: RequestService, private dialogRef: MatDialogRef<PerformanceComponent>) { }
+  origCashBal: number;
+
+  constructor(private requestService: RequestService, 
+    private dataService: DataService,
+    private dialogRef: MatDialogRef<PerformanceComponent>) { }
 
   ngOnInit(): void {
+    this.origCashBal = this.dataService.dataObj.totalCash;
+    console.log("original Cash Bal: " + this.origCashBal);
+    //this.dataService.dataObj = null;
   }
 
   onClose(): void {
@@ -43,6 +51,9 @@ export class UpdateCashBalComponent implements OnInit {
         this.form = data as any;
         this.successMsg = this.form.msg; 
         this.errorMsg = this.form.errorMsg;
+        if(this.successMsg != ""){
+          this.origCashBal = cashBal;
+        }
         console.log(this.successMsg);
         console.log(this.form);
       }
