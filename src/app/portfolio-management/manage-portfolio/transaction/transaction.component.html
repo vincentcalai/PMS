@@ -56,8 +56,7 @@
               <div class="col" *ngIf="isBackDatedTrans">
                 <div class="form-group">
                   <label for="backDatedDate">Backdated Date: </label>
-                  <!-- <input type="text" class="form-control" id="backDatedDate"
-                  [(ngModel)]="transaction.backDatedDate"  #backDatedDate="ngModel" name="backDatedDate">  -->
+                  <br>
                   <mat-form-field appearance="fill">
                     <mat-label>Stock Purchased Backdated Date</mat-label>
                     <input name="backDatedDate" matInput [matDatepicker]="backDatedDate" #backDatedDateRef=ngModel [max]="maxDate"

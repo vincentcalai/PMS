@@ -17,6 +17,7 @@ public class PortfolioTrans{
 	private BigDecimal transPrice;
 	private BigDecimal totalAmt;
 	private String action;
+	private Date backDatedDate;
 	private String createdBy;
 	private Date createdDt;
 	private String remarks;
@@ -28,7 +29,7 @@ public class PortfolioTrans{
 	}
 
 	public PortfolioTrans(Long id, Long portId, String stockName, String stockSymbol, String stockExchg,
-			Integer noOfShare, BigDecimal transPrice, BigDecimal totalAmt, String action,
+			Integer noOfShare, BigDecimal transPrice, BigDecimal totalAmt, String action, Date backDatedDate,
 			String createdBy, Date createdDt, String remarks, Integer currentStockHold, String systemMsg, String errMsg) {
 		super();
 		this.id = id;
@@ -40,6 +41,7 @@ public class PortfolioTrans{
 		this.transPrice = transPrice;
 		this.totalAmt = totalAmt;
 		this.action = action;
+		this.backDatedDate = backDatedDate;
 		this.createdBy = createdBy;
 		this.createdDt = createdDt;
 		this.remarks = remarks;
@@ -102,6 +104,12 @@ public class PortfolioTrans{
 	public void setAction(String action) {
 		this.action = action;
 	}
+	public Date getBackDatedDate() {
+		return backDatedDate;
+	}
+	public void setBackDatedDate(Date backDatedDate) {
+		this.backDatedDate = backDatedDate;
+	}
 	public String getCreatedBy() {
 		return createdBy;
 	}
@@ -144,5 +152,5 @@ public class PortfolioTrans{
 	public void setErrMsg(String errMsg) {
 		this.errMsg = errMsg;
 	}
-	
+
 }

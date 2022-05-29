@@ -84,7 +84,7 @@ public class PortfolioTransDaoImpl implements PortfolioTransDao {
 					+ ":portfolioId, :stockName, :stockSymbol,"
 					+ " :stockExchg, :noOfShare, "
 					+ "to_char(:transPrice,'9999.99'), (:transPrice * :noOfShare), :action, "
-					+ ":createdBy, sysdate, :remarks) ";
+					+ ":createdBy, :backDatedDate, :remarks) ";
 	
 			Query query = session.createSQLQuery(sql);
 			query.setParameter("id", portfolioTrans.getId());
@@ -95,6 +95,7 @@ public class PortfolioTransDaoImpl implements PortfolioTransDao {
 			query.setParameter("noOfShare", portfolioTrans.getNoOfShare());
 			query.setParameter("transPrice", portfolioTrans.getTransPrice());
 			query.setParameter("action", portfolioTrans.getAction());
+			query.setParameter("backDatedDate", portfolioTrans.getBackDatedDate());
 			query.setParameter("createdBy", portfolioTrans.getCreatedBy());
 			query.setParameter("remarks", portfolioTrans.getRemarks());
 			query.executeUpdate();

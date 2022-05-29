@@ -17,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -166,8 +167,10 @@ public class PortfolioTransController {
 		 String stockSym = portfolioTrans.getStockSymbol();
 		 String stockExchg = portfolioTrans.getStockExchg();
 		 String transPrice = portfolioTrans.getTransPrice().toString();
+		 Date backDatedDate = portfolioTrans.getBackDatedDate() == null ? new Date(): portfolioTrans.getBackDatedDate();
 		 portfolioTrans.setPortId(portId);
 		 portfolioTrans.setStockSymbol(stockSym);
+		 portfolioTrans.setBackDatedDate(backDatedDate);
 
 		if(noOfShare <= 0) {
 			 portfolioTrans.setErrMsg("Invalid No. Of Share. No. Of Share should be more than 0. Save transaction failed.");
