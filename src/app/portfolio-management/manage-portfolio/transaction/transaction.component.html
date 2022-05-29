@@ -43,6 +43,32 @@
               </div>
             </div>
 
+            <div class="row" *ngIf="isActionBuy">
+              <div class="col">
+                <div class="form-group">
+                  <label for="backDatedTransCb" style="text-align:center; vertical-align:middle;">Backdated Transaction: </label>
+                  <mat-checkbox class='checkbox-inline' name="backDatedTransCb"
+                  labelPosition = "before"
+                  [(ngModel)]="isBackDatedTrans">
+                  </mat-checkbox>
+                </div>
+              </div>
+              <div class="col" *ngIf="isBackDatedTrans">
+                <div class="form-group">
+                  <label for="backDatedDate">Backdated Date: </label>
+                  <!-- <input type="text" class="form-control" id="backDatedDate"
+                  [(ngModel)]="transaction.backDatedDate"  #backDatedDate="ngModel" name="backDatedDate">  -->
+                  <mat-form-field appearance="fill">
+                    <mat-label>Stock Purchased Backdated Date</mat-label>
+                    <input name="backDatedDate" matInput [matDatepicker]="backDatedDate" #backDatedDateRef=ngModel [max]="maxDate"
+                      [(ngModel)]="transaction.backDatedDate" required>
+                    <mat-datepicker-toggle matSuffix [for]="backDatedDate"></mat-datepicker-toggle>
+                    <mat-datepicker #backDatedDate></mat-datepicker>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+
             <div class="row">
               <div class="col">
                 <div class="form-group">
@@ -101,13 +127,6 @@
               <div class="col">
                 <div class="form-group">
                   <label for="action">Buy/Sell: </label>
-                  <!-- <mat-form-field appearance="fill">
-                    <mat-select [ngModel]="transaction.action" #action="ngModel" name="action" required>
-                      <mat-option [value]="action" *ngFor="let action of actions">
-                        {{action}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field> -->
                     <select  class="form-control" *ngIf = "!isActionBuy"
                     [ngModel]="transaction.action" #action="ngModel" name="action" required>
                       <option [value]="action" *ngFor="let action of actions">

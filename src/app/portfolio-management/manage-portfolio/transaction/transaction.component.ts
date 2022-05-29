@@ -36,6 +36,7 @@ export class TransactionComponent implements OnInit {
     createdDt : null,
     remarks : '',
     currentStockHold : null,
+    backDatedDate: null,
     systemMsg: '',
     errMsg:''
   }
@@ -52,6 +53,9 @@ export class TransactionComponent implements OnInit {
 
   currentStockHold: number;
 
+  isBackDatedTrans: boolean = false;
+  maxDate: Date;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -60,6 +64,7 @@ export class TransactionComponent implements OnInit {
     private location: Location
   ) {
     this.portId = route.snapshot.params['id'];
+    this.maxDate = new Date();
   }
 
   ngOnInit(): void {
