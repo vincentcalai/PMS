@@ -26,7 +26,7 @@ public interface UserDao {
 
 	void updateUserRole(Long id, String newUserRole);
 
-	void deleteUser(long id);
+	void deleteUser(long id) throws Exception;
 
 	List<String> findUserRoles(String username);
 

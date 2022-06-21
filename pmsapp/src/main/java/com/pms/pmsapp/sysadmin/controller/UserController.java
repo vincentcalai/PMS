@@ -10,7 +10,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,100 +30,56 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-	@Autowired
-	private PasswordEncoder passwordEncoder;
-
-	@RequestMapping(value="/sysadmin/userlist", method=RequestMethod.GET)
+	@RequestMapping(value = "/sysadmin/userlist", method = RequestMethod.GET)
 	public Page<User> findAllUsers(@RequestParam("page") int page, @RequestParam("size") int size) {
 		log.info("findAllUsers in Controller");
-		Pageable pageable = PageRequest.of(page-1, size);
+		Pageable pageable = PageRequest.of(page - 1, size);
 
-		List<User> users= userService.findAllUsers(pageable);
+		List<User> users = userService.findAllUsers(pageable);
 		long totalRec = userService.findAllUserCount();
 
 		PageImpl<User> usersPage = new PageImpl(users, pageable, totalRec);
 		return usersPage;
 	}
 
-	@RequestMapping(value="/sysadmin/createuser", method=RequestMethod.POST)
+	@RequestMapping(value = "/sysadmin/createuser", method = RequestMethod.POST)
 	public User createUser(@RequestBody User userForm, Authentication authentication) {
-		 log.info("createUser in Controller.. ");
+		log.info("createUser in Controller.. ");
 
-		 String username = userForm.getUsername();
-		 String createdBy = authentication.getName();
+		String createdBy = authentication.getName();
 
-		 if(createdBy != null) {
-			 userForm.setCreatedBy(createdBy);
-		 }
-
-		 userForm.setRoles(String.join(", ", userForm.getSelectedRoles()));
-
-		 boolean userExist = userService.checkUserExist(userForm.getUsername());
-		 if(userExist) {
-			 //userForm.setPassword(null);
-			 //userForm.setConfirmPassword(null);
-			 userForm.setErrMsg("User already exist. Please create user with different name.");
-		 } else if (!userForm.getConfirmPassword().equals(userForm.getPassword())){
-			 //userForm.setPassword(null);
-			 //userForm.setConfirmPassword(null);
-			 userForm.setErrMsg("Passwords entered does not match.");
-		 } else {
-			//encode password
-			 userForm.setPassword(passwordEncoder.encode(userForm.getPassword()));
-
-			 userService.addUser(userForm);
-			 for( int i=0; i<userForm.getSelectedRoles().length; i++) {
-				 String newUserRole = userForm.getSelectedRoles()[i];
-				 userService.addUserRole(username, newUserRole);
-			 }
-			 userForm.setSystemMsg("User Created Successfully.");
-		 }
-		 return userForm;
+		return userService.createUser(userForm, createdBy);
 	}
 
-	@RequestMapping(value="/sysadmin/updateuser/{id}", method=RequestMethod.POST)
+	@RequestMapping(value = "/sysadmin/updateuser/{id}", method = RequestMethod.POST)
 	public User updateuser(@PathVariable long id, @RequestBody User userForm, Authentication authentication) {
-		 log.info("updateuser in Controller.. ");
+		log.info("updateuser in Controller.. ");
 
-		 userForm.setId(id);
-		 String createdBy = authentication.getName();
+		userForm.setId(id);
+		String createdBy = authentication.getName();
 
-		 if(createdBy != null) {
-			 userForm.setCreatedBy(createdBy);
-		 }
-
-		 userForm.setRoles(String.join(", ", userForm.getSelectedRoles()));
-
-		 userService.updateUser(userForm);
-		 userService.clearUserRole(userForm.getId());
-		 for( int i=0; i<userForm.getSelectedRoles().length; i++) {
-			 String newUserRole = userForm.getSelectedRoles()[i];
-			 userService.updateUserRole(userForm.getId(), newUserRole);
-		 }
-		 userForm.setSystemMsg("User updated Successfully.");
-
-		 return userForm;
+		return userService.updateUser(userForm, createdBy);
 	}
 
-
-	@RequestMapping(value="/sysadmin/deleteuser/{id}", method=RequestMethod.DELETE)
+	@RequestMapping(value = "/sysadmin/deleteuser/{id}", method = RequestMethod.DELETE)
 	public User deleteUser(@PathVariable long id) {
 		User user = new User();
 		log.info("deleteUser in Controller");
-		userService.deleteUser(id);
-
-		user.setSystemMsg("User deleted successfully.");
-
+		try {
+			userService.deleteUser(id);
+			user.setSystemMsg("User deleted successfully.");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return user;
 	}
 
-	@RequestMapping(value="/user/roles", method=RequestMethod.POST)
+	@RequestMapping(value = "/user/roles", method = RequestMethod.POST)
 	public List<String> getLoginUserRoles(@RequestBody String username) {
-		 log.info("getRoles in Controller.. ");
+		log.info("getRoles in Controller.. ");
 
-		 List<String> roles = userService.findUserRoles(username);
-
-		 return roles;
+		return userService.findUserRoles(username);
 	}
 
 }

@@ -14,6 +14,6 @@ public interface HomeService{
 	StockWrapper findForex(String forexSym);
 	void updateLastVal(Index index);
 	void updateLastVal(Forex forex);
-	
+	void updateLivePrices();
 	
 }

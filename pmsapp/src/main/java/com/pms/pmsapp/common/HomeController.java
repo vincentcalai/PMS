@@ -40,40 +40,6 @@ public class HomeController {
 	public void updateLivePrices() {
 		log.info("updateLivePrices in Controller");
 
-		List<Index> indexList = homeService.findAllIndex();
-		List<Forex> forexList = homeService.findAllForex();
-
-		//update Index Live Prices
-		for(Index index : indexList) {
-			String indexSym = index.getIdxSym();
-			StockWrapper stockWrapper = homeService.findStock(indexSym);
-			try {
-				StockQuote stockQuote = stockWrapper.getStock().getQuote(true);
-				index.setLast(stockQuote.getPrice());
-				index.setChange(stockQuote.getChange());
-				index.setChangePct(stockQuote.getChangeInPercent());
-				log.info("Index: " + index.getIdxSym() + " Last Price: " + index.getLast());
-				homeService.updateLastVal(index);
-			} catch (Exception e) {
-				log.error(e.getMessage());
-			}
-		}
-
-		//update Forex Live Prices
-		for(Forex forex : forexList) {
-			String forexSym = forex.getForexSymbol();
-			StockWrapper stockWrapper = homeService.findForex(forexSym);
-			try {
-				StockQuote stockQuote = stockWrapper.getStock().getQuote(true);
-				forex.setLast(stockQuote.getPrice());
-				forex.setChange(stockQuote.getChange());
-				forex.setChangePct(stockQuote.getChangeInPercent());
-				log.info("Forex: " + forex.getForexSymbol() + " Last Rate: " + forex.getLast());
-				homeService.updateLastVal(forex);
-			} catch (Exception e) {
-				log.error(e.getMessage());
-			}
-		}
-
+		homeService.updateLivePrices();
 	}
 }

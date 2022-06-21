@@ -25,14 +25,12 @@ public class MessageController {
 	
 	@RequestMapping(value="/msg/retrieve", method=RequestMethod.POST)
 	public List<Message> retrieveMsg(@RequestBody String loginUser) {
-		List<Message> messages= messageService.retrieveMsg(loginUser);
-		return messages;
+		return messageService.retrieveMsg(loginUser);
 	}
 	
 	@RequestMapping(value="/msg/retrievecnt", method=RequestMethod.POST)
 	public int retrieveMsgCnt(@RequestBody String loginUser) {
-		int messageCnt= messageService.retrieveMsgCnt(loginUser);
-		return messageCnt;
+		return messageService.retrieveMsgCnt(loginUser);
 	}
 	
 	@RequestMapping(value="/msg/softDelReadMsg", method=RequestMethod.POST)

@@ -22,10 +22,14 @@ public interface UserService {
 
 	void updateUserRole(Long id, String newUserRole);
 
-	void deleteUser(long id);
+	void deleteUser(long id) throws Exception;
 
 	List<String> findUserRoles(String username);
 
 	void clearUserRole(Long id);
+
+	User createUser(User userForm, String createdBy);
+
+	User updateUser(User userForm, String createdBy);
 
 }

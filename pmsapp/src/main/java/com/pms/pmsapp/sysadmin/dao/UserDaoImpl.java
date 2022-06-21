@@ -218,7 +218,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public void deleteUser(long id) {
+	public void deleteUser(long id) throws Exception {
 		log.info("deleteUser in DaoImpl..");
 		
 		try {
