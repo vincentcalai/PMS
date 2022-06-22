@@ -44,52 +44,19 @@ public class PortfolioController {
 
 	@RequestMapping(value="portfolio/add", method=RequestMethod.POST)
 	public Portfolio addPortfolio(@RequestBody Portfolio portfolioForm, Authentication authentication) {
-		 boolean portfolioExist = false;
-		 String portfolioName = portfolioForm.getPortfolioName();
-
+		 
 		 String username = authentication.getName();
-
-		 if(username != null) {
-			 portfolioForm.setCreatedBy(username);
-			 portfolioForm.setLastMdfyBy(username);
-		 }
-
-		 log.info("addPortfolio in Controller.. ");
-		 log.info("portfolioForm:  " + portfolioName);
-
-		 portfolioExist = portfolioService.checkPortfolioExist(portfolioName);
-		 if(portfolioExist) {
-			 portfolioForm.setErrMsg("Portfolio name already exist. Please create portfolio with different name.");
-		 } else {
-			 portfolioService.addPortfolio(portfolioForm);
-			 portfolioForm.setSystemMsg("Portfolio added Successfully.");
-		 }
-		 return portfolioForm;
+		 
+		 return portfolioService.addPortfolio(portfolioForm, username);
 	}
 
 	@RequestMapping(value="portfolio/update/{id}", method=RequestMethod.PUT)
 	public Portfolio updatePortfolio(@PathVariable long id, @RequestBody Portfolio portfolioForm, Authentication authentication) {
 		 log.info("updatePortfolio in Controller.. ");
-
-		 boolean portfolioExist = false;
-		 Long portfolioId = portfolioForm.getId();
-		 String portfolioName = portfolioForm.getPortfolioName();
+		 
 		 String username = authentication.getName();
 
-		 if(username != null) {
-			 portfolioForm.setCreatedBy(username);
-			 portfolioForm.setLastMdfyBy(username);
-		 }
-
-		 portfolioExist = portfolioService.checkPortfolioExist(portfolioId, portfolioName);
-
-		 if(portfolioExist) {
-			 portfolioForm.setErrMsg("Portfolio name already exist. Please update portfolio with different name.");
-		 } else {
-			 portfolioForm = portfolioService.updatePortfolio(portfolioForm);
-			 portfolioForm.setSystemMsg("Portfolio updated successfully.");
-		 }
-		 return portfolioForm;
+		 return portfolioService.updatePortfolio(portfolioForm, username);
 	}
 
 	@RequestMapping(value="portfolio/delete/{id}", method=RequestMethod.DELETE)
