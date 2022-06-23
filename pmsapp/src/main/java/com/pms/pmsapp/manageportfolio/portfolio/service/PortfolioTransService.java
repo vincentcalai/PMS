@@ -20,4 +20,6 @@ public interface PortfolioTransService{
 	long findAllCount(long portId);
 	List<PortfolioTrans> searchTrans(long portId, String searchText, Pageable pageable);
 	long searchTransCount(long portId, String searchText);
+	PortfolioTrans retrieveStockInfo(PortfolioTrans portfolioTrans);
+	PortfolioTrans addPortfolioTrans(PortfolioTrans portfolioTrans, long portId, String username);
 }
