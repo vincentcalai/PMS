@@ -1,6 +1,5 @@
 package com.pms.pmsapp.manageportfolio.portfolio.controller;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pms.pmsapp.manageportfolio.portfolio.data.MktExchg;
 import com.pms.pmsapp.manageportfolio.portfolio.data.PortfolioHold;
-import com.pms.pmsapp.manageportfolio.portfolio.data.StockWrapper;
 import com.pms.pmsapp.manageportfolio.portfolio.service.PortfolioHoldService;
 
 @CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
@@ -32,8 +30,7 @@ public class PortfolioHoldController {
 	private PortfolioHoldService portfolioHoldService;
 
 	@RequestMapping(value="/portfolio/hold/{id}", method=RequestMethod.GET)
-	public Page<PortfolioHold> findAll(@RequestParam("page") int page, @RequestParam("size") int size,
-			@PathVariable long id) {
+	public Page<PortfolioHold> findAll(@RequestParam("page") int page, @RequestParam("size") int size, @PathVariable long id) {
 		log.info("findAll Holds in Controller");
 		Pageable pageable = PageRequest.of(page-1, size);
 
@@ -47,28 +44,16 @@ public class PortfolioHoldController {
 	@RequestMapping(value="/portfolio/hold/mktexchg", method=RequestMethod.GET)
 	public List<MktExchg> findAllMktExchg() {
 		log.info("findAllMktExchg Hold in Controller");
-		List<MktExchg> mktExchg= portfolioHoldService.findAllMktExchg();
-		return mktExchg;
+		return portfolioHoldService.findAllMktExchg();
 	}
 
 	@RequestMapping(value="/portfolio/hold/updateliveprices/{id}", method=RequestMethod.GET)
 	public void updateLivePrices(@PathVariable long id) {
 		log.info("updateLivePrices Hold in Controller");
 		log.info("Update Live Price for Portfolio ID: " + id );
+		
+		portfolioHoldService.updateLivePrice(id);
 
-		List<PortfolioHold> holdList = portfolioHoldService.findAllHold(id);
-
-		for(PortfolioHold hold : holdList) {
-			String stockSym = hold.getStockSymbol();
-			StockWrapper stockWrapper = portfolioHoldService.findStock(stockSym);
-			try {
-				BigDecimal lastTransPrice = stockWrapper.getStock().getQuote(true).getPrice();
-				log.info("Stock: " + stockSym + " Last Transacted Price: " + lastTransPrice);
-				portfolioHoldService.computeHoldingsJob(stockSym, lastTransPrice);
-			} catch (Exception e) {
-				log.error(e.getMessage());
-			}
-		}
 	}
 
 }

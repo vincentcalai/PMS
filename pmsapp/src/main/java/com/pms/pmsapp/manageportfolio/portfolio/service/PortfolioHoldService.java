@@ -17,4 +17,5 @@ public interface PortfolioHoldService{
 	List<String> findAllStockSym();
 	List<MktExchg> findAllMktExchg();
 	long findAllCount(long id);
+	void updateLivePrice(long id);
 }

@@ -66,4 +66,21 @@ public class PortfolioHoldServiceImpl implements PortfolioHoldService {
 		return portfolioHoldDao.findAllCount(id);
 	}
 
+	@Override
+	public void updateLivePrice(long id) {
+		List<PortfolioHold> holdList = findAllHold(id);
+
+		for(PortfolioHold hold : holdList) {
+			String stockSym = hold.getStockSymbol();
+			StockWrapper stockWrapper = findStock(stockSym);
+			try {
+				BigDecimal lastTransPrice = stockWrapper.getStock().getQuote(true).getPrice();
+				log.info("Stock: " + stockSym + " Last Transacted Price: " + lastTransPrice);
+				computeHoldingsJob(stockSym, lastTransPrice);
+			} catch (Exception e) {
+				log.error(e.getMessage());
+			}
+		}
+	}
+
 }
