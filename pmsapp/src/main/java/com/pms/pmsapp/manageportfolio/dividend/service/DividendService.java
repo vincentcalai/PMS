@@ -6,9 +6,10 @@ import java.util.List;
 
 import com.pms.pmsapp.manageportfolio.dividend.data.Dividend;
 import com.pms.pmsapp.manageportfolio.dividend.data.DividendDet;
+import com.pms.pmsapp.manageportfolio.dividend.web.DividendForm;
 import com.pms.pmsapp.manageportfolio.portfolio.data.Portfolio;
 
-public interface DividendService{
+public interface DividendService {
 	List<Portfolio> getPortfolios();
 
 	long saveDivRec(Dividend dividend);
@@ -17,7 +18,7 @@ public interface DividendService{
 
 	List<String> retrieveDivYears(long portId);
 
-	List<DividendDet> retrieveDivDet(Long portId,  String divYear);
+	List<DividendDet> retrieveDivDet(Long portId, String divYear);
 
 	BigDecimal retrieveTotalDiv(long portId);
 
@@ -28,4 +29,12 @@ public interface DividendService{
 	void updateDailyDivRec(Dividend divRec, Date exDate, BigDecimal adjDiv);
 
 	void updateDivRec(long portId, String stockSym, int noOfShare);
+
+	DividendForm initPage(DividendForm dividendForm);
+
+	DividendForm retrieveStockInfo(DividendForm dividendForm);
+
+	DividendForm addDividend(DividendForm dividendForm, String username);
+
+	DividendForm retrievePortDiv(DividendForm dividendForm);
 }
