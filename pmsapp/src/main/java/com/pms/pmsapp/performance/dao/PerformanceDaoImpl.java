@@ -1,9 +1,9 @@
 package com.pms.pmsapp.performance.dao;
 
-import com.pms.pmsapp.performance.data.ETFPerformance;
-import com.pms.pmsapp.performance.data.GphyPerformance;
-import com.pms.pmsapp.performance.data.StockPerformance;
-import com.pms.pmsapp.util.HibernateUtil;
+import java.math.BigDecimal;
+import java.util.Iterator;
+import java.util.List;
+
 import org.hibernate.HibernateException;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
@@ -12,9 +12,10 @@ import org.hibernate.query.NativeQuery;
 import org.springframework.orm.hibernate5.SessionFactoryUtils;
 import org.springframework.stereotype.Repository;
 
-import java.math.BigDecimal;
-import java.util.Iterator;
-import java.util.List;
+import com.pms.pmsapp.performance.data.ETFPerformance;
+import com.pms.pmsapp.performance.data.GphyPerformance;
+import com.pms.pmsapp.performance.data.StockPerformance;
+import com.pms.pmsapp.util.HibernateUtil;
 
 @Repository
 public class PerformanceDaoImpl implements PerformanceDao {
@@ -147,7 +148,7 @@ public class PerformanceDaoImpl implements PerformanceDao {
 		}
 
 	}
-	
+
 	@Override
 	public BigDecimal findUserOtherAsset(String username) {
 		try {
@@ -195,54 +196,53 @@ public class PerformanceDaoImpl implements PerformanceDao {
 	}
 
 	@Override
-	public String updateCashBal(BigDecimal newCashBal, String username) throws Exception{
+	public String updateCashBal(BigDecimal newCashBal, String username) {
 		try {
 			Session session = HibernateUtil.getSessionFactory().openSession();
 			Transaction transaction = session.beginTransaction();
-			
+
 			String sql = "update pms_cash_sol set cash_bal = :cashbal where usr_nam = :username";
-			
+
 			NativeQuery query = session.createSQLQuery(sql);
 			query.setParameter("cashbal", newCashBal);
-			query.setParameter("username", username);		
+			query.setParameter("username", username);
 			query.executeUpdate();
-			
+
 			transaction.commit();
 			session.close();
-		
+
 		} catch (Exception e) {
 			// convert to HibernateException then to DataAccessException
-			
+
 			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
 		}
-		
+
 		return "Update Successful! New Cash Balance was updated to $" + newCashBal;
 	}
 
 	@Override
-	public String updateOtherAsset(BigDecimal newOtherAsset, String username) throws Exception {
+	public String updateOtherAsset(BigDecimal newOtherAsset, String username) {
 		try {
 			Session session = HibernateUtil.getSessionFactory().openSession();
 			Transaction transaction = session.beginTransaction();
-			
+
 			String sql = "update pms_cash_sol set other_asset = :otherAsset where usr_nam = :username";
-			
+
 			NativeQuery query = session.createSQLQuery(sql);
 			query.setParameter("otherAsset", newOtherAsset);
-			query.setParameter("username", username);		
+			query.setParameter("username", username);
 			query.executeUpdate();
-			
+
 			transaction.commit();
 			session.close();
-		
+
 		} catch (Exception e) {
 			// convert to HibernateException then to DataAccessException
-			
+
 			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
 		}
-		
+
 		return "Update Successful! New Cash Balance was updated to $" + newOtherAsset;
 	}
 
-	
 }

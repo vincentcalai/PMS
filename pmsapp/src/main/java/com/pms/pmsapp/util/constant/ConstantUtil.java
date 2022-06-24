@@ -7,6 +7,12 @@ public class ConstantUtil {
 	public static final String IND_NO = "N";
 	public static final String IND_YES = "Y";
 
+	public static final String CURRENCY_SGD = "SGD";
+	public static final String CURRENCY_USD = "USD";
+	public static final String CURRENCY_HKD = "HKD";
+
+	public static final String SELL_ACTION = "SELL";
+
 	private static final String EXCHG_HKEX = "HKSE";
 	private static final String EXCHG_SGX = "SES";
 	private static final String EXCHG_NYSE = "NYSE";
@@ -21,8 +27,6 @@ public class ConstantUtil {
 	private static final String RENAM_EXCHG_NYSE = "NYSE";
 	private static final String RENAM_EXCHG_NASDAQ = "NASDAQ";
 	private static final String RENAM_EXCHG_OTC = "OTC";
-
-	public static final String SELL_ACTION = "SELL";
 
 	public static Map<String, String> exchgSuffmap;
 
