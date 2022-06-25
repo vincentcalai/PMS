@@ -7,6 +7,7 @@ import com.pms.pmsapp.profitloss.data.RealPL;
 import com.pms.pmsapp.profitloss.data.RealTotalPL;
 import com.pms.pmsapp.profitloss.data.UnrealPL;
 import com.pms.pmsapp.profitloss.data.UnrealTotalPL;
+import com.pms.pmsapp.profitloss.web.ProfitLossForm;
 
 public interface ProfitLossService {
 	List<String> getPortfolios();
@@ -28,5 +29,11 @@ public interface ProfitLossService {
 	StockWrapper findStock(String stockSym);
 
 	void updateLastVal(UnrealPL unrealPl);
+
+	ProfitLossForm initPage(ProfitLossForm profitLossForm);
+
+	ProfitLossForm retrieveProfitLoss(ProfitLossForm profitLossForm);
+
+	void updateLivePrices(ProfitLossForm profitLossForm);
 
 }

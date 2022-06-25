@@ -13,6 +13,10 @@ public class ConstantUtil {
 
 	public static final String SELL_ACTION = "SELL";
 
+	public static final String PNL_TYPE_ALL = "ALL";
+	public static final String PNL_TYPE_UNREAL = "UNREALISED";
+	public static final String PNL_TYPE_REAL = "REALISED";
+
 	private static final String EXCHG_HKEX = "HKSE";
 	private static final String EXCHG_SGX = "SES";
 	private static final String EXCHG_NYSE = "NYSE";

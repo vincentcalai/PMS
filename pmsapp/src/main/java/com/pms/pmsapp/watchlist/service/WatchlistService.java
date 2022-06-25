@@ -9,6 +9,7 @@ import com.pms.pmsapp.manageportfolio.portfolio.data.StockWrapper;
 import com.pms.pmsapp.watchlist.data.Watchlist;
 import com.pms.pmsapp.watchlist.data.WatchlistEntry;
 import com.pms.pmsapp.watchlist.data.WatchlistNotification;
+import com.pms.pmsapp.watchlist.web.NotificationForm;
 
 public interface WatchlistService {
 
@@ -20,7 +21,7 @@ public interface WatchlistService {
 
 	void addWatchlist(Watchlist watchlistForm);
 
-	void deleteWatchlist(long id);
+	Watchlist deleteWatchlist(long id, Watchlist watchlist);
 
 	List<WatchlistEntry> findAllEntry(Long watchId, Pageable pageable);
 
@@ -51,9 +52,21 @@ public interface WatchlistService {
 	void updateWatchlistEntryPrice(String stock, BigDecimal lastPrice, BigDecimal change, BigDecimal changePct);
 
 	void updateOtherNoti();
-	
+
 	void deleteAllOtherNoti();
 
 	void updateTriggerNoti();
+
+	Watchlist addWatchlist(Watchlist watchlistForm, String username);
+
+	WatchlistEntry addWatchlistEntry(WatchlistEntry entryForm, String username);
+
+	WatchlistEntry retrieveStockInfo(WatchlistEntry watchlistEntry);
+
+	Watchlist deleteWatchlistEntry(NotificationForm form);
+
+	NotificationForm initPage(NotificationForm form);
+
+	NotificationForm updateNotification(NotificationForm form, String username);
 
 }
