@@ -17,6 +17,16 @@ public class ConstantUtil {
 	public static final String PNL_TYPE_UNREAL = "UNREALISED";
 	public static final String PNL_TYPE_REAL = "REALISED";
 
+	public static final String COMPLETED_CD = "C";
+	public static final String FAILED_CD = "F";
+	public static final String INPROGRESS_CD = "IP";
+	public static final String PENDING_CD = "P";
+
+	public static final String COMPLETED_DESC = "COMPLETED";
+	public static final String FAILED_DESC = "FAILED";
+	public static final String INPROGRESS_DESC = "IN PROGRESS";
+	public static final String PENDING_DESC = "PENDING";
+
 	private static final String EXCHG_HKEX = "HKSE";
 	private static final String EXCHG_SGX = "SES";
 	private static final String EXCHG_NYSE = "NYSE";
