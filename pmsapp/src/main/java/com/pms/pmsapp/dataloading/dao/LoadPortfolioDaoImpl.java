@@ -8,9 +8,7 @@ import java.sql.Clob;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
@@ -39,43 +37,12 @@ import com.pms.pmsapp.manageportfolio.portfolio.data.StockWrapper;
 import com.pms.pmsapp.manageportfolio.portfolio.service.PortfolioHoldService;
 import com.pms.pmsapp.sysadmin.service.UserService;
 import com.pms.pmsapp.util.HibernateUtil;
-
+import com.pms.pmsapp.util.constant.ConstantUtil;
 
 @Repository
 public class LoadPortfolioDaoImpl implements LoadPortfolioDao {
 
 	private static final Logger log = LoggerFactory.getLogger(LoadPortfolioDaoImpl.class);
-
-	private final String STOCK_NAME = "Stock Name";
-	private final String STOCK_EXCHG = "Stock Exchange";
-	private final String STOCK_SYMBOL = "Stock Symbol";
-	private final String NO_OF_SHARE = "No. of Share";
-	private final String TRANS_PRICE = "Transaction Price";
-	private final String ACTION = "Action";
-	private final String TRANS_CREATED_BY = "Transacted By";
-	private final String TRANS_CREATED_DT = "Transaction Created Date";
-	private final String REMARKS = "Remarks";
-
-	private final String EXCHG_HKEX = "HKSE";
-	private final String EXCHG_SGX = "SES";
-	private final String EXCHG_NYSE = "NYSE";
-	private final String EXCHG_NYSE_ARCA = "NYSEArca";
-	private final String EXCHG_NASDAQ = "NasdaqGS";
-	private final String EXCHG_OTC = "Other OTC";
-
-	private final String RENAM_EXCHG_HKEX = "HKEX";
-	private final String RENAM_EXCHG_SGX = "SGX";
-	private final String RENAM_EXCHG_NYSE = "NYSE";
-	private final String RENAM_EXCHG_NASDAQ = "NASDAQ";
-	private final String RENAM_EXCHG_OTC = "OTC";
-
-	private final String ACTION_BUY = "BUY";
-	private final String ACTION_SELL = "SELL";
-
-	private final String FAILED = "F";
-	private final String COMPLETED = "C";
-	private final String PENDING = "P";
-	private final String NO = "N";
 
 	private final String isNumberRegex = "\\d+";
 	private final String priceRegex = "^\\d{0,8}(\\.\\d{1,3})?$";
@@ -105,7 +72,6 @@ public class LoadPortfolioDaoImpl implements LoadPortfolioDao {
 
 			return loadPortfolioList;
 		} catch (Exception e) {
-			// convert to HibernateException then to DataAccessException
 			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
 		}
 	}
@@ -120,8 +86,8 @@ public class LoadPortfolioDaoImpl implements LoadPortfolioDao {
 
 	@Override
 	public int checkTmpltHeader(MultipartFile file) {
-	    try {
-	    	InputStream is = new ByteArrayInputStream(file.getBytes());
+		try {
+			InputStream is = new ByteArrayInputStream(file.getBytes());
 			Workbook wb = WorkbookFactory.create(is);
 			Sheet sheet = wb.getSheetAt(0);
 			DataFormatter fmt = new DataFormatter();
@@ -129,49 +95,42 @@ public class LoadPortfolioDaoImpl implements LoadPortfolioDao {
 			Row row = sheet.getRow(0);
 
 			int index = 0;
-//			boolean stockNameHeader = fmt.formatCellValue(row.getCell(index++)).toString().contains(STOCK_NAME);
-//			boolean stockExchgHeader = fmt.formatCellValue(row.getCell(index++)).toString().contains(STOCK_EXCHG);
-			boolean stockSymHeader = fmt.formatCellValue(row.getCell(index++)).contains(STOCK_SYMBOL);
-			boolean noOfShareHeader = fmt.formatCellValue(row.getCell(index++)).contains(NO_OF_SHARE);
-			boolean transPriceHeader = fmt.formatCellValue(row.getCell(index++)).contains(TRANS_PRICE);
-			boolean actionHeader = fmt.formatCellValue(row.getCell(index++)).contains(ACTION);
-			boolean createdByHeader = fmt.formatCellValue(row.getCell(index++)).contains(TRANS_CREATED_BY);
-			boolean createdDateHeader = fmt.formatCellValue(row.getCell(index++)).contains(TRANS_CREATED_DT);
-			boolean remarksHeader = fmt.formatCellValue(row.getCell(index++)).contains(REMARKS);
+			boolean stockSymHeader = fmt.formatCellValue(row.getCell(index++)).contains(ConstantUtil.STOCK_SYMBOL);
+			boolean noOfShareHeader = fmt.formatCellValue(row.getCell(index++)).contains(ConstantUtil.NO_OF_SHARE);
+			boolean transPriceHeader = fmt.formatCellValue(row.getCell(index++)).contains(ConstantUtil.TRANS_PRICE);
+			boolean actionHeader = fmt.formatCellValue(row.getCell(index++)).contains(ConstantUtil.ACTION);
+			boolean createdByHeader = fmt.formatCellValue(row.getCell(index++)).contains(ConstantUtil.TRANS_CREATED_BY);
+			boolean createdDateHeader = fmt.formatCellValue(row.getCell(index++))
+					.contains(ConstantUtil.TRANS_CREATED_DT);
+			boolean remarksHeader = fmt.formatCellValue(row.getCell(index++)).contains(ConstantUtil.REMARKS);
 
-//			if(!stockNameHeader) {
-//				return -1;
-//			}
-//			if(!stockExchgHeader) {
-//				return -1;
-//			}
-			if(!stockSymHeader) {
+			if (!stockSymHeader) {
 				return -1;
 			}
-			if(!noOfShareHeader) {
+			if (!noOfShareHeader) {
 				return -1;
 			}
-			if(!actionHeader) {
+			if (!actionHeader) {
 				return -1;
 			}
-			if(!transPriceHeader) {
+			if (!transPriceHeader) {
 				return -1;
 			}
-			if(!createdByHeader) {
+			if (!createdByHeader) {
 				return -1;
 			}
-			if(!createdDateHeader) {
+			if (!createdDateHeader) {
 				return -1;
 			}
-			if(!remarksHeader) {
+			if (!remarksHeader) {
 				return -1;
 			}
 
 			return 0;
-	    } catch(Exception e){
-	    	log.error(e.getMessage());
-	    	return -2;
-	    }
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return -2;
+		}
 	}
 
 	@Override
@@ -191,14 +150,14 @@ public class LoadPortfolioDaoImpl implements LoadPortfolioDao {
 			dto.setFileName(fileWithoutExt);
 			dto.setCreatedBy(username);
 			dto.setCreatedDt(Calendar.getInstance().getTime());
-			dto.setStatus(PENDING);
-			dto.setDelInd(NO);
+			dto.setStatus(ConstantUtil.PENDING_CD);
+			dto.setDelInd(ConstantUtil.IND_NO);
 
 			Long id = (Long) session.save(dto);
 
 			transaction.commit();
 			return id;
-		}catch(Exception e){
+		} catch (Exception e) {
 			log.error(e.getMessage());
 			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
 		}
@@ -226,7 +185,6 @@ public class LoadPortfolioDaoImpl implements LoadPortfolioDao {
 		boolean rowListError = false;
 		boolean deleteRow = false;
 
-		Map<String, String> exchgSuffmap = new HashMap<String, String>();
 		List<String> stockList = new ArrayList<String>();
 
 		StringBuffer logDataSb = new StringBuffer();
@@ -235,14 +193,12 @@ public class LoadPortfolioDaoImpl implements LoadPortfolioDao {
 		logName = fileName;
 		InputStream is = null;
 
-		try{
+		try {
 			is = new ByteArrayInputStream(fileData);
 			Workbook wb = WorkbookFactory.create(is);
 			Sheet sheet = wb.getSheetAt(0);
 			DataFormatter fmt = new DataFormatter();
 
-//			int stockNameIdx = 0;
-//			int stockExchgIdx = 1;
 			int stockSymIdx = 0;
 			int noOfShareIdx = 1;
 			int transPriceIdx = 2;
@@ -250,50 +206,42 @@ public class LoadPortfolioDaoImpl implements LoadPortfolioDao {
 			int createdByIdx = 4;
 			int createdDtIdx = 5;
 
-			for(int i = 1; i < sheet.getPhysicalNumberOfRows(); i++) { //start data validation
+			for (int i = 1; i < sheet.getPhysicalNumberOfRows(); i++) { // start data validation
 				Row row = sheet.getRow(i);
 				rowId = i + 1;
-				if(row != null) {
-//					if (row.getCell(stockNameIdx) == null){
-//						logDataSb.append("ERROR - Row " + rowId + ", Stock Name cannot be blank \r\n");
-//						rowError = true;
-//					}
-//
-//					if (row.getCell(stockExchgIdx) == null){
-//						logDataSb.append("ERROR - Row " + rowId + ", Stock Exchange cannot be blank \r\n");
-//						rowError = true;
-//					}
+				if (row != null) {
 
-					if (row.getCell(stockSymIdx) == null){
+					if (row.getCell(stockSymIdx) == null) {
 						logDataSb.append("ERROR - Row " + rowId + ", Stock Symbol cannot be blank \r\n");
 						rowError = true;
 					}
 
-					if (row.getCell(noOfShareIdx) == null){
+					if (row.getCell(noOfShareIdx) == null) {
 						logDataSb.append("ERROR - Row " + rowId + ", No. of Share cannot be blank \r\n");
 						rowError = true;
-					} else if (!fmt.formatCellValue(row.getCell(noOfShareIdx)).matches(isNumberRegex)){
+					} else if (!fmt.formatCellValue(row.getCell(noOfShareIdx)).matches(isNumberRegex)) {
 						logDataSb.append("ERROR - Row " + rowId + ", No. of Share should contain only numbers \r\n");
 						rowError = true;
 					}
 
-					if (row.getCell(transPriceIdx) == null){
+					if (row.getCell(transPriceIdx) == null) {
 						logDataSb.append("ERROR - Row " + rowId + ", Transaction Price cannot be blank \r\n");
 						rowError = true;
-					} else if (!fmt.formatCellValue(row.getCell(transPriceIdx)).matches(priceRegex)){
+					} else if (!fmt.formatCellValue(row.getCell(transPriceIdx)).matches(priceRegex)) {
 						logDataSb.append("ERROR - Row " + rowId + ", Transaction Price format is invalid \r\n");
 						rowError = true;
 					}
 
-					if (row.getCell(actionIdx) == null){
+					if (row.getCell(actionIdx) == null) {
 						logDataSb.append("ERROR - Row " + rowId + ", Action cannot be blank \r\n");
 						rowError = true;
-					} else if (!(fmt.formatCellValue(row.getCell(actionIdx)).equals(ACTION_BUY) || fmt.formatCellValue(row.getCell(actionIdx)).equals(ACTION_SELL))){
+					} else if (!(fmt.formatCellValue(row.getCell(actionIdx)).equals(ConstantUtil.BUY_ACTION)
+							|| fmt.formatCellValue(row.getCell(actionIdx)).equals(ConstantUtil.SELL_ACTION))) {
 						logDataSb.append("ERROR - Row " + rowId + ", Action should be either BUY or SELL \r\n");
 						rowError = true;
 					}
 
-					if (row.getCell(createdByIdx) == null){
+					if (row.getCell(createdByIdx) == null) {
 						logDataSb.append("ERROR - Row " + rowId + ", Transacted By cannot be blank \r\n");
 						rowError = true;
 					} else if (!userService.checkUserExist(fmt.formatCellValue(row.getCell(createdByIdx)))) {
@@ -301,45 +249,37 @@ public class LoadPortfolioDaoImpl implements LoadPortfolioDao {
 						rowError = true;
 					}
 
-					if (row.getCell(createdDtIdx) == null){
+					if (row.getCell(createdDtIdx) == null) {
 						logDataSb.append("ERROR - Row " + rowId + ", Transaction Created Date cannot be blank \r\n");
 						rowError = true;
-					} else if (!fmt.formatCellValue(row.getCell(createdDtIdx)).matches(dateRegex)){
+					} else if (!fmt.formatCellValue(row.getCell(createdDtIdx)).matches(dateRegex)) {
 						logDataSb.append("ERROR - Row " + rowId + ", Transaction Created Date format is invalid \r\n");
 						rowError = true;
 					}
 
-					if (row.getCell(stockSymIdx) != null){
-//						suffix = portfolioTransService.findSuffix(fmt.formatCellValue(row.getCell(stockExchgIdx)).toUpperCase());
-//						 log.info("suffix: " + suffix);
-//
-//						 if(suffix != null) {
-//							 stockSym = fmt.formatCellValue(row.getCell(stockSymIdx)).toUpperCase() + suffix;
-//						 } else {
-//							 stockSym = fmt.formatCellValue(row.getCell(stockSymIdx)).toUpperCase();
-//						 }
-						 //portfolioTrans.setStockSymbol(stockSym);
-						 stockSym = fmt.formatCellValue(row.getCell(stockSymIdx)).toUpperCase();
-						 StockWrapper stockWrapper = portfolioHoldService.findStock(stockSym);
+					if (row.getCell(stockSymIdx) != null) {
+						stockSym = fmt.formatCellValue(row.getCell(stockSymIdx)).toUpperCase();
+						StockWrapper stockWrapper = portfolioHoldService.findStock(stockSym);
 
-						 if(stockWrapper == null || stockWrapper.getStock() == null) {
-							 logDataSb.append("ERROR - Row " + rowId + ", Stock Symbol is invalid. \r\n");
-							 rowError = true;
-						 }
+						if (stockWrapper == null || stockWrapper.getStock() == null) {
+							logDataSb.append("ERROR - Row " + rowId + ", Stock Symbol is invalid. \r\n");
+							rowError = true;
+						}
 					}
 
 				} else {
-					logDataSb.append("ERROR - Row " + rowId + ", Loading fails because of blank rows. Please delete the blank rows after the last filed row by pressing 'Control', 'Shift', 'Down' and 'Delete'. \r\n");
+					logDataSb.append("ERROR - Row " + rowId
+							+ ", Loading fails because of blank rows. Please delete the blank rows after the last filed row by pressing 'Control', 'Shift', 'Down' and 'Delete'. \r\n");
 					rowError = true;
 				}
-			}//end data validation
+			} // end data validation
 
-			if(rowError == false) {
+			if (rowError == false) {
 				for (int i = 1; i < sheet.getPhysicalNumberOfRows(); i++) {
 					Row row = sheet.getRow(i);
 					portTrans = new LoadPortfolioTrans();
 
-					for (int j = 0;j < row.getLastCellNum(); j++) {//start of each row
+					for (int j = 0; j < row.getLastCellNum(); j++) {// start of each row
 						if (j == 0) {
 							portTrans.setStockSymbol(fmt.formatCellValue(row.getCell(j)).toUpperCase());
 						} else if (j == 1) {
@@ -351,33 +291,24 @@ public class LoadPortfolioDaoImpl implements LoadPortfolioDao {
 						} else if (j == 4) {
 							portTrans.setCreatedBy(fmt.formatCellValue(row.getCell(j)));
 						} else if (j == 5) {
-							portTrans.setCreatedDt(new SimpleDateFormat("dd/MM/yyyy").parse(fmt.formatCellValue(row.getCell(j))));
+							portTrans.setCreatedDt(
+									new SimpleDateFormat("dd/MM/yyyy").parse(fmt.formatCellValue(row.getCell(j))));
 						} else if (j == 6) {
 							portTrans.setRemarks(fmt.formatCellValue(row.getCell(j)));
 						}
-				    }//end of each row
+					} // end of each row
 
 					stockSym = portTrans.getStockSymbol();
 
 					StockWrapper stockWrapper = portfolioHoldService.findStock(stockSym);
 
-					exchgSuffmap.put(EXCHG_HKEX, RENAM_EXCHG_HKEX);
-					exchgSuffmap.put(EXCHG_SGX, RENAM_EXCHG_SGX);
-					exchgSuffmap.put(EXCHG_NYSE, RENAM_EXCHG_NYSE);
-					exchgSuffmap.put(EXCHG_NYSE_ARCA, RENAM_EXCHG_NYSE);
-					exchgSuffmap.put(EXCHG_OTC, RENAM_EXCHG_OTC);
-					exchgSuffmap.put(EXCHG_NASDAQ, RENAM_EXCHG_NASDAQ);
-
 					try {
 						String stockName = stockWrapper.getStock().getName();
 						String stockExchg = stockWrapper.getStock().getStockExchange();
-//						BigDecimal lastTransPrice = stockWrapper.getStock().getQuote(true).getPrice();
-//						log.info("Stock: " + stockSym + " Last Transacted Price: " + lastTransPrice);
-//						stockMap.put(stockSym, lastTransPrice);
 						stockList.add(stockSym);
 
 						portTrans.setStockName(stockName);
-						portTrans.setStockExchg(exchgSuffmap.get(stockExchg));
+						portTrans.setStockExchg(ConstantUtil.exchgSuffmap.get(stockExchg));
 					} catch (Exception e) {
 						logDataSb.append("ERROR - " + e + "\r\n");
 						rowError = true;
@@ -388,27 +319,26 @@ public class LoadPortfolioDaoImpl implements LoadPortfolioDao {
 					portTrans.setUploadId(id);
 
 					portTransList.add(portTrans);
-				}//end file processing
+				} // end file processing
 
-				try { //data persistence into database
+				try { // data persistence into database
 					insertedRow = 0;
 
 					Session session = HibernateUtil.getSessionFactory().openSession();
 					Transaction transaction = session.beginTransaction();
-					for(LoadPortfolioTrans trans : portTransList) {
+					for (LoadPortfolioTrans trans : portTransList) {
 
 						saveDto(trans);
 						insertedRow++;
 
 					}
-					if(insertedRow > 0) {
+					if (insertedRow > 0) {
 						transaction.commit();
 					} else {
 						transaction.rollback();
 					}
 
-
-				}catch(Exception e){
+				} catch (Exception e) {
 					log.error(e.getMessage());
 					throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
 				}
@@ -421,21 +351,21 @@ public class LoadPortfolioDaoImpl implements LoadPortfolioDao {
 			log.error(e.getMessage());
 		}
 
-		//populate transactions data - call SP_PORT_TRANS_UPLOAD
+		// populate transactions data - call SP_PORT_TRANS_UPLOAD
 
-		try{
+		try {
 			String errorMessage = "";
 			if (rowError == false) {
 				errorMessage = portTransUpload(id, portfolioName);
 			}
 
-			if (!errorMessage.isEmpty()){
+			if (!errorMessage.isEmpty()) {
 				logDataSb.append("ERROR - \r\n" + errorMessage + "\r\n");
 				rowError = true;
 				deleteRow = true;
 			} else {
-				//update real time price
-				for(String stock : stockList) {
+				// update real time price
+				for (String stock : stockList) {
 					StockWrapper stockWrapper = portfolioHoldService.findStock(stock);
 					try {
 						BigDecimal lastTransPrice = stockWrapper.getStock().getQuote(true).getPrice();
@@ -448,29 +378,28 @@ public class LoadPortfolioDaoImpl implements LoadPortfolioDao {
 					}
 				}
 			}
-		} catch(Exception e) {
+		} catch (Exception e) {
 			log.error("portTransUpload SP error");
 			logDataSb.append("ERROR - " + e + "\r\n");
 			rowError = true;
 			deleteRow = true;
 			log.error("", e);
-		}	finally{
-			try{
+		} finally {
+			try {
 				if (is != null)
 					is.close();
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				log.error("Error closing inputstream");
 				log.error("", e);
 			}
 		}
 
-		if(rowError == true) {
-			dto.setStatus(FAILED);
+		if (rowError == true) {
+			dto.setStatus(ConstantUtil.FAILED_CD);
 			logDataSb.append("0 rows inserted \r\n");
 			logDataSb.append("Job failed \r\n");
 		} else {
-			dto.setStatus(COMPLETED);
+			dto.setStatus(ConstantUtil.COMPLETED_CD);
 			logDataSb.append(insertedRow + " rows inserted\r\n");
 			logDataSb.append("Job has been completed successfully \r\n");
 			deleteRow = true;
@@ -484,8 +413,6 @@ public class LoadPortfolioDaoImpl implements LoadPortfolioDao {
 
 		saveDto(dto);
 
-//		if (deleteRow == true)
-//			delFromPmsLoadPortTrans(id);
 	}
 
 	public LoadPortUpload getUploadId(Long id) {
@@ -497,11 +424,10 @@ public class LoadPortfolioDaoImpl implements LoadPortfolioDao {
 
 			NativeQuery sqlQuery = session.createSQLQuery(sql);
 
-			sqlQuery.setParameter("uploadId",id);
+			sqlQuery.setParameter("uploadId", id);
 			sqlQuery.addEntity(LoadPortUpload.class);
 
 			LoadPortUpload upload = (LoadPortUpload) sqlQuery.uniqueResult();
-
 
 			return upload;
 		} catch (Exception e) {
@@ -520,7 +446,7 @@ public class LoadPortfolioDaoImpl implements LoadPortfolioDao {
 		session.close();
 	}
 
-	public void delFromPmsLoadPortTrans(Long id){
+	public void delFromPmsLoadPortTrans(Long id) {
 		String sql = "delete from PMS_LOAD_PORT_TRANS where upload_id = :id";
 
 		Session session = HibernateUtil.getSessionFactory().openSession();
@@ -538,21 +464,21 @@ public class LoadPortfolioDaoImpl implements LoadPortfolioDao {
 		String errorMsg = "";
 		CallableStatement callableStatement = null;
 
-			try {
-				Session session = HibernateUtil.getSessionFactory().openSession();
+		try {
+			Session session = HibernateUtil.getSessionFactory().openSession();
 
-				String callStoreProc = "{call SP_PORT_TRANS_UPLOAD(?,?,?)}";
-				callableStatement = ((SessionImpl)session).connection().prepareCall(callStoreProc);
-				callableStatement.setLong(1, id);
-				callableStatement.setString(2, portfolioName);
-				callableStatement.registerOutParameter(3, java.sql.Types.VARCHAR);
-				callableStatement.executeUpdate();
-				errorMsg = callableStatement.getString(3) == null ? "" : callableStatement.getString(3);
-				((SessionImpl)session).connection().commit();
-			} catch (Exception e) {
-				log.info(e.getMessage());
-				throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
-			}
+			String callStoreProc = "{call SP_PORT_TRANS_UPLOAD(?,?,?)}";
+			callableStatement = ((SessionImpl) session).connection().prepareCall(callStoreProc);
+			callableStatement.setLong(1, id);
+			callableStatement.setString(2, portfolioName);
+			callableStatement.registerOutParameter(3, java.sql.Types.VARCHAR);
+			callableStatement.executeUpdate();
+			errorMsg = callableStatement.getString(3) == null ? "" : callableStatement.getString(3);
+			((SessionImpl) session).connection().commit();
+		} catch (Exception e) {
+			log.info(e.getMessage());
+			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
+		}
 
 		return errorMsg;
 	}
@@ -566,7 +492,7 @@ public class LoadPortfolioDaoImpl implements LoadPortfolioDao {
 
 			NativeQuery sqlQuery = session.createSQLQuery(sql);
 
-			sqlQuery.setParameter("uploadId",id);
+			sqlQuery.setParameter("uploadId", id);
 			sqlQuery.addEntity(LoadPortUpload.class);
 
 			LoadPortUpload upload = (LoadPortUpload) sqlQuery.uniqueResult();
@@ -581,7 +507,6 @@ public class LoadPortfolioDaoImpl implements LoadPortfolioDao {
 
 	@Override
 	public void deleteUploadHist(List<Long> idList) {
-
 
 		try {
 			Session session = HibernateUtil.getSessionFactory().openSession();
@@ -621,9 +546,3 @@ public class LoadPortfolioDaoImpl implements LoadPortfolioDao {
 	}
 
 }
-
-
-
-
-
-

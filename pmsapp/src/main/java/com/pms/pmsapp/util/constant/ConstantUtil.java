@@ -11,6 +11,7 @@ public class ConstantUtil {
 	public static final String CURRENCY_USD = "USD";
 	public static final String CURRENCY_HKD = "HKD";
 
+	public static final String BUY_ACTION = "BUY";
 	public static final String SELL_ACTION = "SELL";
 
 	public static final String PNL_TYPE_ALL = "ALL";
@@ -26,6 +27,16 @@ public class ConstantUtil {
 	public static final String FAILED_DESC = "FAILED";
 	public static final String INPROGRESS_DESC = "IN PROGRESS";
 	public static final String PENDING_DESC = "PENDING";
+
+	public static final String STOCK_NAME = "Stock Name";
+	public static final String STOCK_EXCHG = "Stock Exchange";
+	public static final String STOCK_SYMBOL = "Stock Symbol";
+	public static final String NO_OF_SHARE = "No. of Share";
+	public static final String TRANS_PRICE = "Transaction Price";
+	public static final String ACTION = "Action";
+	public static final String TRANS_CREATED_BY = "Transacted By";
+	public static final String TRANS_CREATED_DT = "Transaction Created Date";
+	public static final String REMARKS = "Remarks";
 
 	private static final String EXCHG_HKEX = "HKSE";
 	private static final String EXCHG_SGX = "SES";
