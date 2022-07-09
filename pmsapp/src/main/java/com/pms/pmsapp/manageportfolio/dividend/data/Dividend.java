@@ -2,9 +2,17 @@ package com.pms.pmsapp.manageportfolio.dividend.data;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "PMS_PORT_DIV")
+@SequenceGenerator(name = "IdSeqGenerator", sequenceName = "SQ_PMS_PORT_DIV", allocationSize = 1)
 public class Dividend {
 
 	private Long id;
@@ -12,18 +20,18 @@ public class Dividend {
 	private String stockName;
 	private String stockSym;
 	private String stockExchg;
-	private	Integer noOfShare;
+	private Integer noOfShare;
 	private Date datePurchase;
 	private Date dateSold;
 	private String currHoldInd;
 	private String createdBy;
-	
+
 	public Dividend() {
-		
+
 	}
-	
-	public Dividend(Long id, Long portId, String stockName, String stockSym, String stockExchg, Integer noOfShare, Date datePurchase,
-			Date dateSold, String currHoldInd, String createdBy) {
+
+	public Dividend(Long id, Long portId, String stockName, String stockSym, String stockExchg, Integer noOfShare,
+			Date datePurchase, Date dateSold, String currHoldInd, String createdBy) {
 		super();
 		this.id = id;
 		this.portId = portId;
@@ -37,6 +45,9 @@ public class Dividend {
 		this.createdBy = createdBy;
 	}
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "IdSeqGenerator")
+	@Column(name = "ID", unique = true, nullable = false)
 	public Long getId() {
 		return id;
 	}
@@ -45,6 +56,7 @@ public class Dividend {
 		this.id = id;
 	}
 
+	@Column(name = "PORT_ID", nullable = false)
 	public Long getPortId() {
 		return portId;
 	}
@@ -53,6 +65,7 @@ public class Dividend {
 		this.portId = portId;
 	}
 
+	@Column(name = "STOCK_NAM", nullable = false, length = 100)
 	public String getStockName() {
 		return stockName;
 	}
@@ -61,6 +74,7 @@ public class Dividend {
 		this.stockName = stockName;
 	}
 
+	@Column(name = "STOCK_SYM", nullable = false, length = 10)
 	public String getStockSym() {
 		return stockSym;
 	}
@@ -69,6 +83,7 @@ public class Dividend {
 		this.stockSym = stockSym;
 	}
 
+	@Column(name = "STOCK_EXCHG", nullable = true, length = 6)
 	public String getStockExchg() {
 		return stockExchg;
 	}
@@ -77,6 +92,7 @@ public class Dividend {
 		this.stockExchg = stockExchg;
 	}
 
+	@Column(name = "NO_OF_SHARE", nullable = false)
 	public Integer getNoOfShare() {
 		return noOfShare;
 	}
@@ -85,6 +101,7 @@ public class Dividend {
 		this.noOfShare = noOfShare;
 	}
 
+	@Column(name = "DATE_PURCHASE", nullable = false)
 	public Date getDatePurchase() {
 		return datePurchase;
 	}
@@ -93,6 +110,7 @@ public class Dividend {
 		this.datePurchase = datePurchase;
 	}
 
+	@Column(name = "DATE_SOLD", nullable = true)
 	public Date getDateSold() {
 		return dateSold;
 	}
@@ -101,6 +119,7 @@ public class Dividend {
 		this.dateSold = dateSold;
 	}
 
+	@Column(name = "CURR_HOLD_IND", nullable = true, length = 1)
 	public String getCurrHoldInd() {
 		return currHoldInd;
 	}
@@ -109,6 +128,7 @@ public class Dividend {
 		this.currHoldInd = currHoldInd;
 	}
 
+	@Column(name = "CREATED_BY", nullable = true, length = 20)
 	public String getCreatedBy() {
 		return createdBy;
 	}
@@ -116,6 +136,5 @@ public class Dividend {
 	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
 	}
-	
-	
+
 }

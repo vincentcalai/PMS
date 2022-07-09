@@ -4,10 +4,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import javax.persistence.Entity;
-
-@Entity
-public class UnrealPL implements Serializable{
+//@Entity
+public class UnrealPL implements Serializable {
 
 	private Long portId;
 	private String stockName;
@@ -74,9 +72,10 @@ public class UnrealPL implements Serializable{
 		} else if (!portId.equals(other.portId))
 			return false;
 		if (stockName == null) {
-      return other.stockName == null;
-		} else return stockName.equals(other.stockName);
-  }
+			return other.stockName == null;
+		} else
+			return stockName.equals(other.stockName);
+	}
 
 	public Long getPortId() {
 		return portId;

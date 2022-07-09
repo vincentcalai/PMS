@@ -3,9 +3,17 @@ package com.pms.pmsapp.manageportfolio.dividend.data;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "PMS_PORT_DIV_DET")
+@SequenceGenerator(name = "IdSeqGenerator", sequenceName = "SQ_PMS_PORT_DIV_DET", allocationSize = 1)
 public class DividendDet {
 
 	private Long id;
@@ -15,13 +23,13 @@ public class DividendDet {
 	private String stockSym;
 	private String stockExchg;
 	private Date exDate;
-	private	Integer noOfShare;
+	private Integer noOfShare;
 	private BigDecimal adjDiv;
 	private BigDecimal divPayout;
 	private BigDecimal sgdDivPayout;
-	
+
 	public DividendDet() {
-		
+
 	}
 
 	public DividendDet(Long id, Long divId, Long portId, String stockName, String stockSym, String stockExchg,
@@ -40,6 +48,9 @@ public class DividendDet {
 		this.sgdDivPayout = sgdDivPayout;
 	}
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "IdSeqGenerator")
+	@Column(name = "ID", unique = true, nullable = false)
 	public Long getId() {
 		return id;
 	}
@@ -48,6 +59,7 @@ public class DividendDet {
 		this.id = id;
 	}
 
+	@Column(name = "DIV_ID", nullable = false)
 	public Long getDivId() {
 		return divId;
 	}
@@ -56,6 +68,7 @@ public class DividendDet {
 		this.divId = divId;
 	}
 
+	@Column(name = "PORT_ID", nullable = false)
 	public Long getPortId() {
 		return portId;
 	}
@@ -64,6 +77,7 @@ public class DividendDet {
 		this.portId = portId;
 	}
 
+	@Column(name = "STOCK_NAM", nullable = false, length = 100)
 	public String getStockName() {
 		return stockName;
 	}
@@ -72,6 +86,7 @@ public class DividendDet {
 		this.stockName = stockName;
 	}
 
+	@Column(name = "STOCK_SYM", nullable = false, length = 10)
 	public String getStockSym() {
 		return stockSym;
 	}
@@ -80,6 +95,7 @@ public class DividendDet {
 		this.stockSym = stockSym;
 	}
 
+	@Column(name = "STOCK_EXCHG", nullable = true, length = 6)
 	public String getStockExchg() {
 		return stockExchg;
 	}
@@ -88,6 +104,7 @@ public class DividendDet {
 		this.stockExchg = stockExchg;
 	}
 
+	@Column(name = "EX_DATE", nullable = true)
 	public Date getExDate() {
 		return exDate;
 	}
@@ -96,6 +113,7 @@ public class DividendDet {
 		this.exDate = exDate;
 	}
 
+	@Column(name = "NO_OF_SHARE", nullable = true)
 	public Integer getNoOfShare() {
 		return noOfShare;
 	}
@@ -104,6 +122,7 @@ public class DividendDet {
 		this.noOfShare = noOfShare;
 	}
 
+	@Column(name = "ADJ_DIV", nullable = true)
 	public BigDecimal getAdjDiv() {
 		return adjDiv;
 	}
@@ -112,6 +131,7 @@ public class DividendDet {
 		this.adjDiv = adjDiv;
 	}
 
+	@Column(name = "DIV_PAYOUT", nullable = true)
 	public BigDecimal getDivPayout() {
 		return divPayout;
 	}
@@ -120,6 +140,7 @@ public class DividendDet {
 		this.divPayout = divPayout;
 	}
 
+	@Column(name = "SGD_DIV_PAYOUT", nullable = true)
 	public BigDecimal getSgdDivPayout() {
 		return sgdDivPayout;
 	}
@@ -127,8 +148,5 @@ public class DividendDet {
 	public void setSgdDivPayout(BigDecimal sgdDivPayout) {
 		this.sgdDivPayout = sgdDivPayout;
 	}
-	
-	
-	
-	
+
 }

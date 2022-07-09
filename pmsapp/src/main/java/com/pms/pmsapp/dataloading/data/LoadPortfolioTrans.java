@@ -3,11 +3,19 @@ package com.pms.pmsapp.dataloading.data;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 @Entity
-public class LoadPortfolioTrans{
-	
+@Table(name = "PMS_LOAD_PORT_TRANS")
+@SequenceGenerator(name = "IdSeqGenerator", sequenceName = "SQ_PMS_LOAD_PORT_TRANS", allocationSize = 1)
+public class LoadPortfolioTrans {
+
 	private Long id;
 	private Long uploadId;
 	private String stockName;
@@ -23,9 +31,8 @@ public class LoadPortfolioTrans{
 	public LoadPortfolioTrans() {
 	}
 
-	public LoadPortfolioTrans(Long id, Long uploadId, String stockName, String stockSymbol, String stockExchg, int noOfShare,
-			BigDecimal transPrice, String action, String createdBy, Date createdDt,
-			String remarks) {
+	public LoadPortfolioTrans(Long id, Long uploadId, String stockName, String stockSymbol, String stockExchg,
+			int noOfShare, BigDecimal transPrice, String action, String createdBy, Date createdDt, String remarks) {
 		super();
 		this.id = id;
 		this.uploadId = uploadId;
@@ -39,7 +46,10 @@ public class LoadPortfolioTrans{
 		this.createdDt = createdDt;
 		this.remarks = remarks;
 	}
-	
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "IdSeqGenerator")
+	@Column(name = "ID", unique = true, nullable = false)
 	public Long getId() {
 		return id;
 	}
@@ -48,6 +58,7 @@ public class LoadPortfolioTrans{
 		this.id = id;
 	}
 
+	@Column(name = "UPLOAD_ID", nullable = false)
 	public Long getUploadId() {
 		return uploadId;
 	}
@@ -56,6 +67,7 @@ public class LoadPortfolioTrans{
 		this.uploadId = uploadId;
 	}
 
+	@Column(name = "STOCK_NAM", nullable = false, length = 100)
 	public String getStockName() {
 		return stockName;
 	}
@@ -64,6 +76,7 @@ public class LoadPortfolioTrans{
 		this.stockName = stockName;
 	}
 
+	@Column(name = "STOCK_SYM", nullable = false, length = 10)
 	public String getStockSymbol() {
 		return stockSymbol;
 	}
@@ -72,6 +85,7 @@ public class LoadPortfolioTrans{
 		this.stockSymbol = stockSymbol;
 	}
 
+	@Column(name = "STOCK_EXCHG", nullable = true, length = 6)
 	public String getStockExchg() {
 		return stockExchg;
 	}
@@ -80,6 +94,7 @@ public class LoadPortfolioTrans{
 		this.stockExchg = stockExchg;
 	}
 
+	@Column(name = "NO_OF_SHARE", nullable = true)
 	public int getNoOfShare() {
 		return noOfShare;
 	}
@@ -88,6 +103,7 @@ public class LoadPortfolioTrans{
 		this.noOfShare = noOfShare;
 	}
 
+	@Column(name = "TRANS_PRICE", nullable = true)
 	public BigDecimal getTransPrice() {
 		return transPrice;
 	}
@@ -96,6 +112,7 @@ public class LoadPortfolioTrans{
 		this.transPrice = transPrice;
 	}
 
+	@Column(name = "ACTION", nullable = true, length = 4)
 	public String getAction() {
 		return action;
 	}
@@ -104,6 +121,7 @@ public class LoadPortfolioTrans{
 		this.action = action;
 	}
 
+	@Column(name = "CREATED_BY", nullable = true, length = 20)
 	public String getCreatedBy() {
 		return createdBy;
 	}
@@ -112,6 +130,7 @@ public class LoadPortfolioTrans{
 		this.createdBy = createdBy;
 	}
 
+	@Column(name = "CREATED_DT", nullable = true)
 	public Date getCreatedDt() {
 		return createdDt;
 	}
@@ -120,6 +139,7 @@ public class LoadPortfolioTrans{
 		this.createdDt = createdDt;
 	}
 
+	@Column(name = "REMARKS", nullable = true, length = 100)
 	public String getRemarks() {
 		return remarks;
 	}

@@ -4,10 +4,9 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import javax.persistence.Entity;
-
-@Entity
-public class PortfolioHold implements Serializable{
+//@Entity
+//@Table(name = "PMS_PORT_HOLD")
+public class PortfolioHold implements Serializable {
 
 	private Long portId;
 	private String stockName;
@@ -26,8 +25,8 @@ public class PortfolioHold implements Serializable{
 	public PortfolioHold() {
 	}
 
-	public PortfolioHold(Long portId, String stockName, String stockSymbol, String stockExchg,
-			int totalShare, BigDecimal avgPrice, BigDecimal totalAmt, BigDecimal lastTransPrice, BigDecimal mktValue,
+	public PortfolioHold(Long portId, String stockName, String stockSymbol, String stockExchg, int totalShare,
+			BigDecimal avgPrice, BigDecimal totalAmt, BigDecimal lastTransPrice, BigDecimal mktValue,
 			BigDecimal profitLoss, BigDecimal profitLossPct, String lastTransBy, Date lastTransDt) {
 		super();
 		this.portId = portId;
@@ -69,10 +68,12 @@ public class PortfolioHold implements Serializable{
 		} else if (!portId.equals(other.portId))
 			return false;
 		if (stockName == null) {
-      return other.stockName == null;
-		} else return stockName.equals(other.stockName);
-  }
+			return other.stockName == null;
+		} else
+			return stockName.equals(other.stockName);
+	}
 
+//	@Column(name = "PORT_ID", unique = true, nullable = false)
 	public Long getPortId() {
 		return portId;
 	}
@@ -81,6 +82,7 @@ public class PortfolioHold implements Serializable{
 		this.portId = portId;
 	}
 
+//	@Column(name = "STOCK_NAM", nullable = false, length = 100)
 	public String getStockName() {
 		return stockName;
 	}
@@ -89,6 +91,7 @@ public class PortfolioHold implements Serializable{
 		this.stockName = stockName;
 	}
 
+//	@Column(name = "STOCK_SYM", nullable = false, length = 10)
 	public String getStockSymbol() {
 		return stockSymbol;
 	}
@@ -97,6 +100,7 @@ public class PortfolioHold implements Serializable{
 		this.stockSymbol = stockSymbol;
 	}
 
+//	@Column(name = "STOCK_EXCHG", nullable = true, length = 6)
 	public String getStockExchg() {
 		return stockExchg;
 	}
@@ -105,6 +109,7 @@ public class PortfolioHold implements Serializable{
 		this.stockExchg = stockExchg;
 	}
 
+//	@Column(name = "TOTAL_SHARE", nullable = true)
 	public int getTotalShare() {
 		return totalShare;
 	}
@@ -113,6 +118,7 @@ public class PortfolioHold implements Serializable{
 		this.totalShare = totalShare;
 	}
 
+//	@Column(name = "AVG_PRICE", nullable = true)
 	public BigDecimal getAvgPrice() {
 		return avgPrice;
 	}
@@ -121,6 +127,7 @@ public class PortfolioHold implements Serializable{
 		this.avgPrice = avgPrice;
 	}
 
+//	@Column(name = "TOTAL_AMT", nullable = true)
 	public BigDecimal getTotalAmt() {
 		return totalAmt;
 	}
@@ -129,6 +136,7 @@ public class PortfolioHold implements Serializable{
 		this.totalAmt = totalAmt;
 	}
 
+//	@Column(name = "LAST_TRANS_PRICE", nullable = true)
 	public BigDecimal getLastTransPrice() {
 		return lastTransPrice;
 	}
@@ -137,6 +145,7 @@ public class PortfolioHold implements Serializable{
 		this.lastTransPrice = lastTransPrice;
 	}
 
+//	@Column(name = "MKT_VALUE", nullable = true)
 	public BigDecimal getMktValue() {
 		return mktValue;
 	}
@@ -145,6 +154,7 @@ public class PortfolioHold implements Serializable{
 		this.mktValue = mktValue;
 	}
 
+//	@Column(name = "PROFIT_LOSS", nullable = true)
 	public BigDecimal getProfitLoss() {
 		return profitLoss;
 	}
@@ -153,6 +163,7 @@ public class PortfolioHold implements Serializable{
 		this.profitLoss = profitLoss;
 	}
 
+	// @Column(name = "PROFIT_LOSS_PCT", nullable = true)
 	public BigDecimal getProfitLossPct() {
 		return profitLossPct;
 	}
@@ -161,6 +172,7 @@ public class PortfolioHold implements Serializable{
 		this.profitLossPct = profitLossPct;
 	}
 
+//	@Column(name = "LAST_TRANS_BY", nullable = true, length = 20)
 	public String getLastTransBy() {
 		return lastTransBy;
 	}
@@ -169,6 +181,7 @@ public class PortfolioHold implements Serializable{
 		this.lastTransBy = lastTransBy;
 	}
 
+	// @Column(name = "LAST_TRANS_DT", nullable = true)
 	public Date getLastTransDt() {
 		return lastTransDt;
 	}

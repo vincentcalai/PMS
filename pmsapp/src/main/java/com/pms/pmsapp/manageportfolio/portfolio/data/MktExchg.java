@@ -1,16 +1,15 @@
 package com.pms.pmsapp.manageportfolio.portfolio.data;
 
-import javax.persistence.Entity;
-
-@Entity
+//@Entity
+//@Table(name = "PMS_MKT_EXCHG")
 public class MktExchg {
 	private String mktExchgName;
 	private String mktExchgDesc;
 	private String curr;
-	
+
 	public MktExchg() {
 	}
-	
+
 	public MktExchg(String mktExchgName, String mktExchgDesc, String curr) {
 		super();
 		this.mktExchgName = mktExchgName;
@@ -18,6 +17,7 @@ public class MktExchg {
 		this.curr = curr;
 	}
 
+//	@Column(name = "MKT_EXCHG_NAME", nullable = false, length = 10)
 	public String getMktExchgName() {
 		return mktExchgName;
 	}
@@ -26,6 +26,7 @@ public class MktExchg {
 		this.mktExchgName = mktExchgName;
 	}
 
+//	@Column(name = "MKT_EXCHG_DESC", nullable = true, length = 100)
 	public String getMktExchgDesc() {
 		return mktExchgDesc;
 	}
@@ -34,6 +35,7 @@ public class MktExchg {
 		this.mktExchgDesc = mktExchgDesc;
 	}
 
+//	@Column(name = "CURR", nullable = false, length = 5)
 	public String getCurr() {
 		return curr;
 	}
@@ -42,6 +44,4 @@ public class MktExchg {
 		this.curr = curr;
 	}
 
-	
-	
 }

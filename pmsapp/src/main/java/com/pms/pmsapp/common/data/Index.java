@@ -59,7 +59,7 @@ public class Index {
 		this.idxSym = idxSym;
 	}
 
-	@Column(name = "INDEX_NAM", nullable = false, length = 50)
+	@Column(name = "INDEX_NAME", nullable = false, length = 50)
 	public String getIdxName() {
 		return idxName;
 	}

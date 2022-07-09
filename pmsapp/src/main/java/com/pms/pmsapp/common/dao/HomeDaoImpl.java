@@ -19,10 +19,9 @@ import com.pms.pmsapp.util.HibernateUtil;
 
 import yahoofinance.YahooFinance;
 
-
 @Repository
 public class HomeDaoImpl implements HomeDao {
-	
+
 	private static final Logger log = LoggerFactory.getLogger(HomeDaoImpl.class);
 
 	@Override
@@ -30,15 +29,15 @@ public class HomeDaoImpl implements HomeDao {
 		log.info("findAllIndex in DaoImpl..");
 		try {
 			Session session = HibernateUtil.getSessionFactory().openSession();
-			
-			String sql = "SELECT * FROM PMS_INDEX order by ID asc ";				
-					
+
+			String sql = "SELECT * FROM PMS_INDEX order by ID asc ";
+
 			NativeQuery sqlQuery = session.createSQLQuery(sql);
-	
+
 			sqlQuery.addEntity(Index.class);
-	
+
 			List<Index> indexList = sqlQuery.list();
-			
+
 			return indexList;
 		} catch (Exception e) {
 			// convert to HibernateException then to DataAccessException
@@ -59,26 +58,24 @@ public class HomeDaoImpl implements HomeDao {
 	@Override
 	public void updateLastVal(Index index) {
 		log.info("updateLastVal index in DaoImpl..");
-		
+
 		try {
 			Session session = HibernateUtil.getSessionFactory().openSession();
 			Transaction transaction = session.beginTransaction();
-			
+
 			String sql = "update PMS_INDEX set last = :last, change = :change, "
-					+ "change_pct = :changePct, last_updated_dt = sysdate "
-					+ "where index_sym = :indexSym";
-			
-			
+					+ "change_pct = :changePct, last_updated_dt = sysdate " + "where index_sym = :indexSym";
+
 			NativeQuery query = session.createSQLQuery(sql);
 			query.setParameter("last", index.getLast());
 			query.setParameter("change", index.getChange());
 			query.setParameter("changePct", index.getChangePct());
-			query.setParameter("indexSym", index.getIdxSym());		
+			query.setParameter("indexSym", index.getIdxSym());
 			query.executeUpdate();
-			
+
 			transaction.commit();
 			session.close();
-		
+
 		} catch (Exception e) {
 			// convert to HibernateException then to DataAccessException
 			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
@@ -88,30 +85,29 @@ public class HomeDaoImpl implements HomeDao {
 	@Override
 	public void updateLastVal(Forex forex) {
 		log.info("updateLastVal forex in DaoImpl..");
-		
+
 		try {
 			Session session = HibernateUtil.getSessionFactory().openSession();
 			Transaction transaction = session.beginTransaction();
-			
-			String sql = "update pms_forex set last = :last, change = :change, " +
-					 "change_pct = :changePct, last_updated_dt = sysdate where forex_sym = :forexSymbol";
-			
-			
+
+			String sql = "update pms_forex set last = :last, change = :change, "
+					+ "change_pct = :changePct, last_updated_dt = sysdate where forex_sym = :forexSymbol";
+
 			NativeQuery query = session.createSQLQuery(sql);
 			query.setParameter("last", forex.getLast());
 			query.setParameter("change", forex.getChange());
 			query.setParameter("changePct", forex.getChangePct());
 			query.setParameter("forexSymbol", forex.getForexSymbol());
 			query.executeUpdate();
-			
+
 			transaction.commit();
 			session.close();
-		
+
 		} catch (Exception e) {
 			// convert to HibernateException then to DataAccessException
 			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
 		}
-		
+
 	}
 
 	@Override
@@ -119,15 +115,15 @@ public class HomeDaoImpl implements HomeDao {
 		log.info("findAllForex in DaoImpl..");
 		try {
 			Session session = HibernateUtil.getSessionFactory().openSession();
-			
-			String sql = "SELECT * FROM PMS_FOREX order by ID asc ";				
-					
+
+			String sql = "SELECT * FROM PMS_FOREX order by ID asc ";
+
 			NativeQuery sqlQuery = session.createSQLQuery(sql);
-	
+
 			sqlQuery.addEntity(Forex.class);
-	
+
 			List<Forex> forexList = sqlQuery.list();
-			
+
 			return forexList;
 		} catch (Exception e) {
 			// convert to HibernateException then to DataAccessException
@@ -145,11 +141,4 @@ public class HomeDaoImpl implements HomeDao {
 		return null;
 	}
 
-	
 }
-
-	
-	
-	
-	
-

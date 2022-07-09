@@ -4,11 +4,19 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 @Entity
-public class RealPL implements Serializable{
-	
+@Table(name = "PMS_REAL_PL")
+@SequenceGenerator(name = "IdSeqGenerator", sequenceName = "SQ_PMS_REAL_PL", allocationSize = 1)
+public class RealPL implements Serializable {
+
 	private Long transId;
 	private Long portId;
 	private String stockName;
@@ -22,15 +30,14 @@ public class RealPL implements Serializable{
 	private BigDecimal profitLoss;
 	private BigDecimal convProfitLoss;
 	private BigDecimal profitLossPct;
-	
-	
+
 	public RealPL() {
 		super();
 	}
-	
-	public RealPL(Long transId, Long portId, String stockName, String stockSymbol, String stockExchg, String domCurr, int totalShare,
-			Date sellDt, BigDecimal avgCost, BigDecimal sellPrice, BigDecimal profitLoss, BigDecimal convProfitLoss,
-			BigDecimal profitLossPct) {
+
+	public RealPL(Long transId, Long portId, String stockName, String stockSymbol, String stockExchg, String domCurr,
+			int totalShare, Date sellDt, BigDecimal avgCost, BigDecimal sellPrice, BigDecimal profitLoss,
+			BigDecimal convProfitLoss, BigDecimal profitLossPct) {
 		super();
 		this.transId = transId;
 		this.portId = portId;
@@ -46,8 +53,10 @@ public class RealPL implements Serializable{
 		this.convProfitLoss = convProfitLoss;
 		this.profitLossPct = profitLossPct;
 	}
-	
-	
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "IdSeqGenerator")
+	@Column(name = "TRANS_ID", unique = true, nullable = false)
 	public Long getTransId() {
 		return transId;
 	}
@@ -55,7 +64,8 @@ public class RealPL implements Serializable{
 	public void setTransId(Long transId) {
 		this.transId = transId;
 	}
-	
+
+	@Column(name = "PORT_ID", nullable = false)
 	public Long getPortId() {
 		return portId;
 	}
@@ -64,6 +74,7 @@ public class RealPL implements Serializable{
 		this.portId = portId;
 	}
 
+	@Column(name = "STOCK_NAM", nullable = false, length = 100)
 	public String getStockName() {
 		return stockName;
 	}
@@ -72,6 +83,7 @@ public class RealPL implements Serializable{
 		this.stockName = stockName;
 	}
 
+	@Column(name = "STOCK_SYM", nullable = false, length = 10)
 	public String getStockSymbol() {
 		return stockSymbol;
 	}
@@ -80,6 +92,7 @@ public class RealPL implements Serializable{
 		this.stockSymbol = stockSymbol;
 	}
 
+	@Column(name = "STOCK_EXCHG", nullable = true, length = 6)
 	public String getStockExchg() {
 		return stockExchg;
 	}
@@ -88,6 +101,7 @@ public class RealPL implements Serializable{
 		this.stockExchg = stockExchg;
 	}
 
+	@Column(name = "DOM_CURR", nullable = true)
 	public String getDomCurr() {
 		return domCurr;
 	}
@@ -96,6 +110,7 @@ public class RealPL implements Serializable{
 		this.domCurr = domCurr;
 	}
 
+	@Column(name = "TOTAL_SHARE", nullable = true)
 	public int getTotalShare() {
 		return totalShare;
 	}
@@ -104,6 +119,7 @@ public class RealPL implements Serializable{
 		this.totalShare = totalShare;
 	}
 
+	@Column(name = "SELL_DT", nullable = true)
 	public Date getSellDt() {
 		return sellDt;
 	}
@@ -112,6 +128,7 @@ public class RealPL implements Serializable{
 		this.sellDt = sellDt;
 	}
 
+	@Column(name = "AVG_COST", nullable = true)
 	public BigDecimal getAvgCost() {
 		return avgCost;
 	}
@@ -120,6 +137,7 @@ public class RealPL implements Serializable{
 		this.avgCost = avgCost;
 	}
 
+	@Column(name = "SELL_PRICE", nullable = true)
 	public BigDecimal getSellPrice() {
 		return sellPrice;
 	}
@@ -128,6 +146,7 @@ public class RealPL implements Serializable{
 		this.sellPrice = sellPrice;
 	}
 
+	@Column(name = "PROFIT_LOSS", nullable = true)
 	public BigDecimal getProfitLoss() {
 		return profitLoss;
 	}
@@ -136,6 +155,7 @@ public class RealPL implements Serializable{
 		this.profitLoss = profitLoss;
 	}
 
+	@Column(name = "CONV_PROFIT_LOSS", nullable = true)
 	public BigDecimal getConvProfitLoss() {
 		return convProfitLoss;
 	}
@@ -144,6 +164,7 @@ public class RealPL implements Serializable{
 		this.convProfitLoss = convProfitLoss;
 	}
 
+	@Column(name = "PROFIT_LOSS_PCT", nullable = true)
 	public BigDecimal getProfitLossPct() {
 		return profitLossPct;
 	}
@@ -151,5 +172,5 @@ public class RealPL implements Serializable{
 	public void setProfitLossPct(BigDecimal profitLossPct) {
 		this.profitLossPct = profitLossPct;
 	}
-	
+
 }
