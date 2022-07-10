@@ -8,7 +8,7 @@ import com.pms.pmsapp.manageportfolio.portfolio.data.StockWrapper;
 
 public interface HomeDao {
 
-	List<Index> findAllIndex();
+	// List<Index> findAllIndex();
 
 	StockWrapper findStock(String indexSym);
 

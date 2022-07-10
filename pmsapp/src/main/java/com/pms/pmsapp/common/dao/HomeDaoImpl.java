@@ -24,26 +24,26 @@ public class HomeDaoImpl implements HomeDao {
 
 	private static final Logger log = LoggerFactory.getLogger(HomeDaoImpl.class);
 
-	@Override
-	public List<Index> findAllIndex() {
-		log.info("findAllIndex in DaoImpl..");
-		try {
-			Session session = HibernateUtil.getSessionFactory().openSession();
-
-			String sql = "SELECT * FROM PMS_INDEX order by ID asc ";
-
-			NativeQuery sqlQuery = session.createSQLQuery(sql);
-
-			sqlQuery.addEntity(Index.class);
-
-			List<Index> indexList = sqlQuery.list();
-
-			return indexList;
-		} catch (Exception e) {
-			// convert to HibernateException then to DataAccessException
-			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
-		}
-	}
+//	@Override
+//	public List<Index> findAllIndex() {
+//		log.info("findAllIndex in DaoImpl..");
+//		try {
+//			Session session = HibernateUtil.getSessionFactory().openSession();
+//
+//			String sql = "SELECT * FROM PMS_INDEX order by ID asc ";
+//
+//			NativeQuery sqlQuery = session.createSQLQuery(sql);
+//
+//			sqlQuery.addEntity(Index.class);
+//
+//			List<Index> indexList = sqlQuery.list();
+//
+//			return indexList;
+//		} catch (Exception e) {
+//			// convert to HibernateException then to DataAccessException
+//			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
+//		}
+//	}
 
 	@Override
 	public StockWrapper findStock(String indexSym) {

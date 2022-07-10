@@ -1,4 +1,4 @@
-package com.pms.pmsapp.common.dao;
+package com.pms.pmsapp.common.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
