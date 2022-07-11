@@ -1,47 +1,57 @@
-package com.pms.pmsapp.common.dao;
+package com.pms.pmsapp.common.controller;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.RequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import com.pms.pmsapp.PmsappApplication;
+import com.pms.pmsapp.common.HomeController;
 import com.pms.pmsapp.common.data.Forex;
 import com.pms.pmsapp.common.data.Index;
-import com.pms.pmsapp.common.repository.ForexRepository;
-import com.pms.pmsapp.common.repository.IndexRepository;
+import com.pms.pmsapp.common.service.HomeService;
+import com.pms.pmsapp.util.jwt.JwtTokenUtil;
+import com.pms.pmsapp.util.jwt.JwtUnAuthorizedResponseAuthenticationEntryPoint;
 
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@ContextConfiguration(classes = { HomeDaoImpl.class, PmsappApplication.class })
-@TestInstance(Lifecycle.PER_CLASS)
-public class HomeDaoImplTest {
+@WebMvcTest(HomeController.class)
+class HomeControllerTest {
 
 	@Autowired
-	HomeDaoImpl homeDaoImpl;
+	private MockMvc mockMvc;
 
-	@Autowired
-	IndexRepository indexRespository;
+	@MockBean
+	private JwtUnAuthorizedResponseAuthenticationEntryPoint jwtUnAuthorizedResponseAuthenticationEntryPoint;
 
-	@Autowired
-	ForexRepository forexRespository;
+	@MockBean
+	private UserDetailsService jwtInMemoryUserDetailsService;
+
+	@MockBean
+	private JwtTokenUtil jwtTokenUtil;
+
+	@MockBean
+	private HomeService homeService;
+
+	private static List<Index> indexList;
+	private static List<Forex> forexList;
 
 	@BeforeAll
-	public void setup() throws Exception {
+	public static void setup() {
 
-		List<Index> indexList = new ArrayList<>();
+		indexList = new ArrayList<>();
 		indexList.add(new Index(1L, "^GSPC", "S&P 500", new BigDecimal(3911.74), new BigDecimal(116.01),
 				new BigDecimal(3.06), new Date()));
 		indexList.add(new Index(2L, "^DJI", "Dow Jones Industrial Average", new BigDecimal(31500.68),
@@ -53,7 +63,7 @@ public class HomeDaoImplTest {
 		indexList.add(new Index(5L, "^STI", "Straits Times Index", new BigDecimal(3111.65), new BigDecimal(18.85),
 				new BigDecimal(0.61), new Date()));
 
-		List<Forex> forexList = new ArrayList<>();
+		forexList = new ArrayList<>();
 		forexList.add(new Forex(1L, "USD/SGD", "SGD=X", "Forex Rate: USD to SGD", new BigDecimal(1.3855),
 				new BigDecimal(-0.0046), new BigDecimal(-0.33), "=X", new Date()));
 		forexList.add(new Forex(2L, "SGD/USD", "SGDUSD=X", "Forex Rate: SGD to USD", new BigDecimal(0.7217611),
@@ -66,19 +76,29 @@ public class HomeDaoImplTest {
 				new BigDecimal(-0.0002), new BigDecimal(0), "=X", new Date()));
 		forexList.add(new Forex(6L, "HKD/USD", "HKDUSD=X", "Forex Rate: HKD to USD", new BigDecimal(0.12740639),
 				new BigDecimal(0.00000325), new BigDecimal(0), "=X", new Date()));
-		indexRespository.saveAll(indexList);
-	}
-
-	@AfterAll
-	public void teardown() throws Exception {
-		indexRespository.deleteAll();
 	}
 
 	@Test
-	public void testFindAllIndex_ShouldReturnThreeResult() {
+	void findAllIndex_ShouldReturnIndexAndForexList_Test() throws Exception {
 
-		List<Index> indexes = indexRespository.findAll();
-		assertEquals(1, indexes.size());
+//		HomeForm homeList = new HomeForm();
+
+		when(homeService.findAllIndex()).thenReturn(indexList);
+		when(homeService.findAllForex()).thenReturn(forexList);
+
+//		homeList.setIndexList(indexList);
+//		homeList.setForexList(forexList);
+
+		// System.out.println(mapper.writeValueAsString(homeList));
+		// .andExpect(content().json(mapper.writeValueAsString(homeList)))
+
+		RequestBuilder request = MockMvcRequestBuilders.get("/home").accept(MediaType.APPLICATION_JSON);
+		MvcResult result = mockMvc.perform(request).andExpect(status().isOk()).andReturn();
+
+		String response = result.getResponse().getContentAsString();
+
+		System.out.println(response);
+
 	}
 
 }
