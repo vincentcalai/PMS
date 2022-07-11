@@ -51,7 +51,7 @@ public class HomeDaoImplTest {
 	@Test
 	public void testFindAllIndex_ShouldReturnThreeResult() {
 
-		List<Index> indexes = indexRespository.findAllIndex();
+		List<Index> indexes = indexRespository.findAll();
 		assertEquals(1, indexes.size());
 	}
 

@@ -28,7 +28,7 @@ public class HomeServiceImpl implements HomeService {
 
 	@Override
 	public List<Index> findAllIndex() {
-		return indexRepository.findAllIndex();
+		return indexRepository.findAll();
 	}
 
 	@Override
