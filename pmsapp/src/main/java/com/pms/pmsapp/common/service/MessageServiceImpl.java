@@ -5,12 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.pms.pmsapp.common.dao.MessageDao;
 import com.pms.pmsapp.common.data.Message;
+import com.pms.pmsapp.common.repository.dao.MessageDao;
 
 @Service
 public class MessageServiceImpl implements MessageService {
-	
+
 	@Autowired
 	private MessageDao messageDao;
 
@@ -33,7 +33,7 @@ public class MessageServiceImpl implements MessageService {
 	public void softDelReadMsg(String loginUser) {
 		messageDao.softDelReadMsg(loginUser);
 	}
-	
+
 	@Override
 	public void deleteAllMsg(String loginUser) {
 		messageDao.deleteAllMsg(loginUser);

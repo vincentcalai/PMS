@@ -1,11 +1,11 @@
 package com.pms.pmsapp.common.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -22,6 +22,9 @@ import com.pms.pmsapp.common.data.Forex;
 import com.pms.pmsapp.common.data.Index;
 import com.pms.pmsapp.common.repository.ForexRepository;
 import com.pms.pmsapp.common.repository.IndexRepository;
+import com.pms.pmsapp.common.repository.dao.HomeDaoImpl;
+import com.pms.pmsapp.fixture.HomeFixture;
+import com.pms.pmsapp.manageportfolio.portfolio.data.StockWrapper;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -33,52 +36,107 @@ public class HomeDaoImplTest {
 	HomeDaoImpl homeDaoImpl;
 
 	@Autowired
-	IndexRepository indexRespository;
+	IndexRepository indexRepository;
 
 	@Autowired
-	ForexRepository forexRespository;
+	ForexRepository forexRepository;
+
+	List<Index> indexList;
+	List<Forex> forexList;
 
 	@BeforeAll
 	public void setup() throws Exception {
 
-		List<Index> indexList = new ArrayList<>();
-		indexList.add(new Index(1L, "^GSPC", "S&P 500", new BigDecimal(3911.74), new BigDecimal(116.01),
-				new BigDecimal(3.06), new Date()));
-		indexList.add(new Index(2L, "^DJI", "Dow Jones Industrial Average", new BigDecimal(31500.68),
-				new BigDecimal(823.32), new BigDecimal(2.68), new Date()));
-		indexList.add(new Index(3L, "^IXIC", "NASDAQ Composite", new BigDecimal(11607.62), new BigDecimal(375.428),
-				new BigDecimal(3.34), new Date()));
-		indexList.add(new Index(4L, "^HSI", "Hang Seng Index", new BigDecimal(21719.06), new BigDecimal(445.19),
-				new BigDecimal(2.09), new Date()));
-		indexList.add(new Index(5L, "^STI", "Straits Times Index", new BigDecimal(3111.65), new BigDecimal(18.85),
-				new BigDecimal(0.61), new Date()));
+		indexList = HomeFixture.createIndexListFixture();
+		forexList = HomeFixture.createForexListFixture();
 
-		List<Forex> forexList = new ArrayList<>();
-		forexList.add(new Forex(1L, "USD/SGD", "SGD=X", "Forex Rate: USD to SGD", new BigDecimal(1.3855),
-				new BigDecimal(-0.0046), new BigDecimal(-0.33), "=X", new Date()));
-		forexList.add(new Forex(2L, "SGD/USD", "SGDUSD=X", "Forex Rate: SGD to USD", new BigDecimal(0.7217611),
-				new BigDecimal(0.0023884), new BigDecimal(0.33), "=X", new Date()));
-		forexList.add(new Forex(3L, "HKD/SGD", "HKDSGD=X", "Forex Rate: HKD to SGD", new BigDecimal(0.17651),
-				new BigDecimal(-0.00056), new BigDecimal(-0.32), "=X", new Date()));
-		forexList.add(new Forex(4L, "SGD/HKD", "SGDHKD=X", "Forex Rate: SGD to HKD", new BigDecimal(5.6621),
-				new BigDecimal(0.0211), new BigDecimal(0.37), "=X", new Date()));
-		forexList.add(new Forex(5L, "USD/HKD", "HKD=X", "Forex Rate: USD to HKD", new BigDecimal(7.8489),
-				new BigDecimal(-0.0002), new BigDecimal(0), "=X", new Date()));
-		forexList.add(new Forex(6L, "HKD/USD", "HKDUSD=X", "Forex Rate: HKD to USD", new BigDecimal(0.12740639),
-				new BigDecimal(0.00000325), new BigDecimal(0), "=X", new Date()));
-		indexRespository.saveAll(indexList);
+		indexRepository.saveAll(indexList);
+		forexRepository.saveAll(forexList);
+
 	}
 
 	@AfterAll
 	public void teardown() throws Exception {
-		indexRespository.deleteAll();
+		indexRepository.deleteAll();
+		forexRepository.deleteAll();
 	}
 
 	@Test
-	public void testFindAllIndex_ShouldReturnThreeResult() {
+	public void testFindAllIndex() {
 
-		List<Index> indexes = indexRespository.findAll();
-		assertEquals(1, indexes.size());
+		List<Index> indexes = indexRepository.findAll();
+		assertEquals(5, indexes.size());
+	}
+
+	@Test
+	public void testFindAllForex() {
+
+		List<Forex> forexes = forexRepository.findAll();
+		assertEquals(6, forexes.size());
+	}
+
+	@Test
+	public void testUpdateLastValIndex() {
+
+		Index indexFixture = indexList.get(0);
+		indexFixture.setLast(new BigDecimal(4005.92));
+		indexFixture.setChange(new BigDecimal(-122.96));
+		indexFixture.setChangePct(new BigDecimal(-2.87));
+
+		indexRepository.save(indexFixture);
+		Optional<Index> index = indexRepository.findById(1L);
+		assertEquals(new BigDecimal(4005.92), index.get().getLast());
+		assertEquals(new BigDecimal(-122.96), index.get().getChange());
+		assertEquals(new BigDecimal(-2.87), index.get().getChangePct());
+
+	}
+
+	@Test
+	public void testUpdateLastValForex() {
+
+		Forex forexFixture = forexList.get(0);
+		forexFixture.setLast(new BigDecimal(1.4216));
+		forexFixture.setChange(new BigDecimal(-0.0055));
+		forexFixture.setChangePct(new BigDecimal(-0.45));
+		forexRepository.save(forexFixture);
+
+		Optional<Forex> forex = forexRepository.findById(1L);
+		assertEquals(new BigDecimal(1.4216), forex.get().getLast());
+		assertEquals(new BigDecimal(-0.0055), forex.get().getChange());
+		assertEquals(new BigDecimal(-0.45), forex.get().getChangePct());
+
+	}
+
+	@Test
+	public void testFindIndexIsNotNull() {
+		StockWrapper stockWrapper1 = homeDaoImpl.findIndexOrForex("^GSPC");
+		StockWrapper stockWrapper2 = homeDaoImpl.findIndexOrForex("^DJI");
+		StockWrapper stockWrapper3 = homeDaoImpl.findIndexOrForex("^IXIC");
+		StockWrapper stockWrapper4 = homeDaoImpl.findIndexOrForex("^HSI");
+		StockWrapper stockWrapper5 = homeDaoImpl.findIndexOrForex("^STI");
+
+		assertNotNull(stockWrapper1.getStock(), "Should not be null when finding with index symbol ^GSPC");
+		assertNotNull(stockWrapper2.getStock(), "Should not be null when finding with index symbol ^DJI");
+		assertNotNull(stockWrapper3.getStock(), "Should not be null when finding with index symbol ^IXIC");
+		assertNotNull(stockWrapper4.getStock(), "Should not be null when finding with index symbol ^HSI");
+		assertNotNull(stockWrapper5.getStock(), "Should not be null when finding with index symbol ^STI");
+	}
+
+	@Test
+	public void testFindForexIsNotNull() {
+		StockWrapper stockWrapper1 = homeDaoImpl.findIndexOrForex("SGD=X");
+		StockWrapper stockWrapper2 = homeDaoImpl.findIndexOrForex("SGDUSD=X");
+		StockWrapper stockWrapper3 = homeDaoImpl.findIndexOrForex("HKDSGD=X");
+		StockWrapper stockWrapper4 = homeDaoImpl.findIndexOrForex("SGDHKD=X");
+		StockWrapper stockWrapper5 = homeDaoImpl.findIndexOrForex("HKD=X");
+		StockWrapper stockWrapper6 = homeDaoImpl.findIndexOrForex("HKDUSD=X");
+
+		assertNotNull(stockWrapper1.getStock(), "Should not be null when finding with currency symbol SGD=X");
+		assertNotNull(stockWrapper2.getStock(), "Should not be null when finding with currency symbol SGDUSD=X");
+		assertNotNull(stockWrapper3.getStock(), "Should not be null when finding with currency symbol HKDSGD=X");
+		assertNotNull(stockWrapper4.getStock(), "Should not be null when finding with currency symbol SGDHKD=X");
+		assertNotNull(stockWrapper5.getStock(), "Should not be null when finding with currency symbol HKD=X");
+		assertNotNull(stockWrapper6.getStock(), "Should not be null when finding with currency symbol HKDUSD=X");
 	}
 
 }

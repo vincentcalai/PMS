@@ -1,10 +1,8 @@
-package com.pms.pmsapp.common.dao;
+package com.pms.pmsapp.common.repository.dao;
 
 import java.util.List;
 
 import com.pms.pmsapp.common.data.Message;
-
-
 
 public interface MessageDao {
 

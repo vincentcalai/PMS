@@ -1,5 +1,6 @@
 package com.pms.pmsapp.common.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -7,10 +8,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.pms.pmsapp.common.dao.HomeDao;
 import com.pms.pmsapp.common.data.Forex;
 import com.pms.pmsapp.common.data.Index;
+import com.pms.pmsapp.common.repository.ForexRepository;
 import com.pms.pmsapp.common.repository.IndexRepository;
+import com.pms.pmsapp.common.repository.dao.HomeDao;
 import com.pms.pmsapp.manageportfolio.portfolio.data.StockWrapper;
 
 import yahoofinance.quotes.stock.StockQuote;
@@ -26,34 +28,22 @@ public class HomeServiceImpl implements HomeService {
 	@Autowired
 	private IndexRepository indexRepository;
 
+	@Autowired
+	private ForexRepository forexRepository;
+
 	@Override
 	public List<Index> findAllIndex() {
 		return indexRepository.findAll();
 	}
 
 	@Override
-	public StockWrapper findStock(String indexSym) {
-		return homeDao.findStock(indexSym);
-	}
-
-	@Override
-	public void updateLastVal(Index index) {
-		homeDao.updateLastVal(index);
+	public StockWrapper findIndexOrForex(String sym) {
+		return homeDao.findIndexOrForex(sym);
 	}
 
 	@Override
 	public List<Forex> findAllForex() {
-		return homeDao.findAllForex();
-	}
-
-	@Override
-	public StockWrapper findForex(String forexSym) {
-		return homeDao.findForex(forexSym);
-	}
-
-	@Override
-	public void updateLastVal(Forex forex) {
-		homeDao.updateLastVal(forex);
+		return forexRepository.findAll();
 	}
 
 	@Override
@@ -64,14 +54,15 @@ public class HomeServiceImpl implements HomeService {
 		// update Index Live Prices
 		for (Index index : indexList) {
 			String indexSym = index.getIdxSym();
-			StockWrapper stockWrapper = findStock(indexSym);
+			StockWrapper stockWrapper = findIndexOrForex(indexSym);
 			try {
 				StockQuote stockQuote = stockWrapper.getStock().getQuote(true);
 				index.setLast(stockQuote.getPrice());
 				index.setChange(stockQuote.getChange());
 				index.setChangePct(stockQuote.getChangeInPercent());
+				index.setLastUpdatedDt(new Date());
 				log.info("Index: " + index.getIdxSym() + " Last Price: " + index.getLast());
-				updateLastVal(index);
+				indexRepository.save(index);
 			} catch (Exception e) {
 				log.error(e.getMessage());
 			}
@@ -80,14 +71,15 @@ public class HomeServiceImpl implements HomeService {
 		// update Forex Live Prices
 		for (Forex forex : forexList) {
 			String forexSym = forex.getForexSymbol();
-			StockWrapper stockWrapper = findForex(forexSym);
+			StockWrapper stockWrapper = findIndexOrForex(forexSym);
 			try {
 				StockQuote stockQuote = stockWrapper.getStock().getQuote(true);
 				forex.setLast(stockQuote.getPrice());
 				forex.setChange(stockQuote.getChange());
 				forex.setChangePct(stockQuote.getChangeInPercent());
+				forex.setLastUpdatedDt(new Date());
 				log.info("Forex: " + forex.getForexSymbol() + " Last Rate: " + forex.getLast());
-				updateLastVal(forex);
+				forexRepository.save(forex);
 			} catch (Exception e) {
 				log.error(e.getMessage());
 			}
