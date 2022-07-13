@@ -30,7 +30,7 @@ import com.pms.pmsapp.manageportfolio.portfolio.data.StockWrapper;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ContextConfiguration(classes = { HomeDaoImpl.class, PmsappApplication.class })
 @TestInstance(Lifecycle.PER_CLASS)
-public class HomeDaoImplTest {
+public class TestHomeRepository {
 
 	@Autowired
 	HomeDaoImpl homeDaoImpl;
