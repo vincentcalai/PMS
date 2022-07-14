@@ -28,7 +28,7 @@ import com.pms.pmsapp.util.jwt.JwtTokenUtil;
 import com.pms.pmsapp.util.jwt.JwtUnAuthorizedResponseAuthenticationEntryPoint;
 
 @WebMvcTest(HomeController.class)
-class HomeControllerTest {
+class TestHomeController {
 
 	@Autowired
 	private MockMvc mockMvc;
