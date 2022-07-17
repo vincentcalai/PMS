@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "PMS_FOREX")
-@SequenceGenerator(name = "IdSeqGenerator", sequenceName = "SQ_PMS_FOREX", allocationSize = 1)
+@SequenceGenerator(name = "ForexSeqGenerator", sequenceName = "SQ_PMS_FOREX", allocationSize = 1)
 public class Forex {
 
 	private Long id;
@@ -44,7 +44,7 @@ public class Forex {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "IdSeqGenerator")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ForexSeqGenerator")
 	@Column(name = "ID", unique = true, nullable = false)
 	public Long getId() {
 		return id;

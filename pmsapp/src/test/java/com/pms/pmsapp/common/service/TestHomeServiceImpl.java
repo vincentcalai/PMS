@@ -3,6 +3,7 @@ package com.pms.pmsapp.common.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterAll;
@@ -55,8 +56,8 @@ public class TestHomeServiceImpl {
 
 	@AfterAll
 	public void teardown() throws Exception {
-		indexRepository.deleteAll();
-		forexRepository.deleteAll();
+		indexRepository.deleteAll(indexList);
+		forexRepository.deleteAll(forexList);
 	}
 
 	@Test
@@ -74,7 +75,7 @@ public class TestHomeServiceImpl {
 	}
 
 	@Test
-	public void testFindIndexIsNotNull() {
+	public void testFindIndexIsNotNull() throws IOException {
 		StockWrapper stockWrapper1 = homeServiceImpl.findIndexOrForex("^GSPC");
 		StockWrapper stockWrapper2 = homeServiceImpl.findIndexOrForex("^DJI");
 		StockWrapper stockWrapper3 = homeServiceImpl.findIndexOrForex("^IXIC");
@@ -89,7 +90,7 @@ public class TestHomeServiceImpl {
 	}
 
 	@Test
-	public void testFindForexIsNotNull() {
+	public void testFindForexIsNotNull() throws IOException {
 		StockWrapper stockWrapper1 = homeServiceImpl.findIndexOrForex("SGD=X");
 		StockWrapper stockWrapper2 = homeServiceImpl.findIndexOrForex("SGDUSD=X");
 		StockWrapper stockWrapper3 = homeServiceImpl.findIndexOrForex("HKDSGD=X");

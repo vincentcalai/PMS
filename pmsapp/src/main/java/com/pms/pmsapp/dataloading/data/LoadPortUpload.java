@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "PMS_LOAD_PORT_UPLOAD")
-@SequenceGenerator(name = "IdSeqGenerator", sequenceName = "SQ_PMS_LOAD_PORT_UPLOAD", allocationSize = 1)
+@SequenceGenerator(name = "LoadPortUploadSeqGenerator", sequenceName = "SQ_PMS_LOAD_PORT_UPLOAD", allocationSize = 1)
 public class LoadPortUpload {
 
 	private long uploadId;
@@ -50,7 +50,7 @@ public class LoadPortUpload {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "IdSeqGenerator")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "LoadPortUploadSeqGenerator")
 	@Column(name = "UPLOAD_ID", unique = true, nullable = false)
 	public long getUploadId() {
 		return uploadId;

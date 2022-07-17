@@ -37,8 +37,8 @@ public class ForexValueJob implements Job {
 
 		for (Forex forex : forexList) {
 			String forexSym = forex.getForexSymbol();
-			StockWrapper stockWrapper = homeService.findIndexOrForex(forexSym);
 			try {
+				StockWrapper stockWrapper = homeService.findIndexOrForex(forexSym);
 				StockQuote stockQuote = stockWrapper.getStock().getQuote(true);
 				forex.setLast(stockQuote.getPrice());
 				forex.setChange(stockQuote.getChange());

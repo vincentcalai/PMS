@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "PMS_INDEX")
-@SequenceGenerator(name = "IdSeqGenerator", sequenceName = "SQ_PMS_INDEX", allocationSize = 1)
+@SequenceGenerator(name = "IndexSeqGenerator", sequenceName = "SQ_PMS_INDEX", allocationSize = 1)
 public class Index {
 
 	private Long id;
@@ -40,7 +40,7 @@ public class Index {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "IdSeqGenerator")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "IndexSeqGenerator")
 	@Column(name = "ID", unique = true, nullable = false)
 	public Long getId() {
 		return id;

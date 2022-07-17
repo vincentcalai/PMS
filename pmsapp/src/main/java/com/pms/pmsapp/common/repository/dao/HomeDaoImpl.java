@@ -16,13 +16,8 @@ public class HomeDaoImpl implements HomeDao {
 	private static final Logger log = LoggerFactory.getLogger(HomeDaoImpl.class);
 
 	@Override
-	public StockWrapper findIndexOrForex(String sym) {
-		try {
-			return new StockWrapper(YahooFinance.get(sym));
-		} catch (IOException e) {
-			log.error(e.getMessage());
-		}
-		return null;
+	public StockWrapper findIndexOrForex(String sym) throws IOException {
+		return new StockWrapper(YahooFinance.get(sym));
 	}
 
 }

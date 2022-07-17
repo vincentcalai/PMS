@@ -37,8 +37,8 @@ public class IndexValueJob implements Job {
 
 		for (Index index : indexList) {
 			String indexSym = index.getIdxSym();
-			StockWrapper stockWrapper = homeService.findIndexOrForex(indexSym);
 			try {
+				StockWrapper stockWrapper = homeService.findIndexOrForex(indexSym);
 				StockQuote stockQuote = stockWrapper.getStock().getQuote(true);
 				index.setLast(stockQuote.getPrice());
 				index.setChange(stockQuote.getChange());

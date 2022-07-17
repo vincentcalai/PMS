@@ -55,8 +55,8 @@ public class TestHomeRepository {
 
 	@AfterAll
 	public void teardown() throws Exception {
-		indexRepository.deleteAll();
-		forexRepository.deleteAll();
+		indexRepository.deleteAll(indexList);
+		forexRepository.deleteAll(forexList);
 	}
 
 	@Test

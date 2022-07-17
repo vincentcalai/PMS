@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "PMS_PORT_TRANS")
-@SequenceGenerator(name = "IdSeqGenerator", sequenceName = "SQ_PMS_PORT_TRANS", allocationSize = 1)
+@SequenceGenerator(name = "PortTransSeqGenerator", sequenceName = "SQ_PMS_PORT_TRANS", allocationSize = 1)
 public class PortfolioTrans {
 
 	private Long id;
@@ -60,7 +60,7 @@ public class PortfolioTrans {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "IdSeqGenerator")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PortTransSeqGenerator")
 	@Column(name = "ID", unique = true, nullable = false)
 	public Long getId() {
 		return id;

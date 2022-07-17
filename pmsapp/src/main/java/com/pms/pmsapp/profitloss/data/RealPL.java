@@ -6,15 +6,11 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "PMS_REAL_PL")
-@SequenceGenerator(name = "IdSeqGenerator", sequenceName = "SQ_PMS_REAL_PL", allocationSize = 1)
 public class RealPL implements Serializable {
 
 	private Long transId;
@@ -55,7 +51,6 @@ public class RealPL implements Serializable {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "IdSeqGenerator")
 	@Column(name = "TRANS_ID", unique = true, nullable = false)
 	public Long getTransId() {
 		return transId;

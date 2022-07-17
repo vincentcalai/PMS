@@ -1,5 +1,6 @@
 package com.pms.pmsapp.common.service;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class HomeServiceImpl implements HomeService {
 	}
 
 	@Override
-	public StockWrapper findIndexOrForex(String sym) {
+	public StockWrapper findIndexOrForex(String sym) throws IOException {
 		return homeDao.findIndexOrForex(sym);
 	}
 
@@ -54,8 +55,8 @@ public class HomeServiceImpl implements HomeService {
 		// update Index Live Prices
 		for (Index index : indexList) {
 			String indexSym = index.getIdxSym();
-			StockWrapper stockWrapper = findIndexOrForex(indexSym);
 			try {
+				StockWrapper stockWrapper = findIndexOrForex(indexSym);
 				StockQuote stockQuote = stockWrapper.getStock().getQuote(true);
 				index.setLast(stockQuote.getPrice());
 				index.setChange(stockQuote.getChange());
@@ -71,8 +72,8 @@ public class HomeServiceImpl implements HomeService {
 		// update Forex Live Prices
 		for (Forex forex : forexList) {
 			String forexSym = forex.getForexSymbol();
-			StockWrapper stockWrapper = findIndexOrForex(forexSym);
 			try {
+				StockWrapper stockWrapper = findIndexOrForex(forexSym);
 				StockQuote stockQuote = stockWrapper.getStock().getQuote(true);
 				forex.setLast(stockQuote.getPrice());
 				forex.setChange(stockQuote.getChange());

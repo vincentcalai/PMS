@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "PMS_LOAD_DIV")
-@SequenceGenerator(name = "IdSeqGenerator", sequenceName = "SQ_PMS_LOAD_DIV", allocationSize = 1)
+@SequenceGenerator(name = "LoadDivSeqGenerator", sequenceName = "SQ_PMS_LOAD_DIV", allocationSize = 1)
 public class LoadDiv {
 
 	private Long id;
@@ -45,7 +45,7 @@ public class LoadDiv {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "IdSeqGenerator")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "LoadDivSeqGenerator")
 	public Long getId() {
 		return id;
 	}
