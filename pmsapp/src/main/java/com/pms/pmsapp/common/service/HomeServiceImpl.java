@@ -52,6 +52,13 @@ public class HomeServiceImpl implements HomeService {
 		List<Index> indexList = findAllIndex();
 		List<Forex> forexList = findAllForex();
 
+		updateIndexLivePrices(indexList);
+
+		updateForexLivePrices(forexList);
+
+	}
+
+	private void updateIndexLivePrices(List<Index> indexList) {
 		// update Index Live Prices
 		for (Index index : indexList) {
 			String indexSym = index.getIdxSym();
@@ -68,7 +75,9 @@ public class HomeServiceImpl implements HomeService {
 				log.error(e.getMessage());
 			}
 		}
+	}
 
+	private void updateForexLivePrices(List<Forex> forexList) {
 		// update Forex Live Prices
 		for (Forex forex : forexList) {
 			String forexSym = forex.getForexSymbol();

@@ -10,18 +10,6 @@ import com.pms.pmsapp.common.data.Index;
 
 public class HomeFixture {
 
-//	public static Index createIndexFixture() {
-//		Index index = new Index(6L, "^GSPC", "S&P 500", new BigDecimal(3911.74), new BigDecimal(116.01),
-//				new BigDecimal(3.06), new Date());
-//		return index;
-//	}
-//
-//	public static Forex createForexFixture() {
-//		Forex forex = new Forex(6L, "USD/SGD", "SGD=X", "Forex Rate: USD to SGD", new BigDecimal(1.3855),
-//				new BigDecimal(-0.0046), new BigDecimal(-0.33), "=X", new Date());
-//		return forex;
-//	}
-
 	public static List<Index> createIndexListFixture() {
 
 		List<Index> indexList = new ArrayList<>();
@@ -35,6 +23,8 @@ public class HomeFixture {
 				new BigDecimal(2.09), new Date()));
 		indexList.add(new Index(5L, "^STI", "Straits Times Index", new BigDecimal(3111.65), new BigDecimal(18.85),
 				new BigDecimal(0.61), new Date()));
+		indexList.add(new Index(6L, "^DUMMY", "Dummy Index", new BigDecimal(1000), new BigDecimal(20),
+				new BigDecimal(0.2), new Date()));
 
 		return indexList;
 	}
@@ -54,6 +44,8 @@ public class HomeFixture {
 				new BigDecimal(-0.0002), new BigDecimal(0), "=X", new Date()));
 		forexList.add(new Forex(6L, "HKD/USD", "HKDUSD=X", "Forex Rate: HKD to USD", new BigDecimal(0.12740639),
 				new BigDecimal(0.00000325), new BigDecimal(0), "=X", new Date()));
+		forexList.add(new Forex(7L, "DUM/SGD", "DUMSGD=X", "Forex Rate: DUMMY to SGD", new BigDecimal(0.1),
+				new BigDecimal(0.001), new BigDecimal(1), "=X", new Date()));
 
 		return forexList;
 	}

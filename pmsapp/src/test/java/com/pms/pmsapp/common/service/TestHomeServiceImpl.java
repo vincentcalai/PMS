@@ -64,14 +64,14 @@ public class TestHomeServiceImpl {
 	public void testFindAllIndex() {
 
 		List<Index> indexes = homeServiceImpl.findAllIndex();
-		assertEquals(5, indexes.size());
+		assertEquals(6, indexes.size());
 	}
 
 	@Test
 	public void testFindAllForex() {
 
 		List<Forex> forexes = homeServiceImpl.findAllForex();
-		assertEquals(6, forexes.size());
+		assertEquals(7, forexes.size());
 	}
 
 	@Test
@@ -105,5 +105,19 @@ public class TestHomeServiceImpl {
 		assertNotNull(stockWrapper5.getStock(), "Should not be null when finding with currency symbol HKD=X");
 		assertNotNull(stockWrapper6.getStock(), "Should not be null when finding with currency symbol HKDUSD=X");
 	}
+
+//	@Test
+//	public void testUpdateIndexLivePrices() {
+//		homeServiceImpl.updateLivePrices();
+//
+//		List<Index> indexList = homeServiceImpl.findAllIndex();
+//		assertEquals(5, indexList.size());
+//
+//		List<Forex> forexList = homeServiceImpl.findAllForex();
+//		assertEquals(6, forexList.size());
+//
+//		Index index = indexList.get(0);
+//
+//	}
 
 }
