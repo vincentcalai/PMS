@@ -11,6 +11,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -25,10 +28,14 @@ import com.pms.pmsapp.common.repository.dao.HomeDaoImpl;
 import com.pms.pmsapp.fixture.HomeFixture;
 import com.pms.pmsapp.manageportfolio.portfolio.data.StockWrapper;
 
+import yahoofinance.Stock;
+import yahoofinance.quotes.stock.StockQuote;
+
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ContextConfiguration(classes = { HomeServiceImpl.class, HomeDaoImpl.class, PmsappApplication.class })
 @TestInstance(Lifecycle.PER_CLASS)
+@ExtendWith(MockitoExtension.class)
 public class TestHomeServiceImpl {
 
 	@Autowired
@@ -39,6 +46,15 @@ public class TestHomeServiceImpl {
 
 	@Autowired
 	ForexRepository forexRepository;
+
+	@Mock
+	StockQuote stockQuote;
+
+	@Mock
+	StockWrapper stockWrapper;
+
+	@Mock
+	Stock stock;
 
 	List<Index> indexList;
 	List<Forex> forexList;
@@ -106,18 +122,28 @@ public class TestHomeServiceImpl {
 		assertNotNull(stockWrapper6.getStock(), "Should not be null when finding with currency symbol HKDUSD=X");
 	}
 
-//	@Test
-//	public void testUpdateIndexLivePrices() {
-//		homeServiceImpl.updateLivePrices();
-//
-//		List<Index> indexList = homeServiceImpl.findAllIndex();
-//		assertEquals(5, indexList.size());
-//
-//		List<Forex> forexList = homeServiceImpl.findAllForex();
-//		assertEquals(6, forexList.size());
-//
-//		Index index = indexList.get(0);
-//
-//	}
+	@Test
+	public void testUpdateIndexLivePrices() {
+
+		homeServiceImpl.updateLivePrices();
+
+		List<Index> indexList = homeServiceImpl.findAllIndex();
+		indexList.forEach(x -> assertNotNull(x.getChange()));
+		indexList.forEach(x -> assertNotNull(x.getChangePct()));
+		indexList.forEach(x -> assertNotNull(x.getLast()));
+
+	}
+
+	@Test
+	public void testUpdateForexLivePrices() {
+
+		homeServiceImpl.updateLivePrices();
+
+		List<Forex> forexList = homeServiceImpl.findAllForex();
+		forexList.forEach(x -> assertNotNull(x.getChange()));
+		forexList.forEach(x -> assertNotNull(x.getChangePct()));
+		forexList.forEach(x -> assertNotNull(x.getLast()));
+
+	}
 
 }
