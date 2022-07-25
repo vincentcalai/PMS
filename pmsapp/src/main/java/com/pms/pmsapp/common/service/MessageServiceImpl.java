@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.pms.pmsapp.common.data.Message;
+import com.pms.pmsapp.common.repository.MessageRepository;
 import com.pms.pmsapp.common.repository.dao.MessageDao;
 
 @Service
@@ -14,6 +15,9 @@ public class MessageServiceImpl implements MessageService {
 	@Autowired
 	private MessageDao messageDao;
 
+	@Autowired
+	private MessageRepository messageRepository;
+
 	@Override
 	public void genWatchlistNotiMsg() {
 		messageDao.genWatchlistNotiMsg();
@@ -21,7 +25,8 @@ public class MessageServiceImpl implements MessageService {
 
 	@Override
 	public List<Message> retrieveMsg(String loginUser) {
-		return messageDao.retrieveMsg(loginUser);
+		// return messageDao.retrieveMsg(loginUser);
+		return messageRepository.findByUsernameOrderByGenDtDesc(loginUser);
 	}
 
 	@Override

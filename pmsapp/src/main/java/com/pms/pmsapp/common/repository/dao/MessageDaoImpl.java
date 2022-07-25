@@ -2,7 +2,6 @@ package com.pms.pmsapp.common.repository.dao;
 
 import java.math.BigDecimal;
 import java.sql.CallableStatement;
-import java.util.List;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -14,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.orm.hibernate5.SessionFactoryUtils;
 import org.springframework.stereotype.Repository;
 
-import com.pms.pmsapp.common.data.Message;
 import com.pms.pmsapp.util.HibernateUtil;
 
 @Repository
@@ -44,26 +42,26 @@ public class MessageDaoImpl implements MessageDao {
 		}
 	}
 
-	@Override
-	public List<Message> retrieveMsg(String loginUser) {
-		log.info("retrieveMsg in DaoImpl..");
-		try {
-			Session session = HibernateUtil.getSessionFactory().openSession();
-
-			String sql = "select * from PMS_MSG where username = :user ORDER BY gen_dt desc ";
-
-			NativeQuery sqlQuery = session.createSQLQuery(sql);
-
-			sqlQuery.addEntity(Message.class).setParameter("user", loginUser);
-
-			List<Message> messages = sqlQuery.list();
-
-			return messages;
-		} catch (Exception e) {
-			// convert to HibernateException then to DataAccessException
-			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
-		}
-	}
+//	@Override
+//	public List<Message> retrieveMsg(String loginUser) {
+//		log.info("retrieveMsg in DaoImpl..");
+//		try {
+//			Session session = HibernateUtil.getSessionFactory().openSession();
+//
+//			String sql = "select * from PMS_MSG where username = :user ORDER BY gen_dt desc ";
+//
+//			NativeQuery sqlQuery = session.createSQLQuery(sql);
+//
+//			sqlQuery.addEntity(Message.class).setParameter("user", loginUser);
+//
+//			List<Message> messages = sqlQuery.list();
+//
+//			return messages;
+//		} catch (Exception e) {
+//			// convert to HibernateException then to DataAccessException
+//			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
+//		}
+//	}
 
 	@Override
 	public int retrieveMsgCnt(String loginUser) {
