@@ -72,4 +72,15 @@ public class TestMessageRepository {
 		assertEquals(1, lastMessage.getMsgId());
 	}
 
+	@Test
+	public void testCountByUsernameAndDelInd() {
+		int count = messageRepository.countByUsernameAndDelInd("user2", "N");
+
+		assertEquals(2, count);
+
+		int delCount = messageRepository.countByUsernameAndDelInd("user2", "Y");
+
+		assertEquals(1, delCount);
+	}
+
 }

@@ -36,6 +36,8 @@ public class MessageFixture {
 				"Notification Alert: Sea Limited[SE] hits 1st Trigger at 197.76.", "user2", "N", new Date()));
 		msgList.add(new Message(5L, "TRIG2", "Notification Alert: Watchlist Stock hits 2nd Trigger",
 				"Notification Alert: Sea Limited[SE] hits 2nd Trigger at 154.61.", "user2", "N", new Date()));
+		msgList.add(new Message(6L, "TRIG3", "Notification Alert: Watchlist Stock hits 3rd Trigger",
+				"Notification Alert: Sea Limited[SE] hits 3rd Trigger at 100.50.", "user2", "Y", new Date()));
 
 		return msgList;
 	}

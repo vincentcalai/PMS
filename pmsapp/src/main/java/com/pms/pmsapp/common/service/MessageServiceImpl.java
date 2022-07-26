@@ -25,13 +25,14 @@ public class MessageServiceImpl implements MessageService {
 
 	@Override
 	public List<Message> retrieveMsg(String loginUser) {
-		// return messageDao.retrieveMsg(loginUser);
 		return messageRepository.findByUsernameOrderByGenDtDesc(loginUser);
 	}
 
 	@Override
 	public int retrieveMsgCnt(String loginUser) {
-		return messageDao.retrieveMsgCnt(loginUser);
+		String delInd = "N";
+		return messageRepository.countByUsernameAndDelInd(loginUser, delInd);
+		// return messageDao.retrieveMsgCnt(loginUser);
 	}
 
 	@Override
