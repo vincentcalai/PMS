@@ -39,12 +39,10 @@ public class MessageServiceImpl implements MessageService {
 		List<Message> messagesByUser = messageRepository.findByUsername(loginUser);
 		messagesByUser.forEach(message -> message.setDelInd("N"));
 		messageRepository.saveAll(messagesByUser);
-		// messageDao.softDelReadMsg(loginUser);
 	}
 
 	@Override
 	public void deleteAllMsg(String loginUser) {
 		messageRepository.deleteByUsername(loginUser);
-		// messageDao.deleteAllMsg(loginUser);
 	}
 }
