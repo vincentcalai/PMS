@@ -54,7 +54,7 @@ public class TestMessageRepository {
 
 		List<Message> userMessages2 = messageRepository.findByUsernameOrderByGenDtDesc("user2");
 
-		assertEquals(userMessages2.size(), 2);
+		assertEquals(userMessages2.size(), 3);
 	}
 
 	@Test
