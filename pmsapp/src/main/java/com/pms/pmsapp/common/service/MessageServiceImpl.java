@@ -37,7 +37,7 @@ public class MessageServiceImpl implements MessageService {
 	@Override
 	public void softDelReadMsg(String loginUser) {
 		List<Message> messagesByUser = messageRepository.findByUsername(loginUser);
-		messagesByUser.forEach(message -> message.setDelInd("N"));
+		messagesByUser.forEach(message -> message.setDelInd("Y"));
 		messageRepository.saveAll(messagesByUser);
 	}
 
