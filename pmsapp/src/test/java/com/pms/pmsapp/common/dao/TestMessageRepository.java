@@ -46,7 +46,7 @@ public class TestMessageRepository {
 	}
 
 	@Test
-	public void testFindByUsernameOrderByGenDtDesc() {
+	public void testFindByUsernameOrderByGenDtDesc_shouldReturnCorrectListSize() {
 
 		List<Message> userMessages1 = messageRepository.findByUsernameOrderByGenDtDesc("user1");
 
@@ -55,7 +55,21 @@ public class TestMessageRepository {
 		List<Message> userMessages2 = messageRepository.findByUsernameOrderByGenDtDesc("user2");
 
 		assertEquals(userMessages2.size(), 2);
+	}
 
+	@Test
+	public void testFindByUsernameOrderByGenDtDesc_shouldReturnCorrectOrder() {
+
+		List<Message> userMessages = messageRepository.findByUsernameOrderByGenDtDesc("user1");
+
+		Message firstMessage = userMessages.get(0);
+		Message lastMessage = userMessages.get(userMessages.size() - 1);
+
+		System.out.println("firstMessage: " + firstMessage.getGenDt() + " id: " + firstMessage.getMsgId());
+		System.out.println("lastMessage: " + lastMessage.getGenDt() + " id: " + lastMessage.getMsgId());
+
+		assertEquals(3, firstMessage.getMsgId());
+		assertEquals(1, lastMessage.getMsgId());
 	}
 
 }
