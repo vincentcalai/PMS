@@ -6,10 +6,10 @@ public interface MessageDao {
 
 	// List<Message> retrieveMsg(String loginUser);
 
-	int retrieveMsgCnt(String loginUser);
+	// int retrieveMsgCnt(String loginUser);
 
-	void softDelReadMsg(String loginUser);
+	// void softDelReadMsg(String loginUser);
 
-	void deleteAllMsg(String loginUser);
+	// void deleteAllMsg(String loginUser);
 
 }

@@ -32,16 +32,19 @@ public class MessageServiceImpl implements MessageService {
 	public int retrieveMsgCnt(String loginUser) {
 		String delInd = "N";
 		return messageRepository.countByUsernameAndDelInd(loginUser, delInd);
-		// return messageDao.retrieveMsgCnt(loginUser);
 	}
 
 	@Override
 	public void softDelReadMsg(String loginUser) {
-		messageDao.softDelReadMsg(loginUser);
+		List<Message> messagesByUser = messageRepository.findByUsername(loginUser);
+		messagesByUser.forEach(message -> message.setDelInd("N"));
+		messageRepository.saveAll(messagesByUser);
+		// messageDao.softDelReadMsg(loginUser);
 	}
 
 	@Override
 	public void deleteAllMsg(String loginUser) {
-		messageDao.deleteAllMsg(loginUser);
+		messageRepository.deleteByUsername(loginUser);
+		// messageDao.deleteAllMsg(loginUser);
 	}
 }

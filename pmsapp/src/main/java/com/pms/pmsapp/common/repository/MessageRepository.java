@@ -10,4 +10,8 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
 	List<Message> findByUsernameOrderByGenDtDesc(String username);
 
 	int countByUsernameAndDelInd(String loginUser, String delInd);
+
+	List<Message> findByUsername(String loginUser);
+
+	void deleteByUsername(String loginUser);
 }

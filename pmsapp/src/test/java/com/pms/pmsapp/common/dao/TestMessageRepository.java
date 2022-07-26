@@ -83,4 +83,17 @@ public class TestMessageRepository {
 		assertEquals(1, delCount);
 	}
 
+	@Test
+	public void testFindByUsername() {
+		List<Message> messages = messageRepository.findByUsername("user2");
+
+		assertEquals(3, messages.size());
+	}
+
+	@Test
+	public void testDeleteByUsername() {
+		messageRepository.deleteByUsername("user2");
+		List<Message> messages = messageRepository.findByUsername("user2");
+		assertEquals(0, messages.size());
+	}
 }
