@@ -29,16 +29,16 @@ import com.pms.pmsapp.fixture.HomeFixture;
 public class TestHomeRepository {
 
 	@Autowired
-	HomeDaoImpl homeDaoImpl;
+	private HomeDaoImpl homeDaoImpl;
 
 	@Autowired
-	IndexRepository indexRepository;
+	private IndexRepository indexRepository;
 
 	@Autowired
-	ForexRepository forexRepository;
+	private ForexRepository forexRepository;
 
-	List<Index> indexList;
-	List<Forex> forexList;
+	private List<Index> indexList;
+	private List<Forex> forexList;
 
 	@BeforeAll
 	public void setup() throws Exception {

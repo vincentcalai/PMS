@@ -26,15 +26,15 @@ import com.pms.pmsapp.fixture.MessageFixture;
 public class TestMessageServiceImpl extends TestWithSpringBoot {
 
 	@Autowired
-	MessageServiceImpl messageServiceImpl;
+	private MessageServiceImpl messageServiceImpl;
 
 	@Autowired
-	MessageRepository messageRepository;
+	private MessageRepository messageRepository;
 
 	@Mock
-	Message message;
+	private Message message;
 
-	List<Message> messageList;
+	private List<Message> messageList;
 
 	@BeforeAll
 	public void setup() throws Exception {

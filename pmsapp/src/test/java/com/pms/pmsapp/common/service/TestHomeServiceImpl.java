@@ -25,16 +25,16 @@ import com.pms.pmsapp.manageportfolio.portfolio.data.StockWrapper;
 public class TestHomeServiceImpl extends TestWithSpringBoot {
 
 	@Autowired
-	HomeServiceImpl homeServiceImpl;
+	private HomeServiceImpl homeServiceImpl;
 
 	@Autowired
-	IndexRepository indexRepository;
+	private IndexRepository indexRepository;
 
 	@Autowired
-	ForexRepository forexRepository;
+	private ForexRepository forexRepository;
 
-	List<Index> indexList;
-	List<Forex> forexList;
+	private List<Index> indexList;
+	private List<Forex> forexList;
 
 	@BeforeAll
 	public void setup() throws Exception {

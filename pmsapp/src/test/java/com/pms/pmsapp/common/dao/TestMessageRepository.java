@@ -24,10 +24,10 @@ import com.pms.pmsapp.fixture.MessageFixture;
 @TestInstance(Lifecycle.PER_CLASS)
 public class TestMessageRepository {
 
-	List<Message> msgList;
+	private List<Message> msgList;
 
 	@Autowired
-	MessageRepository messageRepository;
+	private MessageRepository messageRepository;
 
 	@BeforeAll
 	public void setup() throws Exception {
