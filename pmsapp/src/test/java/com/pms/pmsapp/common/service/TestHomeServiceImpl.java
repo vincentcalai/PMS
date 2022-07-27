@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -27,9 +26,6 @@ import com.pms.pmsapp.common.repository.IndexRepository;
 import com.pms.pmsapp.common.repository.dao.HomeDaoImpl;
 import com.pms.pmsapp.fixture.HomeFixture;
 import com.pms.pmsapp.manageportfolio.portfolio.data.StockWrapper;
-
-import yahoofinance.Stock;
-import yahoofinance.quotes.stock.StockQuote;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -46,15 +42,6 @@ public class TestHomeServiceImpl {
 
 	@Autowired
 	ForexRepository forexRepository;
-
-	@Mock
-	StockQuote stockQuote;
-
-	@Mock
-	StockWrapper stockWrapper;
-
-	@Mock
-	Stock stock;
 
 	List<Index> indexList;
 	List<Forex> forexList;
