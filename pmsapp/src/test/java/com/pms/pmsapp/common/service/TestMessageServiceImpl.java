@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -13,22 +15,15 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.ContextConfiguration;
 
-import com.pms.pmsapp.PmsappApplication;
+import com.pms.pmsapp.TestWithSpringBoot;
 import com.pms.pmsapp.common.data.Message;
 import com.pms.pmsapp.common.repository.MessageRepository;
-import com.pms.pmsapp.common.repository.dao.MessageDaoImpl;
 import com.pms.pmsapp.fixture.MessageFixture;
 
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@ContextConfiguration(classes = { MessageServiceImpl.class, MessageDaoImpl.class, PmsappApplication.class })
 @TestInstance(Lifecycle.PER_CLASS)
 @ExtendWith(MockitoExtension.class)
-public class TestMessageServiceImpl {
+public class TestMessageServiceImpl extends TestWithSpringBoot {
 
 	@Autowired
 	MessageServiceImpl messageServiceImpl;
@@ -84,6 +79,7 @@ public class TestMessageServiceImpl {
 	}
 
 	@Test
+	@Transactional
 	public void testDeleteByUsername() {
 		messageServiceImpl.deleteAllMsg("user2");
 		List<Message> messages = messageRepository.findByUsername("user2");

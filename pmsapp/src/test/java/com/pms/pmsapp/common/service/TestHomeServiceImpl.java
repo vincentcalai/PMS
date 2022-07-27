@@ -11,28 +11,18 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.ContextConfiguration;
 
-import com.pms.pmsapp.PmsappApplication;
+import com.pms.pmsapp.TestWithSpringBoot;
 import com.pms.pmsapp.common.data.Forex;
 import com.pms.pmsapp.common.data.Index;
 import com.pms.pmsapp.common.repository.ForexRepository;
 import com.pms.pmsapp.common.repository.IndexRepository;
-import com.pms.pmsapp.common.repository.dao.HomeDaoImpl;
 import com.pms.pmsapp.fixture.HomeFixture;
 import com.pms.pmsapp.manageportfolio.portfolio.data.StockWrapper;
 
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@ContextConfiguration(classes = { HomeServiceImpl.class, HomeDaoImpl.class, PmsappApplication.class })
 @TestInstance(Lifecycle.PER_CLASS)
-@ExtendWith(MockitoExtension.class)
-public class TestHomeServiceImpl {
+public class TestHomeServiceImpl extends TestWithSpringBoot {
 
 	@Autowired
 	HomeServiceImpl homeServiceImpl;
