@@ -30,36 +30,37 @@ public class PortfolioController {
 	@Autowired
 	private PortfolioService portfolioService;
 
-	@RequestMapping(value="/portfolio", method=RequestMethod.GET)
+	@RequestMapping(value = "/portfolio", method = RequestMethod.GET)
 	public Page<Portfolio> findAll(@RequestParam("page") int page, @RequestParam("size") int size) {
 		log.info("findAll in Controller");
-		Pageable pageable = PageRequest.of(page-1, size);
+		Pageable pageable = PageRequest.of(page - 1, size);
 
-		List<Portfolio> portfolioList= portfolioService.findAll(pageable);
+		List<Portfolio> portfolioList = portfolioService.findAll(pageable);
 		long totalRec = portfolioService.findAllCount();
 
 		PageImpl<Portfolio> portfolioPage = new PageImpl(portfolioList, pageable, totalRec);
 		return portfolioPage;
 	}
 
-	@RequestMapping(value="portfolio/add", method=RequestMethod.POST)
+	@RequestMapping(value = "portfolio/add", method = RequestMethod.POST)
 	public Portfolio addPortfolio(@RequestBody Portfolio portfolioForm, Authentication authentication) {
-		 
-		 String username = authentication.getName();
-		 
-		 return portfolioService.addPortfolio(portfolioForm, username);
+
+		String username = authentication.getName();
+
+		return portfolioService.addPortfolio(portfolioForm, username);
 	}
 
-	@RequestMapping(value="portfolio/update/{id}", method=RequestMethod.PUT)
-	public Portfolio updatePortfolio(@PathVariable long id, @RequestBody Portfolio portfolioForm, Authentication authentication) {
-		 log.info("updatePortfolio in Controller.. ");
-		 
-		 String username = authentication.getName();
+	@RequestMapping(value = "portfolio/update/{id}", method = RequestMethod.PUT)
+	public Portfolio updatePortfolio(@PathVariable long id, @RequestBody Portfolio portfolioForm,
+			Authentication authentication) {
+		log.info("updatePortfolio in Controller.. ");
 
-		 return portfolioService.updatePortfolio(portfolioForm, username);
+		String username = authentication.getName();
+
+		return portfolioService.updatePortfolio(portfolioForm, username);
 	}
 
-	@RequestMapping(value="portfolio/delete/{id}", method=RequestMethod.DELETE)
+	@RequestMapping(value = "portfolio/delete/{id}", method = RequestMethod.DELETE)
 	public Portfolio deletePortfolio(@PathVariable long id) {
 		Portfolio portfolio = new Portfolio();
 		log.info("deletePortfolio in Controller");

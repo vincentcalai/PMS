@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.pms.pmsapp.manageportfolio.portfolio.data.Portfolio;
+import com.pms.pmsapp.manageportfolio.portfolio.repository.PortfolioRepository;
 import com.pms.pmsapp.manageportfolio.portfolio.repository.dao.PortfolioDao;
 
 @Service
@@ -18,6 +19,9 @@ public class PortfolioServiceImpl implements PortfolioService {
 
 	@Autowired
 	private PortfolioDao portfolioDao;
+
+	@Autowired
+	private PortfolioRepository portfolioRepository;
 
 	public List<Portfolio> findAll(Pageable pageable) {
 		log.info("findAll in ServiceImpl");
@@ -41,7 +45,10 @@ public class PortfolioServiceImpl implements PortfolioService {
 		if (portfolioExist) {
 			portfolioForm.setErrMsg("Portfolio name already exist. Please create portfolio with different name.");
 		} else {
-			portfolioDao.addPortfolio(portfolioForm);
+
+			// portfolioDao.addPortfolio(portfolioForm);
+			portfolioRepository.save(portfolioForm);
+
 			portfolioForm.setSystemMsg("Portfolio added Successfully.");
 		}
 
