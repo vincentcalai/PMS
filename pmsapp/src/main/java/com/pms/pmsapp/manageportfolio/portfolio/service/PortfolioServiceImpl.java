@@ -1,14 +1,15 @@
 package com.pms.pmsapp.manageportfolio.portfolio.service;
 
-import com.pms.pmsapp.manageportfolio.portfolio.dao.PortfolioDao;
-import com.pms.pmsapp.manageportfolio.portfolio.data.Portfolio;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.pms.pmsapp.manageportfolio.portfolio.dao.PortfolioDao;
+import com.pms.pmsapp.manageportfolio.portfolio.data.Portfolio;
 
 @Service
 public class PortfolioServiceImpl implements PortfolioService {
@@ -24,7 +25,7 @@ public class PortfolioServiceImpl implements PortfolioService {
 	}
 
 	public Portfolio addPortfolio(Portfolio portfolioForm, String username) {
-		
+
 		boolean portfolioExist = false;
 		String portfolioName = portfolioForm.getPortfolioName();
 
@@ -43,33 +44,31 @@ public class PortfolioServiceImpl implements PortfolioService {
 			portfolioDao.addPortfolio(portfolioForm);
 			portfolioForm.setSystemMsg("Portfolio added Successfully.");
 		}
-		
+
 		return portfolioForm;
-		
-		
+
 	}
 
 	public Portfolio updatePortfolio(Portfolio portfolioForm, String username) {
-		
+
 		boolean portfolioExist = false;
-		 Long portfolioId = portfolioForm.getId();
-		 String portfolioName = portfolioForm.getPortfolioName();
-		 
+		Long portfolioId = portfolioForm.getId();
+		String portfolioName = portfolioForm.getPortfolioName();
 
-		 if(username != null) {
-			 portfolioForm.setCreatedBy(username);
-			 portfolioForm.setLastMdfyBy(username);
-		 }
+		if (username != null) {
+			portfolioForm.setCreatedBy(username);
+			portfolioForm.setLastMdfyBy(username);
+		}
 
-		 portfolioExist = checkPortfolioExist(portfolioId, portfolioName);
+		portfolioExist = checkPortfolioExist(portfolioId, portfolioName);
 
-		 if(portfolioExist) {
-			 portfolioForm.setErrMsg("Portfolio name already exist. Please update portfolio with different name.");
-		 } else {
-			 portfolioForm = portfolioDao.updatePortfolio(portfolioForm);
-			 portfolioForm.setSystemMsg("Portfolio updated successfully.");
-		 }
-		
+		if (portfolioExist) {
+			portfolioForm.setErrMsg("Portfolio name already exist. Please update portfolio with different name.");
+		} else {
+			portfolioForm = portfolioDao.updatePortfolio(portfolioForm);
+			portfolioForm.setSystemMsg("Portfolio updated successfully.");
+		}
+
 		return portfolioForm;
 	}
 

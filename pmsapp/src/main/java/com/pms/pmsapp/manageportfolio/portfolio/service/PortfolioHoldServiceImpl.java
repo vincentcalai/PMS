@@ -16,12 +16,12 @@ import com.pms.pmsapp.manageportfolio.portfolio.data.StockWrapper;
 
 @Service
 public class PortfolioHoldServiceImpl implements PortfolioHoldService {
-	
+
 	private static final Logger log = LoggerFactory.getLogger(PortfolioHoldServiceImpl.class);
-	
+
 	@Autowired
 	private PortfolioHoldDao portfolioHoldDao;
-	
+
 	public PortfolioHoldDao getPortfolioHoldDao() {
 		return portfolioHoldDao;
 	}
@@ -30,12 +30,12 @@ public class PortfolioHoldServiceImpl implements PortfolioHoldService {
 		this.portfolioHoldDao = portfolioHoldDao;
 	}
 
-	public List<PortfolioHold> findAllHold(long id, Pageable pageable){
+	public List<PortfolioHold> findAllHold(long id, Pageable pageable) {
 		log.info("findAll holdings in ServiceImpl");
 		return portfolioHoldDao.findAllHold(id, pageable);
 	}
-	
-	public List<PortfolioHold> findAllHold(long id){
+
+	public List<PortfolioHold> findAllHold(long id) {
 		log.info("findAll holdings in ServiceImpl");
 		return portfolioHoldDao.findAllHold(id);
 	}
@@ -45,7 +45,7 @@ public class PortfolioHoldServiceImpl implements PortfolioHoldService {
 		log.info("findStock holdings in ServiceImpl");
 		return portfolioHoldDao.findStock(stockSym);
 	}
-	
+
 	@Override
 	public void computeHoldingsJob(String stock, BigDecimal lastTransPrice) {
 		portfolioHoldDao.computeHoldingsJob(stock, lastTransPrice);
@@ -53,12 +53,12 @@ public class PortfolioHoldServiceImpl implements PortfolioHoldService {
 
 	@Override
 	public List<String> findAllStockSym() {
-		return portfolioHoldDao.findAllStockSym(); 
+		return portfolioHoldDao.findAllStockSym();
 	}
 
 	@Override
 	public List<MktExchg> findAllMktExchg() {
-		return portfolioHoldDao.findAllMktExchg(); 
+		return portfolioHoldDao.findAllMktExchg();
 	}
 
 	@Override
@@ -70,7 +70,7 @@ public class PortfolioHoldServiceImpl implements PortfolioHoldService {
 	public void updateLivePrice(long id) {
 		List<PortfolioHold> holdList = findAllHold(id);
 
-		for(PortfolioHold hold : holdList) {
+		for (PortfolioHold hold : holdList) {
 			String stockSym = hold.getStockSymbol();
 			StockWrapper stockWrapper = findStock(stockSym);
 			try {
