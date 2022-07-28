@@ -11,10 +11,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.pms.pmsapp.manageportfolio.dividend.service.DividendService;
-import com.pms.pmsapp.manageportfolio.portfolio.dao.PortfolioTransDao;
 import com.pms.pmsapp.manageportfolio.portfolio.data.MktExchg;
 import com.pms.pmsapp.manageportfolio.portfolio.data.PortfolioTrans;
 import com.pms.pmsapp.manageportfolio.portfolio.data.StockWrapper;
+import com.pms.pmsapp.manageportfolio.portfolio.repository.dao.PortfolioTransDao;
 import com.pms.pmsapp.util.constant.ConstantUtil;
 
 @Service

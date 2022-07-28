@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.pms.pmsapp.manageportfolio.portfolio.dao.PortfolioDao;
 import com.pms.pmsapp.manageportfolio.portfolio.data.Portfolio;
+import com.pms.pmsapp.manageportfolio.portfolio.repository.dao.PortfolioDao;
 
 @Service
 public class PortfolioServiceImpl implements PortfolioService {

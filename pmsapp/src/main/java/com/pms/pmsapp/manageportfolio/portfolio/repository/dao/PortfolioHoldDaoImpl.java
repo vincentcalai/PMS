@@ -1,4 +1,4 @@
-package com.pms.pmsapp.manageportfolio.portfolio.dao;
+package com.pms.pmsapp.manageportfolio.portfolio.repository.dao;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -22,73 +22,71 @@ import com.pms.pmsapp.util.HibernateUtil;
 
 import yahoofinance.YahooFinance;
 
-
 @Repository
 public class PortfolioHoldDaoImpl implements PortfolioHoldDao {
-	
+
 	private static final Logger log = LoggerFactory.getLogger(PortfolioHoldDaoImpl.class);
-	
-	public List<PortfolioHold> findAllHold(long id, Pageable pageable){
+
+	public List<PortfolioHold> findAllHold(long id, Pageable pageable) {
 		log.info("findAllHold Holding in DaoImpl..");
 		try {
 			Session session = HibernateUtil.getSessionFactory().openSession();
-			
-			String sql = "SELECT * FROM PMS_PORT_HOLD where port_id = :id order by last_trans_dt desc ";				
-					
+
+			String sql = "SELECT * FROM PMS_PORT_HOLD where port_id = :id order by last_trans_dt desc ";
+
 			NativeQuery sqlQuery = session.createSQLQuery(sql);
-	
+
 			sqlQuery.addEntity(PortfolioHold.class).setParameter("id", id);
 			sqlQuery.setFirstResult(pageable.getPageNumber() * pageable.getPageSize());
 			sqlQuery.setMaxResults(pageable.getPageSize());
-	
+
 			List<PortfolioHold> portfolioHold = sqlQuery.list();
-			
-			
+
 			return portfolioHold;
-		
+
 		} catch (Exception e) {
 			// convert to HibernateException then to DataAccessException
 			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
 		}
 	}
-	
-	public List<PortfolioHold> findAllHold(long id){
+
+	public List<PortfolioHold> findAllHold(long id) {
 		log.info("findAllHold Holding in DaoImpl..");
 		try {
 			Session session = HibernateUtil.getSessionFactory().openSession();
-			
-			String sql = "SELECT * FROM PMS_PORT_HOLD where port_id = :id order by last_trans_dt desc ";				
-					
+
+			String sql = "SELECT * FROM PMS_PORT_HOLD where port_id = :id order by last_trans_dt desc ";
+
 			NativeQuery sqlQuery = session.createSQLQuery(sql);
-			
+
 			sqlQuery.addEntity(PortfolioHold.class).setParameter("id", id);
-			
+
 			List<PortfolioHold> portfolioHold = sqlQuery.list();
-			
+
 			return portfolioHold;
-		
+
 		} catch (Exception e) {
 			// convert to HibernateException then to DataAccessException
 			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
 		}
 	}
-	
+
 	@Override
-	public List<MktExchg> findAllMktExchg(){
+	public List<MktExchg> findAllMktExchg() {
 		log.info("findAllMktExchg Hold in DaoImpl..");
 		try {
 			Session session = HibernateUtil.getSessionFactory().openSession();
-	
+
 			String sql = "SELECT * FROM PMS_MKT_EXCHG order by MKT_EXCHG_NAME desc";
-	
+
 			NativeQuery sqlQuery = session.createSQLQuery(sql);
-	
+
 			sqlQuery.addEntity(MktExchg.class);
-	
+
 			List<MktExchg> mktExchg = sqlQuery.list();
-	
+
 			session.close();
-	
+
 			return mktExchg;
 		} catch (Exception e) {
 			// convert to HibernateException then to DataAccessException
@@ -113,16 +111,16 @@ public class PortfolioHoldDaoImpl implements PortfolioHoldDao {
 		CallableStatement callableStatement = null;
 
 		try {
-		Session session = HibernateUtil.getSessionFactory().openSession();
+			Session session = HibernateUtil.getSessionFactory().openSession();
 
-		String callStoreProc = "{call SP_COMPUTE_HOLD(?,?)}";
-		callableStatement = ((SessionImpl)session).connection().prepareCall(callStoreProc);
-		callableStatement.setString(1, stock);
-		callableStatement.setBigDecimal(2, lastTransPrice);
-		callableStatement.executeUpdate();
-		((SessionImpl)session).connection().commit();
-		
-		session.close();
+			String callStoreProc = "{call SP_COMPUTE_HOLD(?,?)}";
+			callableStatement = ((SessionImpl) session).connection().prepareCall(callStoreProc);
+			callableStatement.setString(1, stock);
+			callableStatement.setBigDecimal(2, lastTransPrice);
+			callableStatement.executeUpdate();
+			((SessionImpl) session).connection().commit();
+
+			session.close();
 
 		} catch (Exception e) {
 			log.info("exception = " + e.getMessage());
@@ -135,15 +133,15 @@ public class PortfolioHoldDaoImpl implements PortfolioHoldDao {
 		log.info("findAllStockSym Holding in DaoImpl..");
 		try {
 			Session session = HibernateUtil.getSessionFactory().openSession();
-			
-			String sql = "select distinct stock_sym from pms_port_hold";				
-					
+
+			String sql = "select distinct stock_sym from pms_port_hold";
+
 			NativeQuery sqlQuery = session.createSQLQuery(sql);
-	
+
 			List<String> stockSymList = sqlQuery.list();
-			
+
 			return stockSymList;
-		
+
 		} catch (Exception e) {
 			// convert to HibernateException then to DataAccessException
 			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
@@ -154,22 +152,21 @@ public class PortfolioHoldDaoImpl implements PortfolioHoldDao {
 	public long findAllCount(long id) {
 		try {
 			Session session = HibernateUtil.getSessionFactory().openSession();
-			
-			String sql = "SELECT count(*) FROM PMS_PORT_HOLD where port_id = :id";				
-					
+
+			String sql = "SELECT count(*) FROM PMS_PORT_HOLD where port_id = :id";
+
 			NativeQuery sqlQuery = session.createSQLQuery(sql);
-	
+
 			sqlQuery.setParameter("id", id);
-	
+
 			long result = ((BigDecimal) sqlQuery.uniqueResult()).longValue();
-			
-			
+
 			return result;
-		
+
 		} catch (Exception e) {
 			// convert to HibernateException then to DataAccessException
 			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
 		}
 	}
-	
+
 }

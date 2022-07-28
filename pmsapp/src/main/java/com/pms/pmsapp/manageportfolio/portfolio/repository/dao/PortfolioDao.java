@@ -1,4 +1,4 @@
-package com.pms.pmsapp.manageportfolio.portfolio.dao;
+package com.pms.pmsapp.manageportfolio.portfolio.repository.dao;
 
 import java.util.List;
 
@@ -6,13 +6,20 @@ import org.springframework.data.domain.Pageable;
 
 import com.pms.pmsapp.manageportfolio.portfolio.data.Portfolio;
 
-public interface PortfolioDao{
+public interface PortfolioDao {
 	void addPortfolio(Portfolio portfolioForm);
+
 	Portfolio updatePortfolio(Portfolio portfolioForm);
+
 	void deletePortfolio(long id);
+
 	boolean checkPortfolioExist(String portfolioName);
+
 	boolean checkPortfolioExist(Long portfolioId, String portfolioName);
+
 	List<Portfolio> findAll(Pageable pageable);
+
 	long findAllCount();
+
 	long getPortIdFromPortName(String portfolioName);
 }
