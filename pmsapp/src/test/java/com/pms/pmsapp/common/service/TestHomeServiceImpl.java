@@ -105,10 +105,11 @@ public class TestHomeServiceImpl extends TestWithSpringBoot {
 		homeServiceImpl.updateLivePrices();
 
 		List<Index> indexList = homeServiceImpl.findAllIndex();
-		indexList.forEach(x -> assertNotNull(x.getChange()));
-		indexList.forEach(x -> assertNotNull(x.getChangePct()));
-		indexList.forEach(x -> assertNotNull(x.getLast()));
-
+		indexList.forEach(x -> {
+			assertNotNull(x.getChange());
+			assertNotNull(x.getChangePct());
+			assertNotNull(x.getLast());
+		});
 	}
 
 	@Test
@@ -117,9 +118,11 @@ public class TestHomeServiceImpl extends TestWithSpringBoot {
 		homeServiceImpl.updateLivePrices();
 
 		List<Forex> forexList = homeServiceImpl.findAllForex();
-		forexList.forEach(x -> assertNotNull(x.getChange()));
-		forexList.forEach(x -> assertNotNull(x.getChangePct()));
-		forexList.forEach(x -> assertNotNull(x.getLast()));
+		forexList.forEach(x -> {
+			assertNotNull(x.getChange());
+			assertNotNull(x.getChangePct());
+			assertNotNull(x.getLast());
+		});
 
 	}
 

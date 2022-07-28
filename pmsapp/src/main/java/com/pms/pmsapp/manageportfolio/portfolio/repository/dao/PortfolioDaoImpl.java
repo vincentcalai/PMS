@@ -44,32 +44,6 @@ public class PortfolioDaoImpl implements PortfolioDao {
 		}
 	}
 
-	public void addPortfolio(Portfolio portfolioForm) {
-		log.info("adding portfolio in DaoImpl..");
-
-		try {
-			Session session = HibernateUtil.getSessionFactory().openSession();
-			Transaction transaction = session.beginTransaction();
-
-			String sql = "insert into PMS_PORT (ID,PORT_NAME,CREATED_BY,CREATED_DT,LAST_MDFY_BY,LAST_MDFY_DT,REMARKS) values "
-					+ "(SQ_PMS_PORT.nextval, :portfolioName, :createdBy, sysdate , :lastMdfyBy, sysdate, :remarks)";
-
-			NativeQuery query = session.createSQLQuery(sql);
-			query.setParameter("portfolioName", portfolioForm.getPortfolioName());
-			query.setParameter("createdBy", portfolioForm.getCreatedBy());
-			query.setParameter("lastMdfyBy", portfolioForm.getLastMdfyBy());
-			query.setParameter("remarks", portfolioForm.getRemarks());
-			query.executeUpdate();
-
-			transaction.commit();
-			session.close();
-
-		} catch (Exception e) {
-			// convert to HibernateException then to DataAccessException
-			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
-		}
-	}
-
 	public Portfolio updatePortfolio(Portfolio portfolioForm) {
 		log.info("updating portfolio in DaoImpl..");
 

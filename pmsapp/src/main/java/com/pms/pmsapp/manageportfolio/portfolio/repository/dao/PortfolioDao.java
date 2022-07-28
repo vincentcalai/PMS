@@ -7,7 +7,6 @@ import org.springframework.data.domain.Pageable;
 import com.pms.pmsapp.manageportfolio.portfolio.data.Portfolio;
 
 public interface PortfolioDao {
-	void addPortfolio(Portfolio portfolioForm);
 
 	Portfolio updatePortfolio(Portfolio portfolioForm);
 
