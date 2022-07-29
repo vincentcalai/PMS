@@ -12,4 +12,6 @@ public interface PortfolioRepository extends JpaRepository<Portfolio, Long> {
 
 	@Query(value = "SELECT count(*) FROM PMS_PORT where port_name = :portfolioName and id <> :id", nativeQuery = true)
 	Long checkPortfolioExist(@Param("id") Long portfolioId, @Param("portfolioName") String portfolioName);
+
+	Long countByPortfolioName(String portfolioName);
 }

@@ -43,7 +43,10 @@ public class PortfolioServiceImpl implements PortfolioService {
 		log.info("addPortfolio in Controller.. ");
 		log.info("portfolioForm:  " + portfolioName);
 
-		portfolioExist = checkPortfolioExist(portfolioName);
+//		portfolioExist = checkPortfolioExist(portfolioName);
+		Long portfolioCount = checkPortfolioExist(portfolioName);
+		portfolioExist = portfolioCount > 0 ? true : false;
+
 		if (portfolioExist) {
 			portfolioForm.setErrMsg("Portfolio name already exist. Please create portfolio with different name.");
 		} else {
@@ -103,13 +106,17 @@ public class PortfolioServiceImpl implements PortfolioService {
 		portfolioDao.deletePortfolio(id);
 	}
 
-	public boolean checkPortfolioExist(String portfolioName) {
-		return portfolioDao.checkPortfolioExist(portfolioName);
-	}
+//	public boolean checkPortfolioExist(String portfolioName) {
+//		return portfolioDao.checkPortfolioExist(portfolioName);
+//	}
 
 //	public boolean checkPortfolioExist(Long portfolioId, String portfolioName) {
 //		return portfolioDao.checkPortfolioExist(portfolioId, portfolioName);
 //	}
+
+	public Long checkPortfolioExist(String portfolioName) {
+		return portfolioRepository.countByPortfolioName(portfolioName);
+	}
 
 	public Long checkPortfolioExist(Long portfolioId, String portfolioName) {
 		return portfolioRepository.checkPortfolioExist(portfolioId, portfolioName);
