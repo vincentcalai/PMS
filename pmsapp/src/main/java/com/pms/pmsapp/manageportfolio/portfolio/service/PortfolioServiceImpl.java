@@ -77,7 +77,9 @@ public class PortfolioServiceImpl implements PortfolioService {
 			portfolioForm.setLastMdfyBy(username);
 		}
 
-		portfolioExist = checkPortfolioExist(portfolioId, portfolioName);
+		// portfolioExist = checkPortfolioExist(portfolioId, portfolioName);
+		Long portfolioCount = checkPortfolioExist(portfolioId, portfolioName);
+		portfolioExist = portfolioCount > 0 ? true : false;
 
 		if (portfolioExist) {
 			portfolioForm.setErrMsg("Portfolio name already exist. Please update portfolio with different name.");
@@ -105,8 +107,12 @@ public class PortfolioServiceImpl implements PortfolioService {
 		return portfolioDao.checkPortfolioExist(portfolioName);
 	}
 
-	public boolean checkPortfolioExist(Long portfolioId, String portfolioName) {
-		return portfolioDao.checkPortfolioExist(portfolioId, portfolioName);
+//	public boolean checkPortfolioExist(Long portfolioId, String portfolioName) {
+//		return portfolioDao.checkPortfolioExist(portfolioId, portfolioName);
+//	}
+
+	public Long checkPortfolioExist(Long portfolioId, String portfolioName) {
+		return portfolioRepository.checkPortfolioExist(portfolioId, portfolioName);
 	}
 
 	@Override

@@ -106,11 +106,23 @@ class TestPortfolioRepository {
 		assertEquals(1, portfolio.getId());
 	}
 
-//	@Test
-//	void testCheckPortfolioExist() {
-//		Long portId = 2L;
-//		String portName = "Test Portfolio 1";
-//		boolean portfolioExist = portfolioDaoImpl.checkPortfolioExist(portId, portName);
-//		assertTrue(portfolioExist);
-//	}
+	@Test
+	void testCheckPortfolioExist_shouldReturnCountOne() {
+		Long portId = 2L;
+		String portName = "Test Portfolio 1";
+		Long portfolioCnt = portfolioRepository.checkPortfolioExist(portId, portName);
+		// boolean portfolioExist = portfolioDaoImpl.checkPortfolioExist(portId,
+		// portName);
+		assertEquals(1, portfolioCnt);
+	}
+
+	@Test
+	void testCheckPortfolioExist_shouldReturnCountZero() {
+		Long portId = 1L;
+		String portName = "Test Portfolio 1";
+		Long portfolioCnt = portfolioRepository.checkPortfolioExist(portId, portName);
+		// boolean portfolioExist = portfolioDaoImpl.checkPortfolioExist(portId,
+		// portName);
+		assertEquals(0, portfolioCnt);
+	}
 }

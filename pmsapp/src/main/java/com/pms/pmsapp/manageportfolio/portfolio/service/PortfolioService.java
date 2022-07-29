@@ -16,7 +16,9 @@ public interface PortfolioService {
 
 	boolean checkPortfolioExist(String portfolioName);
 
-	boolean checkPortfolioExist(Long portfolioId, String portfolioName);
+//	boolean checkPortfolioExist(Long portfolioId, String portfolioName);
+
+	Long checkPortfolioExist(Long portfolioId, String portfolioName);
 
 	long findAllCount();
 
