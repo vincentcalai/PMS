@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pms.pmsapp.manageportfolio.portfolio.data.Portfolio;
 import com.pms.pmsapp.manageportfolio.portfolio.service.PortfolioService;
+import com.pms.pmsapp.manageportfolio.portfolio.web.PortfolioForm;
 
 @CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
 @RestController
@@ -43,7 +44,7 @@ public class PortfolioController {
 	}
 
 	@RequestMapping(value = "portfolio/add", method = RequestMethod.POST)
-	public Portfolio addPortfolio(@RequestBody Portfolio portfolioForm, Authentication authentication) {
+	public PortfolioForm addPortfolio(@RequestBody PortfolioForm portfolioForm, Authentication authentication) {
 
 		String username = authentication.getName();
 
@@ -51,7 +52,7 @@ public class PortfolioController {
 	}
 
 	@RequestMapping(value = "portfolio/update/{id}", method = RequestMethod.PUT)
-	public Portfolio updatePortfolio(@PathVariable long id, @RequestBody Portfolio portfolioForm,
+	public PortfolioForm updatePortfolio(@PathVariable long id, @RequestBody PortfolioForm portfolioForm,
 			Authentication authentication) {
 		log.info("updatePortfolio in Controller.. ");
 
@@ -61,14 +62,14 @@ public class PortfolioController {
 	}
 
 	@RequestMapping(value = "portfolio/delete/{id}", method = RequestMethod.DELETE)
-	public Portfolio deletePortfolio(@PathVariable long id) {
-		Portfolio portfolio = new Portfolio();
+	public PortfolioForm deletePortfolio(@PathVariable long id) {
+		PortfolioForm portfolioForm = new PortfolioForm();
 		log.info("deletePortfolio in Controller");
 		portfolioService.deletePortfolio(id);
 
-		portfolio.setSystemMsg("Portfolio deleted successfully.");
+		portfolioForm.setSystemMsg("Portfolio deleted successfully.");
 
-		return portfolio;
+		return portfolioForm;
 	}
 
 }

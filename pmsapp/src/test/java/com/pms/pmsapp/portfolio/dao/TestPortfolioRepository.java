@@ -27,6 +27,9 @@ class TestPortfolioRepository {
 	@Autowired
 	private PortfolioRepository portfolioRepository;
 
+	@Autowired
+	private PortfolioDaoImpl portfolioDaoImpl;
+
 	Portfolio portfolioSaveObj = null;
 	Portfolio portfolioObj1 = null;
 
@@ -68,6 +71,7 @@ class TestPortfolioRepository {
 		assertEquals("Test Name", result.get().getPortfolioName());
 		assertEquals("user8", result.get().getCreatedBy());
 		assertEquals("user8", result.get().getLastMdfyBy());
+		assertEquals("This is a test remark", result.get().getRemarks());
 	}
 
 	@Test
@@ -78,6 +82,7 @@ class TestPortfolioRepository {
 		portfolio.setPortfolioName("Updated Portfolio 2");
 		portfolio.setCreatedBy("user9");
 		portfolio.setLastMdfyBy("user9");
+		portfolio.setRemarks("Updated Remarks..");
 
 		Portfolio result = portfolioRepository.save(portfolio);
 
@@ -85,6 +90,7 @@ class TestPortfolioRepository {
 		assertEquals("Updated Portfolio 2", result.getPortfolioName());
 		assertEquals("user9", result.getCreatedBy());
 		assertEquals("user9", result.getLastMdfyBy());
+		assertEquals("Updated Remarks..", result.getRemarks());
 	}
 
 	@Test
@@ -99,4 +105,12 @@ class TestPortfolioRepository {
 		Portfolio portfolio = portfolioRepository.findByPortfolioName(portName);
 		assertEquals(1, portfolio.getId());
 	}
+
+//	@Test
+//	void testCheckPortfolioExist() {
+//		Long portId = 2L;
+//		String portName = "Test Portfolio 1";
+//		boolean portfolioExist = portfolioDaoImpl.checkPortfolioExist(portId, portName);
+//		assertTrue(portfolioExist);
+//	}
 }

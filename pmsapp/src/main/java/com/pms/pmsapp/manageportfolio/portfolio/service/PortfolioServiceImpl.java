@@ -1,5 +1,6 @@
 package com.pms.pmsapp.manageportfolio.portfolio.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.pms.pmsapp.manageportfolio.portfolio.data.Portfolio;
 import com.pms.pmsapp.manageportfolio.portfolio.repository.PortfolioRepository;
 import com.pms.pmsapp.manageportfolio.portfolio.repository.dao.PortfolioDao;
+import com.pms.pmsapp.manageportfolio.portfolio.web.PortfolioForm;
 
 @Service
 public class PortfolioServiceImpl implements PortfolioService {
@@ -28,7 +30,7 @@ public class PortfolioServiceImpl implements PortfolioService {
 		return portfolioDao.findAll(pageable);
 	}
 
-	public Portfolio addPortfolio(Portfolio portfolioForm, String username) {
+	public PortfolioForm addPortfolio(PortfolioForm portfolioForm, String username) {
 
 		boolean portfolioExist = false;
 		String portfolioName = portfolioForm.getPortfolioName();
@@ -46,8 +48,16 @@ public class PortfolioServiceImpl implements PortfolioService {
 			portfolioForm.setErrMsg("Portfolio name already exist. Please create portfolio with different name.");
 		} else {
 
+			Portfolio portfolio = new Portfolio();
+			portfolio.setPortfolioName(portfolioName);
+			portfolio.setCreatedBy(portfolioForm.getCreatedBy());
+			portfolio.setCreatedDate(new Date());
+			portfolio.setLastMdfyBy(portfolioForm.getLastMdfyBy());
+			portfolio.setLastMdfyDt(new Date());
+			portfolio.setRemarks(portfolioForm.getRemarks());
+
 			// portfolioDao.addPortfolio(portfolioForm);
-			portfolioRepository.save(portfolioForm);
+			portfolioRepository.save(portfolio);
 
 			portfolioForm.setSystemMsg("Portfolio added Successfully.");
 		}
@@ -56,7 +66,7 @@ public class PortfolioServiceImpl implements PortfolioService {
 
 	}
 
-	public Portfolio updatePortfolio(Portfolio portfolioForm, String username) {
+	public PortfolioForm updatePortfolio(PortfolioForm portfolioForm, String username) {
 
 		boolean portfolioExist = false;
 		Long portfolioId = portfolioForm.getId();
@@ -72,7 +82,15 @@ public class PortfolioServiceImpl implements PortfolioService {
 		if (portfolioExist) {
 			portfolioForm.setErrMsg("Portfolio name already exist. Please update portfolio with different name.");
 		} else {
-			portfolioForm = portfolioRepository.save(portfolioForm);
+			Portfolio portfolio = new Portfolio();
+			portfolio.setId(portfolioId);
+			portfolio.setPortfolioName(portfolioName);
+			portfolio.setCreatedBy(portfolioForm.getCreatedBy());
+			portfolio.setLastMdfyBy(portfolioForm.getLastMdfyBy());
+			portfolio.setLastMdfyDt(new Date());
+			portfolio.setRemarks(portfolioForm.getRemarks());
+
+			portfolioRepository.save(portfolio);
 			portfolioForm.setSystemMsg("Portfolio updated successfully.");
 		}
 

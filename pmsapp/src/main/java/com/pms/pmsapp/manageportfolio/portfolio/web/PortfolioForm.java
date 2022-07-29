@@ -1,26 +1,8 @@
-package com.pms.pmsapp.manageportfolio.portfolio.data;
+package com.pms.pmsapp.manageportfolio.portfolio.web;
 
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-
-@Entity
-@Table(name = "PMS_PORT")
-@SequenceGenerator(name = "PortSeqGenerator", sequenceName = "SQ_PMS_PORT", allocationSize = 1)
-public class Portfolio {
-
-	public Portfolio() {
-	}
-
-	public Portfolio(Long id) {
-		this.id = id;
-	}
+public class PortfolioForm {
 
 	private Long id;
 	private String portfolioName;
@@ -32,7 +14,11 @@ public class Portfolio {
 	private String errMsg;
 	private String systemMsg;
 
-	public Portfolio(Long id, String portfolioName, String createdBy, Date createdDate, String lastMdfyBy,
+	public PortfolioForm() {
+
+	}
+
+	public PortfolioForm(Long id, String portfolioName, String createdBy, Date createdDate, String lastMdfyBy,
 			Date lastMdfyDt, String remarks, String errMsg, String systemMsg) {
 		super();
 		this.id = id;
@@ -46,9 +32,6 @@ public class Portfolio {
 		this.systemMsg = systemMsg;
 	}
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PortSeqGenerator")
-	@Column(name = "ID", unique = true, nullable = false)
 	public Long getId() {
 		return id;
 	}
@@ -57,7 +40,6 @@ public class Portfolio {
 		this.id = id;
 	}
 
-	@Column(name = "PORT_NAME", nullable = false, length = 25)
 	public String getPortfolioName() {
 		return portfolioName;
 	}
@@ -66,7 +48,6 @@ public class Portfolio {
 		this.portfolioName = portfolioName;
 	}
 
-	@Column(name = "CREATED_BY", nullable = true, length = 20)
 	public String getCreatedBy() {
 		return createdBy;
 	}
@@ -75,7 +56,6 @@ public class Portfolio {
 		this.createdBy = createdBy;
 	}
 
-	@Column(name = "CREATED_DT", nullable = true)
 	public Date getCreatedDate() {
 		return createdDate;
 	}
@@ -84,7 +64,6 @@ public class Portfolio {
 		this.createdDate = createdDate;
 	}
 
-	@Column(name = "LAST_MDFY_BY", nullable = true, length = 20)
 	public String getLastMdfyBy() {
 		return lastMdfyBy;
 	}
@@ -93,7 +72,6 @@ public class Portfolio {
 		this.lastMdfyBy = lastMdfyBy;
 	}
 
-	@Column(name = "LAST_MDFY_DT", nullable = true)
 	public Date getLastMdfyDt() {
 		return lastMdfyDt;
 	}
@@ -102,7 +80,6 @@ public class Portfolio {
 		this.lastMdfyDt = lastMdfyDt;
 	}
 
-	@Column(name = "REMARKS", nullable = true, length = 100)
 	public String getRemarks() {
 		return remarks;
 	}
@@ -111,4 +88,19 @@ public class Portfolio {
 		this.remarks = remarks;
 	}
 
+	public String getErrMsg() {
+		return errMsg;
+	}
+
+	public void setErrMsg(String errMsg) {
+		this.errMsg = errMsg;
+	}
+
+	public String getSystemMsg() {
+		return systemMsg;
+	}
+
+	public void setSystemMsg(String systemMsg) {
+		this.systemMsg = systemMsg;
+	}
 }
