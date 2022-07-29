@@ -8,8 +8,6 @@ import com.pms.pmsapp.manageportfolio.portfolio.data.Portfolio;
 
 public interface PortfolioDao {
 
-	Portfolio updatePortfolio(Portfolio portfolioForm);
-
 	void deletePortfolio(long id);
 
 	boolean checkPortfolioExist(String portfolioName);
@@ -17,8 +15,4 @@ public interface PortfolioDao {
 	boolean checkPortfolioExist(Long portfolioId, String portfolioName);
 
 	List<Portfolio> findAll(Pageable pageable);
-
-	long findAllCount();
-
-	long getPortIdFromPortName(String portfolioName);
 }

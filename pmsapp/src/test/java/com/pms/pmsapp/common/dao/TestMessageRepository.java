@@ -40,7 +40,7 @@ public class TestMessageRepository {
 
 	@AfterAll
 	public void teardown() throws Exception {
-		messageRepository.deleteAll(msgList);
+		messageRepository.deleteAll();
 	}
 
 	@Test

@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.Date;
 import java.util.Optional;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -26,6 +27,7 @@ class TestPortfolioRepository {
 	@Autowired
 	private PortfolioRepository portfolioRepository;
 
+	Portfolio portfolioSaveObj = null;
 	Portfolio portfolioObj1 = null;
 
 	@BeforeAll
@@ -38,18 +40,63 @@ class TestPortfolioRepository {
 		portfolioObj1.setLastMdfyBy("user1");
 		portfolioObj1.setLastMdfyDt(new Date());
 		portfolioObj1.setRemarks("This is a test remark");
+
+		portfolioRepository.save(portfolioObj1);
+	}
+
+	@AfterAll
+	private void tearDown() {
+		portfolioRepository.deleteAll();
 	}
 
 	@Test
 	void testSavePortfolio() {
 
-		portfolioRepository.save(portfolioObj1);
+		portfolioSaveObj = new Portfolio();
 
-		Optional<Portfolio> result = portfolioRepository.findById(1L);
+		portfolioSaveObj.setPortfolioName("Test Name");
+		portfolioSaveObj.setCreatedBy("user8");
+		portfolioSaveObj.setCreatedDate(new Date());
+		portfolioSaveObj.setLastMdfyBy("user8");
+		portfolioSaveObj.setLastMdfyDt(new Date());
+		portfolioSaveObj.setRemarks("This is a test remark");
 
-		assertEquals("Test Portfolio 1", result.get().getPortfolioName());
-		assertEquals("user1", result.get().getCreatedBy());
-		assertEquals("user1", result.get().getLastMdfyBy());
+		portfolioRepository.save(portfolioSaveObj);
+
+		Optional<Portfolio> result = portfolioRepository.findById(2L);
+
+		assertEquals("Test Name", result.get().getPortfolioName());
+		assertEquals("user8", result.get().getCreatedBy());
+		assertEquals("user8", result.get().getLastMdfyBy());
 	}
 
+	@Test
+	void testUpdatePortfolio() {
+
+		Portfolio portfolio = portfolioRepository.findById(1L).get();
+
+		portfolio.setPortfolioName("Updated Portfolio 2");
+		portfolio.setCreatedBy("user9");
+		portfolio.setLastMdfyBy("user9");
+
+		Portfolio result = portfolioRepository.save(portfolio);
+
+		assertEquals(1L, result.getId());
+		assertEquals("Updated Portfolio 2", result.getPortfolioName());
+		assertEquals("user9", result.getCreatedBy());
+		assertEquals("user9", result.getLastMdfyBy());
+	}
+
+	@Test
+	void testCountPortfolio() {
+		long count = portfolioRepository.count();
+		assertEquals(1, count);
+	}
+
+	@Test
+	void testFindByPortfolioName() {
+		String portName = "Test Portfolio 1";
+		Portfolio portfolio = portfolioRepository.findByPortfolioName(portName);
+		assertEquals(1, portfolio.getId());
+	}
 }

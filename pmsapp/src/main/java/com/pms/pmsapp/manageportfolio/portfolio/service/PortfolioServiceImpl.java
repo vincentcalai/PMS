@@ -72,7 +72,7 @@ public class PortfolioServiceImpl implements PortfolioService {
 		if (portfolioExist) {
 			portfolioForm.setErrMsg("Portfolio name already exist. Please update portfolio with different name.");
 		} else {
-			portfolioForm = portfolioDao.updatePortfolio(portfolioForm);
+			portfolioForm = portfolioRepository.save(portfolioForm);
 			portfolioForm.setSystemMsg("Portfolio updated successfully.");
 		}
 
@@ -93,12 +93,13 @@ public class PortfolioServiceImpl implements PortfolioService {
 
 	@Override
 	public long findAllCount() {
-		return portfolioDao.findAllCount();
+		return portfolioRepository.count();
 	}
 
 	@Override
 	public long getPortIdFromPortName(String portfolioName) {
-		return portfolioDao.getPortIdFromPortName(portfolioName);
+		Portfolio portfolio = portfolioRepository.findByPortfolioName(portfolioName);
+		return portfolio.getId();
 	}
 
 }

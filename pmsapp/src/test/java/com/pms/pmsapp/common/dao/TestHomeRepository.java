@@ -53,8 +53,8 @@ public class TestHomeRepository {
 
 	@AfterAll
 	public void teardown() throws Exception {
-		indexRepository.deleteAll(indexList);
-		forexRepository.deleteAll(forexList);
+		indexRepository.deleteAll();
+		forexRepository.deleteAll();
 	}
 
 	@Test

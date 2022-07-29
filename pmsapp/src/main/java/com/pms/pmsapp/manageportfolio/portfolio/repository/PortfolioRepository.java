@@ -6,4 +6,6 @@ import com.pms.pmsapp.manageportfolio.portfolio.data.Portfolio;
 
 public interface PortfolioRepository extends JpaRepository<Portfolio, Long> {
 
+	Portfolio findByPortfolioName(String portfolioName);
+
 }

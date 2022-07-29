@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.hibernate.HibernateException;
-import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.NativeQuery;
@@ -38,36 +37,6 @@ public class PortfolioDaoImpl implements PortfolioDao {
 			List<Portfolio> portfolio = sqlQuery.list();
 
 			return portfolio;
-		} catch (Exception e) {
-			// convert to HibernateException then to DataAccessException
-			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
-		}
-	}
-
-	public Portfolio updatePortfolio(Portfolio portfolioForm) {
-		log.info("updating portfolio in DaoImpl..");
-
-		try {
-			Session session = HibernateUtil.getSessionFactory().openSession();
-			Transaction transaction = session.beginTransaction();
-
-			String sql = "update PMS_PORT set port_name =:portfolioName, remarks = :remarks, "
-					+ "last_mdfy_by = :lastMdfyBy, last_mdfy_dt = sysdate where id = :id";
-
-			log.info("id: " + portfolioForm.getId().toString());
-
-			NativeQuery query = session.createSQLQuery(sql);
-			query.setParameter("id", portfolioForm.getId());
-			query.setParameter("portfolioName", portfolioForm.getPortfolioName());
-			query.setParameter("remarks", portfolioForm.getRemarks());
-			query.setParameter("lastMdfyBy", portfolioForm.getLastMdfyBy());
-			query.executeUpdate();
-
-			transaction.commit();
-			session.close();
-
-			return portfolioForm;
-
 		} catch (Exception e) {
 			// convert to HibernateException then to DataAccessException
 			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
@@ -146,48 +115,6 @@ public class PortfolioDaoImpl implements PortfolioDao {
 			portfolioExist = true;
 
 		return portfolioExist;
-	}
-
-	@Override
-	public long findAllCount() {
-		log.info("findAllCount Trans in DaoImpl..");
-		try {
-			Session session = HibernateUtil.getSessionFactory().openSession();
-
-			String sql = "SELECT count(*) FROM PMS_PORT";
-
-			SQLQuery sqlQuery = session.createSQLQuery(sql);
-
-			long result = ((BigDecimal) sqlQuery.uniqueResult()).longValue();
-
-			session.close();
-
-			return result;
-		} catch (Exception e) {
-			// convert to HibernateException then to DataAccessException
-			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
-		}
-	}
-
-	@Override
-	public long getPortIdFromPortName(String portfolioName) {
-		log.info("getPortIdFromPortName in DaoImpl..");
-		try {
-			Session session = HibernateUtil.getSessionFactory().openSession();
-
-			String sql = "SELECT ID FROM PMS_PORT WHERE PORT_NAME = :portName";
-
-			SQLQuery sqlQuery = session.createSQLQuery(sql).setParameter("portName", portfolioName);
-
-			long result = ((BigDecimal) sqlQuery.uniqueResult()).longValue();
-
-			session.close();
-
-			return result;
-		} catch (Exception e) {
-			// convert to HibernateException then to DataAccessException
-			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
-		}
 	}
 
 }
