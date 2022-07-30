@@ -15,6 +15,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ContextConfiguration;
 
 import com.pms.pmsapp.PmsappApplication;
+import com.pms.pmsapp.fixture.PortfolioFixture;
 import com.pms.pmsapp.manageportfolio.portfolio.data.Portfolio;
 import com.pms.pmsapp.manageportfolio.portfolio.repository.PortfolioRepository;
 import com.pms.pmsapp.manageportfolio.portfolio.repository.dao.PortfolioDaoImpl;
@@ -27,23 +28,12 @@ class TestPortfolioRepository {
 	@Autowired
 	private PortfolioRepository portfolioRepository;
 
-	@Autowired
-	private PortfolioDaoImpl portfolioDaoImpl;
-
 	Portfolio portfolioSaveObj = null;
 	Portfolio portfolioObj1 = null;
 
 	@BeforeAll
 	private void setup() {
-		portfolioObj1 = new Portfolio();
-
-		portfolioObj1.setPortfolioName("Test Portfolio 1");
-		portfolioObj1.setCreatedBy("user1");
-		portfolioObj1.setCreatedDate(new Date());
-		portfolioObj1.setLastMdfyBy("user1");
-		portfolioObj1.setLastMdfyDt(new Date());
-		portfolioObj1.setRemarks("This is a test remark");
-
+		portfolioObj1 = PortfolioFixture.createPortfolioFixture();
 		portfolioRepository.save(portfolioObj1);
 	}
 
