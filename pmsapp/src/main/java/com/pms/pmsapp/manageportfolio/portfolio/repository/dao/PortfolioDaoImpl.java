@@ -1,6 +1,5 @@
 package com.pms.pmsapp.manageportfolio.portfolio.repository.dao;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import org.hibernate.HibernateException;
@@ -82,39 +81,6 @@ public class PortfolioDaoImpl implements PortfolioDao {
 			// convert to HibernateException then to DataAccessException
 			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
 		}
-	}
-
-	public boolean checkPortfolioExist(String portfolioName) {
-		boolean portfolioExist = false;
-
-		String sqlQuery = "SELECT count(*) FROM PMS_PORT where port_name = :portfolioName";
-		Session session = HibernateUtil.getSessionFactory().openSession();
-
-		NativeQuery query = session.createSQLQuery(sqlQuery);
-		query.setParameter("portfolioName", portfolioName);
-
-		Integer totalRec = ((BigDecimal) query.uniqueResult()).intValue();
-		if (totalRec > 0)
-			portfolioExist = true;
-
-		return portfolioExist;
-	}
-
-	public boolean checkPortfolioExist(Long portfolioId, String portfolioName) {
-		boolean portfolioExist = false;
-
-		String sqlQuery = "SELECT count(*) FROM PMS_PORT where port_name = :portfolioName and id <> :id";
-		Session session = HibernateUtil.getSessionFactory().openSession();
-
-		NativeQuery query = session.createSQLQuery(sqlQuery);
-		query.setParameter("portfolioName", portfolioName);
-		query.setParameter("id", portfolioId);
-
-		Integer totalRec = ((BigDecimal) query.uniqueResult()).intValue();
-		if (totalRec > 0)
-			portfolioExist = true;
-
-		return portfolioExist;
 	}
 
 }

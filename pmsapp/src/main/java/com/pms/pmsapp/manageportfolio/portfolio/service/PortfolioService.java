@@ -14,10 +14,6 @@ public interface PortfolioService {
 
 	void deletePortfolio(long id);
 
-//	boolean checkPortfolioExist(String portfolioName);
-
-//	boolean checkPortfolioExist(Long portfolioId, String portfolioName);
-
 	Long checkPortfolioExist(String portfolioName);
 
 	Long checkPortfolioExist(Long portfolioId, String portfolioName);

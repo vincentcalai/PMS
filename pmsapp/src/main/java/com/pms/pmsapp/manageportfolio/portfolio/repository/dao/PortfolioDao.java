@@ -10,9 +10,5 @@ public interface PortfolioDao {
 
 	void deletePortfolio(long id);
 
-	boolean checkPortfolioExist(String portfolioName);
-
-	boolean checkPortfolioExist(Long portfolioId, String portfolioName);
-
 	List<Portfolio> findAll(Pageable pageable);
 }

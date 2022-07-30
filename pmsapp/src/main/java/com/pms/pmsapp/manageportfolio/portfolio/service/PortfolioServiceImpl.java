@@ -43,7 +43,6 @@ public class PortfolioServiceImpl implements PortfolioService {
 		log.info("addPortfolio in Controller.. ");
 		log.info("portfolioForm:  " + portfolioName);
 
-//		portfolioExist = checkPortfolioExist(portfolioName);
 		Long portfolioCount = checkPortfolioExist(portfolioName);
 		portfolioExist = portfolioCount > 0 ? true : false;
 
@@ -59,7 +58,6 @@ public class PortfolioServiceImpl implements PortfolioService {
 			portfolio.setLastMdfyDt(new Date());
 			portfolio.setRemarks(portfolioForm.getRemarks());
 
-			// portfolioDao.addPortfolio(portfolioForm);
 			portfolioRepository.save(portfolio);
 
 			portfolioForm.setSystemMsg("Portfolio added Successfully.");
@@ -80,7 +78,6 @@ public class PortfolioServiceImpl implements PortfolioService {
 			portfolioForm.setLastMdfyBy(username);
 		}
 
-		// portfolioExist = checkPortfolioExist(portfolioId, portfolioName);
 		Long portfolioCount = checkPortfolioExist(portfolioId, portfolioName);
 		portfolioExist = portfolioCount > 0 ? true : false;
 
@@ -105,14 +102,6 @@ public class PortfolioServiceImpl implements PortfolioService {
 	public void deletePortfolio(long id) {
 		portfolioDao.deletePortfolio(id);
 	}
-
-//	public boolean checkPortfolioExist(String portfolioName) {
-//		return portfolioDao.checkPortfolioExist(portfolioName);
-//	}
-
-//	public boolean checkPortfolioExist(Long portfolioId, String portfolioName) {
-//		return portfolioDao.checkPortfolioExist(portfolioId, portfolioName);
-//	}
 
 	public Long checkPortfolioExist(String portfolioName) {
 		return portfolioRepository.countByPortfolioName(portfolioName);
