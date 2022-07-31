@@ -3,6 +3,7 @@ package com.pms.pmsapp.portfolio.dao;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.AfterAll;
@@ -33,8 +34,8 @@ class TestPortfolioRepository {
 
 	@BeforeAll
 	private void setup() {
-		portfolioObj1 = PortfolioFixture.createPortfolioFixture();
-		portfolioRepository.save(portfolioObj1);
+		List<Portfolio> list = PortfolioFixture.createPortfolioFixture();
+		portfolioRepository.saveAll(list);
 	}
 
 	@AfterAll
@@ -56,7 +57,7 @@ class TestPortfolioRepository {
 
 		portfolioRepository.save(portfolioSaveObj);
 
-		Optional<Portfolio> result = portfolioRepository.findById(2L);
+		Optional<Portfolio> result = portfolioRepository.findById(3L);
 
 		assertEquals("Test Name", result.get().getPortfolioName());
 		assertEquals("user8", result.get().getCreatedBy());
@@ -86,7 +87,7 @@ class TestPortfolioRepository {
 	@Test
 	void testCountPortfolio() {
 		long count = portfolioRepository.count();
-		assertEquals(1, count);
+		assertEquals(2, count);
 	}
 
 	@Test

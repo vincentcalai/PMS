@@ -32,8 +32,11 @@ public class TestPortfolioServiceImpl extends TestWithSpringBoot {
 
 	@BeforeAll
 	public void setup() throws Exception {
-		portfolioObj1 = PortfolioFixture.createPortfolioFixture();
-		portfolioRepository.save(portfolioObj1);
+		List<Portfolio> list = PortfolioFixture.createPortfolioFixture();
+		portfolioRepository.save(list.get(0));
+		System.out.println("portfolio 1: " + list.get(0).getPortfolioName());
+		portfolioRepository.save(list.get(1));
+		System.out.println("portfolio 2: " + list.get(1).getPortfolioName());
 	}
 
 	@AfterAll
@@ -74,7 +77,7 @@ public class TestPortfolioServiceImpl extends TestWithSpringBoot {
 	@Test
 	public void testFindAllCount() {
 		Long portCount = portfolioServiceImpl.findAllCount();
-		assertEquals(1, portCount);
+		assertEquals(2, portCount);
 	}
 
 	@Test
@@ -91,8 +94,10 @@ public class TestPortfolioServiceImpl extends TestWithSpringBoot {
 		String username = "user1";
 
 		form = portfolioServiceImpl.addPortfolio(form, username);
+		assertNotEquals("", form.getSystemMsg());
+
 		List<Portfolio> portfolioList = portfolioRepository.findAll();
-		assertEquals(2, portfolioList.size());
+		assertEquals(3, portfolioList.size());
 	}
 
 	@Test
@@ -105,6 +110,52 @@ public class TestPortfolioServiceImpl extends TestWithSpringBoot {
 		assertNotEquals("", form.getErrMsg());
 
 		List<Portfolio> portfolioList = portfolioRepository.findAll();
-		assertEquals(1, portfolioList.size());
+		assertEquals(2, portfolioList.size());
 	}
+
+//	@Test
+//	public void testUpdatePortfolioSuccess() {
+//		PortfolioForm form = new PortfolioForm();
+//		form.setId(1L);
+//		form.setPortfolioName("New Updated Portfolio");
+//		form.setCreatedBy("user1");
+//		form.setCreatedDate(new Date());
+//		form.setLastMdfyBy("user1");
+//		form.setRemarks("Updated Remarks");
+//		String username = "user1";
+//
+//		form = portfolioServiceImpl.updatePortfolio(form, username);
+//		assertNotEquals("", form.getSystemMsg());
+//
+//		List<Portfolio> portfolioList = portfolioRepository.findAll();
+//		String newPortfolioName = portfolioList.get(0).getPortfolioName();
+//		String newPortfolioRemarks = portfolioList.get(0).getRemarks();
+//		assertEquals("New Updated Portfolio", newPortfolioName);
+//		assertEquals("Updated Remarks", newPortfolioRemarks);
+//
+//		List<Portfolio> list = portfolioRepository.findAll();
+//		list.forEach(x -> System.out.println("portfolio name:" + x.getPortfolioName() + " id: " + x.getId()));
+//	}
+
+//	@Test
+//	public void testUpdatePortfolioFail() {
+//
+//		PortfolioForm form = new PortfolioForm();
+//		form.setId(1L);
+//		form.setPortfolioName("Test Portfolio 2");
+//		form.setCreatedBy("user1");
+//		form.setCreatedDate(new Date());
+//		form.setLastMdfyBy("user1");
+//		form.setRemarks("Updated Remarks");
+//		String username = "user1";
+//
+//		form = portfolioServiceImpl.updatePortfolio(form, username);
+//		assertNotEquals("", form.getErrMsg());
+//
+//		Portfolio firstPortfolio = portfolioRepository.findById(1L).get();
+//		String newPortfolioName = firstPortfolio.getPortfolioName();
+//		String newPortfolioRemarks = firstPortfolio.getRemarks();
+//		assertEquals("Test Portfolio 1", newPortfolioName);
+//		assertEquals("This is a test remark", newPortfolioRemarks);
+//	}
 }

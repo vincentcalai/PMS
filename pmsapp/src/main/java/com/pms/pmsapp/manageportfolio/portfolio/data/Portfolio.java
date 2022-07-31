@@ -29,11 +29,9 @@ public class Portfolio {
 	private String lastMdfyBy;
 	private Date lastMdfyDt;
 	private String remarks;
-	private String errMsg;
-	private String systemMsg;
 
 	public Portfolio(Long id, String portfolioName, String createdBy, Date createdDate, String lastMdfyBy,
-			Date lastMdfyDt, String remarks, String errMsg, String systemMsg) {
+			Date lastMdfyDt, String remarks) {
 		super();
 		this.id = id;
 		this.portfolioName = portfolioName;
@@ -42,8 +40,6 @@ public class Portfolio {
 		this.lastMdfyBy = lastMdfyBy;
 		this.lastMdfyDt = lastMdfyDt;
 		this.remarks = remarks;
-		this.errMsg = errMsg;
-		this.systemMsg = systemMsg;
 	}
 
 	@Id

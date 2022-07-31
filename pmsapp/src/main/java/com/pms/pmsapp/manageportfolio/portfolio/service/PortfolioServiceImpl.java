@@ -84,8 +84,7 @@ public class PortfolioServiceImpl implements PortfolioService {
 		if (portfolioExist) {
 			portfolioForm.setErrMsg("Portfolio name already exist. Please update portfolio with different name.");
 		} else {
-			Portfolio portfolio = new Portfolio();
-			portfolio.setId(portfolioId);
+			Portfolio portfolio = portfolioRepository.findById(portfolioId).get();
 			portfolio.setPortfolioName(portfolioName);
 			portfolio.setCreatedBy(portfolioForm.getCreatedBy());
 			portfolio.setLastMdfyBy(portfolioForm.getLastMdfyBy());
