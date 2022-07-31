@@ -2,6 +2,7 @@ package com.pms.pmsapp.manageportfolio.portfolio.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,7 +68,7 @@ public class PortfolioServiceImpl implements PortfolioService {
 
 	}
 
-	public PortfolioForm updatePortfolio(PortfolioForm portfolioForm, String username) {
+	public PortfolioForm updatePortfolio(PortfolioForm portfolioForm, String username) throws NoSuchElementException {
 
 		boolean portfolioExist = false;
 		Long portfolioId = portfolioForm.getId();

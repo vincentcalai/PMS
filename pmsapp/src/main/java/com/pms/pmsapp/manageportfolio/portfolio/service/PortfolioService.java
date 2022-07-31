@@ -1,6 +1,7 @@
 package com.pms.pmsapp.manageportfolio.portfolio.service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.data.domain.Pageable;
 
@@ -10,7 +11,7 @@ import com.pms.pmsapp.manageportfolio.portfolio.web.PortfolioForm;
 public interface PortfolioService {
 	List<Portfolio> findAll(Pageable pageable);
 
-	PortfolioForm updatePortfolio(PortfolioForm portfolioForm, String username);
+	PortfolioForm updatePortfolio(PortfolioForm portfolioForm, String username) throws NoSuchElementException;
 
 	void deletePortfolio(long id);
 
