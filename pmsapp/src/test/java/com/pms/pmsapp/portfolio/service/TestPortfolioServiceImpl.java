@@ -33,15 +33,10 @@ public class TestPortfolioServiceImpl extends TestWithSpringBoot {
 	@Autowired
 	private PortfolioRepository portfolioRepository;
 
-	Portfolio portfolioObj1 = null;
-
 	@BeforeAll
 	public void setup() throws Exception {
 		List<Portfolio> list = PortfolioFixture.createPortfolioFixture();
-		portfolioRepository.save(list.get(0));
-		System.out.println("portfolio 1: " + list.get(0).getPortfolioName());
-		portfolioRepository.save(list.get(1));
-		System.out.println("portfolio 2: " + list.get(1).getPortfolioName());
+		portfolioRepository.saveAll(list);
 	}
 
 	@AfterAll
@@ -129,7 +124,6 @@ public class TestPortfolioServiceImpl extends TestWithSpringBoot {
 	@Test
 	@Order(9)
 	public void testUpdatePortfolioFail() {
-
 		PortfolioForm form = new PortfolioForm();
 		form.setId(1L);
 		form.setPortfolioName("Test Portfolio 2");
@@ -161,9 +155,6 @@ public class TestPortfolioServiceImpl extends TestWithSpringBoot {
 		form.setRemarks("Updated Remarks");
 		String username = "user1";
 
-		List<Portfolio> list = portfolioRepository.findAll();
-		list.forEach(x -> System.out.println("portfolio name:" + x.getPortfolioName() + " id: " + x.getId()));
-
 		form = portfolioServiceImpl.updatePortfolio(form, username);
 		assertNotEquals("", form.getSystemMsg());
 
@@ -174,7 +165,6 @@ public class TestPortfolioServiceImpl extends TestWithSpringBoot {
 		assertEquals("Updated Remarks", newPortfolioRemarks);
 
 		form.setPortfolioName("New Updated Portfolio");
-
 	}
 
 }
