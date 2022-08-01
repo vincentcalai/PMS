@@ -14,6 +14,7 @@ import com.pms.pmsapp.manageportfolio.dividend.service.DividendService;
 import com.pms.pmsapp.manageportfolio.portfolio.data.MktExchg;
 import com.pms.pmsapp.manageportfolio.portfolio.data.PortfolioTrans;
 import com.pms.pmsapp.manageportfolio.portfolio.data.StockWrapper;
+import com.pms.pmsapp.manageportfolio.portfolio.repository.PortfolioTransRepository;
 import com.pms.pmsapp.manageportfolio.portfolio.repository.dao.PortfolioTransDao;
 import com.pms.pmsapp.util.constant.ConstantUtil;
 
@@ -31,6 +32,9 @@ public class PortfolioTransServiceImpl implements PortfolioTransService {
 	@Autowired
 	private DividendService dividendService;
 
+	@Autowired
+	private PortfolioTransRepository portfolioTransRepository;
+
 	public List<PortfolioTrans> findAll(long portId, Pageable pageable) {
 		log.info("findAll Trans in ServiceImpl");
 		return portfolioTransDao.findAll(portId, pageable);
@@ -46,7 +50,8 @@ public class PortfolioTransServiceImpl implements PortfolioTransService {
 	}
 
 	public void deletePortfolioTrans(long id) {
-		portfolioTransDao.deletePortfolioTrans(id);
+		// portfolioTransDao.deletePortfolioTrans(id);
+		portfolioTransRepository.deleteById(id);
 	}
 
 	public void populateToHolding(long id, long portId) {
