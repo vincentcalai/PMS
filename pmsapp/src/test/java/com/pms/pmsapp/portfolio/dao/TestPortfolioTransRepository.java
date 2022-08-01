@@ -9,9 +9,12 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ContextConfiguration;
@@ -23,6 +26,7 @@ import com.pms.pmsapp.manageportfolio.portfolio.repository.PortfolioTransReposit
 import com.pms.pmsapp.manageportfolio.portfolio.repository.dao.PortfolioTransDaoImpl;
 
 @DataJpaTest
+@TestMethodOrder(OrderAnnotation.class)
 @ContextConfiguration(classes = { PortfolioTransDaoImpl.class, PmsappApplication.class })
 @TestInstance(Lifecycle.PER_CLASS)
 class TestPortfolioTransRepository {
@@ -44,6 +48,7 @@ class TestPortfolioTransRepository {
 	}
 
 	@Test
+	@Order(1)
 	void testSavePortfolioTrans() {
 
 		portfolioTransSaveObj = new PortfolioTrans();
@@ -73,6 +78,17 @@ class TestPortfolioTransRepository {
 		assertEquals(new BigDecimal("11536"), result.get().getTotalAmt());
 		assertEquals("B", result.get().getAction());
 		assertEquals(80, result.get().getCurrentStockHold());
+	}
+
+	@Test
+	@Order(2)
+	void testDeletePortfolioTrans() {
+
+		portfolioTransRepository.deleteById(2L);
+
+		List<PortfolioTrans> result = portfolioTransRepository.findAll();
+
+		assertEquals(1, result.size());
 	}
 
 }
