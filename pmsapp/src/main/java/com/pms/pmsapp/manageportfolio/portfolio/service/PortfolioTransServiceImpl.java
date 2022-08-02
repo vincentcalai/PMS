@@ -58,10 +58,6 @@ public class PortfolioTransServiceImpl implements PortfolioTransService {
 		portfolioTransDao.populateToHolding(id, portId);
 	}
 
-	public long getNextTransID() {
-		return portfolioTransDao.getNextTransID();
-	}
-
 	public int validateSellAction(PortfolioTrans portfolioTrans) {
 		return portfolioTransDao.validateSellAction(portfolioTrans);
 	}
@@ -78,7 +74,7 @@ public class PortfolioTransServiceImpl implements PortfolioTransService {
 
 	@Override
 	public long findAllCount(long portId) {
-		return portfolioTransDao.findAllCount(portId);
+		return portfolioTransRepository.countByPortId(portId);
 	}
 
 	@Override
@@ -88,7 +84,7 @@ public class PortfolioTransServiceImpl implements PortfolioTransService {
 
 	@Override
 	public long searchTransCount(long portId, String searchText) {
-		return portfolioTransDao.searchTransCount(portId, searchText);
+		return portfolioTransRepository.searchTransCount(portId, searchText);
 	}
 
 	@Override
@@ -147,7 +143,7 @@ public class PortfolioTransServiceImpl implements PortfolioTransService {
 		}
 
 		if (sellActionCheck >= 0) {
-			id = getNextTransID();
+			id = portfolioTransRepository.getNextTransID();
 			portfolioTrans.setId(id);
 
 			addPortfolioTrans(portfolioTrans);

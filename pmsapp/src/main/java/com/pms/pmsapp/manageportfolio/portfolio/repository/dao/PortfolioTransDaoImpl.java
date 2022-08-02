@@ -152,21 +152,6 @@ public class PortfolioTransDaoImpl implements PortfolioTransDao {
 		}
 	}
 
-	public long getNextTransID() {
-		log.info("getting next TransID in DaoImpl..");
-		try {
-			Session session = HibernateUtil.getSessionFactory().openSession();
-
-			String sql = "select SQ_PMS_PORT_TRANS.nextval from dual";
-
-			Query query = session.createSQLQuery(sql);
-			return ((BigDecimal) query.uniqueResult()).longValue();
-		} catch (Exception e) {
-			// convert to HibernateException then to DataAccessException
-			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
-		}
-	}
-
 	public int validateSellAction(PortfolioTrans portfolioTrans) {
 		long portId = portfolioTrans.getPortId();
 		String stockSym = portfolioTrans.getStockSymbol();
@@ -228,28 +213,6 @@ public class PortfolioTransDaoImpl implements PortfolioTransDao {
 	}
 
 	@Override
-	public long findAllCount(long portId) {
-		log.info("findAllCount Trans in DaoImpl..");
-		try {
-			Session session = HibernateUtil.getSessionFactory().openSession();
-
-			String sql = "SELECT count(*) FROM PMS_PORT_TRANS where port_id = :portId";
-
-			SQLQuery sqlQuery = session.createSQLQuery(sql);
-			sqlQuery.setParameter("portId", portId);
-
-			long result = ((BigDecimal) sqlQuery.uniqueResult()).longValue();
-
-			session.close();
-
-			return result;
-		} catch (Exception e) {
-			// convert to HibernateException then to DataAccessException
-			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
-		}
-	}
-
-	@Override
 	public List<PortfolioTrans> searchTrans(long portId, String searchText, Pageable pageable) {
 		log.info("searchTrans Trans in DaoImpl..");
 		try {
@@ -271,30 +234,6 @@ public class PortfolioTransDaoImpl implements PortfolioTransDao {
 			session.close();
 
 			return portfolioTrans;
-		} catch (Exception e) {
-			// convert to HibernateException then to DataAccessException
-			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
-		}
-	}
-
-	@Override
-	public long searchTransCount(long portId, String searchText) {
-		log.info("searchTransCount in DaoImpl..");
-		try {
-			Session session = HibernateUtil.getSessionFactory().openSession();
-
-			String sql = "SELECT count(*) FROM PMS_PORT_TRANS where port_id = :portId "
-					+ "and (UPPER(stock_nam) like :searchText or stock_sym like :searchText)";
-
-			SQLQuery sqlQuery = session.createSQLQuery(sql);
-			sqlQuery.setParameter("portId", portId);
-			sqlQuery.setParameter("searchText", searchText);
-
-			long result = ((BigDecimal) sqlQuery.uniqueResult()).longValue();
-
-			session.close();
-
-			return result;
 		} catch (Exception e) {
 			// convert to HibernateException then to DataAccessException
 			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));

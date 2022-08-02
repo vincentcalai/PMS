@@ -1,6 +1,7 @@
 package com.pms.pmsapp.portfolio.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -33,6 +34,9 @@ class TestPortfolioTransRepository {
 
 	@Autowired
 	private PortfolioTransRepository portfolioTransRepository;
+
+	@Autowired
+	private PortfolioTransDaoImpl portfolioTransDaoImpl;
 
 	PortfolioTrans portfolioTransSaveObj = null;
 
@@ -89,6 +93,54 @@ class TestPortfolioTransRepository {
 		List<PortfolioTrans> result = portfolioTransRepository.findAll();
 
 		assertEquals(1, result.size());
+	}
+
+	@Test
+	@Order(3)
+	void testGetNextTransID() {
+		Long id = portfolioTransRepository.getNextTransID();
+		assertNotNull(id);
+		assertEquals(4, id);
+	}
+
+	@Test
+	@Order(4)
+	void testfindAllCountByPortId() {
+		Long portId = 1L;
+		Long count = portfolioTransRepository.countByPortId(portId);
+		assertEquals(1, count);
+	}
+
+	@Test
+	@Order(5)
+	void testSearchTransCount_WhenSearchUsingStockSym_ShouldReturnOneCount() {
+		Long portId = 1L;
+		Long count = portfolioTransRepository.searchTransCount(portId, "MSFT");
+		assertEquals(1, count);
+	}
+
+	@Test
+	@Order(6)
+	void testSearchTransCount_WhenSearchUsingStockName_ShouldReturnOneCount() {
+		Long portId = 1L;
+		Long count = portfolioTransRepository.searchTransCount(portId, "MICRO");
+		assertEquals(1, count);
+	}
+
+	@Test
+	@Order(7)
+	void testSearchTransCount_WhenSearchUsingStockSym_ShouldReturnZeroCount() {
+		Long portId = 1L;
+		Long count = portfolioTransRepository.searchTransCount(portId, "AMZN");
+		assertEquals(0, count);
+	}
+
+	@Test
+	@Order(7)
+	void testSearchTransCount_WhenSearchUsingStockName_ShouldReturnZeroCount() {
+		Long portId = 1L;
+		Long count = portfolioTransRepository.searchTransCount(portId, "AMA");
+		assertEquals(0, count);
 	}
 
 }

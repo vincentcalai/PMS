@@ -18,17 +18,11 @@ public interface PortfolioTransDao {
 
 	void populateToHolding(long id, long portId);
 
-	long getNextTransID();
-
 	int validateSellAction(PortfolioTrans portfolioTrans);
 
 	String findSuffix(String stockExchg);
 
 	int findCurrentStockHold(PortfolioTrans portfolioTrans);
 
-	long findAllCount(long portId);
-
 	List<PortfolioTrans> searchTrans(long portId, String searchText, Pageable pageable);
-
-	long searchTransCount(long portId, String searchText);
 }
