@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.pms.pmsapp.manageportfolio.portfolio.data.MktExchg;
+import com.pms.pmsapp.common.data.MktExchg;
 import com.pms.pmsapp.manageportfolio.portfolio.data.PortfolioHold;
 import com.pms.pmsapp.manageportfolio.portfolio.data.StockWrapper;
 import com.pms.pmsapp.manageportfolio.portfolio.repository.dao.PortfolioHoldDao;

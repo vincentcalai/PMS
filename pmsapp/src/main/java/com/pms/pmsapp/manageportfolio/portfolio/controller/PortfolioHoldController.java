@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pms.pmsapp.manageportfolio.portfolio.data.MktExchg;
 import com.pms.pmsapp.manageportfolio.portfolio.data.PortfolioHold;
 import com.pms.pmsapp.manageportfolio.portfolio.service.PortfolioHoldService;
 
@@ -29,29 +28,30 @@ public class PortfolioHoldController {
 	@Autowired
 	private PortfolioHoldService portfolioHoldService;
 
-	@RequestMapping(value="/portfolio/hold/{id}", method=RequestMethod.GET)
-	public Page<PortfolioHold> findAll(@RequestParam("page") int page, @RequestParam("size") int size, @PathVariable long id) {
+	@RequestMapping(value = "/portfolio/hold/{id}", method = RequestMethod.GET)
+	public Page<PortfolioHold> findAll(@RequestParam("page") int page, @RequestParam("size") int size,
+			@PathVariable long id) {
 		log.info("findAll Holds in Controller");
-		Pageable pageable = PageRequest.of(page-1, size);
+		Pageable pageable = PageRequest.of(page - 1, size);
 
-		List<PortfolioHold> portfolioHold= portfolioHoldService.findAllHold(id, pageable);
+		List<PortfolioHold> portfolioHold = portfolioHoldService.findAllHold(id, pageable);
 		long totalRec = portfolioHoldService.findAllCount(id);
 
 		PageImpl<PortfolioHold> holdPage = new PageImpl(portfolioHold, pageable, totalRec);
 		return holdPage;
 	}
 
-	@RequestMapping(value="/portfolio/hold/mktexchg", method=RequestMethod.GET)
-	public List<MktExchg> findAllMktExchg() {
+	@RequestMapping(value = "/portfolio/hold/mktexchg", method = RequestMethod.GET)
+	public List<com.pms.pmsapp.common.data.MktExchg> findAllMktExchg() {
 		log.info("findAllMktExchg Hold in Controller");
 		return portfolioHoldService.findAllMktExchg();
 	}
 
-	@RequestMapping(value="/portfolio/hold/updateliveprices/{id}", method=RequestMethod.GET)
+	@RequestMapping(value = "/portfolio/hold/updateliveprices/{id}", method = RequestMethod.GET)
 	public void updateLivePrices(@PathVariable long id) {
 		log.info("updateLivePrices Hold in Controller");
-		log.info("Update Live Price for Portfolio ID: " + id );
-		
+		log.info("Update Live Price for Portfolio ID: " + id);
+
 		portfolioHoldService.updateLivePrice(id);
 
 	}

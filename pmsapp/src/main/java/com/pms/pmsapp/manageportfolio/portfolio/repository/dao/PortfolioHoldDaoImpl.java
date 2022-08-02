@@ -15,7 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.orm.hibernate5.SessionFactoryUtils;
 import org.springframework.stereotype.Repository;
 
-import com.pms.pmsapp.manageportfolio.portfolio.data.MktExchg;
+import com.pms.pmsapp.common.data.MktExchg;
 import com.pms.pmsapp.manageportfolio.portfolio.data.PortfolioHold;
 import com.pms.pmsapp.manageportfolio.portfolio.data.StockWrapper;
 import com.pms.pmsapp.util.HibernateUtil;

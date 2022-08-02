@@ -10,8 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.pms.pmsapp.common.data.MktExchg;
+import com.pms.pmsapp.common.repository.MktExchgRepository;
 import com.pms.pmsapp.manageportfolio.dividend.service.DividendService;
-import com.pms.pmsapp.manageportfolio.portfolio.data.MktExchg;
 import com.pms.pmsapp.manageportfolio.portfolio.data.PortfolioTrans;
 import com.pms.pmsapp.manageportfolio.portfolio.data.StockWrapper;
 import com.pms.pmsapp.manageportfolio.portfolio.repository.PortfolioTransRepository;
@@ -34,6 +35,9 @@ public class PortfolioTransServiceImpl implements PortfolioTransService {
 
 	@Autowired
 	private PortfolioTransRepository portfolioTransRepository;
+
+	@Autowired
+	private MktExchgRepository mktExchgRepository;
 
 	public List<PortfolioTrans> findAll(long portId, Pageable pageable) {
 		log.info("findAll Trans in ServiceImpl");
@@ -64,7 +68,9 @@ public class PortfolioTransServiceImpl implements PortfolioTransService {
 
 	@Override
 	public String findSuffix(String stockExchg) {
-		return portfolioTransDao.findSuffix(stockExchg);
+		// return portfolioTransDao.findSuffix(stockExchg);
+		MktExchg mktExchg = mktExchgRepository.findByMktExchgName(stockExchg);
+		return mktExchg.getSuffix();
 	}
 
 	@Override
