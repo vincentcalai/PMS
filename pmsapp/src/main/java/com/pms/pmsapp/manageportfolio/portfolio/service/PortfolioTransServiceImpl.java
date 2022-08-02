@@ -54,7 +54,6 @@ public class PortfolioTransServiceImpl implements PortfolioTransService {
 	}
 
 	public void deletePortfolioTrans(long id) {
-		// portfolioTransDao.deletePortfolioTrans(id);
 		portfolioTransRepository.deleteById(id);
 	}
 
@@ -68,7 +67,6 @@ public class PortfolioTransServiceImpl implements PortfolioTransService {
 
 	@Override
 	public String findSuffix(String stockExchg) {
-		// return portfolioTransDao.findSuffix(stockExchg);
 		MktExchg mktExchg = mktExchgRepository.findByMktExchgName(stockExchg);
 		return mktExchg.getSuffix();
 	}

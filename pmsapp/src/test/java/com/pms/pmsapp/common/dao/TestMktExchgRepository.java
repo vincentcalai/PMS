@@ -17,7 +17,6 @@ import com.pms.pmsapp.common.repository.MktExchgRepository;
 import com.pms.pmsapp.fixture.MktExchgFixture;
 
 @DataJpaTest
-//@ContextConfiguration(classes = { PmsappApplication.class })
 @TestInstance(Lifecycle.PER_CLASS)
 public class TestMktExchgRepository {
 
