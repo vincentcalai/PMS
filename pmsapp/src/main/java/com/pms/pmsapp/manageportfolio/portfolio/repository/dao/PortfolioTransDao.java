@@ -9,8 +9,6 @@ import com.pms.pmsapp.manageportfolio.portfolio.data.PortfolioTrans;
 public interface PortfolioTransDao {
 	List<PortfolioTrans> findAll(long portId, Pageable pageable);
 
-	void addPortfolioTrans(PortfolioTrans portfolioTrans);
-
 	void populateToHolding(long id, long portId);
 
 	int validateSellAction(PortfolioTrans portfolioTrans);

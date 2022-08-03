@@ -1,6 +1,7 @@
 package com.pms.pmsapp.manageportfolio.portfolio.service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Date;
 import java.util.List;
 
@@ -49,7 +50,13 @@ public class PortfolioTransServiceImpl implements PortfolioTransService {
 	}
 
 	public void addPortfolioTrans(PortfolioTrans portfolioTrans) {
-		portfolioTransDao.addPortfolioTrans(portfolioTrans);
+		BigDecimal transactionPrice = portfolioTrans.getTransPrice();
+		transactionPrice.setScale(2, RoundingMode.HALF_UP);
+		portfolioTrans.setTransPrice(transactionPrice);
+
+		BigDecimal totalAmt = portfolioTrans.getTransPrice().multiply(new BigDecimal(portfolioTrans.getNoOfShare()));
+		portfolioTrans.setTotalAmt(totalAmt);
+		portfolioTransRepository.save(portfolioTrans);
 	}
 
 	public void deletePortfolioTrans(long id) {

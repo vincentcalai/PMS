@@ -8,7 +8,6 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.hibernate.internal.SessionImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,42 +41,6 @@ public class PortfolioTransDaoImpl implements PortfolioTransDao {
 			session.close();
 
 			return portfolioTrans;
-		} catch (Exception e) {
-			// convert to HibernateException then to DataAccessException
-			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
-		}
-	}
-
-	public void addPortfolioTrans(PortfolioTrans portfolioTrans) {
-		log.info("adding portfolio trans in DaoImpl..");
-
-		try {
-			Session session = HibernateUtil.getSessionFactory().openSession();
-			Transaction transaction = session.beginTransaction();
-
-			String sql = "insert into PMS_PORT_TRANS (ID,PORT_ID,STOCK_NAM,STOCK_SYM,"
-					+ "STOCK_EXCHG,NO_OF_SHARE,TRANS_PRICE,TOTAL_AMT,ACTION,CREATED_BY,"
-					+ "CREATED_DT,REMARKS) values (:id, " + ":portfolioId, :stockName, :stockSymbol,"
-					+ " :stockExchg, :noOfShare, "
-					+ "to_char(:transPrice,'9999.99'), (:transPrice * :noOfShare), :action, "
-					+ ":createdBy, :backDatedDate, :remarks) ";
-
-			Query query = session.createSQLQuery(sql);
-			query.setParameter("id", portfolioTrans.getId());
-			query.setParameter("portfolioId", portfolioTrans.getPortId());
-			query.setParameter("stockName", portfolioTrans.getStockName());
-			query.setParameter("stockSymbol", portfolioTrans.getStockSymbol());
-			query.setParameter("stockExchg", portfolioTrans.getStockExchg());
-			query.setParameter("noOfShare", portfolioTrans.getNoOfShare());
-			query.setParameter("transPrice", portfolioTrans.getTransPrice());
-			query.setParameter("action", portfolioTrans.getAction());
-			query.setParameter("backDatedDate", portfolioTrans.getBackDatedDate());
-			query.setParameter("createdBy", portfolioTrans.getCreatedBy());
-			query.setParameter("remarks", portfolioTrans.getRemarks());
-			query.executeUpdate();
-
-			transaction.commit();
-			session.close();
 		} catch (Exception e) {
 			// convert to HibernateException then to DataAccessException
 			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
