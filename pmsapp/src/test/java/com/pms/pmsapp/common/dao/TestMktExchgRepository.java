@@ -45,7 +45,7 @@ public class TestMktExchgRepository {
 
 		MktExchg mktExchg = mktExchgRepository.findByMktExchgName(stockExchg);
 
-		assertEquals(mktExchg.getSuffix(), ".SI");
+		assertEquals(".SI", mktExchg.getSuffix());
 	}
 
 	@Test
@@ -54,7 +54,20 @@ public class TestMktExchgRepository {
 
 		MktExchg mktExchg = mktExchgRepository.findByMktExchgName(stockExchg);
 
-		assertEquals(mktExchg.getSuffix(), null);
+		assertEquals(null, mktExchg.getSuffix());
+	}
+
+	@Test
+	public void testFindAllMktExchg() {
+		List<MktExchg> list = mktExchgRepository.findAll();
+
+		assertEquals(5, list.size());
+		assertEquals("NYSE", list.get(0).getMktExchgName());
+		assertEquals("NASDAQ", list.get(1).getMktExchgName());
+		assertEquals("HKEX", list.get(2).getMktExchgName());
+		assertEquals("SGX", list.get(3).getMktExchgName());
+		assertEquals("OTC", list.get(4).getMktExchgName());
+
 	}
 
 }

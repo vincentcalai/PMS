@@ -14,8 +14,6 @@ public interface PortfolioTransDao {
 
 	void addPortfolioTrans(PortfolioTrans portfolioTrans);
 
-	void deletePortfolioTrans(long id);
-
 	void populateToHolding(long id, long portId);
 
 	int validateSellAction(PortfolioTrans portfolioTrans);

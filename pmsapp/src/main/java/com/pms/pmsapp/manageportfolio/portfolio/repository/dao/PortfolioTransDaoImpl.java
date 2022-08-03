@@ -107,26 +107,6 @@ public class PortfolioTransDaoImpl implements PortfolioTransDao {
 		}
 	}
 
-	public void deletePortfolioTrans(long id) {
-		log.info("deleting portfolio trans in DaoImpl..");
-		try {
-			Session session = HibernateUtil.getSessionFactory().openSession();
-			Transaction transaction = session.beginTransaction();
-
-			String sql = "delete from PMS_PORT_TRANS where id = :id";
-
-			Query query = session.createSQLQuery(sql);
-			query.setParameter("id", id);
-			query.executeUpdate();
-
-			transaction.commit();
-			session.close();
-		} catch (Exception e) {
-			// convert to HibernateException then to DataAccessException
-			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
-		}
-	}
-
 	public void populateToHolding(long id, long portId) {
 		log.info("populate to holdings in DaoImpl..");
 

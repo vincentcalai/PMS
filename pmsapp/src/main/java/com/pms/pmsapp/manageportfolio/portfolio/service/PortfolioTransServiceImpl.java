@@ -45,8 +45,7 @@ public class PortfolioTransServiceImpl implements PortfolioTransService {
 	}
 
 	public List<MktExchg> findAllMktExchg() {
-		log.info("findAllMktExchg Trans in ServiceImpl");
-		return portfolioTransDao.findAllMktExchg();
+		return mktExchgRepository.findAll();
 	}
 
 	public void addPortfolioTrans(PortfolioTrans portfolioTrans) {
