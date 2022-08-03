@@ -20,8 +20,6 @@ public interface PortfolioTransDao {
 
 	int validateSellAction(PortfolioTrans portfolioTrans);
 
-	String findSuffix(String stockExchg);
-
 	int findCurrentStockHold(PortfolioTrans portfolioTrans);
 
 	List<PortfolioTrans> searchTrans(long portId, String searchText, Pageable pageable);

@@ -197,22 +197,6 @@ public class PortfolioTransDaoImpl implements PortfolioTransDao {
 	}
 
 	@Override
-	public String findSuffix(String stockExchg) {
-		try {
-			Session session = HibernateUtil.getSessionFactory().openSession();
-
-			String sql = "select suffix from pms_mkt_exchg where mkt_exchg_name = :stockExchg";
-
-			Query query = session.createSQLQuery(sql);
-			query.setParameter("stockExchg", stockExchg);
-			return (String) query.uniqueResult();
-		} catch (Exception e) {
-			// convert to HibernateException then to DataAccessException
-			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
-		}
-	}
-
-	@Override
 	public List<PortfolioTrans> searchTrans(long portId, String searchText, Pageable pageable) {
 		log.info("searchTrans Trans in DaoImpl..");
 		try {
