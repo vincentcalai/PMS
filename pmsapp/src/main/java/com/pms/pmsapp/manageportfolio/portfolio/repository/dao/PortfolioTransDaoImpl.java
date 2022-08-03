@@ -16,7 +16,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.orm.hibernate5.SessionFactoryUtils;
 import org.springframework.stereotype.Repository;
 
-import com.pms.pmsapp.common.data.MktExchg;
 import com.pms.pmsapp.manageportfolio.portfolio.data.PortfolioTrans;
 import com.pms.pmsapp.util.HibernateUtil;
 
@@ -43,28 +42,6 @@ public class PortfolioTransDaoImpl implements PortfolioTransDao {
 			session.close();
 
 			return portfolioTrans;
-		} catch (Exception e) {
-			// convert to HibernateException then to DataAccessException
-			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
-		}
-	}
-
-	public List<MktExchg> findAllMktExchg() {
-		log.info("findAllMktExchg Trans in DaoImpl..");
-		try {
-			Session session = HibernateUtil.getSessionFactory().openSession();
-
-			String sql = "SELECT * FROM PMS_MKT_EXCHG order by MKT_EXCHG_NAME desc";
-
-			SQLQuery sqlQuery = session.createSQLQuery(sql);
-
-			sqlQuery.addEntity(MktExchg.class);
-
-			List<MktExchg> mktExchg = sqlQuery.list();
-
-			session.close();
-
-			return mktExchg;
 		} catch (Exception e) {
 			// convert to HibernateException then to DataAccessException
 			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));

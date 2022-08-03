@@ -4,13 +4,10 @@ import java.util.List;
 
 import org.springframework.data.domain.Pageable;
 
-import com.pms.pmsapp.common.data.MktExchg;
 import com.pms.pmsapp.manageportfolio.portfolio.data.PortfolioTrans;
 
 public interface PortfolioTransDao {
 	List<PortfolioTrans> findAll(long portId, Pageable pageable);
-
-	List<MktExchg> findAllMktExchg();
 
 	void addPortfolioTrans(PortfolioTrans portfolioTrans);
 
