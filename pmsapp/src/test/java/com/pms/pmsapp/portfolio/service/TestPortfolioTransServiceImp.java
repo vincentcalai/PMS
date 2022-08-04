@@ -1,8 +1,11 @@
 package com.pms.pmsapp.portfolio.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterAll;
@@ -37,6 +40,8 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 	@Autowired
 	private MktExchgRepository mktExchgRepository;
 
+	PortfolioTrans portfolioTransSaveObj;
+
 	@BeforeAll
 	public void setup() throws Exception {
 		List<PortfolioTrans> portfolioTransList = PortfolioTransFixture.createPortfolioTransFixture();
@@ -65,4 +70,33 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 		assertTrue(foundNASDAQ);
 	}
 
+	@Test
+	@Order(2)
+	public void testAddPortfolioTrans() {
+		portfolioTransSaveObj = new PortfolioTrans();
+
+		portfolioTransSaveObj.setId(3L);
+		portfolioTransSaveObj.setPortId(1L);
+		portfolioTransSaveObj.setStockName("JPMorgan Chase & Co.");
+		portfolioTransSaveObj.setStockSymbol("JPM");
+		portfolioTransSaveObj.setStockExchg("NYSE");
+		portfolioTransSaveObj.setNoOfShare(100);
+		portfolioTransSaveObj.setTransPrice(new BigDecimal("115.3618674"));
+		// portfolioTransSaveObj.setTotalAmt(new BigDecimal("11536"));
+		portfolioTransSaveObj.setAction("B");
+		portfolioTransSaveObj.setBackDatedDate(null);
+		portfolioTransSaveObj.setCreatedBy("user1");
+		portfolioTransSaveObj.setCreatedDt(new Date());
+		portfolioTransSaveObj.setRemarks("Saved transaction as ID 3");
+		portfolioTransSaveObj.setCurrentStockHold(80);
+
+		portfolioTransServiceImpl.addPortfolioTrans(portfolioTransSaveObj);
+
+		PortfolioTrans retrievedPortfolio = portfolioTransRepository.findById(3L).get();
+		assertNotNull(retrievedPortfolio);
+
+		System.out.println("price:" + retrievedPortfolio.getTransPrice());
+		assertEquals(2, retrievedPortfolio.getTransPrice().scale());
+		assertEquals(new BigDecimal("11536.19"), retrievedPortfolio.getTotalAmt());
+	}
 }

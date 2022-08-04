@@ -54,7 +54,7 @@ public class PortfolioTransServiceImpl implements PortfolioTransService {
 		transactionPrice.setScale(2, RoundingMode.HALF_UP);
 		portfolioTrans.setTransPrice(transactionPrice);
 
-		BigDecimal totalAmt = portfolioTrans.getTransPrice().multiply(new BigDecimal(portfolioTrans.getNoOfShare()));
+		BigDecimal totalAmt = transactionPrice.multiply(new BigDecimal(portfolioTrans.getNoOfShare()));
 		portfolioTrans.setTotalAmt(totalAmt);
 		portfolioTransRepository.save(portfolioTrans);
 	}
