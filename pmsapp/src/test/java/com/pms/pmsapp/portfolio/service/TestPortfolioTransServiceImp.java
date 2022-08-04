@@ -63,8 +63,17 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 		List<MktExchg> mktExchgList = portfolioTransServiceImpl.findAllMktExchg();
 		assertEquals(5, mktExchgList.size());
 
+		boolean foundSGX = mktExchgList.stream().anyMatch(mktExchg -> mktExchg.getMktExchgName() == "SGX");
+		assertTrue(foundSGX);
+
 		boolean foundNYSE = mktExchgList.stream().anyMatch(mktExchg -> mktExchg.getMktExchgName() == "NYSE");
 		assertTrue(foundNYSE);
+
+		boolean foundHKEX = mktExchgList.stream().anyMatch(mktExchg -> mktExchg.getMktExchgName() == "HKEX");
+		assertTrue(foundHKEX);
+
+		boolean foundOTC = mktExchgList.stream().anyMatch(mktExchg -> mktExchg.getMktExchgName() == "OTC");
+		assertTrue(foundOTC);
 
 		boolean foundNASDAQ = mktExchgList.stream().anyMatch(mktExchg -> mktExchg.getMktExchgName() == "NASDAQ");
 		assertTrue(foundNASDAQ);
@@ -75,14 +84,12 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 	public void testAddPortfolioTrans() {
 		portfolioTransSaveObj = new PortfolioTrans();
 
-		portfolioTransSaveObj.setId(3L);
 		portfolioTransSaveObj.setPortId(1L);
 		portfolioTransSaveObj.setStockName("JPMorgan Chase & Co.");
 		portfolioTransSaveObj.setStockSymbol("JPM");
 		portfolioTransSaveObj.setStockExchg("NYSE");
 		portfolioTransSaveObj.setNoOfShare(100);
 		portfolioTransSaveObj.setTransPrice(new BigDecimal("115.3618674"));
-		// portfolioTransSaveObj.setTotalAmt(new BigDecimal("11536"));
 		portfolioTransSaveObj.setAction("B");
 		portfolioTransSaveObj.setBackDatedDate(null);
 		portfolioTransSaveObj.setCreatedBy("user1");
