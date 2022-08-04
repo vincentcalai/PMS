@@ -116,4 +116,13 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 
 		assertEquals(2, portfolioTransList.size());
 	}
+
+	@Test
+	@Order(4)
+	public void testPopulateToHolding() {
+
+		portfolioTransServiceImpl.populateToHolding(1L, 1L);
+
+	}
+
 }
