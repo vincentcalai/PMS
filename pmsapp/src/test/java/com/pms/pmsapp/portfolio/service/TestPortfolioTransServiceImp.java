@@ -102,8 +102,18 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 		PortfolioTrans retrievedPortfolio = portfolioTransRepository.findById(3L).get();
 		assertNotNull(retrievedPortfolio);
 
-		System.out.println("price:" + retrievedPortfolio.getTransPrice());
 		assertEquals(2, retrievedPortfolio.getTransPrice().scale());
 		assertEquals(new BigDecimal("11536.19"), retrievedPortfolio.getTotalAmt());
+	}
+
+	@Test
+	@Order(3)
+	public void testDeletePortfolioTrans() {
+
+		portfolioTransServiceImpl.deletePortfolioTrans(3L);
+
+		List<PortfolioTrans> portfolioTransList = portfolioTransRepository.findAll();
+
+		assertEquals(2, portfolioTransList.size());
 	}
 }
