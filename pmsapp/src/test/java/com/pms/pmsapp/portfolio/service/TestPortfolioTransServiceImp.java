@@ -128,27 +128,57 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 	@Test
 	@Order(5)
 	public void testFindSuffix() {
-
 		String nasdaqSuffix = portfolioTransServiceImpl.findSuffix("NASDAQ");
-
-		assertEquals(null, nasdaqSuffix);
-
 		String nyseSuffix = portfolioTransServiceImpl.findSuffix("NYSE");
-
-		assertEquals(null, nyseSuffix);
-
 		String otcSuffix = portfolioTransServiceImpl.findSuffix("OTC");
-
-		assertEquals(null, otcSuffix);
-
 		String hkexSuffix = portfolioTransServiceImpl.findSuffix("HKEX");
-
-		assertEquals(".HK", hkexSuffix);
-
 		String sgxSuffix = portfolioTransServiceImpl.findSuffix("SGX");
 
+		assertEquals(null, nasdaqSuffix);
+		assertEquals(null, nyseSuffix);
+		assertEquals(null, otcSuffix);
+		assertEquals(".HK", hkexSuffix);
 		assertEquals(".SI", sgxSuffix);
+	}
 
+	@Test
+	@Order(6)
+	public void testFindAllCount() {
+		long count = portfolioTransServiceImpl.findAllCount(1L);
+
+		assertEquals(1, count);
+	}
+
+	@Test
+	@Order(7)
+	void testSearchTransCount_WhenSearchUsingStockSym_ShouldReturnOneCount() {
+		Long portId = 1L;
+		Long count = portfolioTransServiceImpl.searchTransCount(portId, "MSFT");
+		assertEquals(1, count);
+	}
+
+	@Test
+	@Order(8)
+	void testSearchTransCount_WhenSearchUsingStockName_ShouldReturnOneCount() {
+		Long portId = 1L;
+		Long count = portfolioTransServiceImpl.searchTransCount(portId, "MICRO");
+		assertEquals(1, count);
+	}
+
+	@Test
+	@Order(9)
+	void testSearchTransCount_WhenSearchUsingStockSym_ShouldReturnZeroCount() {
+		Long portId = 1L;
+		Long count = portfolioTransServiceImpl.searchTransCount(portId, "AMZN");
+		assertEquals(0, count);
+	}
+
+	@Test
+	@Order(10)
+	void testSearchTransCount_WhenSearchUsingStockName_ShouldReturnZeroCount() {
+		Long portId = 1L;
+		Long count = portfolioTransServiceImpl.searchTransCount(portId, "AMA");
+		assertEquals(0, count);
 	}
 
 }
