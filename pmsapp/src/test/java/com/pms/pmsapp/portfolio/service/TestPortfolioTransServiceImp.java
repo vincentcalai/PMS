@@ -125,4 +125,30 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 
 	}
 
+	@Test
+	@Order(5)
+	public void testFindSuffix() {
+
+		String nasdaqSuffix = portfolioTransServiceImpl.findSuffix("NASDAQ");
+
+		assertEquals(null, nasdaqSuffix);
+
+		String nyseSuffix = portfolioTransServiceImpl.findSuffix("NYSE");
+
+		assertEquals(null, nyseSuffix);
+
+		String otcSuffix = portfolioTransServiceImpl.findSuffix("OTC");
+
+		assertEquals(null, otcSuffix);
+
+		String hkexSuffix = portfolioTransServiceImpl.findSuffix("HKEX");
+
+		assertEquals(".HK", hkexSuffix);
+
+		String sgxSuffix = portfolioTransServiceImpl.findSuffix("SGX");
+
+		assertEquals(".SI", sgxSuffix);
+
+	}
+
 }
