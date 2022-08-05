@@ -11,9 +11,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.pms.pmsapp.TestWithSpringBoot;
@@ -22,7 +19,6 @@ import com.pms.pmsapp.common.repository.MessageRepository;
 import com.pms.pmsapp.fixture.MessageFixture;
 
 @TestInstance(Lifecycle.PER_CLASS)
-@ExtendWith(MockitoExtension.class)
 public class TestMessageServiceImpl extends TestWithSpringBoot {
 
 	@Autowired
@@ -30,9 +26,6 @@ public class TestMessageServiceImpl extends TestWithSpringBoot {
 
 	@Autowired
 	private MessageRepository messageRepository;
-
-	@Mock
-	private Message message;
 
 	private List<Message> messageList;
 

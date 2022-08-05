@@ -3,7 +3,10 @@ package com.pms.pmsapp.portfolio.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -16,6 +19,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.pms.pmsapp.TestWithSpringBoot;
@@ -24,13 +31,20 @@ import com.pms.pmsapp.common.repository.MktExchgRepository;
 import com.pms.pmsapp.fixture.MktExchgFixture;
 import com.pms.pmsapp.fixture.PortfolioTransFixture;
 import com.pms.pmsapp.manageportfolio.portfolio.data.PortfolioTrans;
+import com.pms.pmsapp.manageportfolio.portfolio.data.StockWrapper;
 import com.pms.pmsapp.manageportfolio.portfolio.repository.PortfolioTransRepository;
+import com.pms.pmsapp.manageportfolio.portfolio.service.PortfolioHoldService;
 import com.pms.pmsapp.manageportfolio.portfolio.service.PortfolioTransServiceImpl;
 
+import yahoofinance.Stock;
+import yahoofinance.quotes.stock.StockQuote;
+
 @TestInstance(Lifecycle.PER_CLASS)
+@ExtendWith(MockitoExtension.class)
 @TestMethodOrder(OrderAnnotation.class)
 public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 
+	@InjectMocks
 	@Autowired
 	private PortfolioTransServiceImpl portfolioTransServiceImpl;
 
@@ -39,6 +53,12 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 
 	@Autowired
 	private MktExchgRepository mktExchgRepository;
+
+	@Mock
+	PortfolioHoldService portfolioHoldService;
+
+	@Mock
+	StockWrapper stockWrapper;
 
 	PortfolioTrans portfolioTransSaveObj;
 
@@ -179,6 +199,29 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 		Long portId = 1L;
 		Long count = portfolioTransServiceImpl.searchTransCount(portId, "AMA");
 		assertEquals(0, count);
+	}
+
+	@Test
+	@Order(11)
+	void testRetrieveStockInfo() throws IOException {
+
+		Stock stock = new Stock("MSFT");
+		stock.setStockExchange("NasdaqGS");
+		stock.setName("Microsoft Corp.");
+		StockQuote stockQuote = new StockQuote("MSFT");
+		stock.setQuote(stockQuote);
+		StockWrapper dummyStockWrapper = new StockWrapper(stock);
+
+		when(portfolioHoldService.findStock(anyString())).thenReturn(dummyStockWrapper);
+
+		PortfolioTrans portfolioTransObj = new PortfolioTrans();
+		portfolioTransObj.setStockSymbol("MSFT");
+
+		PortfolioTrans result = portfolioTransServiceImpl.retrieveStockInfo(portfolioTransObj);
+
+		assertEquals("Microsoft Corp.", result.getStockName());
+		assertEquals("NASDAQ", result.getStockExchg());
+		assertNotNull(result.getTransPrice());
 	}
 
 }
