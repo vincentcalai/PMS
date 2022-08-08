@@ -2,8 +2,12 @@ package com.pms.pmsapp.portfolio.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
@@ -222,6 +226,39 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 		assertEquals("Microsoft Corp.", result.getStockName());
 		assertEquals("NASDAQ", result.getStockExchg());
 		assertNotNull(result.getTransPrice());
+	}
+
+	@Test
+	@Order(12)
+	void testAddPortfolioTrans_buySuccess() {
+
+		Stock stock = new Stock("MSFT");
+		stock.setStockExchange("NasdaqGS");
+		stock.setName("Microsoft Corp.");
+		StockQuote stockQuote = new StockQuote("MSFT");
+		stockQuote.setPrice(new BigDecimal("280.04"));
+		stock.setQuote(stockQuote);
+		StockWrapper dummyStockWrapper = new StockWrapper(stock);
+
+		when(portfolioHoldService.findStock(anyString())).thenReturn(dummyStockWrapper);
+
+		Long portId = 2L;
+		String username = "user1";
+
+		PortfolioTrans portfolioTransObj = new PortfolioTrans();
+		portfolioTransObj.setStockName("Microsoft Corp.");
+		portfolioTransObj.setAction("B");
+		portfolioTransObj.setNoOfShare(80);
+		portfolioTransObj.setStockSymbol("MSFT");
+		portfolioTransObj.setStockExchg("NASDAQ");
+		portfolioTransObj.setTransPrice(new BigDecimal("269.81"));
+
+		PortfolioTrans result = portfolioTransServiceImpl.addPortfolioTrans(portfolioTransObj, 0, username);
+
+		verify(portfolioHoldService, times(1)).computeHoldingsJob(anyString(), any(BigDecimal.class));
+
+		assertNotNull(result.getSystemMsg());
+		assertNull(result.getErrMsg());
 	}
 
 }

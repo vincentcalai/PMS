@@ -133,7 +133,6 @@ public class PortfolioTransServiceImpl implements PortfolioTransService {
 		String transPrice = portfolioTrans.getTransPrice().toString();
 		Date backDatedDate = portfolioTrans.getBackDatedDate() == null ? new Date() : portfolioTrans.getBackDatedDate();
 		portfolioTrans.setPortId(portId);
-		portfolioTrans.setStockSymbol(stockSym);
 		portfolioTrans.setBackDatedDate(backDatedDate);
 
 		if (noOfShare <= 0) {
