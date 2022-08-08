@@ -34,6 +34,7 @@ import com.pms.pmsapp.common.data.MktExchg;
 import com.pms.pmsapp.common.repository.MktExchgRepository;
 import com.pms.pmsapp.fixture.MktExchgFixture;
 import com.pms.pmsapp.fixture.PortfolioTransFixture;
+import com.pms.pmsapp.manageportfolio.dividend.service.DividendService;
 import com.pms.pmsapp.manageportfolio.portfolio.data.PortfolioTrans;
 import com.pms.pmsapp.manageportfolio.portfolio.data.StockWrapper;
 import com.pms.pmsapp.manageportfolio.portfolio.repository.PortfolioTransRepository;
@@ -60,6 +61,9 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 
 	@Mock
 	PortfolioHoldService portfolioHoldService;
+
+	@Mock
+	DividendService dividendService;
 
 	@Mock
 	StockWrapper stockWrapper;
@@ -247,7 +251,7 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 
 		PortfolioTrans portfolioTransObj = new PortfolioTrans();
 		portfolioTransObj.setStockName("Microsoft Corp.");
-		portfolioTransObj.setAction("B");
+		portfolioTransObj.setAction("BUY");
 		portfolioTransObj.setNoOfShare(80);
 		portfolioTransObj.setStockSymbol("MSFT");
 		portfolioTransObj.setStockExchg("NASDAQ");
@@ -259,6 +263,59 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 
 		assertNotNull(result.getSystemMsg());
 		assertNull(result.getErrMsg());
+	}
+
+	@Test
+	@Order(13)
+	void testAddPortfolioTrans_unknownStockSym_buyFail() {
+
+		Stock stock = null;
+		StockWrapper dummyStockWrapper = new StockWrapper(stock);
+
+		when(portfolioHoldService.findStock(anyString())).thenReturn(dummyStockWrapper);
+
+		Long portId = 2L;
+		String username = "user1";
+
+		PortfolioTrans portfolioTransObj = new PortfolioTrans();
+		portfolioTransObj.setStockName("Microsoft Corp.");
+		portfolioTransObj.setAction("BUY");
+		portfolioTransObj.setNoOfShare(60);
+		portfolioTransObj.setStockSymbol("MSFT");
+		portfolioTransObj.setStockExchg("NASDAQ");
+		portfolioTransObj.setTransPrice(new BigDecimal("269.81"));
+
+		PortfolioTrans result = portfolioTransServiceImpl.addPortfolioTrans(portfolioTransObj, 0, username);
+
+		verify(portfolioHoldService, times(0)).computeHoldingsJob(anyString(), any(BigDecimal.class));
+
+		assertNull(result.getSystemMsg());
+		assertEquals("Stock Symbol is invalid, unable to get stock price. Save transaction failed.",
+				result.getErrMsg());
+	}
+
+	@Test
+	@Order(14)
+	void testAddPortfolioTrans_insufficientShares_buyFail() {
+
+		Long portId = 2L;
+		String username = "user1";
+
+		PortfolioTrans portfolioTransObj = new PortfolioTrans();
+		portfolioTransObj.setStockName("Microsoft Corp.");
+		portfolioTransObj.setAction("BUY");
+		portfolioTransObj.setNoOfShare(0);
+		portfolioTransObj.setStockSymbol("MSFT");
+		portfolioTransObj.setStockExchg("NASDAQ");
+		portfolioTransObj.setTransPrice(new BigDecimal("269.81"));
+
+		PortfolioTrans result = portfolioTransServiceImpl.addPortfolioTrans(portfolioTransObj, 0, username);
+
+		verify(portfolioHoldService, times(0)).computeHoldingsJob(anyString(), any(BigDecimal.class));
+
+		assertNull(result.getSystemMsg());
+		assertEquals("Invalid No. Of Share. No. Of Share should be more than 0. Save transaction failed.",
+				result.getErrMsg());
 	}
 
 }
