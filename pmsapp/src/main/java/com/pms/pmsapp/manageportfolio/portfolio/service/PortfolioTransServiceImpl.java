@@ -167,14 +167,13 @@ public class PortfolioTransServiceImpl implements PortfolioTransService {
 				BigDecimal lastTransPrice = stockWrapper.getStock().getQuote(true).getPrice();
 				log.info("Stock: " + stockSym + " Last Transacted Price: " + lastTransPrice);
 				portfolioHoldService.computeHoldingsJob(stockSym, lastTransPrice);
+				portfolioTrans.setSystemMsg("Transaction created successfully. Transaction " + action + " " + stockExchg
+						+ ":" + stockSym + " " + noOfShare + " AT " + transPrice);
 			} catch (Exception e) {
 				portfolioTrans.setErrMsg(
 						"An unexpected error occurred while updating real time price. Update of real time price failed.");
 				log.error(e.getMessage());
 			}
-
-			portfolioTrans.setSystemMsg("Transaction created successfully. Transaction " + action + " " + stockExchg
-					+ ":" + stockSym + " " + noOfShare + " AT " + transPrice);
 
 		} else {
 			portfolioTrans.setErrMsg("You do not have sufficient shares in your holdings to register this trade.");

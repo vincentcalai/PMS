@@ -362,4 +362,42 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 		assertNull(result.getErrMsg());
 	}
 
+	@Test
+	@Order(16)
+	void testAddPortfolioTrans_insufficientShareSellFail() {
+
+		Stock stock = new Stock("MSFT");
+		stock.setStockExchange("NasdaqGS");
+		stock.setName("Microsoft Corp.");
+		StockQuote stockQuote = new StockQuote("MSFT");
+		stockQuote.setPrice(new BigDecimal("280.04"));
+		stock.setQuote(stockQuote);
+		StockWrapper dummyStockWrapper = new StockWrapper(stock);
+
+		when(portfolioHoldService.findStock(anyString())).thenReturn(dummyStockWrapper);
+
+		Long portId = 1L;
+		String username = "user1";
+
+		PortfolioTrans portfolioTransObj = new PortfolioTrans();
+		portfolioTransObj.setStockName("Microsoft Corp.");
+		portfolioTransObj.setAction("SELL");
+		portfolioTransObj.setNoOfShare(10);
+		portfolioTransObj.setStockSymbol("MSFT");
+		portfolioTransObj.setStockExchg("NASDAQ");
+		portfolioTransObj.setTransPrice(new BigDecimal("269.81"));
+
+		when(portfolioTransDao.validateSellAction(portfolioTransObj)).thenReturn(-1);
+
+		// execute method
+		PortfolioTrans result = portfolioTransServiceImpl.addPortfolioTrans(portfolioTransObj, portId, username);
+
+		verify(dividendService, times(0)).updateDivRec(anyLong(), anyString(), anyInt());
+		verify(portfolioTransDao, times(0)).populateToHolding(anyLong(), anyLong());
+		verify(portfolioHoldService, times(0)).computeHoldingsJob(anyString(), any(BigDecimal.class));
+
+		assertNull(result.getSystemMsg());
+		assertNotNull(result.getErrMsg());
+	}
+
 }
