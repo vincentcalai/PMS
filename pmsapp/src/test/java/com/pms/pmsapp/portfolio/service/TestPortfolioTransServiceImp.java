@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -38,6 +40,7 @@ import com.pms.pmsapp.manageportfolio.dividend.service.DividendService;
 import com.pms.pmsapp.manageportfolio.portfolio.data.PortfolioTrans;
 import com.pms.pmsapp.manageportfolio.portfolio.data.StockWrapper;
 import com.pms.pmsapp.manageportfolio.portfolio.repository.PortfolioTransRepository;
+import com.pms.pmsapp.manageportfolio.portfolio.repository.dao.PortfolioTransDao;
 import com.pms.pmsapp.manageportfolio.portfolio.service.PortfolioHoldService;
 import com.pms.pmsapp.manageportfolio.portfolio.service.PortfolioTransServiceImpl;
 
@@ -61,6 +64,9 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 
 	@Mock
 	PortfolioHoldService portfolioHoldService;
+
+	@Mock
+	PortfolioTransDao portfolioTransDao;
 
 	@Mock
 	DividendService dividendService;
@@ -316,6 +322,44 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 		assertNull(result.getSystemMsg());
 		assertEquals("Invalid No. Of Share. No. Of Share should be more than 0. Save transaction failed.",
 				result.getErrMsg());
+	}
+
+	@Test
+	@Order(15)
+	void testAddPortfolioTrans_sellSuccess() {
+
+		Stock stock = new Stock("MSFT");
+		stock.setStockExchange("NasdaqGS");
+		stock.setName("Microsoft Corp.");
+		StockQuote stockQuote = new StockQuote("MSFT");
+		stockQuote.setPrice(new BigDecimal("280.04"));
+		stock.setQuote(stockQuote);
+		StockWrapper dummyStockWrapper = new StockWrapper(stock);
+
+		when(portfolioHoldService.findStock(anyString())).thenReturn(dummyStockWrapper);
+
+		Long portId = 1L;
+		String username = "user1";
+
+		PortfolioTrans portfolioTransObj = new PortfolioTrans();
+		portfolioTransObj.setStockName("Microsoft Corp.");
+		portfolioTransObj.setAction("SELL");
+		portfolioTransObj.setNoOfShare(10);
+		portfolioTransObj.setStockSymbol("MSFT");
+		portfolioTransObj.setStockExchg("NASDAQ");
+		portfolioTransObj.setTransPrice(new BigDecimal("269.81"));
+
+		when(portfolioTransDao.validateSellAction(portfolioTransObj)).thenReturn(10);
+
+		// execute method
+		PortfolioTrans result = portfolioTransServiceImpl.addPortfolioTrans(portfolioTransObj, portId, username);
+
+		verify(dividendService, times(1)).updateDivRec(anyLong(), anyString(), anyInt());
+		verify(portfolioTransDao, times(1)).populateToHolding(anyLong(), anyLong());
+		verify(portfolioHoldService, times(1)).computeHoldingsJob(anyString(), any(BigDecimal.class));
+
+		assertNotNull(result.getSystemMsg());
+		assertNull(result.getErrMsg());
 	}
 
 }

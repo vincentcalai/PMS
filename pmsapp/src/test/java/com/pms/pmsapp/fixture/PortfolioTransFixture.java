@@ -21,7 +21,7 @@ public class PortfolioTransFixture {
 		portfolioTransObj1.setNoOfShare(100);
 		portfolioTransObj1.setTransPrice(new BigDecimal("250.66"));
 		portfolioTransObj1.setTotalAmt(new BigDecimal("25066"));
-		portfolioTransObj1.setAction("B");
+		portfolioTransObj1.setAction("BUY");
 		portfolioTransObj1.setBackDatedDate(null);
 		portfolioTransObj1.setCreatedBy("user1");
 		portfolioTransObj1.setCreatedDt(new Date());
@@ -38,7 +38,7 @@ public class PortfolioTransFixture {
 		portfolioTransObj2.setNoOfShare(100);
 		portfolioTransObj2.setTransPrice(new BigDecimal("113.98"));
 		portfolioTransObj2.setTotalAmt(new BigDecimal("11398"));
-		portfolioTransObj2.setAction("B");
+		portfolioTransObj2.setAction("BUY");
 		portfolioTransObj2.setBackDatedDate(null);
 		portfolioTransObj2.setCreatedBy("user1");
 		portfolioTransObj2.setCreatedDt(new Date());
