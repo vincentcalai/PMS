@@ -18,6 +18,7 @@ import com.pms.pmsapp.manageportfolio.portfolio.data.PortfolioTrans;
 import com.pms.pmsapp.manageportfolio.portfolio.data.StockWrapper;
 import com.pms.pmsapp.manageportfolio.portfolio.repository.PortfolioTransRepository;
 import com.pms.pmsapp.manageportfolio.portfolio.repository.dao.PortfolioTransDao;
+import com.pms.pmsapp.manageportfolio.portfolio.web.PortfolioTransForm;
 import com.pms.pmsapp.util.constant.ConstantUtil;
 
 @Service
@@ -42,7 +43,7 @@ public class PortfolioTransServiceImpl implements PortfolioTransService {
 
 	public List<PortfolioTrans> findAll(long portId, Pageable pageable) {
 		log.info("findAll Trans in ServiceImpl");
-		return portfolioTransDao.findAll(portId, pageable);
+		return portfolioTransRepository.findAllByPortId(portId, pageable);
 	}
 
 	public List<MktExchg> findAllMktExchg() {
@@ -98,7 +99,10 @@ public class PortfolioTransServiceImpl implements PortfolioTransService {
 	}
 
 	@Override
-	public PortfolioTrans retrieveStockInfo(PortfolioTrans portfolioTrans) {
+	public PortfolioTransForm retrieveStockInfo(PortfolioTransForm portfolioTrans) {
+
+		PortfolioTransForm portfolioTransForm = new PortfolioTransForm();
+
 		String stockSym = portfolioTrans.getStockSymbol();
 		StockWrapper stockWrapper = portfolioHoldService.findStock(stockSym);
 		try {
@@ -110,56 +114,75 @@ public class PortfolioTransServiceImpl implements PortfolioTransService {
 			portfolioTrans.setStockName(stockName);
 			portfolioTrans.setTransPrice(transPrice);
 		} catch (Exception e) {
-			portfolioTrans.setErrMsg("Stock symbol not found. Fail to get stock info.");
+			portfolioTransForm.setErrMsg("Stock symbol not found. Fail to get stock info.");
 			log.error(e.getMessage());
 		}
 
-		return portfolioTrans;
+		// add portfolioTrans json to portfolioTransForm here
+
+		return portfolioTransForm;
 	}
 
 	@Override
-	public PortfolioTrans addPortfolioTrans(PortfolioTrans portfolioTrans, long portId, String username) {
+	public PortfolioTransForm addPortfolioTrans(PortfolioTransForm portfolioTransForm, long portId, String username) {
+
 		long id = 0;
 		int sellActionCheck = 0;
 
 		if (username != null) {
-			portfolioTrans.setCreatedBy(username);
+			portfolioTransForm.setCreatedBy(username);
 		}
 
-		String action = portfolioTrans.getAction();
-		int noOfShare = portfolioTrans.getNoOfShare();
-		String stockSym = portfolioTrans.getStockSymbol();
-		String stockExchg = portfolioTrans.getStockExchg();
-		String transPrice = portfolioTrans.getTransPrice().toString();
-		Date backDatedDate = portfolioTrans.getBackDatedDate() == null ? new Date() : portfolioTrans.getBackDatedDate();
-		portfolioTrans.setPortId(portId);
-		portfolioTrans.setBackDatedDate(backDatedDate);
+		String action = portfolioTransForm.getAction();
+		int noOfShare = portfolioTransForm.getNoOfShare();
+		String stockSym = portfolioTransForm.getStockSymbol();
+		String stockExchg = portfolioTransForm.getStockExchg();
+		String transPrice = portfolioTransForm.getTransPrice().toString();
+		Date backDatedDate = portfolioTransForm.getBackDatedDate() == null ? new Date()
+				: portfolioTransForm.getBackDatedDate();
+		portfolioTransForm.setPortId(portId);
+		portfolioTransForm.setBackDatedDate(backDatedDate);
 
 		if (noOfShare <= 0) {
-			portfolioTrans
+			portfolioTransForm
 					.setErrMsg("Invalid No. Of Share. No. Of Share should be more than 0. Save transaction failed.");
-			return portfolioTrans;
+			return portfolioTransForm;
 		}
 
 		StockWrapper stockWrapper = portfolioHoldService.findStock(stockSym);
 		if ((stockWrapper.getStock() == null || stockWrapper.getStock().getQuote().getPrice() == null)) {
-			portfolioTrans.setErrMsg("Stock Symbol is invalid, unable to get stock price. Save transaction failed.");
-			return portfolioTrans;
+			portfolioTransForm
+					.setErrMsg("Stock Symbol is invalid, unable to get stock price. Save transaction failed.");
+			return portfolioTransForm;
 		}
 
-		if (portfolioTrans.getAction().equals(ConstantUtil.SELL_ACTION)) {
+		PortfolioTrans portfolioTrans = new PortfolioTrans();
+		portfolioTrans.setAction(portfolioTransForm.getAction());
+		portfolioTrans.setCreatedBy(portfolioTransForm.getCreatedBy());
+		portfolioTrans.setCreatedDt(portfolioTransForm.getCreatedDt());
+		portfolioTrans.setId(portfolioTransForm.getId());
+		portfolioTrans.setNoOfShare(portfolioTransForm.getNoOfShare());
+		portfolioTrans.setPortId(portfolioTransForm.getPortId());
+		portfolioTrans.setRemarks(portfolioTransForm.getRemarks());
+		portfolioTrans.setStockExchg(portfolioTransForm.getStockExchg());
+		portfolioTrans.setStockName(portfolioTransForm.getStockName());
+		portfolioTrans.setStockSymbol(portfolioTransForm.getStockSymbol());
+		portfolioTrans.setTotalAmt(portfolioTransForm.getTotalAmt());
+		portfolioTrans.setTransPrice(portfolioTransForm.getTransPrice());
+
+		if (portfolioTransForm.getAction().equals(ConstantUtil.SELL_ACTION)) {
 			sellActionCheck = validateSellAction(portfolioTrans);
 		}
 
 		if (sellActionCheck >= 0) {
 			id = portfolioTransRepository.getNextTransID();
-			portfolioTrans.setId(id);
+			portfolioTransForm.setId(id);
 
 			addPortfolioTrans(portfolioTrans);
 
 			populateToHolding(id, portId);
 
-			if (portfolioTrans.getAction().equals(ConstantUtil.SELL_ACTION)) {
+			if (portfolioTransForm.getAction().equals(ConstantUtil.SELL_ACTION)) {
 				dividendService.updateDivRec(portId, stockSym, noOfShare);
 			}
 
@@ -167,19 +190,21 @@ public class PortfolioTransServiceImpl implements PortfolioTransService {
 				BigDecimal lastTransPrice = stockWrapper.getStock().getQuote(true).getPrice();
 				log.info("Stock: " + stockSym + " Last Transacted Price: " + lastTransPrice);
 				portfolioHoldService.computeHoldingsJob(stockSym, lastTransPrice);
-				portfolioTrans.setSystemMsg("Transaction created successfully. Transaction " + action + " " + stockExchg
-						+ ":" + stockSym + " " + noOfShare + " AT " + transPrice);
+				portfolioTransForm.setSystemMsg("Transaction created successfully. Transaction " + action + " "
+						+ stockExchg + ":" + stockSym + " " + noOfShare + " AT " + transPrice);
 			} catch (Exception e) {
-				portfolioTrans.setErrMsg(
+				portfolioTransForm.setErrMsg(
 						"An unexpected error occurred while updating real time price. Update of real time price failed.");
 				log.error(e.getMessage());
 			}
 
 		} else {
-			portfolioTrans.setErrMsg("You do not have sufficient shares in your holdings to register this trade.");
+			portfolioTransForm.setErrMsg("You do not have sufficient shares in your holdings to register this trade.");
 		}
 
-		return portfolioTrans;
+		// add portfolioTrans json to portfolioTransForm here
+
+		return portfolioTransForm;
 	}
 
 }

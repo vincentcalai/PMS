@@ -43,6 +43,7 @@ import com.pms.pmsapp.manageportfolio.portfolio.repository.PortfolioTransReposit
 import com.pms.pmsapp.manageportfolio.portfolio.repository.dao.PortfolioTransDao;
 import com.pms.pmsapp.manageportfolio.portfolio.service.PortfolioHoldService;
 import com.pms.pmsapp.manageportfolio.portfolio.service.PortfolioTransServiceImpl;
+import com.pms.pmsapp.manageportfolio.portfolio.web.PortfolioTransForm;
 
 import yahoofinance.Stock;
 import yahoofinance.quotes.stock.StockQuote;
@@ -125,11 +126,11 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 		portfolioTransSaveObj.setNoOfShare(100);
 		portfolioTransSaveObj.setTransPrice(new BigDecimal("115.3618674"));
 		portfolioTransSaveObj.setAction("B");
-		portfolioTransSaveObj.setBackDatedDate(null);
+//		portfolioTransSaveObj.setBackDatedDate(null);
 		portfolioTransSaveObj.setCreatedBy("user1");
 		portfolioTransSaveObj.setCreatedDt(new Date());
 		portfolioTransSaveObj.setRemarks("Saved transaction as ID 3");
-		portfolioTransSaveObj.setCurrentStockHold(80);
+		// portfolioTransSaveObj.setCurrentStockHold(80);
 
 		portfolioTransServiceImpl.addPortfolioTrans(portfolioTransSaveObj);
 
@@ -228,10 +229,10 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 
 		when(portfolioHoldService.findStock(anyString())).thenReturn(dummyStockWrapper);
 
-		PortfolioTrans portfolioTransObj = new PortfolioTrans();
+		PortfolioTransForm portfolioTransObj = new PortfolioTransForm();
 		portfolioTransObj.setStockSymbol("MSFT");
 
-		PortfolioTrans result = portfolioTransServiceImpl.retrieveStockInfo(portfolioTransObj);
+		PortfolioTransForm result = portfolioTransServiceImpl.retrieveStockInfo(portfolioTransObj);
 
 		assertEquals("Microsoft Corp.", result.getStockName());
 		assertEquals("NASDAQ", result.getStockExchg());
@@ -252,10 +253,9 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 
 		when(portfolioHoldService.findStock(anyString())).thenReturn(dummyStockWrapper);
 
-		Long portId = 2L;
 		String username = "user1";
 
-		PortfolioTrans portfolioTransObj = new PortfolioTrans();
+		PortfolioTransForm portfolioTransObj = new PortfolioTransForm();
 		portfolioTransObj.setStockName("Microsoft Corp.");
 		portfolioTransObj.setAction("BUY");
 		portfolioTransObj.setNoOfShare(80);
@@ -263,7 +263,7 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 		portfolioTransObj.setStockExchg("NASDAQ");
 		portfolioTransObj.setTransPrice(new BigDecimal("269.81"));
 
-		PortfolioTrans result = portfolioTransServiceImpl.addPortfolioTrans(portfolioTransObj, 0, username);
+		PortfolioTransForm result = portfolioTransServiceImpl.addPortfolioTrans(portfolioTransObj, 0, username);
 
 		verify(portfolioHoldService, times(1)).computeHoldingsJob(anyString(), any(BigDecimal.class));
 
@@ -280,10 +280,9 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 
 		when(portfolioHoldService.findStock(anyString())).thenReturn(dummyStockWrapper);
 
-		Long portId = 2L;
 		String username = "user1";
 
-		PortfolioTrans portfolioTransObj = new PortfolioTrans();
+		PortfolioTransForm portfolioTransObj = new PortfolioTransForm();
 		portfolioTransObj.setStockName("Microsoft Corp.");
 		portfolioTransObj.setAction("BUY");
 		portfolioTransObj.setNoOfShare(60);
@@ -291,7 +290,7 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 		portfolioTransObj.setStockExchg("NASDAQ");
 		portfolioTransObj.setTransPrice(new BigDecimal("269.81"));
 
-		PortfolioTrans result = portfolioTransServiceImpl.addPortfolioTrans(portfolioTransObj, 0, username);
+		PortfolioTransForm result = portfolioTransServiceImpl.addPortfolioTrans(portfolioTransObj, 0, username);
 
 		verify(portfolioHoldService, times(0)).computeHoldingsJob(anyString(), any(BigDecimal.class));
 
@@ -304,10 +303,9 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 	@Order(14)
 	void testAddPortfolioTrans_insufficientShares_buyFail() {
 
-		Long portId = 2L;
 		String username = "user1";
 
-		PortfolioTrans portfolioTransObj = new PortfolioTrans();
+		PortfolioTransForm portfolioTransObj = new PortfolioTransForm();
 		portfolioTransObj.setStockName("Microsoft Corp.");
 		portfolioTransObj.setAction("BUY");
 		portfolioTransObj.setNoOfShare(0);
@@ -315,7 +313,7 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 		portfolioTransObj.setStockExchg("NASDAQ");
 		portfolioTransObj.setTransPrice(new BigDecimal("269.81"));
 
-		PortfolioTrans result = portfolioTransServiceImpl.addPortfolioTrans(portfolioTransObj, 0, username);
+		PortfolioTransForm result = portfolioTransServiceImpl.addPortfolioTrans(portfolioTransObj, 0, username);
 
 		verify(portfolioHoldService, times(0)).computeHoldingsJob(anyString(), any(BigDecimal.class));
 
@@ -341,6 +339,14 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 		Long portId = 1L;
 		String username = "user1";
 
+		PortfolioTransForm portfolioTransForm = new PortfolioTransForm();
+		portfolioTransForm.setStockName("Microsoft Corp.");
+		portfolioTransForm.setAction("SELL");
+		portfolioTransForm.setNoOfShare(10);
+		portfolioTransForm.setStockSymbol("MSFT");
+		portfolioTransForm.setStockExchg("NASDAQ");
+		portfolioTransForm.setTransPrice(new BigDecimal("269.81"));
+
 		PortfolioTrans portfolioTransObj = new PortfolioTrans();
 		portfolioTransObj.setStockName("Microsoft Corp.");
 		portfolioTransObj.setAction("SELL");
@@ -352,7 +358,7 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 		when(portfolioTransDao.validateSellAction(portfolioTransObj)).thenReturn(10);
 
 		// execute method
-		PortfolioTrans result = portfolioTransServiceImpl.addPortfolioTrans(portfolioTransObj, portId, username);
+		PortfolioTransForm result = portfolioTransServiceImpl.addPortfolioTrans(portfolioTransForm, portId, username);
 
 		verify(dividendService, times(1)).updateDivRec(anyLong(), anyString(), anyInt());
 		verify(portfolioTransDao, times(1)).populateToHolding(anyLong(), anyLong());
@@ -379,6 +385,14 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 		Long portId = 1L;
 		String username = "user1";
 
+		PortfolioTransForm portfolioTransForm = new PortfolioTransForm();
+		portfolioTransForm.setStockName("Microsoft Corp.");
+		portfolioTransForm.setAction("SELL");
+		portfolioTransForm.setNoOfShare(10);
+		portfolioTransForm.setStockSymbol("MSFT");
+		portfolioTransForm.setStockExchg("NASDAQ");
+		portfolioTransForm.setTransPrice(new BigDecimal("269.81"));
+
 		PortfolioTrans portfolioTransObj = new PortfolioTrans();
 		portfolioTransObj.setStockName("Microsoft Corp.");
 		portfolioTransObj.setAction("SELL");
@@ -390,7 +404,7 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 		when(portfolioTransDao.validateSellAction(portfolioTransObj)).thenReturn(-1);
 
 		// execute method
-		PortfolioTrans result = portfolioTransServiceImpl.addPortfolioTrans(portfolioTransObj, portId, username);
+		PortfolioTransForm result = portfolioTransServiceImpl.addPortfolioTrans(portfolioTransForm, portId, username);
 
 		verify(dividendService, times(0)).updateDivRec(anyLong(), anyString(), anyInt());
 		verify(portfolioTransDao, times(0)).populateToHolding(anyLong(), anyLong());
