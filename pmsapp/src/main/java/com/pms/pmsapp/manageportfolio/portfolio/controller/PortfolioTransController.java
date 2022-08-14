@@ -80,7 +80,7 @@ public class PortfolioTransController {
 		if (searchText == null || "".equals(searchText)) {
 			searchText = "%";
 		} else {
-			searchText = searchText + "%";
+			searchText = "%" + searchText + "%";
 		}
 
 		List<PortfolioTrans> portfolioTrans = portfolioTransService.searchTrans(portId, searchText, pageable);

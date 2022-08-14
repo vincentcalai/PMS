@@ -19,6 +19,12 @@ public interface PortfolioTransRepository extends JpaRepository<PortfolioTrans, 
 	Long countByPortId(Long portId);
 
 	@Query(value = "SELECT count(*) FROM PMS_PORT_TRANS where port_id = :portId and "
-			+ "(UPPER(stock_nam) like '%' || :searchText || '%' or stock_sym like :searchText)", nativeQuery = true)
+			+ "(UPPER(stock_nam) like :searchText  or stock_sym like :searchText) order by created_dt desc", nativeQuery = true)
 	Long searchTransCount(@Param("portId") Long portId, @Param("searchText") String searchText);
+
+	@Query(value = "SELECT * FROM PMS_PORT_TRANS where port_id = :portId and "
+			+ "(UPPER(stock_nam) like :searchText or stock_sym like :searchText) order by created_dt desc", nativeQuery = true)
+	List<PortfolioTrans> searchTrans(@Param("portId") Long portId, @Param("searchText") String searchText,
+			Pageable pageable);
+
 }

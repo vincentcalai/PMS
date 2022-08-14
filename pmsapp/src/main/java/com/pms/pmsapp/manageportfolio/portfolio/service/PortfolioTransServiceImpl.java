@@ -90,7 +90,7 @@ public class PortfolioTransServiceImpl implements PortfolioTransService {
 
 	@Override
 	public List<PortfolioTrans> searchTrans(long portId, String searchText, Pageable pageable) {
-		return portfolioTransDao.searchTrans(portId, searchText, pageable);
+		return portfolioTransRepository.searchTrans(portId, searchText, pageable);
 	}
 
 	@Override
@@ -117,8 +117,6 @@ public class PortfolioTransServiceImpl implements PortfolioTransService {
 			portfolioTransForm.setErrMsg("Stock symbol not found. Fail to get stock info.");
 			log.error(e.getMessage());
 		}
-
-		// add portfolioTrans json to portfolioTransForm here
 
 		return portfolioTransForm;
 	}
@@ -201,8 +199,6 @@ public class PortfolioTransServiceImpl implements PortfolioTransService {
 		} else {
 			portfolioTransForm.setErrMsg("You do not have sufficient shares in your holdings to register this trade.");
 		}
-
-		// add portfolioTrans json to portfolioTransForm here
 
 		return portfolioTransForm;
 	}
