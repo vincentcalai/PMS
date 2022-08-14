@@ -188,7 +188,7 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 	@Order(7)
 	void testSearchTransCount_WhenSearchUsingStockSym_ShouldReturnOneCount() {
 		Long portId = 1L;
-		Long count = portfolioTransServiceImpl.searchTransCount(portId, "MSFT");
+		Long count = portfolioTransServiceImpl.searchTransCount(portId, "%MSFT%");
 		assertEquals(1, count);
 	}
 
@@ -196,7 +196,7 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 	@Order(8)
 	void testSearchTransCount_WhenSearchUsingStockName_ShouldReturnOneCount() {
 		Long portId = 1L;
-		Long count = portfolioTransServiceImpl.searchTransCount(portId, "MICRO");
+		Long count = portfolioTransServiceImpl.searchTransCount(portId, "%MICRO%");
 		assertEquals(1, count);
 	}
 
@@ -204,7 +204,7 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 	@Order(9)
 	void testSearchTransCount_WhenSearchUsingStockSym_ShouldReturnZeroCount() {
 		Long portId = 1L;
-		Long count = portfolioTransServiceImpl.searchTransCount(portId, "AMZN");
+		Long count = portfolioTransServiceImpl.searchTransCount(portId, "%AMZN%");
 		assertEquals(0, count);
 	}
 
@@ -212,7 +212,7 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 	@Order(10)
 	void testSearchTransCount_WhenSearchUsingStockName_ShouldReturnZeroCount() {
 		Long portId = 1L;
-		Long count = portfolioTransServiceImpl.searchTransCount(portId, "AMA");
+		Long count = portfolioTransServiceImpl.searchTransCount(portId, "%AMA%");
 		assertEquals(0, count);
 	}
 
@@ -339,6 +339,8 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 		Long portId = 1L;
 		String username = "user1";
 
+		when(portfolioTransDao.validateSellAction(any(PortfolioTrans.class))).thenReturn(10);
+
 		PortfolioTransForm portfolioTransForm = new PortfolioTransForm();
 		portfolioTransForm.setStockName("Microsoft Corp.");
 		portfolioTransForm.setAction("SELL");
@@ -346,16 +348,6 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 		portfolioTransForm.setStockSymbol("MSFT");
 		portfolioTransForm.setStockExchg("NASDAQ");
 		portfolioTransForm.setTransPrice(new BigDecimal("269.81"));
-
-		PortfolioTrans portfolioTransObj = new PortfolioTrans();
-		portfolioTransObj.setStockName("Microsoft Corp.");
-		portfolioTransObj.setAction("SELL");
-		portfolioTransObj.setNoOfShare(10);
-		portfolioTransObj.setStockSymbol("MSFT");
-		portfolioTransObj.setStockExchg("NASDAQ");
-		portfolioTransObj.setTransPrice(new BigDecimal("269.81"));
-
-		when(portfolioTransDao.validateSellAction(portfolioTransObj)).thenReturn(10);
 
 		// execute method
 		PortfolioTransForm result = portfolioTransServiceImpl.addPortfolioTrans(portfolioTransForm, portId, username);
@@ -385,6 +377,8 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 		Long portId = 1L;
 		String username = "user1";
 
+		when(portfolioTransDao.validateSellAction(any(PortfolioTrans.class))).thenReturn(-1);
+
 		PortfolioTransForm portfolioTransForm = new PortfolioTransForm();
 		portfolioTransForm.setStockName("Microsoft Corp.");
 		portfolioTransForm.setAction("SELL");
@@ -392,16 +386,6 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 		portfolioTransForm.setStockSymbol("MSFT");
 		portfolioTransForm.setStockExchg("NASDAQ");
 		portfolioTransForm.setTransPrice(new BigDecimal("269.81"));
-
-		PortfolioTrans portfolioTransObj = new PortfolioTrans();
-		portfolioTransObj.setStockName("Microsoft Corp.");
-		portfolioTransObj.setAction("SELL");
-		portfolioTransObj.setNoOfShare(10);
-		portfolioTransObj.setStockSymbol("MSFT");
-		portfolioTransObj.setStockExchg("NASDAQ");
-		portfolioTransObj.setTransPrice(new BigDecimal("269.81"));
-
-		when(portfolioTransDao.validateSellAction(portfolioTransObj)).thenReturn(-1);
 
 		// execute method
 		PortfolioTransForm result = portfolioTransServiceImpl.addPortfolioTrans(portfolioTransForm, portId, username);

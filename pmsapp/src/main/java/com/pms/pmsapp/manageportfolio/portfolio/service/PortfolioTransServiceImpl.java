@@ -99,20 +99,18 @@ public class PortfolioTransServiceImpl implements PortfolioTransService {
 	}
 
 	@Override
-	public PortfolioTransForm retrieveStockInfo(PortfolioTransForm portfolioTrans) {
+	public PortfolioTransForm retrieveStockInfo(PortfolioTransForm portfolioTransForm) {
 
-		PortfolioTransForm portfolioTransForm = new PortfolioTransForm();
-
-		String stockSym = portfolioTrans.getStockSymbol();
+		String stockSym = portfolioTransForm.getStockSymbol();
 		StockWrapper stockWrapper = portfolioHoldService.findStock(stockSym);
 		try {
 			String stockExchg = stockWrapper.getStock().getStockExchange();
 			String stockName = stockWrapper.getStock().getName();
 			BigDecimal transPrice = stockWrapper.getStock().getQuote(true).getPrice();
-			portfolioTrans.setStockExchg(ConstantUtil.exchgSuffmap.get(stockExchg));
+			portfolioTransForm.setStockExchg(ConstantUtil.exchgSuffmap.get(stockExchg));
 			log.info("Stock: " + stockName + " Trans Price: " + transPrice);
-			portfolioTrans.setStockName(stockName);
-			portfolioTrans.setTransPrice(transPrice);
+			portfolioTransForm.setStockName(stockName);
+			portfolioTransForm.setTransPrice(transPrice);
 		} catch (Exception e) {
 			portfolioTransForm.setErrMsg("Stock symbol not found. Fail to get stock info.");
 			log.error(e.getMessage());
