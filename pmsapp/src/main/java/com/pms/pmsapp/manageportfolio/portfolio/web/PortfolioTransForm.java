@@ -1,20 +1,9 @@
-package com.pms.pmsapp.manageportfolio.portfolio.data;
+package com.pms.pmsapp.manageportfolio.portfolio.web;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-
-@Entity
-@Table(name = "PMS_PORT_TRANS")
-@SequenceGenerator(name = "PortTransSeqGenerator", sequenceName = "SQ_PMS_PORT_TRANS", allocationSize = 1)
-public class PortfolioTrans {
+public class PortfolioTransForm {
 
 	private Long id;
 	private Long portId;
@@ -25,34 +14,18 @@ public class PortfolioTrans {
 	private BigDecimal transPrice;
 	private BigDecimal totalAmt;
 	private String action;
+	private Date backDatedDate;
 	private String createdBy;
 	private Date createdDt;
 	private String remarks;
+	private int currentStockHold;
+	private String errMsg;
+	private String systemMsg;
 
-	public PortfolioTrans() {
+	public PortfolioTransForm() {
+
 	}
 
-	public PortfolioTrans(Long id, Long portId, String stockName, String stockSymbol, String stockExchg,
-			Integer noOfShare, BigDecimal transPrice, BigDecimal totalAmt, String action, String createdBy,
-			Date createdDt, String remarks) {
-		super();
-		this.id = id;
-		this.portId = portId;
-		this.stockName = stockName;
-		this.stockSymbol = stockSymbol;
-		this.stockExchg = stockExchg;
-		this.noOfShare = noOfShare;
-		this.transPrice = transPrice;
-		this.totalAmt = totalAmt;
-		this.action = action;
-		this.createdBy = createdBy;
-		this.createdDt = createdDt;
-		this.remarks = remarks;
-	}
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PortTransSeqGenerator")
-	@Column(name = "ID", unique = true, nullable = false)
 	public Long getId() {
 		return id;
 	}
@@ -61,7 +34,6 @@ public class PortfolioTrans {
 		this.id = id;
 	}
 
-	@Column(name = "PORT_ID", nullable = false)
 	public Long getPortId() {
 		return portId;
 	}
@@ -70,7 +42,6 @@ public class PortfolioTrans {
 		this.portId = portId;
 	}
 
-	@Column(name = "STOCK_NAM", nullable = false, length = 100)
 	public String getStockName() {
 		return stockName;
 	}
@@ -79,7 +50,6 @@ public class PortfolioTrans {
 		this.stockName = stockName;
 	}
 
-	@Column(name = "STOCK_SYM", nullable = false, length = 10)
 	public String getStockSymbol() {
 		return stockSymbol;
 	}
@@ -88,7 +58,6 @@ public class PortfolioTrans {
 		this.stockSymbol = stockSymbol;
 	}
 
-	@Column(name = "STOCK_EXCHG", nullable = true, length = 6)
 	public String getStockExchg() {
 		return stockExchg;
 	}
@@ -97,7 +66,6 @@ public class PortfolioTrans {
 		this.stockExchg = stockExchg;
 	}
 
-	@Column(name = "NO_OF_SHARE", nullable = true)
 	public Integer getNoOfShare() {
 		return noOfShare;
 	}
@@ -106,7 +74,6 @@ public class PortfolioTrans {
 		this.noOfShare = noOfShare;
 	}
 
-	@Column(name = "TRANS_PRICE", nullable = true)
 	public BigDecimal getTransPrice() {
 		return transPrice;
 	}
@@ -115,7 +82,6 @@ public class PortfolioTrans {
 		this.transPrice = transPrice;
 	}
 
-	@Column(name = "TOTAL_AMT", nullable = true)
 	public BigDecimal getTotalAmt() {
 		return totalAmt;
 	}
@@ -124,7 +90,6 @@ public class PortfolioTrans {
 		this.totalAmt = totalAmt;
 	}
 
-	@Column(name = "ACTION", nullable = true, length = 4)
 	public String getAction() {
 		return action;
 	}
@@ -133,7 +98,14 @@ public class PortfolioTrans {
 		this.action = action;
 	}
 
-	@Column(name = "CREATED_BY", nullable = true, length = 20)
+	public Date getBackDatedDate() {
+		return backDatedDate;
+	}
+
+	public void setBackDatedDate(Date backDatedDate) {
+		this.backDatedDate = backDatedDate;
+	}
+
 	public String getCreatedBy() {
 		return createdBy;
 	}
@@ -142,7 +114,6 @@ public class PortfolioTrans {
 		this.createdBy = createdBy;
 	}
 
-	@Column(name = "CREATED_DT", nullable = true)
 	public Date getCreatedDt() {
 		return createdDt;
 	}
@@ -151,13 +122,36 @@ public class PortfolioTrans {
 		this.createdDt = createdDt;
 	}
 
-	@Column(name = "REMARKS", nullable = true, length = 100)
 	public String getRemarks() {
 		return remarks;
 	}
 
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
+	}
+
+	public int getCurrentStockHold() {
+		return currentStockHold;
+	}
+
+	public void setCurrentStockHold(int currentStockHold) {
+		this.currentStockHold = currentStockHold;
+	}
+
+	public String getErrMsg() {
+		return errMsg;
+	}
+
+	public void setErrMsg(String errMsg) {
+		this.errMsg = errMsg;
+	}
+
+	public String getSystemMsg() {
+		return systemMsg;
+	}
+
+	public void setSystemMsg(String systemMsg) {
+		this.systemMsg = systemMsg;
 	}
 
 }

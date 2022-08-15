@@ -22,11 +22,11 @@ public class PortfolioTransFixture {
 		portfolioTransObj1.setTransPrice(new BigDecimal("250.66"));
 		portfolioTransObj1.setTotalAmt(new BigDecimal("25066"));
 		portfolioTransObj1.setAction("BUY");
-		portfolioTransObj1.setBackDatedDate(null);
+		// portfolioTransObj1.setBackDatedDate(null);
 		portfolioTransObj1.setCreatedBy("user1");
 		portfolioTransObj1.setCreatedDt(new Date());
 		portfolioTransObj1.setRemarks("This is a test remark 1");
-		portfolioTransObj1.setCurrentStockHold(50);
+		// portfolioTransObj1.setCurrentStockHold(50);
 
 		PortfolioTrans portfolioTransObj2 = new PortfolioTrans();
 
@@ -39,11 +39,11 @@ public class PortfolioTransFixture {
 		portfolioTransObj2.setTransPrice(new BigDecimal("113.98"));
 		portfolioTransObj2.setTotalAmt(new BigDecimal("11398"));
 		portfolioTransObj2.setAction("BUY");
-		portfolioTransObj2.setBackDatedDate(null);
+		// portfolioTransObj2.setBackDatedDate(null);
 		portfolioTransObj2.setCreatedBy("user1");
 		portfolioTransObj2.setCreatedDt(new Date());
 		portfolioTransObj2.setRemarks("This is a test remark 2");
-		portfolioTransObj2.setCurrentStockHold(30);
+		// portfolioTransObj2.setCurrentStockHold(30);
 
 		List<PortfolioTrans> list = new ArrayList<>();
 		list.add(portfolioTransObj1);

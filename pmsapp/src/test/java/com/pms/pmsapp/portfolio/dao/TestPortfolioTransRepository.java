@@ -66,11 +66,11 @@ class TestPortfolioTransRepository {
 		portfolioTransSaveObj.setTransPrice(new BigDecimal("115.36"));
 		portfolioTransSaveObj.setTotalAmt(new BigDecimal("11536"));
 		portfolioTransSaveObj.setAction("B");
-		portfolioTransSaveObj.setBackDatedDate(null);
+		// portfolioTransSaveObj.setBackDatedDate(null);
 		portfolioTransSaveObj.setCreatedBy("user1");
 		portfolioTransSaveObj.setCreatedDt(new Date());
 		portfolioTransSaveObj.setRemarks("Saved transaction as ID 3");
-		portfolioTransSaveObj.setCurrentStockHold(80);
+		// portfolioTransSaveObj.setCurrentStockHold(80);
 
 		portfolioTransRepository.save(portfolioTransSaveObj);
 
@@ -81,7 +81,7 @@ class TestPortfolioTransRepository {
 		assertEquals(new BigDecimal("115.36"), result.get().getTransPrice());
 		assertEquals(new BigDecimal("11536"), result.get().getTotalAmt());
 		assertEquals("B", result.get().getAction());
-		assertEquals(80, result.get().getCurrentStockHold());
+		// assertEquals(80, result.get().getCurrentStockHold());
 	}
 
 	@Test

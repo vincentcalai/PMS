@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.pms.pmsapp.common.data.MktExchg;
 import com.pms.pmsapp.manageportfolio.portfolio.data.PortfolioTrans;
+import com.pms.pmsapp.manageportfolio.portfolio.web.PortfolioTransForm;
 
 public interface PortfolioTransService {
 	List<PortfolioTrans> findAll(long portId, Pageable pageable);
@@ -30,7 +31,8 @@ public interface PortfolioTransService {
 
 	long searchTransCount(long portId, String searchText);
 
-	PortfolioTrans retrieveStockInfo(PortfolioTrans portfolioTrans);
+	PortfolioTransForm retrieveStockInfo(PortfolioTransForm portfolioTransForm);
 
-	PortfolioTrans addPortfolioTrans(PortfolioTrans portfolioTrans, long portId, String username);
+	PortfolioTransForm addPortfolioTrans(PortfolioTransForm portfolioTransForm, long portId, String username);
+
 }
