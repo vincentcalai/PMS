@@ -40,6 +40,7 @@ import com.pms.pmsapp.manageportfolio.dividend.service.DividendService;
 import com.pms.pmsapp.manageportfolio.portfolio.data.PortfolioTrans;
 import com.pms.pmsapp.manageportfolio.portfolio.data.StockWrapper;
 import com.pms.pmsapp.manageportfolio.portfolio.repository.PortfolioTransRepository;
+import com.pms.pmsapp.manageportfolio.portfolio.repository.dao.PortfolioHoldDao;
 import com.pms.pmsapp.manageportfolio.portfolio.repository.dao.PortfolioTransDao;
 import com.pms.pmsapp.manageportfolio.portfolio.service.PortfolioHoldService;
 import com.pms.pmsapp.manageportfolio.portfolio.service.PortfolioTransServiceImpl;
@@ -67,6 +68,9 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 
 	@Mock
 	PortfolioTransDao portfolioTransDao;
+
+	@Mock
+	PortfolioHoldDao portfolioHoldDao;
 
 	@Mock
 	DividendService dividendService;
@@ -389,7 +393,6 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 
 		when(portfolioTransDao.validateSellAction(portfolioTransObj)).thenReturn(-1);
 
-		// execute method
 		PortfolioTrans result = portfolioTransServiceImpl.addPortfolioTrans(portfolioTransObj, portId, username);
 
 		verify(dividendService, times(0)).updateDivRec(anyLong(), anyString(), anyInt());
@@ -399,5 +402,4 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 		assertNull(result.getSystemMsg());
 		assertNotNull(result.getErrMsg());
 	}
-
 }
