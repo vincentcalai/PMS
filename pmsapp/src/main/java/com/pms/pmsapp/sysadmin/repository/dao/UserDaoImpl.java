@@ -1,4 +1,4 @@
-package com.pms.pmsapp.sysadmin.dao;
+package com.pms.pmsapp.sysadmin.repository.dao;
 
 import java.math.BigDecimal;
 import java.util.List;

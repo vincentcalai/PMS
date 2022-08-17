@@ -7,15 +7,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.pms.pmsapp.sysadmin.dao.UserDao;
 import com.pms.pmsapp.sysadmin.data.User;
+import com.pms.pmsapp.sysadmin.repository.dao.UserDao;
 
 @Service
 public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserDao userDao;
-	
+
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
@@ -73,7 +73,7 @@ public class UserServiceImpl implements UserService {
 	public User createUser(User userForm, String createdBy) {
 
 		String username = userForm.getUsername();
-		
+
 		if (createdBy != null) {
 			userForm.setCreatedBy(createdBy);
 		}
@@ -100,27 +100,27 @@ public class UserServiceImpl implements UserService {
 			}
 			userForm.setSystemMsg("User Created Successfully.");
 		}
-		
+
 		return userForm;
 	}
 
 	@Override
 	public User updateUser(User userForm, String createdBy) {
-		if(createdBy != null) {
-			 userForm.setCreatedBy(createdBy);
-		 }
+		if (createdBy != null) {
+			userForm.setCreatedBy(createdBy);
+		}
 
-		 userForm.setRoles(String.join(", ", userForm.getSelectedRoles()));
+		userForm.setRoles(String.join(", ", userForm.getSelectedRoles()));
 
-		 updateUser(userForm);
-		 clearUserRole(userForm.getId());
-		 
-		 for( int i=0; i<userForm.getSelectedRoles().length; i++) {
-			 String newUserRole = userForm.getSelectedRoles()[i];
-			 updateUserRole(userForm.getId(), newUserRole);
-		 }
-		 
-		 userForm.setSystemMsg("User updated Successfully.");
+		updateUser(userForm);
+		clearUserRole(userForm.getId());
+
+		for (int i = 0; i < userForm.getSelectedRoles().length; i++) {
+			String newUserRole = userForm.getSelectedRoles()[i];
+			updateUserRole(userForm.getId(), newUserRole);
+		}
+
+		userForm.setSystemMsg("User updated Successfully.");
 		return userForm;
 	}
 }
