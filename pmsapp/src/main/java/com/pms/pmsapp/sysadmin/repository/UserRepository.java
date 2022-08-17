@@ -10,4 +10,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 	List<User> findAllByDelInd(String indNo);
 
+	int countByUsername(String string);
+
 }

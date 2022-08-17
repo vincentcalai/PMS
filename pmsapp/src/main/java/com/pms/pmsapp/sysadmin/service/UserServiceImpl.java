@@ -33,7 +33,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public boolean checkUserExist(String username) {
-		return userDao.checkUserExist(username);
+		return (userRepository.countByUsername(username) > 0);
+		// return userDao.checkUserExist(username);
 	}
 
 	@Override
