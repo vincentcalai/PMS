@@ -30,6 +30,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import com.pms.pmsapp.TestWithSpringBoot;
 import com.pms.pmsapp.common.data.MktExchg;
@@ -94,6 +96,52 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 
 	@Test
 	@Order(1)
+	void testFindAll_pageOne() {
+		long portId = 1L;
+
+		int page = 1;
+		int size = 10;
+		Pageable pageable = PageRequest.of(page - 1, size);
+
+		List<PortfolioTrans> portfolioTransList = portfolioTransServiceImpl.findAll(portId, pageable);
+
+		assertEquals(1, portfolioTransList.size());
+	}
+
+	@Test
+	@Order(2)
+	void testSearchTrans_pageOneSearchSuccess_shouldReturnOneCount() {
+		long portId = 1L;
+
+		String searchText = "%" + "MSFT" + "%";
+
+		int page = 1;
+		int size = 10;
+		Pageable pageable = PageRequest.of(page - 1, size);
+
+		List<PortfolioTrans> portfolioTransList = portfolioTransServiceImpl.searchTrans(portId, searchText, pageable);
+
+		assertEquals(1, portfolioTransList.size());
+	}
+
+	@Test
+	@Order(3)
+	void testSearchTrans_pageOneSearchFail_shouldReturnZeroCount() {
+		long portId = 1L;
+
+		String searchText = "%" + "BABA" + "%";
+
+		int page = 1;
+		int size = 10;
+		Pageable pageable = PageRequest.of(page - 1, size);
+
+		List<PortfolioTrans> portfolioTransList = portfolioTransServiceImpl.searchTrans(portId, searchText, pageable);
+
+		assertEquals(0, portfolioTransList.size());
+	}
+
+	@Test
+	@Order(4)
 	public void testFindAllMktExchg() {
 		List<MktExchg> mktExchgList = portfolioTransServiceImpl.findAllMktExchg();
 		assertEquals(5, mktExchgList.size());
@@ -115,7 +163,7 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 	}
 
 	@Test
-	@Order(2)
+	@Order(5)
 	public void testAddPortfolioTrans() {
 		portfolioTransSaveObj = new PortfolioTrans();
 
@@ -142,7 +190,7 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 	}
 
 	@Test
-	@Order(3)
+	@Order(6)
 	public void testDeletePortfolioTrans() {
 
 		portfolioTransServiceImpl.deletePortfolioTrans(3L);
@@ -153,7 +201,7 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 	}
 
 	@Test
-	@Order(4)
+	@Order(7)
 	public void testPopulateToHolding() {
 
 		portfolioTransServiceImpl.populateToHolding(1L, 1L);
@@ -161,7 +209,7 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 	}
 
 	@Test
-	@Order(5)
+	@Order(8)
 	public void testFindSuffix() {
 		String nasdaqSuffix = portfolioTransServiceImpl.findSuffix("NASDAQ");
 		String nyseSuffix = portfolioTransServiceImpl.findSuffix("NYSE");
@@ -177,7 +225,7 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 	}
 
 	@Test
-	@Order(6)
+	@Order(9)
 	public void testFindAllCount() {
 		long count = portfolioTransServiceImpl.findAllCount(1L);
 
@@ -185,7 +233,7 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 	}
 
 	@Test
-	@Order(7)
+	@Order(10)
 	void testSearchTransCount_WhenSearchUsingStockSym_ShouldReturnOneCount() {
 		Long portId = 1L;
 		Long count = portfolioTransServiceImpl.searchTransCount(portId, "%MSFT%");
@@ -193,7 +241,7 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 	}
 
 	@Test
-	@Order(8)
+	@Order(11)
 	void testSearchTransCount_WhenSearchUsingStockName_ShouldReturnOneCount() {
 		Long portId = 1L;
 		Long count = portfolioTransServiceImpl.searchTransCount(portId, "%MICRO%");
@@ -201,7 +249,7 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 	}
 
 	@Test
-	@Order(9)
+	@Order(12)
 	void testSearchTransCount_WhenSearchUsingStockSym_ShouldReturnZeroCount() {
 		Long portId = 1L;
 		Long count = portfolioTransServiceImpl.searchTransCount(portId, "%AMZN%");
@@ -209,7 +257,7 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 	}
 
 	@Test
-	@Order(10)
+	@Order(13)
 	void testSearchTransCount_WhenSearchUsingStockName_ShouldReturnZeroCount() {
 		Long portId = 1L;
 		Long count = portfolioTransServiceImpl.searchTransCount(portId, "%AMA%");
@@ -217,7 +265,7 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 	}
 
 	@Test
-	@Order(11)
+	@Order(14)
 	void testRetrieveStockInfo() throws IOException {
 
 		Stock stock = new Stock("MSFT");
@@ -240,7 +288,7 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 	}
 
 	@Test
-	@Order(12)
+	@Order(15)
 	void testAddPortfolioTrans_buySuccess() {
 
 		Stock stock = new Stock("MSFT");
@@ -272,7 +320,7 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 	}
 
 	@Test
-	@Order(13)
+	@Order(16)
 	void testAddPortfolioTrans_unknownStockSym_buyFail() {
 
 		Stock stock = null;
@@ -300,7 +348,7 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 	}
 
 	@Test
-	@Order(14)
+	@Order(17)
 	void testAddPortfolioTrans_insufficientShares_buyFail() {
 
 		String username = "user1";
@@ -323,7 +371,7 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 	}
 
 	@Test
-	@Order(15)
+	@Order(18)
 	void testAddPortfolioTrans_sellSuccess() {
 
 		Stock stock = new Stock("MSFT");
@@ -361,7 +409,7 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 	}
 
 	@Test
-	@Order(16)
+	@Order(19)
 	void testAddPortfolioTrans_insufficientShareSellFail() {
 
 		Stock stock = new Stock("MSFT");
@@ -396,4 +444,5 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 		assertNull(result.getSystemMsg());
 		assertNotNull(result.getErrMsg());
 	}
+
 }
