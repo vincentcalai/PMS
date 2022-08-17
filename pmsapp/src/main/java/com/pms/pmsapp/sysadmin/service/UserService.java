@@ -5,11 +5,12 @@ import java.util.List;
 import org.springframework.data.domain.Pageable;
 
 import com.pms.pmsapp.sysadmin.data.User;
+import com.pms.pmsapp.sysadmin.web.UserForm;
 
 public interface UserService {
 
 	List<User> findAllUsers(Pageable pageable);
-	
+
 	boolean checkUserExist(String username);
 
 	void addUser(User userForm);
@@ -28,8 +29,8 @@ public interface UserService {
 
 	void clearUserRole(Long id);
 
-	User createUser(User userForm, String createdBy);
+	UserForm createUser(UserForm userForm, String createdBy);
 
-	User updateUser(User userForm, String createdBy);
+	UserForm updateUser(UserForm userForm, String createdBy);
 
 }

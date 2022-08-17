@@ -3,9 +3,9 @@ package com.pms.pmsapp.sysadmin.data;
 import java.util.Date;
 
 public class User {
-	
+
 	private Long id;
-    private String username;
+	private String username;
 	private String password;
 	private String confirmPassword;
 	private String roles;
@@ -14,14 +14,27 @@ public class User {
 	private String createdBy;
 	private Date createdDt;
 	private String delInd;
-	
+
 	private String[] selectedRoles;
-	private String systemMsg;
-	private String errMsg;
-	
-	
+
 	public User() {
 		super();
+	}
+
+	public User(Long id, String username, String password, String confirmPassword, String roles, String email,
+			String contactNo, String createdBy, Date createdDt, String delInd, String[] selectedRoles) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.confirmPassword = confirmPassword;
+		this.roles = roles;
+		this.email = email;
+		this.contactNo = contactNo;
+		this.createdBy = createdBy;
+		this.createdDt = createdDt;
+		this.delInd = delInd;
+		this.selectedRoles = selectedRoles;
 	}
 
 	public Long getId() {
@@ -47,7 +60,7 @@ public class User {
 	public void setConfirmPassword(String confirmPassword) {
 		this.confirmPassword = confirmPassword;
 	}
-	
+
 	public String getUsername() {
 		return username;
 	}
@@ -79,7 +92,7 @@ public class User {
 	public void setContactNo(String contactNo) {
 		this.contactNo = contactNo;
 	}
-	
+
 	public String getCreatedBy() {
 		return createdBy;
 	}
@@ -111,23 +124,5 @@ public class User {
 	public void setSelectedRoles(String[] selectedRoles) {
 		this.selectedRoles = selectedRoles;
 	}
-
-	public String getSystemMsg() {
-		return systemMsg;
-	}
-
-	public void setSystemMsg(String systemMsg) {
-		this.systemMsg = systemMsg;
-	}
-
-	public String getErrMsg() {
-		return errMsg;
-	}
-
-	public void setErrMsg(String errMsg) {
-		this.errMsg = errMsg;
-	}
-
-	
 
 }

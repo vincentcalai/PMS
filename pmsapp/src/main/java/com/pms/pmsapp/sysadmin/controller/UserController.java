@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pms.pmsapp.sysadmin.data.User;
 import com.pms.pmsapp.sysadmin.service.UserService;
+import com.pms.pmsapp.sysadmin.web.UserForm;
 
 @CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
 @RestController
@@ -43,7 +44,7 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/sysadmin/createuser", method = RequestMethod.POST)
-	public User createUser(@RequestBody User userForm, Authentication authentication) {
+	public UserForm createUser(@RequestBody UserForm userForm, Authentication authentication) {
 		log.info("createUser in Controller.. ");
 
 		String createdBy = authentication.getName();
@@ -52,7 +53,7 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/sysadmin/updateuser/{id}", method = RequestMethod.POST)
-	public User updateuser(@PathVariable long id, @RequestBody User userForm, Authentication authentication) {
+	public UserForm updateuser(@PathVariable long id, @RequestBody UserForm userForm, Authentication authentication) {
 		log.info("updateuser in Controller.. ");
 
 		userForm.setId(id);
@@ -62,17 +63,17 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/sysadmin/deleteuser/{id}", method = RequestMethod.DELETE)
-	public User deleteUser(@PathVariable long id) {
-		User user = new User();
+	public UserForm deleteUser(@PathVariable long id) {
+		UserForm userForm = new UserForm();
 		log.info("deleteUser in Controller");
 		try {
 			userService.deleteUser(id);
-			user.setSystemMsg("User deleted successfully.");
+			userForm.setSystemMsg("User deleted successfully.");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return user;
+		return userForm;
 	}
 
 	@RequestMapping(value = "/user/roles", method = RequestMethod.POST)

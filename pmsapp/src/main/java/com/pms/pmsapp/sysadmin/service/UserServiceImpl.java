@@ -8,7 +8,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.pms.pmsapp.sysadmin.data.User;
+import com.pms.pmsapp.sysadmin.repository.UserRepository;
 import com.pms.pmsapp.sysadmin.repository.dao.UserDao;
+import com.pms.pmsapp.sysadmin.web.UserForm;
+import com.pms.pmsapp.util.constant.ConstantUtil;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -17,11 +20,15 @@ public class UserServiceImpl implements UserService {
 	private UserDao userDao;
 
 	@Autowired
+	private UserRepository userRepository;
+
+	@Autowired
 	private PasswordEncoder passwordEncoder;
 
 	@Override
 	public List<User> findAllUsers(Pageable pageable) {
-		return userDao.findAllUsers(pageable);
+		return userRepository.findAllByDelInd(ConstantUtil.IND_NO);
+		// return userDao.findAllUsers(pageable);
 	}
 
 	@Override
@@ -70,7 +77,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User createUser(User userForm, String createdBy) {
+	public UserForm createUser(UserForm userForm, String createdBy) {
 
 		String username = userForm.getUsername();
 
@@ -93,7 +100,13 @@ public class UserServiceImpl implements UserService {
 			// encode password
 			userForm.setPassword(passwordEncoder.encode(userForm.getPassword()));
 
-			addUser(userForm);
+			User user = new User(userForm.getId(), userForm.getUsername(), userForm.getPassword(),
+					userForm.getConfirmPassword(), userForm.getRoles(), userForm.getEmail(), userForm.getContactNo(),
+					userForm.getCreatedBy(), userForm.getCreatedDt(), userForm.getDelInd(),
+					userForm.getSelectedRoles());
+
+			addUser(user);
+
 			for (int i = 0; i < userForm.getSelectedRoles().length; i++) {
 				String newUserRole = userForm.getSelectedRoles()[i];
 				addUserRole(username, newUserRole);
@@ -105,14 +118,19 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User updateUser(User userForm, String createdBy) {
+	public UserForm updateUser(UserForm userForm, String createdBy) {
 		if (createdBy != null) {
 			userForm.setCreatedBy(createdBy);
 		}
 
 		userForm.setRoles(String.join(", ", userForm.getSelectedRoles()));
 
-		updateUser(userForm);
+		User user = new User(userForm.getId(), userForm.getUsername(), userForm.getPassword(),
+				userForm.getConfirmPassword(), userForm.getRoles(), userForm.getEmail(), userForm.getContactNo(),
+				userForm.getCreatedBy(), userForm.getCreatedDt(), userForm.getDelInd(), userForm.getSelectedRoles());
+
+		updateUser(user);
+
 		clearUserRole(userForm.getId());
 
 		for (int i = 0; i < userForm.getSelectedRoles().length; i++) {
