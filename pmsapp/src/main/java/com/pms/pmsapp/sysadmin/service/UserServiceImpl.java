@@ -100,10 +100,9 @@ public class UserServiceImpl implements UserService {
 			// encode password
 			userForm.setPassword(passwordEncoder.encode(userForm.getPassword()));
 
-			User user = new User(userForm.getId(), userForm.getUsername(), userForm.getPassword(),
-					userForm.getConfirmPassword(), userForm.getRoles(), userForm.getEmail(), userForm.getContactNo(),
-					userForm.getCreatedBy(), userForm.getCreatedDt(), userForm.getDelInd(),
-					userForm.getSelectedRoles());
+			User user = new User(userForm.getId(), userForm.getUsername(), userForm.getPassword(), userForm.getRoles(),
+					userForm.getEmail(), userForm.getContactNo(), userForm.getCreatedBy(), userForm.getCreatedDt(),
+					userForm.getDelInd());
 
 			addUser(user);
 
@@ -125,9 +124,9 @@ public class UserServiceImpl implements UserService {
 
 		userForm.setRoles(String.join(", ", userForm.getSelectedRoles()));
 
-		User user = new User(userForm.getId(), userForm.getUsername(), userForm.getPassword(),
-				userForm.getConfirmPassword(), userForm.getRoles(), userForm.getEmail(), userForm.getContactNo(),
-				userForm.getCreatedBy(), userForm.getCreatedDt(), userForm.getDelInd(), userForm.getSelectedRoles());
+		User user = new User(userForm.getId(), userForm.getUsername(), userForm.getPassword(), userForm.getRoles(),
+				userForm.getEmail(), userForm.getContactNo(), userForm.getCreatedBy(), userForm.getCreatedDt(),
+				userForm.getDelInd());
 
 		updateUser(user);
 

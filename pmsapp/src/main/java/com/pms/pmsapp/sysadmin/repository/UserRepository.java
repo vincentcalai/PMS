@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.pms.pmsapp.sysadmin.data.User;
 
-public interface UserRepository extends JpaRepository<Long, User> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
 	List<User> findAllByDelInd(String indNo);
 

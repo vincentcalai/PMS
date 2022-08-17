@@ -2,12 +2,22 @@ package com.pms.pmsapp.sysadmin.data;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "PMS_USR")
+@SequenceGenerator(name = "UserSeqGenerator", sequenceName = "SQ_PMS_USR", allocationSize = 1)
 public class User {
 
 	private Long id;
 	private String username;
 	private String password;
-	private String confirmPassword;
 	private String roles;
 	private String email;
 	private String contactNo;
@@ -15,28 +25,27 @@ public class User {
 	private Date createdDt;
 	private String delInd;
 
-	private String[] selectedRoles;
-
 	public User() {
 		super();
 	}
 
-	public User(Long id, String username, String password, String confirmPassword, String roles, String email,
-			String contactNo, String createdBy, Date createdDt, String delInd, String[] selectedRoles) {
+	public User(Long id, String username, String password, String roles, String email, String contactNo,
+			String createdBy, Date createdDt, String delInd) {
 		super();
 		this.id = id;
 		this.username = username;
 		this.password = password;
-		this.confirmPassword = confirmPassword;
 		this.roles = roles;
 		this.email = email;
 		this.contactNo = contactNo;
 		this.createdBy = createdBy;
 		this.createdDt = createdDt;
 		this.delInd = delInd;
-		this.selectedRoles = selectedRoles;
 	}
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "UserSeqGenerator")
+	@Column(name = "ID", unique = true, nullable = false)
 	public Long getId() {
 		return id;
 	}
@@ -45,6 +54,7 @@ public class User {
 		this.id = id;
 	}
 
+	@Column(name = "PWD", nullable = false, length = 100)
 	public String getPassword() {
 		return password;
 	}
@@ -53,14 +63,7 @@ public class User {
 		this.password = password;
 	}
 
-	public String getConfirmPassword() {
-		return confirmPassword;
-	}
-
-	public void setConfirmPassword(String confirmPassword) {
-		this.confirmPassword = confirmPassword;
-	}
-
+	@Column(name = "USR_NAM", nullable = false, length = 20)
 	public String getUsername() {
 		return username;
 	}
@@ -69,6 +72,7 @@ public class User {
 		this.username = username;
 	}
 
+	@Column(name = "ROLES", nullable = false, length = 100)
 	public String getRoles() {
 		return roles;
 	}
@@ -77,6 +81,7 @@ public class User {
 		this.roles = roles;
 	}
 
+	@Column(name = "EMAIL", nullable = true, length = 100)
 	public String getEmail() {
 		return email;
 	}
@@ -85,6 +90,7 @@ public class User {
 		this.email = email;
 	}
 
+	@Column(name = "CONTACT_NO", nullable = true, length = 30)
 	public String getContactNo() {
 		return contactNo;
 	}
@@ -93,6 +99,7 @@ public class User {
 		this.contactNo = contactNo;
 	}
 
+	@Column(name = "CREATED_BY", nullable = true, length = 20)
 	public String getCreatedBy() {
 		return createdBy;
 	}
@@ -101,6 +108,7 @@ public class User {
 		this.createdBy = createdBy;
 	}
 
+	@Column(name = "CREATED_DT", nullable = true)
 	public Date getCreatedDt() {
 		return createdDt;
 	}
@@ -109,20 +117,13 @@ public class User {
 		this.createdDt = createdDt;
 	}
 
+	@Column(name = "DEL_IND", nullable = true, length = 1)
 	public String getDelInd() {
 		return delInd;
 	}
 
 	public void setDelInd(String delInd) {
 		this.delInd = delInd;
-	}
-
-	public String[] getSelectedRoles() {
-		return selectedRoles;
-	}
-
-	public void setSelectedRoles(String[] selectedRoles) {
-		this.selectedRoles = selectedRoles;
 	}
 
 }

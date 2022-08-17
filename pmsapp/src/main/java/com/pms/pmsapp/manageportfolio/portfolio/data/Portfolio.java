@@ -15,13 +15,6 @@ import javax.persistence.Table;
 @SequenceGenerator(name = "PortSeqGenerator", sequenceName = "SQ_PMS_PORT", allocationSize = 1)
 public class Portfolio {
 
-	public Portfolio() {
-	}
-
-	public Portfolio(Long id) {
-		this.id = id;
-	}
-
 	private Long id;
 	private String portfolioName;
 	private String createdBy;
@@ -29,6 +22,9 @@ public class Portfolio {
 	private String lastMdfyBy;
 	private Date lastMdfyDt;
 	private String remarks;
+
+	public Portfolio() {
+	}
 
 	public Portfolio(Long id, String portfolioName, String createdBy, Date createdDate, String lastMdfyBy,
 			Date lastMdfyDt, String remarks) {
