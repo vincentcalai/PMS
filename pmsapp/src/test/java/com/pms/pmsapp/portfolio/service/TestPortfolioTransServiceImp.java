@@ -176,11 +176,9 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 		portfolioTransSaveObj.setNoOfShare(100);
 		portfolioTransSaveObj.setTransPrice(new BigDecimal("115.3618674"));
 		portfolioTransSaveObj.setAction("B");
-//		portfolioTransSaveObj.setBackDatedDate(null);
 		portfolioTransSaveObj.setCreatedBy("user1");
 		portfolioTransSaveObj.setCreatedDt(new Date());
 		portfolioTransSaveObj.setRemarks("Saved transaction as ID 3");
-		// portfolioTransSaveObj.setCurrentStockHold(80);
 
 		portfolioTransServiceImpl.addPortfolioTrans(portfolioTransSaveObj);
 

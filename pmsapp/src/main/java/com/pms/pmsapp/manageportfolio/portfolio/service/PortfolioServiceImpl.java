@@ -28,7 +28,7 @@ public class PortfolioServiceImpl implements PortfolioService {
 
 	public List<Portfolio> findAll(Pageable pageable) {
 		log.info("findAll in ServiceImpl");
-		return portfolioDao.findAll(pageable);
+		return portfolioRepository.findAll();
 	}
 
 	public PortfolioForm addPortfolio(PortfolioForm portfolioForm, String username) {

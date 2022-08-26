@@ -15,6 +15,8 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import com.pms.pmsapp.TestWithSpringBoot;
 import com.pms.pmsapp.fixture.PortfolioFixture;
@@ -167,4 +169,15 @@ public class TestPortfolioServiceImpl extends TestWithSpringBoot {
 		form.setPortfolioName("New Updated Portfolio");
 	}
 
+	@Test
+	@Order(11)
+	void testFindAll_pageOne_shouldReturnThreeCount() {
+		int page = 1;
+		int size = 10;
+		Pageable pageable = PageRequest.of(page - 1, size);
+
+		List<Portfolio> portfolioTransList = portfolioServiceImpl.findAll(pageable);
+
+		assertEquals(3, portfolioTransList.size());
+	}
 }
