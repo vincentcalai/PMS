@@ -9,11 +9,11 @@ import org.springframework.stereotype.Service;
 
 import com.pms.pmsapp.manageportfolio.portfolio.data.StockWrapper;
 import com.pms.pmsapp.manageportfolio.portfolio.service.PortfolioService;
-import com.pms.pmsapp.profitloss.dao.ProfitLossDao;
 import com.pms.pmsapp.profitloss.data.RealPL;
 import com.pms.pmsapp.profitloss.data.RealTotalPL;
 import com.pms.pmsapp.profitloss.data.UnrealPL;
 import com.pms.pmsapp.profitloss.data.UnrealTotalPL;
+import com.pms.pmsapp.profitloss.repository.dao.ProfitLossDao;
 import com.pms.pmsapp.profitloss.web.ProfitLossForm;
 import com.pms.pmsapp.util.constant.ConstantUtil;
 

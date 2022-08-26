@@ -1,11 +1,9 @@
-package com.pms.pmsapp.profitloss.dao;
+package com.pms.pmsapp.profitloss.repository.dao;
 
-import com.pms.pmsapp.manageportfolio.portfolio.data.StockWrapper;
-import com.pms.pmsapp.profitloss.data.RealPL;
-import com.pms.pmsapp.profitloss.data.RealTotalPL;
-import com.pms.pmsapp.profitloss.data.UnrealPL;
-import com.pms.pmsapp.profitloss.data.UnrealTotalPL;
-import com.pms.pmsapp.util.HibernateUtil;
+import java.io.IOException;
+import java.sql.CallableStatement;
+import java.util.List;
+
 import org.hibernate.HibernateException;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
@@ -16,12 +14,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.orm.hibernate5.SessionFactoryUtils;
 import org.springframework.stereotype.Repository;
+
+import com.pms.pmsapp.manageportfolio.portfolio.data.StockWrapper;
+import com.pms.pmsapp.profitloss.data.RealPL;
+import com.pms.pmsapp.profitloss.data.RealTotalPL;
+import com.pms.pmsapp.profitloss.data.UnrealPL;
+import com.pms.pmsapp.profitloss.data.UnrealTotalPL;
+import com.pms.pmsapp.util.HibernateUtil;
+
 import yahoofinance.YahooFinance;
-
-import java.io.IOException;
-import java.sql.CallableStatement;
-import java.util.List;
-
 
 @Repository
 public class ProfitLossDaoImpl implements ProfitLossDao {
@@ -74,16 +75,16 @@ public class ProfitLossDaoImpl implements ProfitLossDao {
 		CallableStatement callableStatement = null;
 
 		try {
-		Session session = HibernateUtil.getSessionFactory().openSession();
+			Session session = HibernateUtil.getSessionFactory().openSession();
 
-		String callStoreProc = "{call PG_COMPUTE_PL.compute_unreal_pl(?,?)}";
-		callableStatement = ((SessionImpl)session).connection().prepareCall(callStoreProc);
-		callableStatement.setString(1, portfolio);
-		callableStatement.setString(2, currency);
-		callableStatement.executeUpdate();
-		((SessionImpl)session).connection().commit();
+			String callStoreProc = "{call PG_COMPUTE_PL.compute_unreal_pl(?,?)}";
+			callableStatement = ((SessionImpl) session).connection().prepareCall(callStoreProc);
+			callableStatement.setString(1, portfolio);
+			callableStatement.setString(2, currency);
+			callableStatement.executeUpdate();
+			((SessionImpl) session).connection().commit();
 
-		session.close();
+			session.close();
 
 		} catch (Exception e) {
 			log.info("exception = " + e.getMessage());
@@ -97,13 +98,11 @@ public class ProfitLossDaoImpl implements ProfitLossDao {
 			Session session = HibernateUtil.getSessionFactory().openSession();
 
 			String sql = "select r.* from pms_real_pl r  inner join pms_port p  "
-					+ "on r.port_id = p.id where p.port_name = :portfolio "
-					+ "order by sell_dt desc";
+					+ "on r.port_id = p.id where p.port_name = :portfolio " + "order by sell_dt desc";
 
 			SQLQuery sqlQuery = session.createSQLQuery(sql);
 
-			sqlQuery.addEntity(RealPL.class)
-			.setParameter("portfolio", portfolio);
+			sqlQuery.addEntity(RealPL.class).setParameter("portfolio", portfolio);
 
 			List<RealPL> realPLList = sqlQuery.list();
 
@@ -122,16 +121,16 @@ public class ProfitLossDaoImpl implements ProfitLossDao {
 		CallableStatement callableStatement = null;
 
 		try {
-		Session session = HibernateUtil.getSessionFactory().openSession();
+			Session session = HibernateUtil.getSessionFactory().openSession();
 
-		String callStoreProc = "{call PG_COMPUTE_PL.compute_real_pl(?,?)}";
-		callableStatement = ((SessionImpl)session).connection().prepareCall(callStoreProc);
-		callableStatement.setString(1, portfolio);
-		callableStatement.setString(2, currency);
-		callableStatement.executeUpdate();
-		((SessionImpl)session).connection().commit();
+			String callStoreProc = "{call PG_COMPUTE_PL.compute_real_pl(?,?)}";
+			callableStatement = ((SessionImpl) session).connection().prepareCall(callStoreProc);
+			callableStatement.setString(1, portfolio);
+			callableStatement.setString(2, currency);
+			callableStatement.executeUpdate();
+			((SessionImpl) session).connection().commit();
 
-		session.close();
+			session.close();
 
 		} catch (Exception e) {
 			log.info("exception = " + e.getMessage());
@@ -146,8 +145,7 @@ public class ProfitLossDaoImpl implements ProfitLossDao {
 		String sql = "select r.* from pms_unreal_total_pl r  inner join pms_port p "
 				+ "on r.port_id = p.id where p.port_name = :portfolio";
 
-		SQLQuery sqlQuery = session.createSQLQuery(sql)
-				.setParameter("portfolio", portfolio);
+		SQLQuery sqlQuery = session.createSQLQuery(sql).setParameter("portfolio", portfolio);
 
 		sqlQuery.addEntity(UnrealTotalPL.class);
 
@@ -164,8 +162,7 @@ public class ProfitLossDaoImpl implements ProfitLossDao {
 			String sql = "select r.* from pms_real_total_pl r  inner join pms_port p "
 					+ "on r.port_id = p.id where p.port_name = :portfolio";
 
-			SQLQuery sqlQuery = session.createSQLQuery(sql)
-					.setParameter("portfolio", portfolio);
+			SQLQuery sqlQuery = session.createSQLQuery(sql).setParameter("portfolio", portfolio);
 
 			sqlQuery.addEntity(RealTotalPL.class);
 
@@ -200,7 +197,6 @@ public class ProfitLossDaoImpl implements ProfitLossDao {
 			String sql = "update PMS_PORT_HOLD set last_trans_price = :lastTransPrice "
 					+ " where stock_sym = :stockSym and port_id = :portId";
 
-
 			NativeQuery query = session.createSQLQuery(sql);
 			query.setParameter("lastTransPrice", unrealPl.getLastTransPrice());
 			query.setParameter("stockSym", unrealPl.getStockSymbol());
@@ -215,6 +211,5 @@ public class ProfitLossDaoImpl implements ProfitLossDao {
 			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
 		}
 	}
-
 
 }

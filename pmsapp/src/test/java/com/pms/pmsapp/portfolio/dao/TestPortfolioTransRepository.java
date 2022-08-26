@@ -115,6 +115,8 @@ class TestPortfolioTransRepository {
 	@Order(5)
 	void testSearchTransCount_WhenSearchUsingStockSym_ShouldReturnOneCount() {
 		Long portId = 1L;
+		String searchText = "MSFT";
+		searchText = "%" + searchText + "%";
 		Long count = portfolioTransRepository.searchTransCount(portId, "MSFT");
 		assertEquals(1, count);
 	}
@@ -123,7 +125,9 @@ class TestPortfolioTransRepository {
 	@Order(6)
 	void testSearchTransCount_WhenSearchUsingStockName_ShouldReturnOneCount() {
 		Long portId = 1L;
-		Long count = portfolioTransRepository.searchTransCount(portId, "MICRO");
+		String searchText = "MICRO";
+		searchText = "%" + searchText + "%";
+		Long count = portfolioTransRepository.searchTransCount(portId, searchText);
 		assertEquals(1, count);
 	}
 
@@ -131,6 +135,8 @@ class TestPortfolioTransRepository {
 	@Order(7)
 	void testSearchTransCount_WhenSearchUsingStockSym_ShouldReturnZeroCount() {
 		Long portId = 1L;
+		String searchText = "AMZN";
+		searchText = "%" + searchText + "%";
 		Long count = portfolioTransRepository.searchTransCount(portId, "AMZN");
 		assertEquals(0, count);
 	}
@@ -139,6 +145,8 @@ class TestPortfolioTransRepository {
 	@Order(7)
 	void testSearchTransCount_WhenSearchUsingStockName_ShouldReturnZeroCount() {
 		Long portId = 1L;
+		String searchText = "AMA";
+		searchText = "%" + searchText + "%";
 		Long count = portfolioTransRepository.searchTransCount(portId, "AMA");
 		assertEquals(0, count);
 	}

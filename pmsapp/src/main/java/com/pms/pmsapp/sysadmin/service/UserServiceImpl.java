@@ -7,26 +7,34 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.pms.pmsapp.sysadmin.dao.UserDao;
 import com.pms.pmsapp.sysadmin.data.User;
+import com.pms.pmsapp.sysadmin.repository.UserRepository;
+import com.pms.pmsapp.sysadmin.repository.dao.UserDao;
+import com.pms.pmsapp.sysadmin.web.UserForm;
+import com.pms.pmsapp.util.constant.ConstantUtil;
 
 @Service
 public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserDao userDao;
-	
+
+	@Autowired
+	private UserRepository userRepository;
+
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
 	@Override
 	public List<User> findAllUsers(Pageable pageable) {
-		return userDao.findAllUsers(pageable);
+		return userRepository.findAllByDelInd(ConstantUtil.IND_NO);
+		// return userDao.findAllUsers(pageable);
 	}
 
 	@Override
 	public boolean checkUserExist(String username) {
-		return userDao.checkUserExist(username);
+		return (userRepository.countByUsername(username) > 0);
+		// return userDao.checkUserExist(username);
 	}
 
 	@Override
@@ -70,10 +78,10 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User createUser(User userForm, String createdBy) {
+	public UserForm createUser(UserForm userForm, String createdBy) {
 
 		String username = userForm.getUsername();
-		
+
 		if (createdBy != null) {
 			userForm.setCreatedBy(createdBy);
 		}
@@ -93,34 +101,44 @@ public class UserServiceImpl implements UserService {
 			// encode password
 			userForm.setPassword(passwordEncoder.encode(userForm.getPassword()));
 
-			addUser(userForm);
+			User user = new User(userForm.getId(), userForm.getUsername(), userForm.getPassword(), userForm.getRoles(),
+					userForm.getEmail(), userForm.getContactNo(), userForm.getCreatedBy(), userForm.getCreatedDt(),
+					userForm.getDelInd());
+
+			addUser(user);
+
 			for (int i = 0; i < userForm.getSelectedRoles().length; i++) {
 				String newUserRole = userForm.getSelectedRoles()[i];
 				addUserRole(username, newUserRole);
 			}
 			userForm.setSystemMsg("User Created Successfully.");
 		}
-		
+
 		return userForm;
 	}
 
 	@Override
-	public User updateUser(User userForm, String createdBy) {
-		if(createdBy != null) {
-			 userForm.setCreatedBy(createdBy);
-		 }
+	public UserForm updateUser(UserForm userForm, String createdBy) {
+		if (createdBy != null) {
+			userForm.setCreatedBy(createdBy);
+		}
 
-		 userForm.setRoles(String.join(", ", userForm.getSelectedRoles()));
+		userForm.setRoles(String.join(", ", userForm.getSelectedRoles()));
 
-		 updateUser(userForm);
-		 clearUserRole(userForm.getId());
-		 
-		 for( int i=0; i<userForm.getSelectedRoles().length; i++) {
-			 String newUserRole = userForm.getSelectedRoles()[i];
-			 updateUserRole(userForm.getId(), newUserRole);
-		 }
-		 
-		 userForm.setSystemMsg("User updated Successfully.");
+		User user = new User(userForm.getId(), userForm.getUsername(), userForm.getPassword(), userForm.getRoles(),
+				userForm.getEmail(), userForm.getContactNo(), userForm.getCreatedBy(), userForm.getCreatedDt(),
+				userForm.getDelInd());
+
+		updateUser(user);
+
+		clearUserRole(userForm.getId());
+
+		for (int i = 0; i < userForm.getSelectedRoles().length; i++) {
+			String newUserRole = userForm.getSelectedRoles()[i];
+			updateUserRole(userForm.getId(), newUserRole);
+		}
+
+		userForm.setSystemMsg("User updated Successfully.");
 		return userForm;
 	}
 }

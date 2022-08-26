@@ -8,11 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.pms.pmsapp.manageportfolio.portfolio.service.PortfolioService;
-import com.pms.pmsapp.performance.dao.PerformanceDao;
 import com.pms.pmsapp.performance.data.ETFPerformance;
 import com.pms.pmsapp.performance.data.GphyPerformance;
 import com.pms.pmsapp.performance.data.PortfolioPerformance;
 import com.pms.pmsapp.performance.data.StockPerformance;
+import com.pms.pmsapp.performance.repository.dao.PerformanceDao;
 import com.pms.pmsapp.performance.web.PerformanceForm;
 import com.pms.pmsapp.profitloss.data.UnrealTotalPL;
 import com.pms.pmsapp.profitloss.service.ProfitLossService;
