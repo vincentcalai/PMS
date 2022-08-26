@@ -14,6 +14,8 @@ import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -396,6 +398,40 @@ public class TestPortfolioTransServiceImp extends TestWithSpringBoot {
 
 		assertNull(result.getSystemMsg());
 		assertNotNull(result.getErrMsg());
+	}
+
+	@Test
+	@Order(17)
+	void testAddPortfolioTrans_buySuccess_verifyBackdateDate() throws ParseException {
+
+		Stock stock = new Stock("MSFT");
+		stock.setStockExchange("NasdaqGS");
+		stock.setName("Microsoft Corp.");
+		StockQuote stockQuote = new StockQuote("MSFT");
+		stockQuote.setPrice(new BigDecimal("280.04"));
+		stock.setQuote(stockQuote);
+		StockWrapper dummyStockWrapper = new StockWrapper(stock);
+
+		when(portfolioHoldService.findStock(anyString())).thenReturn(dummyStockWrapper);
+
+		String username = "user1";
+
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+		String dateInString = "22-01-2015 10:20:56";
+		Date date = sdf.parse(dateInString);
+
+		PortfolioTransForm portfolioTransObj = new PortfolioTransForm();
+		portfolioTransObj.setStockName("Microsoft Corp.");
+		portfolioTransObj.setAction("BUY");
+		portfolioTransObj.setNoOfShare(80);
+		portfolioTransObj.setStockSymbol("MSFT");
+		portfolioTransObj.setStockExchg("NASDAQ");
+		portfolioTransObj.setTransPrice(new BigDecimal("269.81"));
+		portfolioTransObj.setBackDatedDate(date);
+
+		PortfolioTransForm result = portfolioTransServiceImpl.addPortfolioTrans(portfolioTransObj, 0, username);
+
+		assertEquals(date, result.getBackDatedDate());
 	}
 
 }

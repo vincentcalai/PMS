@@ -155,7 +155,7 @@ public class PortfolioTransServiceImpl implements PortfolioTransService {
 		PortfolioTrans portfolioTrans = new PortfolioTrans();
 		portfolioTrans.setAction(portfolioTransForm.getAction());
 		portfolioTrans.setCreatedBy(portfolioTransForm.getCreatedBy());
-		portfolioTrans.setCreatedDt(portfolioTransForm.getCreatedDt());
+		portfolioTrans.setCreatedDt(portfolioTransForm.getBackDatedDate());
 		portfolioTrans.setId(portfolioTransForm.getId());
 		portfolioTrans.setNoOfShare(portfolioTransForm.getNoOfShare());
 		portfolioTrans.setPortId(portfolioTransForm.getPortId());
