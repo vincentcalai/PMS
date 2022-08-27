@@ -180,4 +180,11 @@ public class TestPortfolioServiceImpl extends TestWithSpringBoot {
 
 		assertEquals(3, portfolioTransList.size());
 	}
+
+	@Test
+	@Order(12)
+	void testFindAllPortfolioNames() {
+		List<String> portfolioNameList = portfolioServiceImpl.findAllPortfolioNames();
+		assertEquals(3, portfolioNameList.size());
+	}
 }

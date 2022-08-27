@@ -30,10 +30,6 @@ public class ProfitLossServiceImpl implements ProfitLossService {
 	@Autowired
 	private PortfolioService portfolioService;
 
-	public List<String> getPortfolios() {
-		return profitLossDao.getPortfolios();
-	}
-
 	@Override
 	public List<String> getAllCurr() {
 		return profitLossDao.getAllCurr();
@@ -83,9 +79,9 @@ public class ProfitLossServiceImpl implements ProfitLossService {
 	@Override
 	public ProfitLossForm initPage(ProfitLossForm profitLossForm) {
 		// TODO Auto-generated method stub
-		List<String> portfolios = getPortfolios();
+		List<String> portfolioNames = portfolioService.findAllPortfolioNames();
 		List<String> currencys = getAllCurr();
-		profitLossForm.setPortfolioList(portfolios);
+		profitLossForm.setPortfolioList(portfolioNames);
 		profitLossForm.setCurrList(currencys);
 		return profitLossForm;
 	}

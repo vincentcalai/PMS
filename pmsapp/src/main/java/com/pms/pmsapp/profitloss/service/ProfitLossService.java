@@ -10,7 +10,6 @@ import com.pms.pmsapp.profitloss.data.UnrealTotalPL;
 import com.pms.pmsapp.profitloss.web.ProfitLossForm;
 
 public interface ProfitLossService {
-	List<String> getPortfolios();
 
 	List<String> getAllCurr();
 

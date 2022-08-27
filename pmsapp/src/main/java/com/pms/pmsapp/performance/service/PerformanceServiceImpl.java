@@ -81,7 +81,7 @@ public class PerformanceServiceImpl implements PerformanceService {
 
 	@Override
 	public PerformanceForm initPage(PerformanceForm performanceForm) {
-		List<String> portfolios = profitLossService.getPortfolios();
+		List<String> portfolios = portfolioService.findAllPortfolioNames();
 		performanceForm.setPortfolioList(portfolios);
 		return performanceForm;
 	}

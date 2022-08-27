@@ -24,4 +24,6 @@ public interface PortfolioService {
 	long getPortIdFromPortName(String portfolioName);
 
 	PortfolioForm addPortfolio(PortfolioForm portfolioForm, String username);
+
+	List<String> findAllPortfolioNames();
 }

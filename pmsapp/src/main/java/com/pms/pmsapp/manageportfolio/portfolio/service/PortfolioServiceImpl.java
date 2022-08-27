@@ -1,5 +1,6 @@
 package com.pms.pmsapp.manageportfolio.portfolio.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -29,6 +30,13 @@ public class PortfolioServiceImpl implements PortfolioService {
 	public List<Portfolio> findAll(Pageable pageable) {
 		log.info("findAll in ServiceImpl");
 		return portfolioRepository.findAll();
+	}
+
+	public List<String> findAllPortfolioNames() {
+		List<Portfolio> portfolioList = portfolioRepository.findAll();
+		List<String> portfolioNameList = new ArrayList<>();
+		portfolioList.forEach(portfolio -> portfolioNameList.add(portfolio.getPortfolioName()));
+		return portfolioNameList;
 	}
 
 	public PortfolioForm addPortfolio(PortfolioForm portfolioForm, String username) {
