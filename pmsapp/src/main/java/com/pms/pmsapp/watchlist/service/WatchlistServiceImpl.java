@@ -118,11 +118,6 @@ public class WatchlistServiceImpl implements WatchlistService {
 	}
 
 	@Override
-	public StockWrapper findStock(String stock) {
-		return watchlistDao.findStock(stock);
-	}
-
-	@Override
 	public void updateWatchlistEntryPrice(String stock, BigDecimal lastPrice, BigDecimal change, BigDecimal changePct) {
 		watchlistDao.updateWatchlistEntryPrice(stock, lastPrice, change, changePct);
 	}

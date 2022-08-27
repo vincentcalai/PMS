@@ -5,12 +5,9 @@ import java.util.List;
 
 import org.springframework.data.domain.Pageable;
 
-import com.pms.pmsapp.manageportfolio.portfolio.data.StockWrapper;
 import com.pms.pmsapp.watchlist.data.Watchlist;
 import com.pms.pmsapp.watchlist.data.WatchlistEntry;
 import com.pms.pmsapp.watchlist.data.WatchlistNotification;
-
-
 
 public interface WatchlistDao {
 
@@ -47,8 +44,6 @@ public interface WatchlistDao {
 	void updateNotification(WatchlistNotification watchlistNotification);
 
 	List<String> findAllStockSym();
-
-	StockWrapper findStock(String stockSym);
 
 	void updateWatchlistEntryPrice(String stock, BigDecimal lastPrice, BigDecimal change, BigDecimal changePct);
 

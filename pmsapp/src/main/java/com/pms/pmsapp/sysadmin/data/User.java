@@ -1,6 +1,7 @@
 package com.pms.pmsapp.sysadmin.data;
 
 import java.util.Date;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -124,6 +125,22 @@ public class User {
 
 	public void setDelInd(String delInd) {
 		this.delInd = delInd;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		return Objects.equals(contactNo, other.contactNo) && Objects.equals(createdBy, other.createdBy)
+				&& Objects.equals(createdDt, other.createdDt) && Objects.equals(delInd, other.delInd)
+				&& Objects.equals(email, other.email) && Objects.equals(id, other.id)
+				&& Objects.equals(password, other.password) && Objects.equals(roles, other.roles)
+				&& Objects.equals(username, other.username);
 	}
 
 }

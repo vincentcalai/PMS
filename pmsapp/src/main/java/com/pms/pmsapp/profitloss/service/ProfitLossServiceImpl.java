@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.pms.pmsapp.manageportfolio.portfolio.data.StockWrapper;
+import com.pms.pmsapp.manageportfolio.portfolio.service.PortfolioHoldService;
 import com.pms.pmsapp.manageportfolio.portfolio.service.PortfolioService;
 import com.pms.pmsapp.profitloss.data.RealPL;
 import com.pms.pmsapp.profitloss.data.RealTotalPL;
@@ -29,6 +30,9 @@ public class ProfitLossServiceImpl implements ProfitLossService {
 
 	@Autowired
 	private PortfolioService portfolioService;
+
+	@Autowired
+	private PortfolioHoldService portfolioHoldService;
 
 	@Override
 	public List<String> getAllCurr() {
@@ -64,11 +68,6 @@ public class ProfitLossServiceImpl implements ProfitLossService {
 	@Override
 	public RealTotalPL getRealisedTotalList(String portfolio) {
 		return profitLossDao.getRealisedTotalList(portfolio);
-	}
-
-	@Override
-	public StockWrapper findStock(String stockSym) {
-		return profitLossDao.findStock(stockSym);
 	}
 
 	@Override
@@ -133,7 +132,7 @@ public class ProfitLossServiceImpl implements ProfitLossService {
 
 			for (UnrealPL unrealPl : unrealPlList) {
 				String stockSym = unrealPl.getStockSymbol();
-				StockWrapper stockWrapper = findStock(stockSym);
+				StockWrapper stockWrapper = portfolioHoldService.findStock(stockSym);
 				try {
 					StockQuote stockQuote = stockWrapper.getStock().getQuote(true);
 					unrealPl.setLastTransPrice(stockQuote.getPrice());

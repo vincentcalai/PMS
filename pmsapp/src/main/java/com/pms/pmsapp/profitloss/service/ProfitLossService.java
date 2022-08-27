@@ -2,7 +2,6 @@ package com.pms.pmsapp.profitloss.service;
 
 import java.util.List;
 
-import com.pms.pmsapp.manageportfolio.portfolio.data.StockWrapper;
 import com.pms.pmsapp.profitloss.data.RealPL;
 import com.pms.pmsapp.profitloss.data.RealTotalPL;
 import com.pms.pmsapp.profitloss.data.UnrealPL;
@@ -24,8 +23,6 @@ public interface ProfitLossService {
 	UnrealTotalPL getUnrealisedTotalList(String portfolio);
 
 	RealTotalPL getRealisedTotalList(String portfolio);
-
-	StockWrapper findStock(String stockSym);
 
 	void updateLastVal(UnrealPL unrealPl);
 

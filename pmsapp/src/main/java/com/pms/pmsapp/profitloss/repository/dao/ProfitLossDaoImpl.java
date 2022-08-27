@@ -1,6 +1,5 @@
 package com.pms.pmsapp.profitloss.repository.dao;
 
-import java.io.IOException;
 import java.sql.CallableStatement;
 import java.util.List;
 
@@ -15,14 +14,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.orm.hibernate5.SessionFactoryUtils;
 import org.springframework.stereotype.Repository;
 
-import com.pms.pmsapp.manageportfolio.portfolio.data.StockWrapper;
 import com.pms.pmsapp.profitloss.data.RealPL;
 import com.pms.pmsapp.profitloss.data.RealTotalPL;
 import com.pms.pmsapp.profitloss.data.UnrealPL;
 import com.pms.pmsapp.profitloss.data.UnrealTotalPL;
 import com.pms.pmsapp.util.HibernateUtil;
-
-import yahoofinance.YahooFinance;
 
 @Repository
 public class ProfitLossDaoImpl implements ProfitLossDao {
@@ -174,16 +170,6 @@ public class ProfitLossDaoImpl implements ProfitLossDao {
 			// convert to HibernateException then to DataAccessException
 			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
 		}
-	}
-
-	@Override
-	public StockWrapper findStock(String stockSym) {
-		try {
-			return new StockWrapper(YahooFinance.get(stockSym));
-		} catch (IOException e) {
-			log.error(e.getMessage());
-		}
-		return null;
 	}
 
 	@Override

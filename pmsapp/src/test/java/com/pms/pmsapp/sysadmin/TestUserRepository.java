@@ -1,9 +1,11 @@
 package com.pms.pmsapp.sysadmin;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -27,12 +29,15 @@ class TestUserRepository {
 	@Autowired
 	private UserRepository userRepository;
 
+	User user1 = null;
+	User user2 = null;
+
 	@BeforeAll
 	private void setup() {
-		User user1 = new User(1L, "user1", "$2a$10$9UJdg1Fo1t7wT9WT5NOqNeh2YGfEX1zFyom/Lcfc68svrdjFYjS3S",
-				"ADMIN, USER", "test@test.com", "91234567", "user1", new Date(), "N");
-		User user2 = new User(2L, "user2", "$2a$10$9UJdg1Fo1t7wT9WT5NOqNeh2YGfEX1zFyom/Lcfc68svrdjFYjS3S",
-				"ADMIN, USER", "test@test.com", "91234567", "user2", new Date(), "Y");
+		user1 = new User(1L, "user1", "$2a$10$9UJdg1Fo1t7wT9WT5NOqNeh2YGfEX1zFyom/Lcfc68svrdjFYjS3S", "ADMIN, USER",
+				"test@test.com", "91234567", "user1", new Date(), "N");
+		user2 = new User(2L, "user2", "$2a$10$9UJdg1Fo1t7wT9WT5NOqNeh2YGfEX1zFyom/Lcfc68svrdjFYjS3S", "ADMIN, USER",
+				"test@test.com", "91234567", "user2", new Date(), "Y");
 		userRepository.save(user1);
 		userRepository.save(user2);
 	}
@@ -52,6 +57,18 @@ class TestUserRepository {
 	void testFindCountOfUser_shouldReturnOne() {
 		int userCnt = userRepository.countByUsername("user1");
 		assertEquals(1, userCnt);
+	}
+
+	@Test
+	void testFindByUserNameAndDelIndNo_shouldFindOneCount() {
+		Optional<User> user = userRepository.findByUsernameAndDelIndOrderByIdAsc("user1", "N");
+		assertTrue(user1.equals(user.get()));
+	}
+
+	@Test
+	void testFindByUserNameAndDelIndYes_shouldFindZeroCount() {
+		Optional<User> user = userRepository.findByUsernameAndDelIndOrderByIdAsc("user1", "Y");
+		assertEquals(Optional.empty(), user);
 	}
 
 }
