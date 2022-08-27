@@ -14,6 +14,4 @@ public interface PortfolioTransDao {
 	int validateSellAction(PortfolioTrans portfolioTrans);
 
 	int findCurrentStockHold(PortfolioTrans portfolioTrans);
-
-	List<PortfolioTrans> searchTrans(long portId, String searchText, Pageable pageable);
 }

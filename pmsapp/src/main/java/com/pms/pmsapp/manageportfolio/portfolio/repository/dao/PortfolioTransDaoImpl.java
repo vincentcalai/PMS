@@ -116,32 +116,4 @@ public class PortfolioTransDaoImpl implements PortfolioTransDao {
 		}
 	}
 
-	@Override
-	public List<PortfolioTrans> searchTrans(long portId, String searchText, Pageable pageable) {
-		log.info("searchTrans Trans in DaoImpl..");
-		try {
-			Session session = HibernateUtil.getSessionFactory().openSession();
-
-			String sql = "SELECT * FROM PMS_PORT_TRANS where port_id = :portId and "
-					+ "(UPPER(stock_nam) like :searchText "
-					+ "or stock_sym like :searchText) order by created_dt desc,ID desc";
-
-			SQLQuery sqlQuery = session.createSQLQuery(sql);
-			sqlQuery.addEntity(PortfolioTrans.class);
-			sqlQuery.setParameter("portId", portId);
-			sqlQuery.setParameter("searchText", searchText);
-			sqlQuery.setFirstResult(pageable.getPageNumber() * pageable.getPageSize());
-			sqlQuery.setMaxResults(pageable.getPageSize());
-
-			List<PortfolioTrans> portfolioTrans = sqlQuery.list();
-
-			session.close();
-
-			return portfolioTrans;
-		} catch (Exception e) {
-			// convert to HibernateException then to DataAccessException
-			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
-		}
-	}
-
 }

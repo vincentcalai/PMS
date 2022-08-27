@@ -1,46 +1,20 @@
 package com.pms.pmsapp.manageportfolio.portfolio.repository.dao;
 
-import java.util.List;
-
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.NativeQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Pageable;
 import org.springframework.orm.hibernate5.SessionFactoryUtils;
 import org.springframework.stereotype.Repository;
 
-import com.pms.pmsapp.manageportfolio.portfolio.data.Portfolio;
 import com.pms.pmsapp.util.HibernateUtil;
 
 @Repository
 public class PortfolioDaoImpl implements PortfolioDao {
 
 	private static final Logger log = LoggerFactory.getLogger(PortfolioDaoImpl.class);
-
-	public List<Portfolio> findAll(Pageable pageable) {
-		log.info("findAll in DaoImpl..");
-		try {
-			Session session = HibernateUtil.getSessionFactory().openSession();
-
-			String sql = "SELECT * FROM PMS_PORT order by ID desc ";
-
-			NativeQuery sqlQuery = session.createSQLQuery(sql);
-
-			sqlQuery.addEntity(Portfolio.class);
-			sqlQuery.setFirstResult(pageable.getPageNumber() * pageable.getPageSize());
-			sqlQuery.setMaxResults(pageable.getPageSize());
-
-			List<Portfolio> portfolio = sqlQuery.list();
-
-			return portfolio;
-		} catch (Exception e) {
-			// convert to HibernateException then to DataAccessException
-			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
-		}
-	}
 
 	public void deletePortfolio(long id) {
 		log.info("deleting portfolio in DaoImpl..");
