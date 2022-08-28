@@ -28,18 +28,16 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<User> findAllUsers(Pageable pageable) {
 		return userRepository.findAllByDelInd(ConstantUtil.IND_NO);
-		// return userDao.findAllUsers(pageable);
 	}
 
 	@Override
 	public boolean checkUserExist(String username) {
 		return (userRepository.countByUsername(username) > 0);
-		// return userDao.checkUserExist(username);
 	}
 
 	@Override
-	public void addUser(User userForm) {
-		userDao.addUser(userForm);
+	public void addUser(User user) {
+		userRepository.save(user);
 	}
 
 	@Override
@@ -49,12 +47,13 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public long findAllUserCount() {
-		return userDao.findAllUserCount();
+		return userRepository.countByDelInd(ConstantUtil.IND_NO);
 	}
 
 	@Override
-	public void updateUser(User userForm) {
-		userDao.updateUser(userForm);
+	public void updateUser(User user) {
+		userRepository.save(user);
+		// userDao.updateUser(userForm);
 	}
 
 	@Override
