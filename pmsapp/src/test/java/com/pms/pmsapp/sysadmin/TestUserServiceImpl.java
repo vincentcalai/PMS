@@ -176,10 +176,38 @@ public class TestUserServiceImpl extends TestWithSpringBoot {
 		UserForm formResult = userServiceImpl.createUser(userForm, "user1");
 
 		verify(userServiceImpl, times(1)).addUser(Mockito.any(User.class));
-
 		verify(userServiceImpl, times(2)).addUserRole(Mockito.anyString(), Mockito.anyString());
 
 		assertEquals("User Created Successfully.", formResult.getSystemMsg());
+	}
+
+	@Test
+	@Order(8)
+	public void testCreateUser_updateUserSuccess() {
+
+		userForm = new UserForm();
+		userForm.setId(4L);
+		userForm.setUsername("testuser");
+		userForm.setPassword("password1234");
+		userForm.setConfirmPassword("password1234");
+		userForm.setContactNo("91234567");
+		userForm.setEmail("test@test.com");
+		userForm.setSelectedRoles(new String[] { "ADMIN", "USER" });
+		userForm.setDelInd("N");
+
+		userServiceImpl = spy(userServiceImpl);
+
+		doNothing().when(userServiceImpl).updateUser(Mockito.any(User.class));
+		doNothing().when(userServiceImpl).clearUserRole(Mockito.anyLong());
+		doNothing().when(userServiceImpl).updateUserRole(Mockito.anyLong(), Mockito.anyString());
+
+		UserForm formResult = userServiceImpl.updateUser(userForm, "user1");
+
+		verify(userServiceImpl, times(1)).updateUser(Mockito.any(User.class));
+		verify(userServiceImpl, times(1)).clearUserRole(Mockito.anyLong());
+		verify(userServiceImpl, times(2)).updateUserRole(Mockito.anyLong(), Mockito.anyString());
+
+		assertEquals("User updated Successfully.", formResult.getSystemMsg());
 	}
 
 }
