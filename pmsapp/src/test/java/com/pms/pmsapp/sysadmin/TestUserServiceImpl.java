@@ -182,7 +182,7 @@ public class TestUserServiceImpl extends TestWithSpringBoot {
 	}
 
 	@Test
-	@Order(8)
+	@Order(9)
 	public void testCreateUser_updateUserSuccess() {
 
 		userForm = new UserForm();
