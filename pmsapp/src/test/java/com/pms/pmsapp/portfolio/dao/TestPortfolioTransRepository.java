@@ -35,9 +35,6 @@ class TestPortfolioTransRepository {
 	@Autowired
 	private PortfolioTransRepository portfolioTransRepository;
 
-	@Autowired
-	private PortfolioTransDaoImpl portfolioTransDaoImpl;
-
 	PortfolioTrans portfolioTransSaveObj = null;
 
 	@BeforeAll

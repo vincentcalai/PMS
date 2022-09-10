@@ -22,6 +22,8 @@ import com.pms.pmsapp.watchlist.data.Watchlist;
 import com.pms.pmsapp.watchlist.data.WatchlistEntry;
 import com.pms.pmsapp.watchlist.service.WatchlistService;
 import com.pms.pmsapp.watchlist.web.NotificationForm;
+import com.pms.pmsapp.watchlist.web.WatchlistEntryForm;
+import com.pms.pmsapp.watchlist.web.WatchlistForm;
 
 @CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
 @RestController
@@ -58,7 +60,7 @@ public class WatchlistController {
 	}
 
 	@RequestMapping(value = "/watchlist/add", method = RequestMethod.POST)
-	public Watchlist addWatchlist(@RequestBody Watchlist watchlistForm, Authentication authentication) {
+	public WatchlistForm addWatchlist(@RequestBody WatchlistForm watchlistForm, Authentication authentication) {
 
 		String username = authentication.getName();
 
@@ -66,7 +68,8 @@ public class WatchlistController {
 	}
 
 	@RequestMapping(value = "/watchlist/entry/add", method = RequestMethod.POST)
-	public WatchlistEntry addWatchlistEntry(@RequestBody WatchlistEntry entryForm, Authentication authentication) {
+	public WatchlistEntryForm addWatchlistEntry(@RequestBody WatchlistEntryForm entryForm,
+			Authentication authentication) {
 		log.info("addWatchlistEntry in Controller.. ");
 
 		String username = authentication.getName();
@@ -75,15 +78,15 @@ public class WatchlistController {
 	}
 
 	@RequestMapping(value = "/watchlist/deletewatchlist/{id}", method = RequestMethod.DELETE)
-	public Watchlist deleteWatchlist(@PathVariable long id) {
-		Watchlist watchlist = new Watchlist();
+	public WatchlistForm deleteWatchlist(@PathVariable long id) {
+		WatchlistForm watchlist = new WatchlistForm();
 		log.info("deleteWatchlist in Controller");
 
 		return watchlistService.deleteWatchlist(id, watchlist);
 	}
 
 	@RequestMapping(value = "/watchlist/entry/retrieveStockInfo", method = RequestMethod.POST)
-	public WatchlistEntry retrieveStockInfo(@RequestBody WatchlistEntry watchlistEntry) {
+	public WatchlistEntryForm retrieveStockInfo(@RequestBody WatchlistEntryForm watchlistEntry) {
 		log.info("retrieveStockInfo in Controller");
 
 		return watchlistService.retrieveStockInfo(watchlistEntry);
@@ -111,7 +114,7 @@ public class WatchlistController {
 	}
 
 	@RequestMapping(value = "/watchlist/entry/delete", method = RequestMethod.POST)
-	public Watchlist deleteEntry(@RequestBody NotificationForm form) {
+	public WatchlistForm deleteEntry(@RequestBody NotificationForm form) {
 
 		log.info("deleteWatchlistEntry in Controller");
 

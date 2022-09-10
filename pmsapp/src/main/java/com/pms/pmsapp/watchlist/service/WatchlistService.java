@@ -9,6 +9,8 @@ import com.pms.pmsapp.watchlist.data.Watchlist;
 import com.pms.pmsapp.watchlist.data.WatchlistEntry;
 import com.pms.pmsapp.watchlist.data.WatchlistNotification;
 import com.pms.pmsapp.watchlist.web.NotificationForm;
+import com.pms.pmsapp.watchlist.web.WatchlistEntryForm;
+import com.pms.pmsapp.watchlist.web.WatchlistForm;
 
 public interface WatchlistService {
 
@@ -20,7 +22,7 @@ public interface WatchlistService {
 
 	void addWatchlist(Watchlist watchlistForm);
 
-	Watchlist deleteWatchlist(long id, Watchlist watchlist);
+	WatchlistForm deleteWatchlist(long id, WatchlistForm watchlist);
 
 	List<WatchlistEntry> findAllEntry(Long watchId, Pageable pageable);
 
@@ -54,13 +56,13 @@ public interface WatchlistService {
 
 	void updateTriggerNoti();
 
-	Watchlist addWatchlist(Watchlist watchlistForm, String username);
+	WatchlistForm addWatchlist(WatchlistForm watchlistForm, String username);
 
-	WatchlistEntry addWatchlistEntry(WatchlistEntry entryForm, String username);
+	WatchlistEntryForm addWatchlistEntry(WatchlistEntryForm entryForm, String username);
 
-	WatchlistEntry retrieveStockInfo(WatchlistEntry watchlistEntry);
+	WatchlistEntryForm retrieveStockInfo(WatchlistEntryForm watchlistEntry);
 
-	Watchlist deleteWatchlistEntry(NotificationForm form);
+	WatchlistForm deleteWatchlistEntry(NotificationForm form);
 
 	NotificationForm initPage(NotificationForm form);
 

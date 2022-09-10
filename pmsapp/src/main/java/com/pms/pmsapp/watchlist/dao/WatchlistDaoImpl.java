@@ -26,9 +26,6 @@ public class WatchlistDaoImpl implements WatchlistDao {
 
 	private static final Logger log = LoggerFactory.getLogger(WatchlistDaoImpl.class);
 
-	private final String IND_NO = "N";
-	private final String IND_YES = "Y";
-
 	@Override
 	public List<Watchlist> findAllWatchlist(Pageable pageable) {
 		try {

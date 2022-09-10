@@ -18,6 +18,8 @@ import com.pms.pmsapp.watchlist.data.Watchlist;
 import com.pms.pmsapp.watchlist.data.WatchlistEntry;
 import com.pms.pmsapp.watchlist.data.WatchlistNotification;
 import com.pms.pmsapp.watchlist.web.NotificationForm;
+import com.pms.pmsapp.watchlist.web.WatchlistEntryForm;
+import com.pms.pmsapp.watchlist.web.WatchlistForm;
 
 @Service
 public class WatchlistServiceImpl implements WatchlistService {
@@ -51,10 +53,10 @@ public class WatchlistServiceImpl implements WatchlistService {
 	}
 
 	@Override
-	public Watchlist deleteWatchlist(long id, Watchlist watchlist) {
+	public WatchlistForm deleteWatchlist(long id, WatchlistForm watchlistForm) {
 		watchlistDao.deleteWatchlist(id);
-		watchlist.setSystemMsg("Watchlist deleted successfully.");
-		return watchlist;
+		watchlistForm.setSystemMsg("Watchlist deleted successfully.");
+		return watchlistForm;
 	}
 
 	@Override
@@ -138,7 +140,7 @@ public class WatchlistServiceImpl implements WatchlistService {
 	}
 
 	@Override
-	public Watchlist addWatchlist(Watchlist watchlistForm, String username) {
+	public WatchlistForm addWatchlist(WatchlistForm watchlistForm, String username) {
 		boolean nameExist = false;
 		String watchlistName = watchlistForm.getName();
 
@@ -151,14 +153,19 @@ public class WatchlistServiceImpl implements WatchlistService {
 		if (nameExist) {
 			watchlistForm.setErrMsg("Watchlist name already exist. Please create watchlist with different name.");
 		} else {
-			addWatchlist(watchlistForm);
+
+			Watchlist watchlist = new Watchlist(watchlistForm.getId(), watchlistForm.getName(),
+					watchlistForm.getRemarks(), watchlistForm.getCreatedBy(), watchlistForm.getCreatedDt(),
+					watchlistForm.getLastMdfyBy(), watchlistForm.getLastMdfyDt());
+
+			addWatchlist(watchlist);
 			watchlistForm.setSystemMsg("Watchlist added Successfully.");
 		}
 		return watchlistForm;
 	}
 
 	@Override
-	public WatchlistEntry addWatchlistEntry(WatchlistEntry entryForm, String username) {
+	public WatchlistEntryForm addWatchlistEntry(WatchlistEntryForm entryForm, String username) {
 		Long watchId = entryForm.getWatchId();
 		BigDecimal targetPrice = entryForm.getTargetPrice();
 
@@ -170,7 +177,13 @@ public class WatchlistServiceImpl implements WatchlistService {
 
 		StockWrapper stockWrapper = portfolioHoldService.findStock(entryForm.getStockSym());
 
-		nameExist = checkEntryExist(entryForm);
+		WatchlistEntry watchlistEntry = new WatchlistEntry(entryForm.getId(), entryForm.getWatchId(),
+				entryForm.getStockName(), entryForm.getStockSym(), entryForm.getStockExchg(), entryForm.getLastPrice(),
+				entryForm.getChange(), entryForm.getChangePct(), entryForm.getTargetPrice(), entryForm.getPremiumDisc(),
+				entryForm.getRemarks(), entryForm.getLastMdfyBy(), entryForm.getLastMdfyDt());
+
+		nameExist = checkEntryExist(watchlistEntry);
+
 		if (nameExist) {
 			entryForm.setErrMsg("Stock entry already exist in this watchlist.");
 		} else if ((stockWrapper == null || stockWrapper.getStock().getQuote().getPrice() == null)) {
@@ -182,58 +195,65 @@ public class WatchlistServiceImpl implements WatchlistService {
 				BigDecimal lastPrice = stockWrapper.getStock().getQuote(true).getPrice();
 				BigDecimal change = stockWrapper.getStock().getQuote(true).getChange();
 				BigDecimal changePct = stockWrapper.getStock().getQuote(true).getChangeInPercent();
-				log.info("Stock: " + entryForm.getStockSym() + " Last Price: " + lastPrice);
+				log.info("Stock: " + watchlistEntry.getStockSym() + " Last Price: " + lastPrice);
 				// watchlistService.update(entryForm.getStockSym(), lastPrice);
 				BigDecimal premiumDisc = ((lastPrice.subtract(targetPrice)).divide(lastPrice, 10,
 						RoundingMode.HALF_DOWN)).multiply(new BigDecimal(100));
-				entryForm.setPremiumDisc(premiumDisc);
-				entryForm.setLastPrice(lastPrice);
-				entryForm.setChange(change);
-				entryForm.setChangePct(changePct);
+				watchlistEntry.setPremiumDisc(premiumDisc);
+				watchlistEntry.setLastPrice(lastPrice);
+				watchlistEntry.setChange(change);
+				watchlistEntry.setChangePct(changePct);
 			} catch (Exception e) {
 				entryForm.setErrMsg(
 						"An unexpected error occurred while updating real time price. Update of real time price failed.");
 				log.error(e.getMessage());
+				return entryForm;
 			}
 
 			Long id = findNextEntrySeq();
-			entryForm.setId(id);
+			watchlistEntry.setId(id);
 
-			addWatchlistEntry(entryForm);
+			addWatchlistEntry(watchlistEntry);
 
 			// add stock entry notifications
 
 			initNotification(id, watchId, targetPrice, username);
 
 			entryForm.setSystemMsg("Stock entry added to watchlist successfully.");
+
+			entryForm.setPremiumDisc(watchlistEntry.getPremiumDisc());
+			entryForm.setLastPrice(watchlistEntry.getLastPrice());
+			entryForm.setChange(watchlistEntry.getChange());
+			entryForm.setChangePct(watchlistEntry.getChangePct());
+
 		}
 
 		return entryForm;
 	}
 
 	@Override
-	public WatchlistEntry retrieveStockInfo(WatchlistEntry watchlistEntry) {
+	public WatchlistEntryForm retrieveStockInfo(WatchlistEntryForm watchlistEntryForm) {
 
-		String stockSym = watchlistEntry.getStockSym();
+		String stockSym = watchlistEntryForm.getStockSym();
 		StockWrapper stockWrapper = portfolioHoldService.findStock(stockSym);
 		try {
 			String stockExchg = stockWrapper.getStock().getStockExchange();
 			String stockName = stockWrapper.getStock().getName();
 			BigDecimal lastPrice = stockWrapper.getStock().getQuote(true).getPrice();
-			watchlistEntry.setStockExchg(ConstantUtil.exchgSuffmap.get(stockExchg));
+			watchlistEntryForm.setStockExchg(ConstantUtil.exchgSuffmap.get(stockExchg));
 			log.info("Stock: " + stockName + " Last Price: " + lastPrice);
-			watchlistEntry.setStockName(stockName);
-			watchlistEntry.setLastPrice(lastPrice);
+			watchlistEntryForm.setStockName(stockName);
+			watchlistEntryForm.setLastPrice(lastPrice);
 		} catch (Exception e) {
-			watchlistEntry.setErrMsg("Stock symbol not found. Fail to get stock info.");
+			watchlistEntryForm.setErrMsg("Stock symbol not found. Fail to get stock info.");
 			log.error(e.getMessage());
 		}
 
-		return watchlistEntry;
+		return watchlistEntryForm;
 	}
 
 	@Override
-	public Watchlist deleteWatchlistEntry(NotificationForm form) {
+	public WatchlistForm deleteWatchlistEntry(NotificationForm form) {
 
 		Watchlist watchlist = form.getWatchlist();
 
@@ -242,9 +262,12 @@ public class WatchlistServiceImpl implements WatchlistService {
 
 		deleteWatchlistEntry(entryId, watchId);
 
-		watchlist.setSystemMsg("Stock entry deleted in watchlist successfully.");
+		WatchlistForm watchlistForm = new WatchlistForm(watchlist.getId(), watchlist.getName(), watchlist.getRemarks(),
+				watchlist.getCreatedBy(), watchlist.getCreatedDt(), watchlist.getLastMdfyBy(),
+				watchlist.getLastMdfyDt(), null, null);
+		watchlistForm.setSystemMsg("Stock entry deleted in watchlist successfully.");
 
-		return watchlist;
+		return watchlistForm;
 	}
 
 	@Override

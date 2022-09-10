@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,7 +39,7 @@ public class PortfolioTransController {
 			@PathVariable long portId) {
 		log.info("findAll Trans in Controller");
 
-		Pageable pageable = PageRequest.of(page - 1, size);
+		Pageable pageable = PageRequest.of(page - 1, size, Sort.by("createdDt").descending());
 		int currentStockHold = 0;
 
 		List<PortfolioTrans> portfolioTrans = portfolioTransService.findAll(portId, pageable);
