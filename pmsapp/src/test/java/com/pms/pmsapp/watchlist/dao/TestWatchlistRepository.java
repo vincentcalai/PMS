@@ -88,14 +88,4 @@ class TestWatchlistRepository {
 		assertEquals(4, watchlists.size());
 	}
 
-	@Test
-	@Order(5)
-	void testSaveWatchlist() {
-		Watchlist watchlist4 = new Watchlist(4L, "Watchlist 4", "Save Test Remarks", "user4", new Date(), "user3",
-				new Date());
-		watchlistRepository.save(watchlist4);
-		List<Watchlist> watchlists = watchlistRepository.findAll();
-		assertEquals(4, watchlists.size());
-	}
-
 }
