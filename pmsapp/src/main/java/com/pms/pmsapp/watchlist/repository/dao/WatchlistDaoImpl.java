@@ -1,4 +1,4 @@
-package com.pms.pmsapp.watchlist.dao;
+package com.pms.pmsapp.watchlist.repository.dao;
 
 import java.math.BigDecimal;
 import java.sql.CallableStatement;
@@ -17,6 +17,7 @@ import org.springframework.orm.hibernate5.SessionFactoryUtils;
 import org.springframework.stereotype.Repository;
 
 import com.pms.pmsapp.util.HibernateUtil;
+import com.pms.pmsapp.watchlist.data.Watchlist;
 import com.pms.pmsapp.watchlist.data.WatchlistEntry;
 import com.pms.pmsapp.watchlist.data.WatchlistNotification;
 
@@ -24,6 +25,96 @@ import com.pms.pmsapp.watchlist.data.WatchlistNotification;
 public class WatchlistDaoImpl implements WatchlistDao {
 
 	private static final Logger log = LoggerFactory.getLogger(WatchlistDaoImpl.class);
+
+	private final String IND_NO = "N";
+	private final String IND_YES = "Y";
+
+	@Override
+	public List<Watchlist> findAllWatchlist(Pageable pageable) {
+		try {
+			Session session = HibernateUtil.getSessionFactory().openSession();
+
+			String sql = "SELECT * FROM PMS_WATCHLIST order by id asc";
+
+			SQLQuery sqlQuery = session.createSQLQuery(sql);
+
+			sqlQuery.addEntity(Watchlist.class);
+			sqlQuery.setFirstResult(pageable.getPageNumber() * pageable.getPageSize());
+			sqlQuery.setMaxResults(pageable.getPageSize());
+
+			List<Watchlist> watchlists = sqlQuery.list();
+
+			return watchlists;
+		} catch (Exception e) {
+			// convert to HibernateException then to DataAccessException
+			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
+		}
+	}
+
+	@Override
+	public long findAllWatchlistCount() {
+		try {
+			Session session = HibernateUtil.getSessionFactory().openSession();
+
+			String sql = "SELECT count(*) FROM PMS_WATCHLIST";
+
+			SQLQuery sqlQuery = session.createSQLQuery(sql);
+
+			long result = ((BigDecimal) sqlQuery.uniqueResult()).longValue();
+
+			session.close();
+
+			return result;
+		} catch (Exception e) {
+			// convert to HibernateException then to DataAccessException
+			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
+		}
+	}
+
+	@Override
+	public boolean checkWatchlistExist(String watchlistName) {
+		boolean watchlistExist = false;
+
+		String sqlQuery = "SELECT count(*) FROM PMS_WATCHLIST where name = :watchlistName";
+		Session session = HibernateUtil.getSessionFactory().openSession();
+
+		NativeQuery query = session.createSQLQuery(sqlQuery);
+		query.setParameter("watchlistName", watchlistName);
+
+		Integer totalRec = ((BigDecimal) query.uniqueResult()).intValue();
+		if (totalRec > 0)
+			watchlistExist = true;
+
+		return watchlistExist;
+	}
+
+	@Override
+	public void addWatchlist(Watchlist watchlistForm) {
+		log.info("adding watchlist in DaoImpl..");
+
+		try {
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			Transaction transaction = session.beginTransaction();
+
+			String sql = "insert into PMS_WATCHLIST (ID,NAME,CREATED_BY,CREATED_DT,LAST_MDFY_BY,LAST_MDFY_DT,REMARKS) values "
+					+ "(SQ_PMS_WATCHLIST.nextval, :name, :createdBy, sysdate, :lastMdfyBy, sysdate, :remarks)";
+
+			NativeQuery query = session.createSQLQuery(sql);
+			query.setParameter("name", watchlistForm.getName());
+			query.setParameter("createdBy", watchlistForm.getCreatedBy());
+			query.setParameter("lastMdfyBy", watchlistForm.getLastMdfyBy());
+			query.setParameter("remarks", watchlistForm.getRemarks());
+			query.executeUpdate();
+
+			transaction.commit();
+			session.close();
+
+		} catch (Exception e) {
+			// convert to HibernateException then to DataAccessException
+			throw SessionFactoryUtils.convertHibernateAccessException(new HibernateException(e.getMessage()));
+		}
+
+	}
 
 	@Override
 	public void deleteWatchlist(long id) {

@@ -2,12 +2,16 @@ package com.pms.pmsapp.watchlist.service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.pms.pmsapp.manageportfolio.portfolio.data.StockWrapper;
@@ -17,6 +21,7 @@ import com.pms.pmsapp.watchlist.dao.WatchlistDao;
 import com.pms.pmsapp.watchlist.data.Watchlist;
 import com.pms.pmsapp.watchlist.data.WatchlistEntry;
 import com.pms.pmsapp.watchlist.data.WatchlistNotification;
+import com.pms.pmsapp.watchlist.repository.WatchlistRepository;
 import com.pms.pmsapp.watchlist.web.NotificationForm;
 import com.pms.pmsapp.watchlist.web.WatchlistEntryForm;
 import com.pms.pmsapp.watchlist.web.WatchlistForm;
@@ -30,26 +35,36 @@ public class WatchlistServiceImpl implements WatchlistService {
 	private WatchlistDao watchlistDao;
 
 	@Autowired
+	private WatchlistRepository watchlistRepository;
+
+	@Autowired
 	private PortfolioHoldService portfolioHoldService;
 
 	@Override
 	public List<Watchlist> findAllWatchlist(Pageable pageable) {
-		return watchlistDao.findAllWatchlist(pageable);
+		int page = 1;
+		int size = 10;
+		pageable = PageRequest.of(page - 1, size, Sort.by("id").ascending());
+		Page<Watchlist> watchlistPage = watchlistRepository.findAll(pageable);
+		return watchlistPage.getContent();
 	}
 
 	@Override
 	public long findAllWatchlistCount() {
-		return watchlistDao.findAllWatchlistCount();
+		return watchlistRepository.count();
 	}
 
 	@Override
 	public boolean checkWatchlistExist(String watchlistName) {
-		return watchlistDao.checkWatchlistExist(watchlistName);
+		long watchlistCount = watchlistRepository.countByName(watchlistName);
+		return (watchlistCount > 0);
 	}
 
 	@Override
-	public void addWatchlist(Watchlist watchlistForm) {
-		watchlistDao.addWatchlist(watchlistForm);
+	public void addWatchlist(Watchlist watchlist) {
+		watchlist.setCreatedDt(new Date());
+		watchlist.setLastMdfyDt(new Date());
+		watchlistRepository.save(watchlist);
 	}
 
 	@Override
@@ -141,8 +156,8 @@ public class WatchlistServiceImpl implements WatchlistService {
 
 	@Override
 	public WatchlistForm addWatchlist(WatchlistForm watchlistForm, String username) {
-		boolean nameExist = false;
 		String watchlistName = watchlistForm.getName();
+		boolean nameExist = false;
 
 		if (username != null) {
 			watchlistForm.setCreatedBy(username);
@@ -150,6 +165,7 @@ public class WatchlistServiceImpl implements WatchlistService {
 		}
 
 		nameExist = checkWatchlistExist(watchlistName);
+
 		if (nameExist) {
 			watchlistForm.setErrMsg("Watchlist name already exist. Please create watchlist with different name.");
 		} else {
