@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pms.pmsapp.common.data.MktExchg;
 import com.pms.pmsapp.manageportfolio.portfolio.data.PortfolioHold;
 import com.pms.pmsapp.manageportfolio.portfolio.service.PortfolioHoldService;
 
@@ -42,7 +43,7 @@ public class PortfolioHoldController {
 	}
 
 	@RequestMapping(value = "/portfolio/hold/mktexchg", method = RequestMethod.GET)
-	public List<com.pms.pmsapp.common.data.MktExchg> findAllMktExchg() {
+	public List<MktExchg> findAllMktExchg() {
 		log.info("findAllMktExchg Hold in Controller");
 		return portfolioHoldService.findAllMktExchg();
 	}

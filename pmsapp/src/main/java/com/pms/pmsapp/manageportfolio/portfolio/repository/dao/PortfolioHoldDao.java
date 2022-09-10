@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Pageable;
 
+import com.pms.pmsapp.common.data.MktExchg;
 import com.pms.pmsapp.manageportfolio.portfolio.data.PortfolioHold;
 import com.pms.pmsapp.manageportfolio.portfolio.data.StockWrapper;
 
@@ -19,7 +20,7 @@ public interface PortfolioHoldDao {
 
 	List<String> findAllStockSym();
 
-	List<com.pms.pmsapp.common.data.MktExchg> findAllMktExchg();
+	List<MktExchg> findAllMktExchg();
 
 	long findAllCount(long id);
 }

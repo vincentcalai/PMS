@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+    
+<hibernate-mapping>
+<class name="com.pms.pmsapp.common.data.MktExchg" table="PMS_MKT_EXCHG">
+    <id name="mktExchgName" type="java.lang.String">
+       <column name="MKT_EXCHG_NAME" length="10" />
+       <generator class="assigned" />
+    </id>
+    <property
+        name="mktExchgDesc"
+        type="java.lang.String"
+        column="MKT_EXCHG_DESC"
+        length="100"
+    />
+    <property
+        name="curr"
+        type="java.lang.String"
+        column="CURR"
+        length="5"
+    />
+    <property
+        name="suffix"
+        type="java.lang.String"
+        column="SUFFIX"
+        length="5"
+    />
+    <property
+        name="gphy"
+        type="java.lang.String"
+        column="GPHY"
+        length="6"
+    />
+</class>
+</hibernate-mapping>

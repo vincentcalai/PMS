@@ -32,6 +32,7 @@
     <mapping resource="hibernateMapping/Portfolio.hbm.xml"></mapping>
     <mapping resource="hibernateMapping/PortfolioTrans.hbm.xml"></mapping>
     <mapping resource="hibernateMapping/PortfolioHold.hbm.xml"></mapping>
+    <mapping resource="hibernateMapping/MktExchg.hbm.xml"></mapping>
     <mapping resource="hibernateMapping/User.hbm.xml"></mapping>
     <mapping resource="hibernateMapping/Watchlist.hbm.xml"></mapping>
     <mapping resource="hibernateMapping/WatchlistEntry.hbm.xml"></mapping>
