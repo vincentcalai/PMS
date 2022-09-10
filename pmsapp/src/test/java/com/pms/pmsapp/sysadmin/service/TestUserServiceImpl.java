@@ -1,4 +1,4 @@
-package com.pms.pmsapp.sysadmin;
+package com.pms.pmsapp.sysadmin.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
