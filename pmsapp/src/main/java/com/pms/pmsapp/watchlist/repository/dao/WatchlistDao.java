@@ -5,19 +5,10 @@ import java.util.List;
 
 import org.springframework.data.domain.Pageable;
 
-import com.pms.pmsapp.watchlist.data.Watchlist;
 import com.pms.pmsapp.watchlist.data.WatchlistEntry;
 import com.pms.pmsapp.watchlist.data.WatchlistNotification;
 
 public interface WatchlistDao {
-
-	List<Watchlist> findAllWatchlist(Pageable pageable);
-
-	long findAllWatchlistCount();
-
-	boolean checkWatchlistExist(String watchlistName);
-
-	void addWatchlist(Watchlist watchlistForm);
 
 	void deleteWatchlist(long id);
 

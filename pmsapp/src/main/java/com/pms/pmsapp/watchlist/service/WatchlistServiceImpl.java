@@ -17,11 +17,11 @@ import org.springframework.stereotype.Service;
 import com.pms.pmsapp.manageportfolio.portfolio.data.StockWrapper;
 import com.pms.pmsapp.manageportfolio.portfolio.service.PortfolioHoldService;
 import com.pms.pmsapp.util.constant.ConstantUtil;
-import com.pms.pmsapp.watchlist.dao.WatchlistDao;
 import com.pms.pmsapp.watchlist.data.Watchlist;
 import com.pms.pmsapp.watchlist.data.WatchlistEntry;
 import com.pms.pmsapp.watchlist.data.WatchlistNotification;
 import com.pms.pmsapp.watchlist.repository.WatchlistRepository;
+import com.pms.pmsapp.watchlist.repository.dao.WatchlistDaoImpl;
 import com.pms.pmsapp.watchlist.web.NotificationForm;
 import com.pms.pmsapp.watchlist.web.WatchlistEntryForm;
 import com.pms.pmsapp.watchlist.web.WatchlistForm;
@@ -32,7 +32,7 @@ public class WatchlistServiceImpl implements WatchlistService {
 	private static final Logger log = LoggerFactory.getLogger(WatchlistServiceImpl.class);
 
 	@Autowired
-	private WatchlistDao watchlistDao;
+	private WatchlistDaoImpl watchlistDaoImpl;
 
 	@Autowired
 	private WatchlistRepository watchlistRepository;
@@ -69,89 +69,89 @@ public class WatchlistServiceImpl implements WatchlistService {
 
 	@Override
 	public WatchlistForm deleteWatchlist(long id, WatchlistForm watchlistForm) {
-		watchlistDao.deleteWatchlist(id);
+		watchlistDaoImpl.deleteWatchlist(id);
 		watchlistForm.setSystemMsg("Watchlist deleted successfully.");
 		return watchlistForm;
 	}
 
 	@Override
 	public List<WatchlistEntry> findAllEntry(Long watchId, Pageable pageable) {
-		return watchlistDao.findAllEntry(watchId, pageable);
+		return watchlistDaoImpl.findAllEntry(watchId, pageable);
 	}
 
 	@Override
 	public long findAllEntryCount(Long watchId) {
-		return watchlistDao.findAllEntryCount(watchId);
+		return watchlistDaoImpl.findAllEntryCount(watchId);
 	}
 
 	@Override
 	public boolean checkEntryExist(WatchlistEntry entryForm) {
-		return watchlistDao.checkEntryExist(entryForm);
+		return watchlistDaoImpl.checkEntryExist(entryForm);
 	}
 
 	@Override
 	public void addWatchlistEntry(WatchlistEntry entryForm) {
-		watchlistDao.addWatchlistEntry(entryForm);
+		watchlistDaoImpl.addWatchlistEntry(entryForm);
 	}
 
 	@Override
 	public List<WatchlistEntry> searchEntry(long watchId, String searchText, Pageable pageable) {
-		return watchlistDao.searchEntry(watchId, searchText, pageable);
+		return watchlistDaoImpl.searchEntry(watchId, searchText, pageable);
 	}
 
 	@Override
 	public long searchEntryCount(long watchId, String searchText) {
-		return watchlistDao.searchEntryCount(watchId, searchText);
+		return watchlistDaoImpl.searchEntryCount(watchId, searchText);
 	}
 
 	@Override
 	public void deleteWatchlistEntry(Long entryId, Long watchId) {
-		watchlistDao.deleteWatchlistEntry(entryId, watchId);
+		watchlistDaoImpl.deleteWatchlistEntry(entryId, watchId);
 	}
 
 	@Override
 	public void initNotification(Long id, Long watchId, BigDecimal targetPrice, String username) {
-		watchlistDao.initNotification(id, watchId, targetPrice, username);
+		watchlistDaoImpl.initNotification(id, watchId, targetPrice, username);
 	}
 
 	@Override
 	public Long findNextEntrySeq() {
-		return watchlistDao.findNextEntrySeq();
+		return watchlistDaoImpl.findNextEntrySeq();
 	}
 
 	@Override
 	public WatchlistNotification findNotification(Long id, Long watchId) {
-		return watchlistDao.findNotification(id, watchId);
+		return watchlistDaoImpl.findNotification(id, watchId);
 	}
 
 	@Override
 	public void updateNotification(WatchlistNotification watchlistNotification) {
-		watchlistDao.updateNotification(watchlistNotification);
+		watchlistDaoImpl.updateNotification(watchlistNotification);
 	}
 
 	@Override
 	public List<String> findAllStockSym() {
-		return watchlistDao.findAllStockSym();
+		return watchlistDaoImpl.findAllStockSym();
 	}
 
 	@Override
 	public void updateWatchlistEntryPrice(String stock, BigDecimal lastPrice, BigDecimal change, BigDecimal changePct) {
-		watchlistDao.updateWatchlistEntryPrice(stock, lastPrice, change, changePct);
+		watchlistDaoImpl.updateWatchlistEntryPrice(stock, lastPrice, change, changePct);
 	}
 
 	@Override
 	public void updateOtherNoti() {
-		watchlistDao.updateOtherNoti();
+		watchlistDaoImpl.updateOtherNoti();
 	}
 
 	@Override
 	public void deleteAllOtherNoti() {
-		watchlistDao.deleteAllOtherNoti();
+		watchlistDaoImpl.deleteAllOtherNoti();
 	}
 
 	@Override
 	public void updateTriggerNoti() {
-		watchlistDao.updateTriggerNoti();
+		watchlistDaoImpl.updateTriggerNoti();
 	}
 
 	@Override
